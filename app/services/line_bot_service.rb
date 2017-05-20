@@ -30,8 +30,9 @@ class LineBotService
             client.reply_message(event['replyToken'], bot.text_format(msg))
           when Line::Bot::Event::MessageType::Location
             msg = event.message['address'].to_s.downcase
+            address_msg = GoogleMapService.new.place_search
             # 回覆
-            client.reply_message(event['replyToken'], bot.text_format(msg))
+            client.reply_message(event['replyToken'], bot.text_format(address_msg))
           when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
             response = client.get_message_content(event.message['id'])
             tf = Tempfile.open("content")
