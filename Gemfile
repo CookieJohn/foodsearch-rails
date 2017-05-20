@@ -13,6 +13,8 @@ gem 'turbolinks'
 gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
+gem 'slim-rails'
+
 group :production do
   gem 'rails_12factor'
 end
