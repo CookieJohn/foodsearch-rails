@@ -13,4 +13,4 @@
 /tmp
 
 # Ignore settings
-/lib/settings.rb
+config/application.yml
