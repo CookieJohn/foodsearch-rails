@@ -45,7 +45,7 @@ class LineBotService
   def text_format return_msg
     {
       type: 'text',
-      text: return_msg
+      text: return_msg+'!'
     }
   end
 
