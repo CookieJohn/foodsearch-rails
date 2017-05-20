@@ -14,6 +14,7 @@ gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'slim-rails'
+gem 'line-bot-api'
 
 group :production do
   gem 'rails_12factor'
