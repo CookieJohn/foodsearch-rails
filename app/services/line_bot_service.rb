@@ -27,7 +27,7 @@ class LineBotService
           when Line::Bot::Event::MessageType::Text
 
             # 回覆
-            client.reply_message(event['replyToken'], msg)
+            client.reply_message(event['replyToken'], bot.text_format(msg))
 
           when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
             response = client.get_message_content(event.message['id'])
