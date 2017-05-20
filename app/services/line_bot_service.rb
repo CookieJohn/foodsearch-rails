@@ -20,7 +20,7 @@ class LineBotService
     return_msg = ''
     events = client.parse_events_from(body)
     events.each { |event|
-      if bot.msg_varify!(msg)
+      if bot.msg_varify!
         case event
         when Line::Bot::Event::Message
           case event.type
@@ -107,7 +107,7 @@ class LineBotService
     }
   end
 
-  def msg_varify! msg
+  def msg_varify! msg=nil
     true
   end
 
