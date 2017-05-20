@@ -20,7 +20,7 @@ class LineBotService
     return_msg = ''
     events = client.parse_events_from(body)
     events.each { |event|
-      msg = event.message['text'].downcase
+      msg = event.message['text'].to_s.downcase
       if bot.msg_varify!(msg)
         case event
         when Line::Bot::Event::Message
