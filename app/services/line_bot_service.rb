@@ -27,7 +27,7 @@ class LineBotService
           when Line::Bot::Event::MessageType::Text
             msg = event.message['text'].to_s.downcase
             # 回覆
-            client.reply_message(event['replyToken'], '不是地址！')
+            client.reply_message(event['replyToken'], bot.text_format(msg))
           when Line::Bot::Event::MessageType::Location
             msg = event.message['address'].to_s.downcase
             # 回覆
