@@ -39,6 +39,10 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (8.0.0)
+    better_errors (2.1.1)
+      coderay (>= 1.0.0)
+      erubis (>= 2.6.6)
+      rack (>= 0.9.0)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bson (4.2.1)
@@ -56,6 +60,7 @@ GEM
     concurrent-ruby (1.0.5)
     debug_inspector (0.0.3)
     erubi (1.6.0)
+    erubis (2.7.0)
     execjs (2.7.0)
     globalid (0.4.0)
       activesupport (>= 4.2.0)
@@ -136,6 +141,7 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
+    settingslogic (2.0.9)
     slim (3.0.8)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 1.3.3, < 2.1)
@@ -177,6 +183,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  better_errors
   bson_ext
   byebug
   coffee-rails
@@ -190,6 +197,7 @@ DEPENDENCIES
   rails_12factor
   sass-rails
   sdoc (~> 0.4.0)
+  settingslogic
   slim-rails
   spring
   turbolinks

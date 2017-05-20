@@ -28,6 +28,8 @@ group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'puma'
+  gem 'better_errors'
+  gem 'settingslogic'
 
   gem 'pry'
 end

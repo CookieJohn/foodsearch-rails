@@ -1,0 +1,3 @@
+defaults: &defaults
+  CHANNEL_SECRET: ''
+  CHANNEL_TOKEN: ''
