@@ -29,6 +29,6 @@ class GoogleMapService
 		uri = Faraday.new(url: uri, proxy: FIXIE_SOCKS_HOST)
 		res = uri.get
 
-		return res
+		return res.body
 	end
 end
