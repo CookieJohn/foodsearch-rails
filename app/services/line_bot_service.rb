@@ -70,6 +70,8 @@ class LineBotService
 
     columns = []
     google_result.each do |result|
+      lat = ''
+      lng = ''
       lat = result['geometry']['location']['lat']
       lng = result['geometry']['location']['lng']
       columns << {
