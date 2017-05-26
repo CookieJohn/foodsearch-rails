@@ -64,19 +64,23 @@ class LineBotService
   end
 
   def carousel_format google_result=nil
-      
+    zoom = 15
+    
     test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
+
     columns = []
     google_result.each do |result|
+      lat = result['geometry']['location']['lat']
+      lng = result['geometry']['location']['lng']
       columns << {
             thumbnailImageUrl: test_image_url,
             title: result['name'],
-            text: result['name'],
+            text: "google評分：#{result['rating']}",
             actions: [
               {
                 type: "uri",
                 label: '點我',
-                uri: test_image_url
+                uri: "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
               }
             ]
           }
