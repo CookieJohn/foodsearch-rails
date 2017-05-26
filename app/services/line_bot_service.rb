@@ -65,7 +65,7 @@ class LineBotService
 
   def carousel_format google_result=nil
       
-    test_image_url = 'http://des13.cc/star/media/k2/items/cache/eefd4fe8f589e64e0e66a4f2937ae4ae_XL.jpg'
+    test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
     columns = []
     google_result.each do |result|
       columns << {
@@ -76,8 +76,8 @@ class LineBotService
               {
                 type: "uri",
                 label: '點我',
-                uri: test_image_url,
-              },
+                uri: test_image_url
+              }
             ]
           }
     end
@@ -87,7 +87,7 @@ class LineBotService
       altText: "this is a carousel template",
       template: {
         type: "carousel",
-        columns: columns,
+        columns: columns
       }
     }
     puts carousel_result
