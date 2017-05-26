@@ -32,9 +32,9 @@ class LineBotService
             msg = event.message['address'].to_s.downcase
             lat = event.message['latitude'].to_s
             lng = event.message['longitude'].to_s
-            # address_msg = GoogleMapService.new.place_search
+            # address_msg = GoogleMapService.new.place_search(lat, lng)
             # 回覆
-            client.reply_message(event['replyToken'], bot.text_format(msg+msg+lng))
+            client.reply_message(event['replyToken'], bot.text_format(msg+lat+lng))
           when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
             response = client.get_message_content(event.message['id'])
             tf = Tempfile.open("content")

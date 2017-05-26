@@ -1,4 +1,5 @@
 require 'net/http'
+require 'google_maps_service'
 
 class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
@@ -7,10 +8,15 @@ class GoogleMapService
 	RADIUS ||= 500
 	RESTAURANT_TYPE ||= 'restaurant'
 
-	def place_search 
-		test_location = '-33.8670522,151.1957362'
-		uri = URI("#{API_URL}location=#{test_location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&key=#{API_KEY}")
+	attr_accessor :gmaps
+  def initialize
+    gmaps ||= GoogleMapsService::Client.new(key: API_KEY)
+  end
+
+	def place_search lat, lng
+		location = "#{lat},#{lng}"
+		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&key=#{API_KEY}")
 		res = Net::HTTP.get(uri)
-		return res.to_s
+		return res
 	end
 end
