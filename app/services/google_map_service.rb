@@ -1,22 +1,24 @@
-require 'net/http'
-require 'google_maps_service'
+require 'faraday'
 
 class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 	API_KEY ||= ENV['GOOGLE_API_KEY']
+	FIXIE_SOCKS_HOST ||= ENV['FIXIE_SOCKS_HOST']
 
-	RADIUS ||= 500
+	RADIUS ||= 1000
 	RESTAURANT_TYPE ||= 'restaurant'
-
-	attr_accessor :gmaps
-  def initialize
-    gmaps ||= GoogleMapsService::Client.new(key: API_KEY)
-  end
+	OPENNOW ||= true
+	PROMINENCE ||= 'prominence'
 
 	def place_search lat, lng
 		location = "#{lat},#{lng}"
-		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&key=#{API_KEY}")
-		res = Net::HTTP.get(uri)
-		return res
+		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
+
+		uri = Faraday.new(url: uri, proxy: FIXIE_SOCKS_HOST)
+		res = uri.get
+
+		results = JSON.parse(res.body)['results']#.first(5)
+
+		return results
 	end
 end

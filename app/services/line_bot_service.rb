@@ -32,9 +32,10 @@ class LineBotService
             msg = event.message['address'].to_s.downcase
             lat = event.message['latitude'].to_s
             lng = event.message['longitude'].to_s
-            # address_msg = GoogleMapService.new.place_search(lat, lng)
+            google_result = GoogleMapService.new.place_search(lat, lng)
             # 回覆
-            client.reply_message(event['replyToken'], bot.text_format(msg+lat+lng))
+            return_msg = bot.carousel_format(google_result)
+            client.reply_message(event['replyToken'], return_msg)
           when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
             response = client.get_message_content(event.message['id'])
             tf = Tempfile.open("content")
@@ -63,26 +64,31 @@ class LineBotService
     }
   end
 
-  def carousel_format return_msg=nil
+  def carousel_format google_result=nil
+      
+    test_image_url = 'http://des13.cc/star/media/k2/items/cache/eefd4fe8f589e64e0e66a4f2937ae4ae_XL.jpg'
+    columns = []
+    google_result.each do |result|
+      columns << {
+            thumbnailImageUrl: test_image_url,
+            title: result['name'],
+            text: result['name'],
+            actions: [
+              {
+                type: "uri",
+                label: '點我',
+                uri: test_image_url,
+              },
+            ]
+          }
+    end
+
     {
       type: "template",
       altText: "this is a carousel template",
       template: {
         type: "carousel",
-        columns: [
-          {
-            thumbnailImageUrl: "",
-            title: "",
-            text: "",
-            actions: [
-              {
-                type: "uri",
-                label: "",
-                uri: ""
-              },
-            ]
-          }
-        ]
+        columns: columns,
       }
     }
   end

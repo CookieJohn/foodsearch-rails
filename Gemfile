@@ -13,10 +13,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'slim-rails'
 gem 'line-bot-api'
-gem 'google_maps_service'
 
 gem 'puma'
 gem 'settingslogic'
+gem 'faraday'
 
 group :production do
   gem 'rails_12factor'
