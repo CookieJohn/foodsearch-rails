@@ -21,4 +21,14 @@ class GoogleMapService
 
 		return results
 	end
+
+	def test lat, lng
+		location = "#{lat},#{lng}"
+		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
+
+		uri = Faraday.new(url: uri, proxy: FIXIE_SOCKS_HOST)
+		res = uri.get
+
+		return res
+	end
 end
