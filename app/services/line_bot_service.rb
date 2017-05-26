@@ -18,32 +18,32 @@ class LineBotService
     bot.varify_signature(request)
 
     return_msg = ''
-    events = client.parse_events_from(body)
-    events.each { |event|
-      if bot.msg_varify!
-        case event
-        when Line::Bot::Event::Message
-          case event.type
-          when Line::Bot::Event::MessageType::Text
-            msg = event.message['text'].to_s.downcase
-            # 回覆
-            client.reply_message(event['replyToken'], bot.text_format(msg))
-          when Line::Bot::Event::MessageType::Location
-            msg = event.message['address'].to_s.downcase
+    # events = client.parse_events_from(body)
+    # events.each { |event|
+    #   if bot.msg_varify!
+    #     case event
+    #     when Line::Bot::Event::Message
+    #       case event.type
+    #       when Line::Bot::Event::MessageType::Text
+    #         msg = event.message['text'].to_s.downcase
+    #         # 回覆
+    #         client.reply_message(event['replyToken'], bot.text_format(msg))
+    #       when Line::Bot::Event::MessageType::Location
+    #         msg = event.message['address'].to_s.downcase
             address_msg = GoogleMapService.new.place_search
-            # 回覆
-            client.reply_message(event['replyToken'], bot.text_format(address_msg))
-          when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-            response = client.get_message_content(event.message['id'])
-            tf = Tempfile.open("content")
-            tf.write(response.body)
-          end
-        end
-      else
-        break
-      end
-    }
-    return return_msg
+    #         # 回覆
+    #         client.reply_message(event['replyToken'], bot.text_format(address_msg))
+    #       when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
+    #         response = client.get_message_content(event.message['id'])
+    #         tf = Tempfile.open("content")
+    #         tf.write(response.body)
+    #       end
+    #     end
+    #   else
+    #     break
+    #   end
+    # }
+    # return return_msg
   end
 
   def text_format return_msg

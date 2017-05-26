@@ -11,6 +11,6 @@ class GoogleMapService
 		test_location = '-33.8670522,151.1957362'
 		uri = URI("#{API_URL}location=#{test_location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&key=#{API_KEY}")
 		res = Net::HTTP.get(uri)
-		return res.body.to_s
+		return res.to_s
 	end
 end

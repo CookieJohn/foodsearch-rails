@@ -1,3 +1,4 @@
 defaults: &defaults
   CHANNEL_SECRET: ''
   CHANNEL_TOKEN: ''
+  GOOGLE_API_KEY: ''
