@@ -26,16 +26,15 @@ class LineBotService
           case event.type
           when Line::Bot::Event::MessageType::Text
             msg = event.message['text'].to_s.downcase
-            # 回覆
+
             client.reply_message(event['replyToken'], bot.text_format(msg))
           when Line::Bot::Event::MessageType::Location
             msg = event.message['address'].to_s.downcase
             lat = event.message['latitude'].to_s
             lng = event.message['longitude'].to_s
             google_result = GoogleMapService.new.place_search(lat, lng)
-            # 回覆
-            return_msg = bot.carousel_format(google_result)
-            client.reply_message(event['replyToken'], return_msg)
+
+            client.reply_message(event['replyToken'], bot.carousel_format(google_result))
           when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
             response = client.get_message_content(event.message['id'])
             tf = Tempfile.open("content")
@@ -83,7 +82,7 @@ class LineBotService
           }
     end
 
-    {
+    carousel_result = {
       type: "template",
       altText: "this is a carousel template",
       template: {
@@ -91,6 +90,8 @@ class LineBotService
         columns: columns,
       }
     }
+    puts carousel_result
+    return carousel_result
   end
 
   def button_format
