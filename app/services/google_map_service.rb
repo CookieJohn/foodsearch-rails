@@ -29,7 +29,7 @@ class GoogleMapService
 		uri = Faraday.new(url: uri, proxy: FIXIE_URL)
 		res = uri.get
 		puts res.body
-		return res.body
+		return JSON.parse(res.body)
 	end
 
 	def test lat, lng
