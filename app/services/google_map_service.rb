@@ -2,6 +2,7 @@ require 'faraday'
 
 class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+	PHOTO_API_URL ||= "https://maps.googleapis.com/maps/api/place/photo?"
 	API_KEY ||= ENV['GOOGLE_API_KEY']
 	FIXIE_URL ||= ENV['FIXIE_URL']
 
@@ -20,6 +21,15 @@ class GoogleMapService
 		results = JSON.parse(res.body)['results'].first(5)
 
 		return results
+	end
+
+	def photo size, photoreference
+
+		uri = URI("#{PHOTO_API_URL}maxheight=#{size}&photoreference=#{photoreference}&key=#{API_KEY}")
+		uri = Faraday.new(url: uri, proxy: FIXIE_URL)
+		res = uri.get
+		puts res.body
+		return res.body
 	end
 
 	def test lat, lng

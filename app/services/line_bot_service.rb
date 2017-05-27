@@ -67,13 +67,15 @@ class LineBotService
     zoom = 15
     
     test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
+    google_service = GoogleMapService.new
 
     columns = []
     google_result.each do |result|
       lat = ''
       lng = ''
       lat = result['geometry']['location']['lat']
-      lng = result['geometry']['location']['lng']
+      photo = result['photo_reference']
+      img = google_service.photo(200, photo)
       columns << {
             thumbnailImageUrl: test_image_url,
             title: result['name'],
