@@ -2,7 +2,7 @@ class BaseController < ApplicationController
   skip_before_action :verify_authenticity_token, only: [:callback]
 
   def index
-  	@test = GoogleMapService.new.test(25.084555, 121.456564)
+  	@test = GraphApiService.new.test(25.084555, 121.456564)
   end
 
   def callback

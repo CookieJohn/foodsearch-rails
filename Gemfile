@@ -17,6 +17,7 @@ gem 'line-bot-api'
 gem 'puma'
 gem 'settingslogic'
 gem 'faraday'
+gem 'koala'
 
 group :production do
   gem 'rails_12factor'
