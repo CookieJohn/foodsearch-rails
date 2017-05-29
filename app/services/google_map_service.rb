@@ -25,6 +25,6 @@ class GoogleMapService
 		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
 		res = Net::HTTP.get(uri)
 
-		return JSON.parse(res.body)
+		return res
 	end
 end
