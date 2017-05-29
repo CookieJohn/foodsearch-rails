@@ -14,9 +14,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'slim-rails'
 gem 'line-bot-api'
 
-gem 'puma'
 gem 'settingslogic'
-gem 'faraday'
 gem 'koala'
 
 group :production do
@@ -32,10 +30,11 @@ group :development do
 	gem 'capistrano-rvm'
 	gem 'capistrano-rails'
 	gem 'capistrano-passenger'
-	
+
   gem 'web-console', '~> 2.0'
   gem 'spring'
   gem 'better_errors'
   gem 'pry'
+  gem 'puma'
 end
 

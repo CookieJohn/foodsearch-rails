@@ -2,8 +2,8 @@ set :deploy_to, '/home/apps/foodsearch'
 set :rails_env, 'production'
 set :branch, 'master'
 
-role :app, %w{apps@13.112.185.2}
-role :web, %w{apps@13.112.185.2}
+role :app, %w{apps@johnwudevelop.tk}
+role :web, %w{apps@johnwudevelop.tk}
 # role :db,  %w{deploy@example.com}
 
 

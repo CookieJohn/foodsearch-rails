@@ -23,8 +23,6 @@ class GraphApiService
 	def test lat, lng
 		# location = "#{lat},#{lng}"
 		# uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
-
-		# uri = Faraday.new(url: uri, proxy: FIXIE_URL)
 		# res = uri.get
 		graph = Koala::Facebook::API.new(TOKEN)
 		profile = graph.get_object("me")

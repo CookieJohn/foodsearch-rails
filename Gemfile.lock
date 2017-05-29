@@ -198,7 +198,6 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails
   capistrano-rvm
-  faraday
   jquery-rails
   koala
   line-bot-api
