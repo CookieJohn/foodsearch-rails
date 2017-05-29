@@ -2,7 +2,6 @@ require 'net/http'
 
 class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-	PHOTO_API_URL ||= "https://maps.googleapis.com/maps/api/place/photo?"
 	API_KEY ||= Settings.google.google_api_key
 
 	RADIUS ||= 1000
