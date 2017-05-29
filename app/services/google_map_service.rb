@@ -13,7 +13,7 @@ class GoogleMapService
 	def place_search lat, lng
 		location = "#{lat},#{lng}"
 		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
-		res = uri.get
+		res = Net::HTTP.get(uri)
 
 		results = JSON.parse(res.body)['results'].first(5)
 
@@ -23,8 +23,7 @@ class GoogleMapService
 	def test lat, lng
 		location = "#{lat},#{lng}"
 		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
-
-		res = uri.get
+		res = Net::HTTP.get(uri)
 
 		return res.body
 	end
