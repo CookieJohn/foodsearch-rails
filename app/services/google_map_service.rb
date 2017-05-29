@@ -36,7 +36,7 @@ class GoogleMapService
 		location = "#{lat},#{lng}"
 		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
 
-		uri = Faraday.new(url: uri, proxy: FIXIE_URL)
+		# uri = Faraday.new(url: uri, proxy: FIXIE_URL)
 		res = uri.get
 
 		return res.body
