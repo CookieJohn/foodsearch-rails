@@ -1,5 +1,9 @@
 defaults: &defaults
-  CHANNEL_SECRET: ''
-  CHANNEL_TOKEN: ''
-  GOOGLE_API_KEY: ''
-  FIXIE_SOCKS_HOST: ''
+  line:
+    channel_secret: ''
+    channel_token: ''
+  google:
+    google_api_key: ''
+
+development:
+  <<: *defaults
