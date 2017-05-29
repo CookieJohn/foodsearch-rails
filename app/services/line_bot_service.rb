@@ -35,7 +35,7 @@ class LineBotService
             msg = event.message['address'].to_s.downcase
             lat = event.message['latitude'].to_s
             lng = event.message['longitude'].to_s
-            # google_result = GoogleMapService.new.place_search(lat, lng)
+            google_result = GoogleMapService.new.place_search(lat, lng)
 
             # client.reply_message(event['replyToken'], bot.carousel_format(google_result))
             client.reply_message(event['replyToken'], bot.text_format(msg+lat+lng))
