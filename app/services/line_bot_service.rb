@@ -74,8 +74,8 @@ class LineBotService
       lat = ''
       lng = ''
       lat = result['geometry']['location']['lat']
-      photo = result['photo_reference']
-      img = google_service.photo(200, photo)
+      # photo = result['photo_reference']
+      # img = google_service.photo(200, photo)
       columns << {
             thumbnailImageUrl: test_image_url,
             title: result['name'],
