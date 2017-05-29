@@ -3,7 +3,7 @@ require 'net/http'
 class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 	PHOTO_API_URL ||= "https://maps.googleapis.com/maps/api/place/photo?"
-	API_KEY ||= ENV['GOOGLE_API_KEY']
+	API_KEY ||= Settings.GOOGLE_API_KEY
 
 	RADIUS ||= 1000
 	RESTAURANT_TYPE ||= 'restaurant'
