@@ -4,7 +4,7 @@ class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 	API_KEY ||= Settings.google.google_api_key
 
-	RADIUS ||= 1000
+	RADIUS ||= 500
 	RESTAURANT_TYPE ||= 'restaurant'
 	OPENNOW ||= true
 	PROMINENCE ||= 'prominence'
