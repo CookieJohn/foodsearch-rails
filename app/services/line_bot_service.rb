@@ -83,7 +83,7 @@ class LineBotService
       puts "result: #{result}"
       fb_result = fb_service.search_restaurant(result['name'])
       puts "fb_result: #{fb_result}"
-      fb_score = fb_result.dig('overall_star_rating').present? ? "fb評分：#{fb_result['overall_star_rating']}" : ""
+      fb_score = fb_result['overall_star_rating'].present? ? "fb評分：#{fb_result['overall_star_rating']}" : ""
       puts "fb_score: #{fb_score}"
       columns << {
             thumbnailImageUrl: test_image_url,
