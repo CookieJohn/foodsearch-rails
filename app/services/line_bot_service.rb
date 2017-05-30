@@ -89,10 +89,12 @@ class LineBotService
       else
         fb_score = ""
       end
+      fb_image_url = fb_service.photo(fb_result['id'])
+      image_url = fb_image_url.present? ? fb_image_url : test_image_url
       # puts "fb_score: #{fb_score}"
       # fb_score = "fb評分：4"
       columns << {
-            thumbnailImageUrl: test_image_url,
+            thumbnailImageUrl: image_url,
             title: result['name'],
             text: "google評分：#{result['rating']} #{fb_score}",
             actions: [

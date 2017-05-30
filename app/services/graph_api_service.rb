@@ -33,6 +33,13 @@ class GraphApiService
 		return result
 	end
 
+	def photo id
+		graph = Koala::Facebook::API.new(TOKEN)
+		result = graph.get_picture_data(id)#['data']['url']
+		url = result.present? ? result['data']['url'] : ""
+		return url
+	end
+
 	def test lat, lng
 		# location = "#{lat},#{lng}"
 		# uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
