@@ -122,7 +122,7 @@ class LineBotService
 
     carousel_result = {
       type: "template",
-      altText: "this is a carousel template",
+      altText: "你看，出來了",
       template: {
         type: "carousel",
         columns: columns
