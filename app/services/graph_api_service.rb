@@ -29,7 +29,7 @@ class GraphApiService
 	end
 	def get_location id
 		graph = Koala::Facebook::API.new(TOKEN)
-		result = graph.get_connections(id, "?fields=location,name,category,overall_star_rating,rating_count,photos")
+		result = graph.get_connections(id, "?fields=location,name,category,overall_star_rating,rating_count,photos").first
 		return result
 	end
 
