@@ -4,6 +4,11 @@ defaults: &defaults
     channel_token: ''
   google:
     google_api_key: ''
+  facebook:
+    app_id: ''
+    app_secret: ''
+    app_access_token: ''
+    access_token: ''
 
 development:
   <<: *defaults

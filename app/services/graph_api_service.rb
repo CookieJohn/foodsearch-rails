@@ -2,7 +2,7 @@ require 'koala'
 
 class GraphApiService
 	# API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-	TOKEN ||= 'EAACEdEose0cBAPYgHolb7ZB0LaQA1wu3CZCPi0cM8XW8r9c945RfyFrRk6DBcZB2WpoEHm2kFnEgvRUxwZCaYy4tpaTBm3z2cb7rBNIPqMlPpCeFtxJqNnwQ4fq67r0INaYrfZALGQFKwfRYrZCiiZAqiba5B4a9EAtmqlJN0XyXGZBq0eUZCkF0Xfjoo0ZBb8z6kZD'
+	TOKEN ||= 'EAACEdEose0cBAKdSUEUUwvuTJ58rqoVOMq4pnj37wwNCS3yWFtzLXF2gu5KKXyKpEon619UoUcYTZA9JamAPJAcRttqXlZArUt6RFb0Sf3ryaCZBaVDAzhhZAJqoxR7ZCGQjZAclgd7aPq6zQNfFBY7ZBP6A1aekG2Dt7Td0IvhZB3wutdigUEZAC2kt6MSZC8PSIZD'
 
 	attr_accessor :graph
 	def initialize
@@ -17,6 +17,20 @@ class GraphApiService
 		target_result = results.last
 		lsat_result = graph.search(target_result['name'], type: :page)
 		result = graph.get_connections(lsat_result['id'], "?fields=location,name,category,overall_star_rating,rating_count,photos")
+		return result
+	end
+
+	def search_restaurant restaurant_name
+		graph = Koala::Facebook::API.new(TOKEN)
+		results = graph.search(restaurant_name, type: :page)
+		target_result = results.first
+
+		result = graph.get_connections(target_result['id'], "?fields=location,name,category,overall_star_rating,rating_count,photos")
+		return result
+	end
+	def get_photo id
+		graph = Koala::Facebook::API.new(TOKEN)
+		result = graph.get_connections(id, "?fields=location,name,category,overall_star_rating,rating_count,photos")
 		return result
 	end
 

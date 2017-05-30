@@ -79,12 +79,13 @@ class LineBotService
       lat = ''
       lng = ''
       lat = result['geometry']['location']['lat']
-      # photo = result['photo_reference']
-      # img = google_service.photo(200, photo)
+
+      fb_result = GraphApiService.new.search_restaurant(result['name'])
+
       columns << {
             thumbnailImageUrl: test_image_url,
             title: result['name'],
-            text: "google評分：#{result['rating']}",
+            text: "google評分：#{result['rating']} fb評分：#{fb_result.dig('overall_star_rating')}",
             actions: [
               {
                 type: "uri",
