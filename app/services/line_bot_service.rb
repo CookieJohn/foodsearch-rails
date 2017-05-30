@@ -33,12 +33,14 @@ class LineBotService
             # client.reply_message(event['replyToken'], bot.text_format(msg))
           when Line::Bot::Event::MessageType::Location
             msg = event.message['address'].to_s.downcase
-            lat = event.message['latitude'].to_s
-            lng = event.message['longitude'].to_s
-            google_result = GoogleMapService.new.place_search(lat, lng)
+            if event.message['address'].include?("台灣")
+              lat = event.message['latitude'].to_s
+              lng = event.message['longitude'].to_s
+              google_result = GoogleMapService.new.place_search(lat, lng)
 
-            client.reply_message(event['replyToken'], bot.carousel_format(google_result))
-            # client.reply_message(event['replyToken'], bot.text_format(msg+lat+lng))
+              client.reply_message(event['replyToken'], bot.carousel_format(google_result))
+              # client.reply_message(event['replyToken'], bot.text_format(msg+lat+lng))
+            end
 
           when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
             response = client.get_message_content(event.message['id'])
