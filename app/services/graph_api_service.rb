@@ -27,7 +27,7 @@ class GraphApiService
 
 		return target_result
 	end
-	def get_photo id
+	def get_location id
 		graph = Koala::Facebook::API.new(TOKEN)
 		result = graph.get_connections(id, "?fields=location,name,category,overall_star_rating,rating_count,photos")
 		return result

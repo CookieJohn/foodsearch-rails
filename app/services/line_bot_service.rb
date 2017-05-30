@@ -81,11 +81,12 @@ class LineBotService
       lng = ''
       lat = result['geometry']['location']['lat']
       # puts "result: #{result}"
-      # fb_result = fb_service.search_restaurant(result['name'])
+      fb_result = fb_service.search_restaurant(result['name'])
+      fb_location = fb_service.get_location(fb_result['id'])
       # puts "fb_result: #{fb_result}"
-      # fb_score = fb_result['overall_star_rating'].present? ? "fb評分：#{fb_result['overall_star_rating']}" : ""
+      fb_score = fb_location['overall_star_rating'].present? ? "fb評分：#{fb_location['overall_star_rating']}" : ""
       # puts "fb_score: #{fb_score}"
-      fb_score = "fb評分：4"
+      # fb_score = "fb評分：4"
       columns << {
             thumbnailImageUrl: test_image_url,
             title: result['name'],
