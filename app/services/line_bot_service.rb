@@ -73,6 +73,7 @@ class LineBotService
     
     test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
     google_service = GoogleMapService.new
+    fb_service = GraphApiService.new
 
     columns = []
     google_result.each do |result|
@@ -80,7 +81,7 @@ class LineBotService
       lng = ''
       lat = result['geometry']['location']['lat']
 
-      fb_result = GraphApiService.new.search_restaurant(result['name'])
+      fb_result = fb_service.search_restaurant(result['name'])
 
       fb_score = fb_result['overall_star_rating'].present? ? "fb評分：#{fb_result['overall_star_rating']}" : ""
 
