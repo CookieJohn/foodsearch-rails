@@ -2,7 +2,7 @@ require 'koala'
 
 class GraphApiService
 	# API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-	TOKEN ||= 'EAACEdEose0cBAEAgU0ZArqC0BIZB1galQqUVAZAzIuOjZCC62bDTWRbuaQHEnOcsZAjmEQ609aEyzuUpGEXvNtHv3IguAwxZCcoeZCPPvojiccNI0Clbd9PcGHmlVzyjrFyIIp6SLmBcZAlyzXjhVEu2AF8g7at0XEWTUGHSkKyRHmLekZCNjeSlf8j5LFApwe2EZD'
+	TOKEN ||= 'EAACEdEose0cBAJUo9MEk8A3RDFXa6828eFsxHHzMYbpj3jH8m6DyWV5CzJHyNArTKK8IZBZBM4bclHuV2rElEwmiDHmxikZAVZC04vCYHZBujWVKQl896mTY1GFlyR8e2l9Qmso3wtjm9lwW5DLKYzfdgaC2s9chKgDexZBAUP2AV3RsfYjF5yB66FCB7Uyv0ZD'
 
 	attr_accessor :graph
 	def initialize
