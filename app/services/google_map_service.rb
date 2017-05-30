@@ -1,5 +1,4 @@
 require 'net/http'
-require 'json'
 
 class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
@@ -13,7 +12,7 @@ class GoogleMapService
 	def place_search lat, lng
 		location = "#{lat},#{lng}"
 		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
-		res = Net::HTTP.get(uri)
+		res = Net::HTTP.get_response(uri)
 		puts res
 		results = JSON.parse(res.body)['results'].first(5)
 
@@ -23,7 +22,7 @@ class GoogleMapService
 	def test lat, lng
 		location = "#{lat},#{lng}"
 		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
-		res = Net::HTTP.get(uri)
+		res = Net::HTTP.get_response(uri)
 
 		return res.body
 	end
