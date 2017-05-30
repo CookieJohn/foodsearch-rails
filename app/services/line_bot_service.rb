@@ -89,7 +89,7 @@ class LineBotService
       else
         fb_score = ""
       end
-      fb_image_url = fb_service.photo(fb_result['id'])
+      fb_image_url = fb_service.photo(fb_result['id']) if fb_result.present?
       image_url = fb_image_url.present? ? fb_image_url : test_image_url
       # puts "fb_score: #{fb_score}"
       # fb_score = "fb評分：4"
