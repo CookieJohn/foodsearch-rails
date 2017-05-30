@@ -82,10 +82,12 @@ class LineBotService
 
       fb_result = GraphApiService.new.search_restaurant(result['name'])
 
+      fb_score = fb_result['overall_star_rating'].present? ? "fb評分：#{fb_result['overall_star_rating']}" : ""
+
       columns << {
             thumbnailImageUrl: test_image_url,
             title: result['name'],
-            text: "google評分：#{result['rating']} fb評分：#{fb_result.dig('overall_star_rating')}",
+            text: "google評分：#{result['rating']} #{fb_score}",
             actions: [
               {
                 type: "uri",

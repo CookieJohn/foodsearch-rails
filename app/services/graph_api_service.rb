@@ -25,8 +25,7 @@ class GraphApiService
 		results = graph.search(restaurant_name, type: :page)
 		target_result = results.first
 
-		result = graph.get_connections(target_result['id'], "?fields=location,name,category,overall_star_rating,rating_count,photos")
-		return result
+		return results
 	end
 	def get_photo id
 		graph = Koala::Facebook::API.new(TOKEN)
