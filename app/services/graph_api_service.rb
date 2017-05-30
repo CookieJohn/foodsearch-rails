@@ -2,7 +2,7 @@ require 'koala'
 
 class GraphApiService
 	# API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
-	TOKEN ||= 'EAACEdEose0cBAKdSUEUUwvuTJ58rqoVOMq4pnj37wwNCS3yWFtzLXF2gu5KKXyKpEon619UoUcYTZA9JamAPJAcRttqXlZArUt6RFb0Sf3ryaCZBaVDAzhhZAJqoxR7ZCGQjZAclgd7aPq6zQNfFBY7ZBP6A1aekG2Dt7Td0IvhZB3wutdigUEZAC2kt6MSZC8PSIZD'
+	TOKEN ||= 'EAACEdEose0cBAEAgU0ZArqC0BIZB1galQqUVAZAzIuOjZCC62bDTWRbuaQHEnOcsZAjmEQ609aEyzuUpGEXvNtHv3IguAwxZCcoeZCPPvojiccNI0Clbd9PcGHmlVzyjrFyIIp6SLmBcZAlyzXjhVEu2AF8g7at0XEWTUGHSkKyRHmLekZCNjeSlf8j5LFApwe2EZD'
 
 	attr_accessor :graph
 	def initialize
@@ -29,7 +29,7 @@ class GraphApiService
 	end
 	def get_location id
 		graph = Koala::Facebook::API.new(TOKEN)
-		result = graph.get_connections(id, "?fields=location,name,category,overall_star_rating,rating_count,photos").first
+		result = graph.get_connections(id, "?fields=location,name,category,overall_star_rating,rating_count,photos")
 		return result
 	end
 
