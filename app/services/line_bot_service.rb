@@ -84,13 +84,13 @@ class LineBotService
       fb_result = fb_service.search_restaurant(result['name'])
       fb_location = fb_service.get_location(fb_result['id'])
       # puts "fb_result: #{fb_result}"
-      fb_score = fb_location['overall_star_rating'].present? ? "fb評分：#{fb_location['overall_star_rating']}" : ""
+      # fb_score = fb_location['overall_star_rating'].present? ? "fb評分：#{fb_location['overall_star_rating']}" : ""
       # puts "fb_score: #{fb_score}"
       # fb_score = "fb評分：4"
       columns << {
             thumbnailImageUrl: test_image_url,
             title: result['name'],
-            text: "google評分：#{result['rating']} #{fb_score}",
+            text: "google評分：#{result['rating']}",
             actions: [
               {
                 type: "uri",
