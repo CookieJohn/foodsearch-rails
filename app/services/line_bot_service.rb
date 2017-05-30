@@ -101,7 +101,7 @@ class LineBotService
       columns << {
             thumbnailImageUrl: image_url,
             title: result['name'],
-            text: "google評分：#{result['rating']} \n#{fb_score} \n地址：#{fb_street}",
+            text: "google評分：#{result['rating']} #{fb_score} #{fb_street}",
             actions: [
               {
                 type: "uri",
