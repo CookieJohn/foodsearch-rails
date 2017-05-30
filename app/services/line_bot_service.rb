@@ -82,6 +82,7 @@ class LineBotService
       lat = result['geometry']['location']['lat']
       # puts "result: #{result}"
       fb_result = fb_service.search_restaurant(result['name'])
+      fb_result = fb_result.first if fb_result.size > 1
       fb_location = fb_service.get_location(fb_result['id'])# if fb_result.present?
       # puts "fb_result: #{fb_result}"
       # if fb_location.present?
