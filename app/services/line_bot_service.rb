@@ -77,9 +77,8 @@ class LineBotService
 
     columns = []
     google_result.each do |result|
-      lat = ''
-      lng = ''
       lat = result['geometry']['location']['lat']
+      lng = result['geometry']['location']['lng']
       google_rating = result['rating']
       # puts "result: #{result}"
       fb_result = fb_service.search_restaurant(result['name'])
@@ -91,7 +90,11 @@ class LineBotService
       # end
       # puts "fb_result: #{fb_result}"
       if fb_location.present?
-        fb_score = fb_location["overall_star_rating"].present? ? "fb評分：#{fb_location['overall_star_rating']}" : ""
+        if fb_location["overall_star_rating"].present? && fb_location["overall_star_rating"].to_i >0
+          fb_score = "fb評分：#{fb_location['overall_star_rating']}"
+        else
+          fb_score = ""
+        end
       else
         fb_score = ""
       end
@@ -106,7 +109,7 @@ class LineBotService
             actions: [
               {
                 type: "uri",
-                label: '點我',
+                label: '地圖點我',
                 uri: "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
               }
             ]
