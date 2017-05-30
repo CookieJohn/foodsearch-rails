@@ -82,7 +82,7 @@ class LineBotService
       lat = result['geometry']['location']['lat']
       # puts "result: #{result}"
       fb_result = fb_service.search_restaurant(result['name'])
-      fb_location = fb_service.get_location(fb_result['id']) if fb_result.dig('id').present?
+      fb_location = fb_service.get_location(fb_result['id']) if fb_result.present?
       # puts "fb_result: #{fb_result}"
       if fb_location.present?
         fb_score = fb_location["overall_star_rating"].present? ? "fb評分：#{fb_location['overall_star_rating']}" : ""
