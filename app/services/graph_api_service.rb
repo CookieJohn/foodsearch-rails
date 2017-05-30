@@ -9,16 +9,16 @@ class GraphApiService
 		graph = Koala::Facebook::API.new(TOKEN)
 	end
 
-	def place_search lat, lng
-		location = "#{lat},#{lng}"
-		graph = Koala::Facebook::API.new(TOKEN)
-		results = graph.search('restaurant', type: :place,center: location, distance: 500)
-		results = results.first(5)
-		target_result = results.last
-		lsat_result = graph.search(target_result['name'], type: :page)
-		result = graph.get_connections(lsat_result['id'], "?fields=location,name,category,overall_star_rating,rating_count,photos")
-		return result
-	end
+	# def place_search lat, lng
+	# 	location = "#{lat},#{lng}"
+	# 	graph = Koala::Facebook::API.new(TOKEN)
+	# 	results = graph.search('restaurant', type: :place,center: location, distance: 500)
+	# 	results = results.first(5)
+	# 	target_result = results.last
+	# 	lsat_result = graph.search(target_result['name'], type: :page)
+	# 	result = graph.get_connections(lsat_result['id'], "?fields=location,name,category,overall_star_rating,rating_count,photos")
+	# 	return result
+	# end
 
 	def search_restaurant restaurant_name
 		graph = Koala::Facebook::API.new(TOKEN)
