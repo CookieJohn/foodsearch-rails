@@ -28,9 +28,9 @@ class LineBotService
         when Line::Bot::Event::Message
           case event.type
           when Line::Bot::Event::MessageType::Text
-            msg = event.message['text'].to_s.downcase
+            # msg = event.message['text'].to_s.downcase
 
-            client.reply_message(event['replyToken'], bot.text_format(msg))
+            # client.reply_message(event['replyToken'], bot.text_format(msg))
           when Line::Bot::Event::MessageType::Location
             msg = event.message['address'].to_s.downcase
             lat = event.message['latitude'].to_s
@@ -83,11 +83,15 @@ class LineBotService
       # puts "result: #{result}"
       fb_result = fb_service.search_restaurant(result['name'])
       fb_location = fb_service.get_location(fb_result['id']) if fb_result.present?
-      # if fb_location.present? && fb_location.dig('location','street').present?
-      #   fb_street = "地址：#{fb_location.dig('location','street')}"
-      # else
-      #   fb_street = ''
-      # end
+      if fb_location.present?
+        if fb_location.dig('location','street').present?
+          fb_street = "地址：#{fb_location.dig('location','street')}"
+        else
+          fb_street = ''
+        end
+      else
+        fb_street = ''
+      end
       # puts "fb_result: #{fb_result}"
       if fb_location.present?
         if fb_location["overall_star_rating"].present? && fb_location["overall_star_rating"].to_i >0
