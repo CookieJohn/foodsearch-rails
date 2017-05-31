@@ -15,40 +15,40 @@ class LineBotService
     body = request.body.read
 
     bot = LineBotService.new
-    bot.varify_signature(request)
+    # bot.varify_signature(request)
 
     return_msg = ''
     events = client.parse_events_from(body)
     events.each { |event|
-      if bot.msg_varify!
-        case event
-        when Line::Bot::Event::Message
-          case event.type
-          when Line::Bot::Event::MessageType::Text
-            # msg = event.message['text'].to_s.downcase
+      # if bot.msg_varify!
+      case event
+      when Line::Bot::Event::Message
+        case event.type
+        when Line::Bot::Event::MessageType::Text
+          # msg = event.message['text'].to_s.downcase
 
-            # client.reply_message(event['replyToken'], bot.text_format(msg))
-          when Line::Bot::Event::MessageType::Location
-            msg = event.message['address'].to_s.downcase
-            if event.message['address'].include?("台灣")
-              lat = event.message['latitude'].to_s
-              lng = event.message['longitude'].to_s
-              # google_result = GoogleMapService.new.place_search(lat, lng)
-              fb_results = GraphApiService.new.search_places(lat, lng)
+          # client.reply_message(event['replyToken'], bot.text_format(msg))
+        when Line::Bot::Event::MessageType::Location
+          msg = event.message['address'].to_s.downcase
+          if event.message['address'].include?("台灣")
+            lat = event.message['latitude'].to_s
+            lng = event.message['longitude'].to_s
+            # google_result = GoogleMapService.new.place_search(lat, lng)
+            fb_results = GraphApiService.new.search_places(lat, lng)
 
-              client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
-              # client.reply_message(event['replyToken'], bot.text_format(msg+lat+lng))
-            end
-
-          when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-            response = client.get_message_content(event.message['id'])
-            tf = Tempfile.open("content")
-            tf.write(response.body)
+            client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
+            # client.reply_message(event['replyToken'], bot.text_format(msg+lat+lng))
           end
+
+        when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
+          response = client.get_message_content(event.message['id'])
+          tf = Tempfile.open("content")
+          tf.write(response.body)
         end
-      else
-        break
       end
+      # else
+      #   break
+      # end
     }
     return return_msg
   end
@@ -143,7 +143,6 @@ class LineBotService
         columns: columns
       }
     }
-    # puts carousel_result
     return carousel_result
   end
 
@@ -174,14 +173,14 @@ class LineBotService
     true
   end
 
-  def varify_signature request
-    body = request.body.read
-    signature = request.env['HTTP_X_LINE_SIGNATURE']
-    unless client.validate_signature(body, signature)
-      # error 400 do 'Bad Request' end
-      return_msg = '400 Bad Request'
-      return '400 Bad Request'
-    end
-  end
+  # def varify_signature request
+  #   body = request.body.read
+  #   signature = request.env['HTTP_X_LINE_SIGNATURE']
+  #   unless client.validate_signature(body, signature)
+  #     # error 400 do 'Bad Request' end
+  #     return_msg = '400 Bad Request'
+  #     return '400 Bad Request'
+  #   end
+  # end
 
 end
