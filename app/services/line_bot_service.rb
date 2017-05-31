@@ -3,14 +3,11 @@ require 'line/bot'
 
 class LineBotService
 
-  CHANNEL_SECRET ||= Settings.line.channel_secret
-  CHANNEL_TOKEN ||= Settings.line.channel_token
-
   attr_accessor :client
   def initialize
     self.client ||= Line::Bot::Client.new { |config|
-      config.channel_secret = CHANNEL_SECRET
-      config.channel_token = CHANNEL_TOKEN
+      config.channel_secret = Settings.line.channel_secret
+      config.channel_token = Settings.line.channel_token
     }
   end
 
