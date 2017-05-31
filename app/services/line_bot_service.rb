@@ -74,7 +74,7 @@ class LineBotService
       description = ""
       category_list.each_with_index do |c, index|
         description += ', ' if index > 0
-        description += c
+        description += c['name']
       end
       # description = result.dig('description')
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
