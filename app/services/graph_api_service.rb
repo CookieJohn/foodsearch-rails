@@ -3,6 +3,9 @@ require 'koala'
 class GraphApiService
 	# API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
+	DEFAULT_DISTANCE ||= 500
+	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,category,phone'
+
 	attr_accessor :graph
 	def initialize
 		@oauth = Koala::Facebook::OAuth.new
@@ -10,16 +13,16 @@ class GraphApiService
 		self.graph = Koala::Facebook::API.new(oauth_access_token)
 	end
 
-	# def place_search lat, lng
-	# 	location = "#{lat},#{lng}"
-	# 	graph = Koala::Facebook::API.new(TOKEN)
-	# 	results = graph.search('restaurant', type: :place,center: location, distance: 500)
-	# 	results = results.first(5)
-	# 	target_result = results.last
-	# 	lsat_result = graph.search(target_result['name'], type: :page)
-	# 	result = graph.get_connections(lsat_result['id'], "?fields=location,name,category,overall_star_rating,rating_count,photos")
-	# 	return result
-	# end
+	def search_places lat, lng
+		location = "#{lat},#{lng}"
+		facebook_results = graph.search('restaurant', type: :place,center: location, distance: DEFAULT_DISTANCE, fields: DEFAULT_FIELDS)
+		results = facebook_results.sort_by { |r| r['overall_star_rating'].to_i }.reverse.first(5)
+		# results = results.first(5)
+		# target_result = results.last
+		# lsat_result = graph.search(target_result['name'], type: :page)
+		# result = graph.get_connections(lsat_result['id'], "?fields=location,name,category,overall_star_rating,rating_count,photos")
+		return results
+	end
 
 	def search_restaurant restaurant_name
 		results = graph.search(restaurant_name, type: :page)
@@ -36,6 +39,10 @@ class GraphApiService
 		result = graph.get_picture_data(id, type: :large)#['data']['url']
 		url = result.present? ? result['data']['url'] : ""
 		return url
+	end
+
+	def get_photo id
+		"https://graph.facebook.com/#{id}/picture?type=large"
 	end
 
 	def test lat, lng
