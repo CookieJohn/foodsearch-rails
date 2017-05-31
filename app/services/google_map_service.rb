@@ -18,16 +18,4 @@ class GoogleMapService
 
 		return results
 	end
-
-	def get_photo id
-		
-	end
-
-	def test lat, lng
-		location = "#{lat},#{lng}"
-		uri = URI("#{API_URL}location=#{location}&radius=#{RADIUS}&type=#{RESTAURANT_TYPE}&opennow=#{OPENNOW}&key=#{API_KEY}")
-		res = Net::HTTP.get_response(uri)
-
-		return res.body
-	end
 end
