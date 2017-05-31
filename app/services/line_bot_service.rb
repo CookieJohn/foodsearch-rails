@@ -75,7 +75,7 @@ class LineBotService
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
-          fb_results = GraphApiService.new.search_places(lat, lng, user)
+          fb_results = GraphApiService.new.search_places(lat, lng)
           if fb_results.size > 0
             client.reply_message(token, bot.carousel_format(fb_results))
           else
