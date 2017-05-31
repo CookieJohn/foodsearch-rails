@@ -30,7 +30,7 @@ class LineBotService
         when Line::Bot::Event::MessageType::Location
           address = event.message['address'].to_s.downcase
           # filter包含台灣的地址
-          if address.include?('台灣') || address.include?('台湾')
+          # if address.include?('台灣') || address.include?('台湾')
             lat = event.message['latitude'].to_s
             lng = event.message['longitude'].to_s
             fb_results = GraphApiService.new.search_places(lat, lng)
@@ -39,9 +39,9 @@ class LineBotService
             else
               client.reply_message(token, bot.text_format('此區域查無餐廳。'))
             end
-          else
-            client.reply_message(token, bot.text_format('請搜尋台灣地址。'))
-          end
+          # else
+          #   client.reply_message(token, bot.text_format('請搜尋台灣地址。'))
+          # end
         when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
           # response = client.get_message_content(event.message['id'])
           # tf = Tempfile.open("content")
