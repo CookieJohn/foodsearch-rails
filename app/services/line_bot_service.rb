@@ -113,6 +113,7 @@ class LineBotService
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       phone = result['phone']
+      link = result['link']
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
       columns << {
@@ -120,6 +121,11 @@ class LineBotService
             title: name,
             text: "facebook評分：#{rating}分/#{rating_count}人 \n電話：#{phone}",
             actions: [
+              {
+                type: "uri",
+                label: 'fb粉絲團點我',
+                uri: link
+              },
               {
                 type: "uri",
                 label: '地圖點我',

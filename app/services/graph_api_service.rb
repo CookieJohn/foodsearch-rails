@@ -4,7 +4,7 @@ class GraphApiService
 	# API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 
 	DEFAULT_DISTANCE ||= 500
-	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,category,phone'
+	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,category,phone,link'
 
 	attr_accessor :graph
 	def initialize
