@@ -37,42 +37,12 @@ class LineBotService
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
           if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
-            return_msg = case command
-            when '使用者'
-              "使用者設定：\n搜尋最大半徑：#{user.try(:max_distance)}\n搜尋最低評分：#{user.try(:min_score)}\n搜尋類型隨機：#{user.try(:random_type)}"
-            when '指令'
-              "設定指令：\n設定隨機：隨機=true or false\n距離=500 (500~50000)\n評分=3.8 (2~5 接受小數第一位)"
-            when '隨機='
-              random = msg.gsub('隨機=', '').to_s
-              user.random_type = random
-              if random == 'true' || random == 'false' && user.save
-                "設定成功，隨機模式設為：#{random}。"
-              else
-                "設定失敗，輸入有誤。"
-              end
-            when '距離='
-              distance = msg.gsub('距離=', '').to_i
-              user.max_distance = distance
-              if user.save
-                "設定成功，半徑設為：#{distance}m。"
-              else
-                "設定失敗，輸入有誤。"
-              end
-            when '評分='
-              score = msg.gsub('評分=', '').to_f
-              user.min_score = score
-              if user.save
-                "設定成功，評分設為：#{score}。"
-              else
-                "設定失敗，輸入有誤。"
-              end
-            end
+            return_msg = bot.handle_with_commands(command, user)
 
             client.reply_message(event['replyToken'], bot.text_format(return_msg))
           else
             client.reply_message(event['replyToken'], bot.text_format(''))
           end
-          # client.reply_message(event['replyToken'], bot.text_format(msg))
         when Line::Bot::Event::MessageType::Location
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
@@ -172,4 +142,36 @@ class LineBotService
     return '400 Bad Request' unless client.validate_signature(body, signature)
   end
 
+  def handle_with_commands command, user
+    case command
+    when '使用者'
+      "使用者設定：\n搜尋最大半徑：#{user.try(:max_distance)}\n搜尋最低評分：#{user.try(:min_score)}\n搜尋類型隨機：#{user.try(:random_type)}"
+    when '指令'
+      "設定指令：\n設定隨機：隨機=true or false\n距離=500 (500~50000)\n評分=3.8 (2~5 接受小數第一位)"
+    when '隨機='
+      random = msg.gsub('隨機=', '').to_s
+      user.random_type = random
+      if random == 'true' || random == 'false' && user.save
+        "設定成功，隨機模式設為：#{random}。"
+      else
+        "設定失敗，輸入有誤。"
+      end
+    when '距離='
+      distance = msg.gsub('距離=', '').to_i
+      user.max_distance = distance
+      if user.save
+        "設定成功，半徑設為：#{distance}m。"
+      else
+        "設定失敗，輸入有誤。"
+      end
+    when '評分='
+      score = msg.gsub('評分=', '').to_f
+      user.min_score = score
+      if user.save
+        "設定成功，評分設為：#{score}。"
+      else
+        "設定失敗，輸入有誤。"
+      end
+    end
+  end
 end
