@@ -127,27 +127,16 @@ class LineBotService
       end
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
+      actions = []
+      actions << set_action('電話聯絡店家', "tel:#{phone}") if phone.present?
+      actions << set_action('Facebook粉絲團', link_url) if link_url.present?
+      actions << set_action('Google Map', google_service.get_map_link(lat,lng))
+
       columns << {
         thumbnailImageUrl: image_url,
         title: name,
         text: "Facebook評分：#{rating}分/#{rating_count}人 \n類型：#{description}",
-        actions: [
-          {
-            type: "uri",
-            label: '電話聯絡店家',
-            uri: "tel:#{phone}"
-          },
-          {
-            type: "uri",
-            label: 'Facebook粉絲團',
-            uri: link_url
-          },
-          {
-            type: "uri",
-            label: 'Google Map',
-            uri: google_service.get_map_link(lat,lng)
-          }
-        ]
+        actions: actions
       }
     end
 
@@ -160,6 +149,14 @@ class LineBotService
       }
     }
     return carousel_result
+  end
+
+  def set_action text, link
+    {
+      type: "uri",
+      label: text,
+      uri: link
+    }
   end
 
   def varify_signature request
