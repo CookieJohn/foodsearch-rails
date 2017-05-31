@@ -79,12 +79,12 @@ class LineBotService
         actions: [
           {
             type: "uri",
-            label: 'FB粉絲團點我',
+            label: 'Facebook粉絲團 請點我',
             uri: link_url
           },
           {
             type: "uri",
-            label: '地圖點我',
+            label: 'Google Map 請點我',
             uri: google_service.get_map_link(lat,lng)
           }
         ]
