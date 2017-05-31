@@ -24,12 +24,12 @@ class LineBotService
     events.each { |event|
       token = event['replyToken']
 
-      user_id = event['source']['userId']
-      if !User.exists?(line_user_id: user_id)
-        user = User.create(line_user_id: user_id)
-        user.save
-      end
-      user = User.find_by(line_user_id: user_id)
+      # user_id = event['source']['userId']
+      # if !User.exists?(line_user_id: user_id)
+      #   user = User.create(line_user_id: user_id)
+      #   user.save
+      # end
+      # user = User.find_by(line_user_id: user_id)
 
       case event
       when Line::Bot::Event::Message
