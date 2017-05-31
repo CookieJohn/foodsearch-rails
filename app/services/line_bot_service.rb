@@ -94,6 +94,10 @@ class LineBotService
       category_list.each_with_index do |c, index|
         description += ', ' if index > 0
         description += c['name']
+        if !Category.exists?(facebook_id: c['id'])
+          new_category = Category.new(facebook_id: c['id'], facebook_name: c['name'])
+          new_category.save
+        end
       end
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
