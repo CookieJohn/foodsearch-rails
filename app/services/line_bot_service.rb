@@ -34,7 +34,11 @@ class LineBotService
         case event.type
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
-          client.reply_message(event['replyToken'], bot.text_format(msg+user.line_user_id.to_s)) if user.present?
+          if msg.include?('-all')
+            return_msg = "使用者設定：\n 搜尋最大半徑:#{user.try(:max_distance)}\n 搜尋最低評分:#{user.try(:min_score)}\n 搜尋類型隨機:#{user.try(:random_type)}"
+            client.reply_message(event['replyToken'], bot.text_format(msg+user.line_user_id.to_s)) if user.present?
+          end
+          # client.reply_message(event['replyToken'], bot.text_format(msg+user.line_user_id.to_s)) if user.present?
         when Line::Bot::Event::MessageType::Location
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
