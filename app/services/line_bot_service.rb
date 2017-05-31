@@ -37,7 +37,7 @@ class LineBotService
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
           if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
-            return_msg = bot.handle_with_commands(command, user)
+            return_msg = bot.handle_with_commands(msg, command, user)
 
             client.reply_message(event['replyToken'], bot.text_format(return_msg))
           else
@@ -145,7 +145,7 @@ class LineBotService
     return '400 Bad Request' unless client.validate_signature(body, signature)
   end
 
-  def handle_with_commands command, user
+  def handle_with_commands msg, command, user
     case command
     when '使用者'
       "使用者設定：\n搜尋最大半徑：#{user.try(:max_distance)}\n搜尋最低評分：#{user.try(:min_score)}\n搜尋類型隨機：#{user.try(:random_type)}"
