@@ -71,7 +71,7 @@ class LineBotService
 
           #   client.reply_message(event['replyToken'], bot.text_format(return_msg)) if user.present?
           # end
-          # client.reply_message(event['replyToken'], bot.text_format(msg+user.line_user_id.to_s)) if user.present?
+          client.reply_message(event['replyToken'], bot.text_format(msg))
         when Line::Bot::Event::MessageType::Location
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
