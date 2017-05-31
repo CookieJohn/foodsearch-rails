@@ -46,7 +46,7 @@ class LineBotService
             when '隨機='
               random = msg.gsub('隨機=', '').to_s
               user.random_type = random
-              if random == true || random == false && user.save
+              if random == 'true' || random == 'false' && user.save
                 "設定成功，隨機模式設為：#{random}。"
               else
                 "設定失敗，輸入有誤。"
