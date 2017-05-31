@@ -48,7 +48,6 @@ class LineBotService
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
           fb_results = GraphApiService.new.search_places(lat, lng, user)
-          Rails.logger.info "fb_results: #{fb_results.size}"
           if fb_results.size > 0
             client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
           else
@@ -128,7 +127,7 @@ class LineBotService
         columns: columns
       }
     }
-    Rails.logger.info "carousel_result: #{carousel_result}"
+    # Rails.logger.info "carousel_result: #{carousel_result}"
     return carousel_result
   end
 
