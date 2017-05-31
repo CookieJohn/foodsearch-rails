@@ -128,7 +128,7 @@ class LineBotService
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
       actions = []
-      actions << set_action('電話聯絡店家', "tel:#{phone}") if phone.present?
+      # actions << set_action('電話聯絡店家', "tel:#{phone}") if phone.present?
       actions << set_action('Facebook粉絲團', link_url) if link_url.present?
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
 
