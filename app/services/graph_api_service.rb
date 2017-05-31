@@ -3,7 +3,7 @@ require 'koala'
 class GraphApiService
 	DEFAULT_DISTANCE ||= 500
 	DEFAULT_MIN_SCORE ||= 3.9
-	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,category,phone,link,price_range,description,category_list'
+	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category_list'
 	DEFAULT_LOCALE ||= 'zh-TW'
 
 	attr_accessor :graph

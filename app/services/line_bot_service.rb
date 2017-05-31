@@ -76,7 +76,6 @@ class LineBotService
         description += ', ' if index > 0
         description += c['name']
       end
-      # description = result.dig('description')
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
       columns << {
