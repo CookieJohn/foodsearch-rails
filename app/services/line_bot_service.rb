@@ -3,7 +3,7 @@ require 'line/bot'
 
 class LineBotService
 
-  COMMANDS ||= ['-all', 'distance=', 'score=', 'random=']
+  COMMANDS ||= ['all', '距離=', '評分=', '隨機=']
 
   attr_accessor :client
   def initialize
@@ -37,46 +37,45 @@ class LineBotService
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
           command = ''
-          if COMMANDS.any? {|c| command = c if msg.include?(c) }
+          COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(s); }
+          if command.present? && user.present?
             return_msg = case command
-            when '-all'
+            when 'all'
               "使用者設定：\n搜尋最大半徑:#{user.try(:max_distance)}\n搜尋最低評分:#{user.try(:min_score)}\n搜尋類型隨機:#{user.try(:random_type)}"
-            when 'random='
-              random = msg.gsub!('random=', '').to_s
+            when '隨機='
+              random = msg.gsub('隨機=', '').to_s
               user.random_type = random
-              if user.save
-                return "設定成功，隨機模式設為#{random}。"
+              if user.save 
+                "設定成功，隨機模式設為#{random}。"
               else
-                return "設定失敗，輸入有誤。"
+                "設定失敗，輸入有誤。"
               end
-            when 'distance='
-              distance = msg.gsub!('distance=', '').to_i
+            when '距離='
+              distance = msg.gsub('距離=', '').to_i
               user.max_distance = distance
               if user.save
-                return "設定成功，半徑設為#{distance}m。"
+                "設定成功，半徑設為#{distance}m。"
               else
-                return "設定失敗，輸入有誤。"
+                "設定失敗，輸入有誤。"
               end
-            when 'score='
-              score = msg.gsub!('score=', '').to_i
+            when '評分='
+              score = msg.gsub('評分=', '').to_i
               user.min_score = score
               if user.save
-                return "設定成功，評分設為#{score}。"
+                "設定成功，評分設為#{score}。"
               else
-                return "設定失敗，輸入有誤。"
+                "設定失敗，輸入有誤。"
               end
-            else
-              ''
             end
 
-            client.reply_message(event['replyToken'], bot.text_format(return_msg)) if user.present?
+            client.reply_message(event['replyToken'], bot.text_format(return_msg))
           end
           client.reply_message(event['replyToken'], bot.text_format(msg))
         when Line::Bot::Event::MessageType::Location
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
-          fb_results = GraphApiService.new.search_places(lat, lng)
+          fb_results = GraphApiService.new.search_places(lat, lng, user)
           if fb_results.size > 0
             client.reply_message(token, bot.carousel_format(fb_results))
           else
