@@ -13,7 +13,7 @@
 /tmp
 
 # Ignore settings
-config/application.yml
+/config/application.yml
 
 # Elastic Beanstalk Files
 .elasticbeanstalk/*

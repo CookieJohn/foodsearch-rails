@@ -69,13 +69,20 @@ class LineBotService
       rating_count = result['rating_count']
       phone = result['phone']
       link_url = result['link']
+      category_list = result['category_list']
+
+      description = ""
+      category_list.each_with_index do |c, index|
+        description += ', ' if index > 0
+        description += c
+      end
       # description = result.dig('description')
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
       columns << {
         thumbnailImageUrl: image_url,
         title: name,
-        text: "Facebook評分：#{rating}分/#{rating_count}人 \n電話：#{phone}",
+        text: "Facebook評分：#{rating}分/#{rating_count}人 \n電話：#{phone} \n類型：#{description}",
         actions: [
           {
             type: "uri",
