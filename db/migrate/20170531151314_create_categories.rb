@@ -5,8 +5,8 @@ class CreateCategories < ActiveRecord::Migration[5.1]
     	t.string :facebook_name
       t.timestamps
     end
+    add_index :categories, :facebook_id
   end
-  	add_index :categories, :facebook_id
   def down
   	drop_table :categories
   end
