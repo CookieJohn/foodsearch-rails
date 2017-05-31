@@ -16,14 +16,14 @@ class GraphApiService
 
 	def search_places lat, lng, user=nil
 			
-		distance = DEFAULT_DISTANCE
-		score = DEFAULT_MIN_SCORE
-		random_type = DEFAULT_RANDOM
+		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
+		min_score = user.present? ? user.min_score : DEFAULT_MIN_SCORE
+		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
 
 		location = "#{lat},#{lng}"
-		facebook_results = graph.search('restaurant', type: :place,center: location, distance: distance, fields: DEFAULT_FIELDS, locale: DEFAULT_LOCALE)
+		facebook_results = graph.search('restaurant', type: :place,center: location, distance: max_distance, fields: DEFAULT_FIELDS, locale: DEFAULT_LOCALE)
 		results = facebook_results.reject { |r| r['price_range'].to_s == ('$$$' || '$$$$') }
-		results = results.select { |r| r['overall_star_rating'].to_f >= score }
+		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
 		if random_type
