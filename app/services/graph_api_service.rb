@@ -20,6 +20,8 @@ class GraphApiService
 		score = user.present? ? user.min_score : DEFAULT_MIN_SCORE
 		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
 
+		puts "distance=#{distance},score=#{score},random_type#{random_type}"
+
 		location = "#{lat},#{lng}"
 		facebook_results = graph.search('restaurant', type: :place,center: location, distance: distance, fields: DEFAULT_FIELDS, locale: DEFAULT_LOCALE)
 		results = facebook_results.sort_by { |r| r['overall_star_rating'].to_i }.reverse
