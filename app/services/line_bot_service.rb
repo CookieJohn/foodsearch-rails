@@ -33,7 +33,11 @@ class LineBotService
             lat = event.message['latitude'].to_s
             lng = event.message['longitude'].to_s
             fb_results = GraphApiService.new.search_places(lat, lng)
-            client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
+            if fb_results.size > 0
+              client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
+            else
+              client.reply_message(event['replyToken'], bot.text_format('此區域查無餐廳。'))
+            end
           end
         when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
           # response = client.get_message_content(event.message['id'])
