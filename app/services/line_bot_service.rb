@@ -24,53 +24,53 @@ class LineBotService
     events.each { |event|
       token = event['replyToken']
 
-      user_id = event['source']['userId']
-      if !User.exists?(line_user_id: user_id)
-        user = User.create(line_user_id: user_id)
-        user.save
-      end
-      user = User.find_by(line_user_id: user_id)
+      # user_id = event['source']['userId']
+      # if !User.exists?(line_user_id: user_id)
+      #   user = User.create(line_user_id: user_id)
+      #   user.save
+      # end
+      # user = User.find_by(line_user_id: user_id)
 
       case event
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          msg = event.message['text'].to_s.downcase
-          command = ''
-          if COMMANDS.any? {|c| msg.include?(c), command = c if msg.include?(c) }
-            return_msg = case command
-            when '-all'
-              "使用者設定：\n搜尋最大半徑:#{user.try(:max_distance)}\n搜尋最低評分:#{user.try(:min_score)}\n搜尋類型隨機:#{user.try(:random_type)}"
-            when 'random='
-              random = msg.gsub!('random=', '').to_s
-              user.random_type = random
-              if user.save
-                "設定成功，隨機模式設為#{random}。"
-              else
-                "設定失敗，輸入有誤。"
-              end
-            when 'distance='
-              distance = msg.gsub!('distance=', '').to_i
-              user.max_distance = distance
-              if user.save
-                "設定成功，半徑設為#{distance}m。"
-              else
-                "設定失敗，輸入有誤。"
-              end
-            when 'score='
-              score = msg.gsub!('score=', '').to_i
-              user.min_score = score
-              if user.save
-                "設定成功，評分設為#{score}。"
-              else
-                "設定失敗，輸入有誤。"
-              end
-            else
-              ''
-            end
+          # msg = event.message['text'].to_s.downcase
+          # command = ''
+          # if COMMANDS.any? {|c| msg.include?(c), command = c if msg.include?(c) }
+          #   return_msg = case command
+          #   when '-all'
+          #     "使用者設定：\n搜尋最大半徑:#{user.try(:max_distance)}\n搜尋最低評分:#{user.try(:min_score)}\n搜尋類型隨機:#{user.try(:random_type)}"
+          #   when 'random='
+          #     random = msg.gsub!('random=', '').to_s
+          #     user.random_type = random
+          #     if user.save
+          #       return "設定成功，隨機模式設為#{random}。"
+          #     else
+          #       return "設定失敗，輸入有誤。"
+          #     end
+          #   when 'distance='
+          #     distance = msg.gsub!('distance=', '').to_i
+          #     user.max_distance = distance
+          #     if user.save
+          #       "設定成功，半徑設為#{distance}m。"
+          #     else
+          #       "設定失敗，輸入有誤。"
+          #     end
+          #   when 'score='
+          #     score = msg.gsub!('score=', '').to_i
+          #     user.min_score = score
+          #     if user.save
+          #       "設定成功，評分設為#{score}。"
+          #     else
+          #       "設定失敗，輸入有誤。"
+          #     end
+          #   else
+          #     ''
+          #   end
 
-            client.reply_message(event['replyToken'], bot.text_format(return_msg)) if user.present?
-          end
+          #   client.reply_message(event['replyToken'], bot.text_format(return_msg)) if user.present?
+          # end
           # client.reply_message(event['replyToken'], bot.text_format(msg+user.line_user_id.to_s)) if user.present?
         when Line::Bot::Event::MessageType::Location
           # address = event.message['address'].to_s.downcase
