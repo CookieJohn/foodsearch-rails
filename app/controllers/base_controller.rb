@@ -8,4 +8,8 @@ class BaseController < ApplicationController
 		msg = LineBotService.new.reply_msg(request)
 		render plain: msg
 	end
+
+	def facebook_callback
+		render plain: '200'
+	end
 end
