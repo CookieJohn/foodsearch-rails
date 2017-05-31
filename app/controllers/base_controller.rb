@@ -1,5 +1,5 @@
 class BaseController < ApplicationController
-  skip_before_action :verify_authenticity_token, only: [:callback]
+  skip_before_action :verify_authenticity_token, only: [:callback, :facebook_callback]
 
   def index
   end
