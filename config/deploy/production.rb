@@ -4,7 +4,7 @@ set :branch, 'master'
 
 role :app, %w{apps@johnwudevelop.tk}
 role :web, %w{apps@johnwudevelop.tk}
-# role :db,  %w{deploy@example.com}
+role :db,  %w{apps@johnwudevelop.tk}
 
 
 
