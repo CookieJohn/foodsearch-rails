@@ -45,7 +45,7 @@ class LineBotService
             when '隨機='
               random = msg.gsub('隨機=', '').to_s
               user.random_type = random
-              if user.save 
+              if random == true || random == false && user.save
                 "設定成功，隨機模式設為#{random}。"
               else
                 "設定失敗，輸入有誤。"
@@ -59,7 +59,7 @@ class LineBotService
                 "設定失敗，輸入有誤。"
               end
             when '評分='
-              score = msg.gsub('評分=', '').to_i
+              score = msg.gsub('評分=', '').to_f
               user.min_score = score
               if user.save
                 "設定成功，評分設為#{score}。"
@@ -70,7 +70,7 @@ class LineBotService
 
             client.reply_message(event['replyToken'], bot.text_format(return_msg))
           end
-          client.reply_message(event['replyToken'], bot.text_format(msg))
+          # client.reply_message(event['replyToken'], bot.text_format(msg))
         when Line::Bot::Event::MessageType::Location
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
