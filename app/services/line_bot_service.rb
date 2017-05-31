@@ -136,11 +136,12 @@ class LineBotService
       text += "Facebook評分：#{rating}分" if rating.present?
       text += "/#{rating_count}人" if rating_count.present?
       text += "\n類型：#{description}" if description.present?
+      text += "\n電話：#{phone}" if phone.present?
 
       columns << {
         thumbnailImageUrl: image_url,
         title: name,
-        text: "Facebook評分：#{rating}分/#{rating_count}人 \n類型：#{description}",
+        text: text,
         actions: actions
       }
     end
