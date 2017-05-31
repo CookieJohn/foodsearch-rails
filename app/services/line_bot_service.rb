@@ -21,12 +21,20 @@ class LineBotService
     events = client.parse_events_from(body)
     events.each { |event|
       token = event['replyToken']
+
+      user_id = event.source['userId']
+      if !User.exists?(line_user_id: user_id)
+        user = User.create(line_user_id: user_id)
+        user.save
+      end
+      user = User.find(line_user_id: user_id)
+
       case event
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          # msg = event.message['text'].to_s.downcase
-          # client.reply_message(event['replyToken'], bot.text_format(msg))
+          msg = event.message['text'].to_s.downcase
+          client.reply_message(event['replyToken'], bot.text_format(msg+user.line_user_id.to_s)) if user.present?
         when Line::Bot::Event::MessageType::Location
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
