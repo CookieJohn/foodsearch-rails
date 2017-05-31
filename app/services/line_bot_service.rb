@@ -12,15 +12,14 @@ class LineBotService
   end
 
   def reply_msg request
+    bot.varify_signature(request)
+    
     body = request.body.read
-
     bot = LineBotService.new
-    # bot.varify_signature(request)
 
     return_msg = ''
     events = client.parse_events_from(body)
     events.each { |event|
-      # if bot.msg_varify!
       case event
       when Line::Bot::Event::Message
         case event.type
@@ -46,9 +45,6 @@ class LineBotService
           tf.write(response.body)
         end
       end
-      # else
-      #   break
-      # end
     }
     return return_msg
   end
@@ -173,14 +169,10 @@ class LineBotService
     true
   end
 
-  # def varify_signature request
-  #   body = request.body.read
-  #   signature = request.env['HTTP_X_LINE_SIGNATURE']
-  #   unless client.validate_signature(body, signature)
-  #     # error 400 do 'Bad Request' end
-  #     return_msg = '400 Bad Request'
-  #     return '400 Bad Request'
-  #   end
-  # end
+  def varify_signature request
+    body = request.body.read
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    render status: 400 unless client.validate_signature(body, signature)
+  end
 
 end
