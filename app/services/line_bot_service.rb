@@ -53,17 +53,17 @@ class LineBotService
               distance = msg.gsub!('distance=', '').to_i
               user.max_distance = distance
               if user.save
-                "設定成功，半徑設為#{distance}m。"
+                return "設定成功，半徑設為#{distance}m。"
               else
-                "設定失敗，輸入有誤。"
+                return "設定失敗，輸入有誤。"
               end
             when 'score='
               score = msg.gsub!('score=', '').to_i
               user.min_score = score
               if user.save
-                "設定成功，評分設為#{score}。"
+                return "設定成功，評分設為#{score}。"
               else
-                "設定失敗，輸入有誤。"
+                return "設定失敗，輸入有誤。"
               end
             else
               ''
