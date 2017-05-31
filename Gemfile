@@ -17,6 +17,9 @@ gem 'line-bot-api'
 gem 'settingslogic'
 gem 'koala'
 
+# db
+gem 'pg'
+
 group :development, :test do
   gem 'byebug'
 end
