@@ -12,10 +12,10 @@ class LineBotService
   end
 
   def reply_msg request
+    bot = LineBotService.new
     bot.varify_signature(request)
     
     body = request.body.read
-    bot = LineBotService.new
 
     return_msg = ''
     events = client.parse_events_from(body)
