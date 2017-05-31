@@ -20,25 +20,24 @@ class LineBotService
     body = request.body.read
 
     return_msg = ''
+    command = ''
     events = client.parse_events_from(body)
     events.each { |event|
       token = event['replyToken']
 
-      # user_id = event['source']['userId']
-      # if !User.exists?(line_user_id: user_id)
-      #   user = User.create(line_user_id: user_id)
-      #   user.save
-      # end
-      # user = User.find_by(line_user_id: user_id)
+      user_id = event['source']['userId']
+      if !User.exists?(line_user_id: user_id)
+        user = User.create(line_user_id: user_id)
+        user.save
+      end
+      user = User.find_by(line_user_id: user_id)
 
       case event
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
-          command = ''
-          COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
-          if command.present? && user.present?
+          if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
             return_msg = case command
             when 'all'
               "使用者設定：\n搜尋最大半徑：#{user.try(:max_distance)}\n搜尋最低評分：#{user.try(:min_score)}\n搜尋類型隨機：#{user.try(:random_type)}"
@@ -101,7 +100,7 @@ class LineBotService
   end
 
   def carousel_format results=nil
-    zoom = 15    
+   
     test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
     google_service = GoogleMapService.new
     fb_service = GraphApiService.new
