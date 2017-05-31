@@ -68,24 +68,24 @@ class LineBotService
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       phone = result['phone']
-      link = result['link']
+      link_url = result['link']
       # description = result.dig('description')
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
       columns << {
         thumbnailImageUrl: image_url,
         title: name,
-        text: "facebook評分：#{rating}分/#{rating_count}人 \n電話：#{phone}",
+        text: "Facebook評分：#{rating}分/#{rating_count}人 \n電話：#{phone}",
         actions: [
           {
             type: "uri",
-            label: 'fb粉絲團點我',
-            uri: link
+            label: 'FB粉絲團點我',
+            uri: link_url
           },
           {
             type: "uri",
             label: '地圖點我',
-            uri: "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
+            uri: google_service.get_map_link(lat,lng)
           }
         ]
       }
