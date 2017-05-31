@@ -82,11 +82,11 @@ class LineBotService
       columns << {
         thumbnailImageUrl: image_url,
         title: name,
-        text: "Facebook評分：#{rating}分/#{rating_count}人 \n電話：#{phone} \n類型：#{description}",
+        text: "Facebook評分：#{rating}分/#{rating_count}人 \n類型：#{description}",
         actions: [
           {
             type: "uri",
-            label: '聯絡店家',
+            label: '電話聯絡店家',
             uri: "tel:#{phone}"
           },
           {
