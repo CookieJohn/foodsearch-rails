@@ -172,7 +172,7 @@ class LineBotService
   def varify_signature request
     body = request.body.read
     signature = request.env['HTTP_X_LINE_SIGNATURE']
-    render status: 400 unless client.validate_signature(body, signature)
+    return '400 Bad Request' unless client.validate_signature(body, signature)
   end
 
 end
