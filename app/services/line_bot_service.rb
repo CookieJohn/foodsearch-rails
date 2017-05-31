@@ -23,8 +23,7 @@ class LineBotService
     command = ''
     events = client.parse_events_from(body)
     events.each { |event|
-      token = event['replyToken']
-
+      user = ''
       user_id = event['source']['userId']
       if !User.exists?(line_user_id: user_id)
         user = User.create(line_user_id: user_id)
@@ -80,9 +79,9 @@ class LineBotService
           lng = event.message['longitude'].to_s
           fb_results = GraphApiService.new.search_places(lat, lng, user)
           if fb_results.size > 0
-            client.reply_message(token, bot.carousel_format(fb_results))
+            client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
           else
-            client.reply_message(token, bot.text_format('此區域查無餐廳。'))
+            client.reply_message(event['replyToken'], bot.text_format('此區域查無餐廳。'))
           end
         when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
           # response = client.get_message_content(event.message['id'])
