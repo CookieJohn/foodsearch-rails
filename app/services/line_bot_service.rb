@@ -35,7 +35,7 @@ class LineBotService
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          # msg = event.message['text'].to_s.downcase
+          msg = event.message['text'].to_s.downcase
           # command = ''
           # if COMMANDS.any? {|c| msg.include?(c), command = c if msg.include?(c) }
           #   return_msg = case command
