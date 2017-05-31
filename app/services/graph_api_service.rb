@@ -29,7 +29,7 @@ class GraphApiService
 		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
-		if random_type
+		if random_type == true
 			results = results.sample(5)
 		else
 			results = results.first(5)
