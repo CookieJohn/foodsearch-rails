@@ -132,6 +132,11 @@ class LineBotService
       actions << set_action('Facebook粉絲團', link_url) if link_url.present?
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
 
+      text = ""
+      text += "Facebook評分：#{rating}分" if rating.present?
+      text += "/#{rating_count}人" if rating_count.present?
+      text += "\n類型：#{description}" if description.present?
+
       columns << {
         thumbnailImageUrl: image_url,
         title: name,
