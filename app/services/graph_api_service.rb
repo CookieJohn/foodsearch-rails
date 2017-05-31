@@ -22,9 +22,10 @@ class GraphApiService
 
 		location = "#{lat},#{lng}"
 		facebook_results = graph.search('restaurant', type: :place,center: location, distance: distance, fields: DEFAULT_FIELDS, locale: DEFAULT_LOCALE)
-		results = facebook_results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
+		results = facebook_results.reject { |r| r['price_range'].to_s == ('$$$' || '$$$$') }
 		results = results.select { |r| r['overall_star_rating'].to_f >= score }
-		results = results.reject { |r| r['price_range'].to_s == ('$$$' || '$$$$') }
+		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
+
 		if random_type
 			results = results.sample(5)
 		else
