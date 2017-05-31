@@ -3,6 +3,8 @@ require 'line/bot'
 
 class LineBotService
 
+  COMMANDS ||= ['-all', 'distance=', 'score=', 'random=']
+
   attr_accessor :client
   def initialize
     self.client ||= Line::Bot::Client.new { |config|
@@ -34,8 +36,39 @@ class LineBotService
         case event.type
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
-          if msg.include?('-all')
-            return_msg = "使用者設定：\n 搜尋最大半徑:#{user.try(:max_distance)}\n 搜尋最低評分:#{user.try(:min_score)}\n 搜尋類型隨機:#{user.try(:random_type)}"
+          command = ''
+          if COMMANDS.any? {|c| msg.include?(c), command = c if msg.include?(c) }
+            return_msg = case command
+            when '-all'
+              "使用者設定：\n搜尋最大半徑:#{user.try(:max_distance)}\n搜尋最低評分:#{user.try(:min_score)}\n搜尋類型隨機:#{user.try(:random_type)}"
+            when 'random='
+              random = msg.gsub!('random=', '').to_s
+              user.random_type = random
+              if user.save
+                "設定成功，隨機模式設為#{random}。"
+              else
+                "設定失敗，輸入有誤。"
+              end
+            when 'distance='
+              distance = msg.gsub!('distance=', '').to_i
+              user.max_distance = distance
+              if user.save
+                "設定成功，半徑設為#{distance}m。"
+              else
+                "設定失敗，輸入有誤。"
+              end
+            when 'score='
+              score = msg.gsub!('score=', '').to_i
+              user.min_score = score
+              if user.save
+                "設定成功，評分設為#{score}。"
+              else
+                "設定失敗，輸入有誤。"
+              end
+            else
+              ''
+            end
+
             client.reply_message(event['replyToken'], bot.text_format(return_msg)) if user.present?
           end
           # client.reply_message(event['replyToken'], bot.text_format(msg+user.line_user_id.to_s)) if user.present?
