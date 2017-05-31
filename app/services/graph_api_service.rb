@@ -25,7 +25,7 @@ class GraphApiService
 		results = facebook_results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 		results = results.select { |r| r['overall_star_rating'].to_f > score }
 		results = results.reject { |r| r['price_range'].to_s == ('$$$' || '$$$$') }
-		results = random_type ? results.sample(5) : results.first(5)
+		results = results.sample(5)
 		return results
 	end
 
