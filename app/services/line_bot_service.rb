@@ -37,7 +37,7 @@ class LineBotService
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
           command = ''
-          COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(s); }
+          COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
           if command.present? && user.present?
             return_msg = case command
             when 'all'
