@@ -86,12 +86,17 @@ class LineBotService
         actions: [
           {
             type: "uri",
-            label: 'Facebook粉絲團 請點我',
+            label: '聯絡店家',
+            uri: "tel:#{phone}"
+          },
+          {
+            type: "uri",
+            label: 'Facebook粉絲團',
             uri: link_url
           },
           {
             type: "uri",
-            label: 'Google Map 請點我',
+            label: 'Google Map',
             uri: google_service.get_map_link(lat,lng)
           }
         ]
