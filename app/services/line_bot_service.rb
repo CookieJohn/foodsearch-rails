@@ -49,9 +49,16 @@ class LineBotService
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
           fb_results = GraphApiService.new.search_places(lat, lng, user)
-          # google_results = GoogleMapService.new.place_search(lat, lng, user)
+          # keywords = ""
+          # fb_results.select {|f| keywords = keywords.present? ? keywords = "#{keywords},#{f['name']}" : keywords = "#{f['name']}"}
+          google_results = []
+          fb_results.each do |f|
+            results = GoogleMapService.new.place_search(lat, lng, user, f['name'])
+            google_results += results
+          end
+          # google_results = GoogleMapService.new.place_search(lat, lng, user, keywords)
           if fb_results.size > 0
-            client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
+            client.reply_message(event['replyToken'], bot.carousel_format(fb_results, google_results))
           else
             client.reply_message(event['replyToken'], bot.text_format('此區域查無餐廳。'))
           end
@@ -117,14 +124,14 @@ class LineBotService
       Rails.logger.info "today_open_time: #{today_open_time}"
       # match_google_result = ""
       # match_google_result = {'score' => 0.0, 'match_score' => 0.0}
-      # google_results.each do |r|
-      #   match_score = jarow.getDistance(r['name'],name).to_f
-      #   if match_score >= 0.5 && match_score > match_google_result['match_score']
-      #     match_google_result['score'] = r['rating'].to_f.round(2)
-      #     match_google_result['match_score'] = match_score
-      #   end
-      #   Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
-      # end
+      google_results.each do |r|
+        match_score = jarow.getDistance(r['name'],name).to_f
+        if match_score >= 0.6 && match_score > match_google_result['match_score']
+          match_google_result['score'] = r['rating'].to_f.round(2)
+          match_google_result['match_score'] = match_score
+        end
+        Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
+      end
 
       text = ""
       text += "Fb：#{rating}分/#{rating_count}人" if rating.present?

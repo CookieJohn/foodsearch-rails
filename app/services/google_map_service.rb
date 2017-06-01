@@ -9,10 +9,12 @@ class GoogleMapService
 	# OPENNOW ||= true
 	# PROMINENCE ||= 'prominence'
 
-	def place_search lat, lng, user=nil
+	def place_search lat, lng, user=nil, keywords=nil
 		max_distance = user.present? ? user.max_distance : RADIUS
 		location = "#{lat},#{lng}"
-		uri = URI("#{API_URL}location=#{location}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&key=#{API_KEY}")
+		search_keywords = keywords.present? ? "&keyword=#{keywords}" : ""
+		uri = URI.encode("#{API_URL}location=#{location}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}#{search_keywords}&key=#{API_KEY}")
+		uri = URI.parse(uri)
 		res = Net::HTTP.get_response(uri)
 		results = JSON.parse(res.body)['results']
 		return results
