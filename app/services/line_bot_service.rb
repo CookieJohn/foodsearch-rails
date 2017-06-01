@@ -119,10 +119,10 @@ class LineBotService
       google_results.each do |r|
         match_score = jarow.getDistance(r['name'],name).to_f
         if match_score >= 0.5 && match_score > match_google_result['match_score']
-          match_google_result['score'] = r['rating'].to_f
+          match_google_result['score'] = r['rating'].to_f.round(2)
           match_google_result['match_score'] = match_score
         end
-        Rails.logger.info "判斷字串：#{r['name']}m #{name}, 判斷分數：#{match_score}"
+        Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
       end
 
       text = ""
