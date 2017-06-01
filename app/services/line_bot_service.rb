@@ -118,7 +118,7 @@ class LineBotService
       match_google_result = {'score' => 0, 'match_score' => 0}
       google_results.each do |r|
         match_score = jarow.getDistance( r['name'], name ).to_f
-        if match_score >= 0.4 && match_score > match_google_result['match_score']
+        if match_score >= 0.5 && match_score > match_google_result['match_score']
           match_google_result['score'] = r['rating']
           match_google_result['match_score'] = match_score
         end
