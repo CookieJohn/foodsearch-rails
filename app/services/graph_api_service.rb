@@ -1,14 +1,14 @@
 require 'koala'
 
 class GraphApiService
-	DEFAULT_SEARCH ||= 'restaurant'
-	DEFAULT_DISTANCE ||= 500
-	DEFAULT_MIN_SCORE ||= 3.9
-	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website'
-	DEFAULT_RANDOM ||= true
+	DEFAULT_SEARCH ||= I18n.t('settings.facebook.search_type')
+	DEFAULT_DISTANCE ||= I18n.t('settings.facebook.distance')
+	DEFAULT_MIN_SCORE ||= I18n.t('settings.facebook.score')
+	DEFAULT_FIELDS ||= I18n.t('settings.facebook.fields')
+	DEFAULT_RANDOM ||= I18n.t('settings.facebook.random')
 
-	REJECT_PRICE ||= ['$$$','$$$$']
-	REJECT_NAME ||= ['飯店','酒店']
+	REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
+	REJECT_NAME ||= I18n.t('settings.facebook.reject_name')
 
 	attr_accessor :graph
 	def initialize
@@ -33,7 +33,7 @@ class GraphApiService
 			REJECT_PRICE.include?(r['price_range'].to_s) ||
 			REJECT_NAME.any? {|n| r['name'].include?(n)} ||
 			!r['link'].to_s.present? ||
-			(!r['category'].include?('餐') && !r['category_list'].any? {|c| c['name'].include?('餐') }) ||
+			(!r['category'].include?(I18n.t('common.meal')) && !r['category_list'].any? {|c| c['name'].include?(I18n.t('common.meal')) }) ||
 			r['overall_star_rating'].to_f < min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 

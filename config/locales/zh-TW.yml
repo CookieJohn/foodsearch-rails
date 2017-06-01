@@ -10,6 +10,7 @@ zh-TW:
     command: 指令
     open: 開
     close: 關
+    meal: 餐
   carousel:
     text: 搜尋結果如下
   facebook:
@@ -24,3 +25,12 @@ zh-TW:
   command:
     success: 設定成功
     error: 設定失敗，輸入指令有誤
+  settings:
+    facebook:
+      search_type: restaurant
+      distance: 500
+      fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website
+      score: 3.9
+      random: true
+      reject_price: ['$$$','$$$$']
+      reject_name: ['飯店','酒店']
