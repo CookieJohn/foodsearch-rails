@@ -30,8 +30,7 @@ class GraphApiService
 		results = facebook_results.reject { |r| 
 			REJECT_PRICE.include?(r['price_range'].to_s) ||
 			!r['link'].to_s.present? ||
-			(!r['category'].include?('餐') && 
-			!r['category_list'].any? {|c| c['name'].include?('餐') })  }
+			(!r['category'].include?('餐') && !r['category_list'].any? {|c| c['name'].include?('餐') })  }
 		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
