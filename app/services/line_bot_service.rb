@@ -3,7 +3,7 @@ require 'line/bot'
 
 class LineBotService
 
-  COMMANDS ||= ['使用者', '指令', '距離=', '評分=', '隨機=']
+  COMMANDS ||= ['使用者', '指令', '距離', '評分', '隨機']
 
   attr_accessor :client, :graph, :google, :common
   def initialize
@@ -163,9 +163,9 @@ class LineBotService
     when '使用者'
       "使用者設定：\n搜尋最大半徑：#{user.try(:max_distance)}\n搜尋最低評分：#{user.try(:min_score)}\n搜尋類型隨機：#{user.try(:random_type)}"
     when '指令'
-      "設定指令：\n設定隨機：隨機=true or false\n距離=500 (500~50000)\n評分=3.8 (2~5 接受小數第一位)"
-    when '隨機='
-      random = msg.gsub('隨機=', '').to_s
+      "設定指令：\n設定隨機：隨機true/false\n距離500(500~50000)\n評分3.8 (3~5 接受小數第一位)"
+    when '隨機'
+      random = msg.gsub(command, '').to_s
       user.random_type = random
       if random == 'true' || random == 'false'
         if user.save
@@ -176,16 +176,16 @@ class LineBotService
       else
         "設定失敗，輸入有誤。"
       end
-    when '距離='
-      distance = msg.gsub('距離=', '').to_i
+    when '距離'
+      distance = msg.gsub(command, '').to_i
       user.max_distance = distance
       if user.save
         "設定成功，半徑設為：#{distance}m。"
       else
         "設定失敗，輸入有誤。"
       end
-    when '評分='
-      score = msg.gsub('評分=', '').to_f
+    when '評分'
+      score = msg.gsub(command, '').to_f
       user.min_score = score
       if user.save
         "設定成功，評分設為：#{score}。"
