@@ -27,11 +27,12 @@ class GraphApiService
 		# 移除金額過高的搜尋結果
 		# 移除連結不存在 的搜尋結果
 		# 移除類別不包含 餐 的搜尋結果
+		# 移除評分低於設定數字的搜尋結果
 		results = facebook_results.reject { |r| 
 			REJECT_PRICE.include?(r['price_range'].to_s) ||
 			!r['link'].to_s.present? ||
-			(!r['category'].include?('餐') && !r['category_list'].any? {|c| c['name'].include?('餐') })  }
-		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
+			(!r['category'].include?('餐') && !r['category_list'].any? {|c| c['name'].include?('餐') }) ||
+			r['overall_star_rating'].to_f < min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
 		results = random_type ? results.sample(5) : results.first(5)
