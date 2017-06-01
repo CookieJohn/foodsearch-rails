@@ -109,7 +109,7 @@ class LineBotService
       actions << set_action('位置', google.get_map_link(lat,lng))
       actions << set_action('相關評論', common.safe_url(google.get_google_search(name)))
 
-      today_open_time = hours.present? ? graph.get_current_open_time(hours) : "無提供"
+      today_open_time = hours.present? ? graph.get_current_open_time(hours) : "無提供營業時間"
       # jarow = FuzzyStringMatch::JaroWinkler.create(:native)
       # Rails.logger.info "today_open_time: #{today_open_time}"
       # # match_google_result = ""
