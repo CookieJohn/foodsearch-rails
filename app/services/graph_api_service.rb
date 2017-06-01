@@ -41,7 +41,7 @@ class GraphApiService
 	end
 
 	def get_photo id
-		"https://graph.facebook.com/#{id}/picture??width=400&height=300"
+		"https://graph.facebook.com/#{id}/picture??width=300&height=200"
 	end
 
 	def get_current_open_time hours
