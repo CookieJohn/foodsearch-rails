@@ -169,21 +169,22 @@ class LineBotService
       "#{I18n.t('common.command')}：\n#{I18n.t('common.setting')}#{I18n.t('common.random')}：#{I18n.t('common.random')}true/false\n#{I18n.t('common.radius')}500(500~50000)\n#{I18n.t('common.point')}3.8 (3~5 接受小數第一位)"
     when I18n.t('common.random')
       random = msg.gsub(command, '').to_s
-      user.random_type = random
-      if random == 'true' || random == 'false'
+      set_random = (random == I18n.t('common.open')) ? true : false
+      user.random_type = set_random
+      if random == I18n.t('common.open') || random == I18n.t('common.close')
         if user.save
-          "#{I18n.t('command.success')}，#{I18n.t('common.random')}：#{random}。"
+          "#{I18n.t('command.success')}，#{I18n.t('common.random')}：#{random}"
         else
           I18n.t('command.error')
         end
       else
         I18n.t('command.error')
       end
-    when I18n.t('command.radius')
-      distance = msg.gsub(command, '').to_i
-      user.max_distance = distance
+    when I18n.t('common.radius')
+      radius = msg.gsub(command, '').to_i
+      user.max_distance = radius
       if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('common.radius')}：#{distance}m。"
+        "#{I18n.t('command.success')}，#{I18n.t('common.radius')}：#{radius}m"
       else
         I18n.t('command.error')
       end
@@ -191,7 +192,7 @@ class LineBotService
       score = msg.gsub(command, '').to_f
       user.min_score = score
       if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('common.point')}：#{score}。"
+        "#{I18n.t('command.success')}，#{I18n.t('common.point')}：#{score}"
       else
         I18n.t('command.error')
       end
