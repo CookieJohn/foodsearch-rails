@@ -1,6 +1,7 @@
 require 'koala'
 
 class GraphApiService
+	DEFAULT_SEARCH ||= 'restaurant'
 	DEFAULT_DISTANCE ||= 500
 	DEFAULT_MIN_SCORE ||= 3.9
 	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category_list,hours'
@@ -23,7 +24,7 @@ class GraphApiService
 		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
 
 		location = "#{lat},#{lng}"
-		facebook_results = graph.search('restaurant', type: :place,center: location, distance: max_distance, fields: DEFAULT_FIELDS, locale: DEFAULT_LOCALE)
+		facebook_results = graph.search(DEFAULT_SEARCH, type: :place,center: location, distance: max_distance, fields: DEFAULT_FIELDS, locale: DEFAULT_LOCALE)
 		results = facebook_results.reject { |r| REJECT_PRICE.include?(r['price_range'].to_s) }
 		results = results.select { |r| r['link'].to_s.present? }
 		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }

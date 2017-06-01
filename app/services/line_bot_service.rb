@@ -48,6 +48,7 @@ class LineBotService
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
           fb_results = GraphApiService.new.search_places(lat, lng, user)
+          google_results = GoogleMapService.new.place_search(lat, lng, user)
           if fb_results.size > 0
             client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
           else
