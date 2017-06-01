@@ -4,7 +4,7 @@ class GraphApiService
 	DEFAULT_SEARCH ||= 'restaurant'
 	DEFAULT_DISTANCE ||= 500
 	DEFAULT_MIN_SCORE ||= 3.9
-	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours'
+	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website'
 	DEFAULT_RANDOM ||= true
 
 	REJECT_PRICE ||= ['$$$','$$$$']

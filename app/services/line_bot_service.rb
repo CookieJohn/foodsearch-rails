@@ -86,7 +86,7 @@ class LineBotService
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
-      link_url = result['link']
+      link_url = result['website'] || result['link']
       category_list = result['category_list']
       hours = result['hours']
 
