@@ -3,7 +3,7 @@ require 'line/bot'
 
 class LineBotService
 
-  COMMANDS ||= [I18n.t('command.user'), I18n.t('command.command'), I18n.t('command.radius'), I18n.t('command.point'), I18n.t('command.random')]
+  COMMANDS ||= [I18n.t('common.user'), I18n.t('common.command'), I18n.t('common.radius'), I18n.t('common.point'), I18n.t('common.random')]
 
   attr_accessor :client, :graph, :google, :common
   def initialize
@@ -163,16 +163,16 @@ class LineBotService
 
   def handle_with_commands msg, command, user
     case command
-    when I18n.t('command.user')
-      "#{I18n.t('command.user')}#{I18n.t('command.setting')}：\n#{I18n.t('command.radius')}：#{user.try(:max_distance)}\n#{I18n.t('command.point')}：#{user.try(:min_score)}\n#{I18n.t('command.random')}：#{user.try(:random_type)}"
-    when I18n.t('command.command')
-      "#{I18n.t('command.command')}：\n#{I18n.t('command.setting')}#{I18n.t('command.random')}：#{I18n.t('command.random')}true/false\n#{I18n.t('command.radius')}500(500~50000)\n#{I18n.t('command.point')}3.8 (3~5 接受小數第一位)"
-    when I18n.t('command.random')
+    when I18n.t('common.user')
+      "#{I18n.t('common.user')}#{I18n.t('common.setting')}：\n#{I18n.t('common.radius')}：#{user.try(:max_distance)}\n#{I18n.t('common.point')}：#{user.try(:min_score)}\n#{I18n.t('common.random')}：#{user.try(:random_type)}"
+    when I18n.t('common.command')
+      "#{I18n.t('common.command')}：\n#{I18n.t('common.setting')}#{I18n.t('common.random')}：#{I18n.t('common.random')}true/false\n#{I18n.t('common.radius')}500(500~50000)\n#{I18n.t('common.point')}3.8 (3~5 接受小數第一位)"
+    when I18n.t('common.random')
       random = msg.gsub(command, '').to_s
       user.random_type = random
       if random == 'true' || random == 'false'
         if user.save
-          "#{I18n.t('command.success')}，#{I18n.t('command.random')}：#{random}。"
+          "#{I18n.t('command.success')}，#{I18n.t('common.random')}：#{random}。"
         else
           I18n.t('command.error')
         end
@@ -183,15 +183,15 @@ class LineBotService
       distance = msg.gsub(command, '').to_i
       user.max_distance = distance
       if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('command.radius')}：#{distance}m。"
+        "#{I18n.t('command.success')}，#{I18n.t('common.radius')}：#{distance}m。"
       else
         I18n.t('command.error')
       end
-    when I18n.t('command.point')
+    when I18n.t('common.point')
       score = msg.gsub(command, '').to_f
       user.min_score = score
       if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('command.point')}：#{score}。"
+        "#{I18n.t('command.success')}，#{I18n.t('common.point')}：#{score}。"
       else
         I18n.t('command.error')
       end
