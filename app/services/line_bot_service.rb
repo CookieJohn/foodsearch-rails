@@ -122,8 +122,8 @@ class LineBotService
 
       text = ""
       text += "FB評分：#{rating}分/#{rating_count}人" if rating.present?
-      text += "\n#{description}" if description.present?
-      text += "\n今日：#{today_open_time}" if today_open_time.present?
+      text += "\n類型：#{description}" if description.present?
+      text += "\n今日時間：#{today_open_time}" if today_open_time.present?
 
       columns << {
         thumbnailImageUrl: image_url,
