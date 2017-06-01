@@ -123,7 +123,7 @@ class LineBotService
       today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
       Rails.logger.info "today_open_time: #{today_open_time}"
       # match_google_result = ""
-      # match_google_result = {'score' => 0.0, 'match_score' => 0.0}
+      match_google_result = {'score' => 0.0, 'match_score' => 0.0}
       google_results.each do |r|
         match_score = jarow.getDistance(r['name'],name).to_f
         if match_score >= 0.6 && match_score > match_google_result['match_score']
@@ -137,7 +137,7 @@ class LineBotService
       text += "Fb：#{rating}分/#{rating_count}人" if rating.present?
       # text += " #{phone}" if phone.present?
       # text += "/#{rating_count}人" if rating_count.present?
-      # text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
+      text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
       text += "\n#{description}" if description.present?
       text += "\n時間：#{today_open_time}" if today_open_time.present?
       # text = text.truncate(60)
