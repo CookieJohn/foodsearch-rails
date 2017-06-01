@@ -42,7 +42,6 @@ class GraphApiService
 	end
 
 	def get_current_open_time hours, today
-		open_time = ""
 		case today
 		when '1', 1
 			date = 'mon'
@@ -60,12 +59,12 @@ class GraphApiService
 			date = 'sun'
 		end
 		hours = hours.reject { |key, value| !key.include?(date) }
-
+		open_time = ""
 		hours.each_with_index do |(key,value), index|
+			open_time += "\n" if key.include?('open') && index > 0
 			open_time += ', ' if key.include?('open') && index > 0
 			open_time += '~' if key.include?('close')
 			open_time += value.to_s
-			open_time += "\n" if key.include?('close')
 		end
 		return open_time
 	end
