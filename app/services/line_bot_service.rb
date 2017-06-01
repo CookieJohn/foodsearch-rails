@@ -118,7 +118,9 @@ class LineBotService
       # actions << set_action('電話聯絡店家', "tel:#{phone}")
       # actions << set_action('Facebook粉絲團', link_url) if link_url.present?
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
-      # actions << set_action('Google搜尋結果', google_service.get_google_search(name))
+      uri = URI.encode(google_service.get_google_search(name))
+      uri = URI.parse(uri)
+      actions << set_action('Google搜尋結果', uri)
 
       today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
       # Rails.logger.info "today_open_time: #{today_open_time}"
