@@ -5,7 +5,7 @@ class GoogleMapService
 	API_KEY ||= Settings.google.google_api_key
 
 	RADIUS ||= 500
-	RESTAURANT_TYPE ||= 'restaurant'
+	RESTAURANT_TYPE ||= 'food'
 	# OPENNOW ||= true
 	# PROMINENCE ||= 'prominence'
 
