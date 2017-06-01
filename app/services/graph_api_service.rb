@@ -25,13 +25,13 @@ class GraphApiService
 		location = "#{lat},#{lng}"
 		facebook_results = graph.search(DEFAULT_SEARCH, type: :place,center: location, distance: max_distance, fields: DEFAULT_FIELDS, locale: I18n.locale.to_s)
 		# 移除金額過高的搜尋結果
-		results = facebook_results.reject { |r| REJECT_PRICE.include?(r['price_range'].to_s) }
-		# 移除類別不包含 餐 的搜尋結果
-		results = results.reject { |r| 
-			!r['category'].include?('餐') && 
-			!r['category_list'].any? {|c| c['name'].include?('餐') } }
 		# 移除連結不存在 的搜尋結果
-		results = results.reject { |r| !r['link'].to_s.present? }
+		# 移除類別不包含 餐 的搜尋結果
+		results = facebook_results.reject { |r| 
+			REJECT_PRICE.include?(r['price_range'].to_s) ||
+			!r['link'].to_s.present? ||
+			(!r['category'].include?('餐') && 
+			!r['category_list'].any? {|c| c['name'].include?('餐') })  }
 		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
