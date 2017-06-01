@@ -1,6 +1,5 @@
 require 'active_support'
 require 'line/bot'
-require 'fuzzystringmatch'
 
 class LineBotService
 
@@ -42,13 +41,9 @@ class LineBotService
           msg = event.message['text'].to_s.downcase
           if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
             return_msg = bot.handle_with_commands(msg, command, user)
-
-            client.reply_message(event['replyToken'], bot.text_format(return_msg))
-          else
-            client.reply_message(event['replyToken'], bot.text_format(''))
           end
+          client.reply_message(event['replyToken'], bot.text_format(return_msg))
         when Line::Bot::Event::MessageType::Location
-          # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
           fb_results = graph.search_places(lat, lng, user)
@@ -65,10 +60,7 @@ class LineBotService
           else
             client.reply_message(event['replyToken'], bot.text_format('此區域查無餐廳。'))
           end
-        when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
-          # response = client.get_message_content(event.message['id'])
-          # tf = Tempfile.open("content")
-          # tf.write(response.body)
+        # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
       end
     }
@@ -110,7 +102,6 @@ class LineBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      # actions << set_action('電話聯絡店家', "tel:#{phone}")
       actions << set_action('Facebook粉絲團', common.safe_url(link_url))
       actions << set_action('Google Map', google.get_map_link(lat,lng))
       actions << set_action('前往Google搜尋', common.safe_url(google.get_google_search(name)))
@@ -131,13 +122,8 @@ class LineBotService
 
       text = ""
       text += "Fb：#{rating}分/#{rating_count}人" if rating.present?
-      # text += " #{phone}" if phone.present?
-      # text += "/#{rating_count}人" if rating_count.present?
-      # text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
       text += "\n#{description}" if description.present?
       text += "\n時間：#{today_open_time}" if today_open_time.present?
-      # text += "\n#{phone}" if phone.present?
-      # text = text.truncate(60)
 
       columns << {
         thumbnailImageUrl: image_url,
@@ -155,7 +141,6 @@ class LineBotService
         columns: columns
       }
     }
-    # Rails.logger.info "carousel_result: #{carousel_result}"
     return carousel_result
   end
 

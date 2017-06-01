@@ -20,7 +20,7 @@ gem 'koala'
 # db
 gem 'pg'
 
-gem 'fuzzy-string-match'
+# gem 'fuzzy-string-match'
 
 group :development, :test do
   gem 'byebug'

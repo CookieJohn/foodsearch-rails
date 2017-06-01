@@ -29,12 +29,7 @@ class GraphApiService
 		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
-		if random_type == true
-			results = results.sample(5)
-		else
-			results = results.first(5)
-		end
-		return results
+		results = random_type ? results.sample(5) : results.first(5)
 	end
 
 	def get_photo id
@@ -43,21 +38,21 @@ class GraphApiService
 
 	def get_current_open_time hours
 		today = Time.now.wday
-		case today
+		date = case today
 		when '1', 1
-			date = 'mon'
+			'mon'
 		when '2', 2
-			date = 'tue'
+			'tue'
 		when '3', 3
-			date = 'wed'
+			'wed'
 		when '4', 4
-			date = 'thu'
+			'thu'
 		when '5', 5
-			date = 'fri'
+			'fri'
 		when '6', 6
-			date = 'sat'
+			'sat'
 		when '7', 7
-			date = 'sun'
+			'sun'
 		end
 		hours = hours.reject { |key, value| !key.include?(date) }
 		open_time = ""
