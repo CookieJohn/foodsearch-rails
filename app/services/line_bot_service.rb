@@ -93,7 +93,8 @@ class LineBotService
       lng = result['location']['longitude']
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
-      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
+      binding.pry
+      phone = result.dig('phone').present? ? ActionController::Base.helpers.number_to_phone(result['phone']) : ActionController::Base.helpers.number_to_phone("00000000")
       link_url = result['link']
       category_list = result['category_list']
       hours = result['hours']
@@ -110,7 +111,7 @@ class LineBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      # actions << set_action('電話聯絡店家', "tel:#{phone}")
+      actions << set_action('電話聯絡店家', "tel:#{phone}")
       actions << set_action('Facebook粉絲團', common.safe_url(link_url))
       actions << set_action('Google Map', google.get_map_link(lat,lng))
       actions << set_action('前往Google搜尋', common.safe_url(google.get_google_search(name)))
