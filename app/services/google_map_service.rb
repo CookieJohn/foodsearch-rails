@@ -5,14 +5,14 @@ class GoogleMapService
 	API_KEY ||= Settings.google.google_api_key
 
 	RADIUS ||= 500
-	RESTAURANT_TYPE ||= 'food'
+	# RESTAURANT_TYPE ||= 'food'
 	# OPENNOW ||= true
 	# PROMINENCE ||= 'prominence'
 
 	def place_search lat, lng, user=nil
 		max_distance = user.present? ? user.max_distance : RADIUS
 		location = "#{lat},#{lng}"
-		uri = URI("#{API_URL}location=#{location}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&key=#{API_KEY}")
+		uri = URI("#{API_URL}location=#{location}&radius=#{max_distance}&key=#{API_KEY}")
 		res = Net::HTTP.get_response(uri)
 		results = JSON.parse(res.body)['results']
 		return results
