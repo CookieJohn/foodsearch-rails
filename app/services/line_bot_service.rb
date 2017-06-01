@@ -84,6 +84,7 @@ class LineBotService
     test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
     google_service = GoogleMapService.new
     fb_service = GraphApiService.new
+    common_service = CommonService.new
 
     today = Time.now.wday
 
@@ -116,13 +117,9 @@ class LineBotService
 
       actions = []
       # actions << set_action('電話聯絡店家', "tel:#{phone}")
-      uri = URI.encode(link_url)
-      uri = URI.parse(uri)
-      actions << set_action('Facebook粉絲團', uri)
+      actions << set_action('Facebook粉絲團', common_service.safe_url(link_url))
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
-      uri = URI.encode(google_service.get_google_search(name))
-      uri = URI.parse(uri)
-      actions << set_action('Google搜尋結果', uri)
+      actions << set_action('前往Google搜尋', common_service.safe_url(google_service.get_google_search(name)))
 
       today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : "無提供"
       # Rails.logger.info "today_open_time: #{today_open_time}"
