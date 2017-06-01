@@ -8,6 +8,7 @@ class GraphApiService
 	DEFAULT_RANDOM ||= true
 
 	REJECT_PRICE ||= ['$$$','$$$$']
+	REJECT_NAME ||= ['飯店','酒店']
 
 	attr_accessor :graph
 	def initialize
@@ -30,6 +31,7 @@ class GraphApiService
 		# 移除評分低於設定數字的搜尋結果
 		results = facebook_results.reject { |r| 
 			REJECT_PRICE.include?(r['price_range'].to_s) ||
+			REJECT_NAME.any? {|n| r['name'].include?(n)} ||
 			!r['link'].to_s.present? ||
 			(!r['category'].include?('餐') && !r['category_list'].any? {|c| c['name'].include?('餐') }) ||
 			r['overall_star_rating'].to_f < min_score }
