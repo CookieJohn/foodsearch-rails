@@ -14,7 +14,7 @@ class LineBotService
     }
     self.graph ||= GraphApiService.new
     self.google ||= GoogleMapService.new
-    self.common = CommonService.new
+    self.common ||= CommonService.new
   end
 
   def reply_msg request
