@@ -4,7 +4,7 @@ class GraphApiService
 	DEFAULT_SEARCH ||= 'restaurant'
 	DEFAULT_DISTANCE ||= 500
 	DEFAULT_MIN_SCORE ||= 3.9
-	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category_list,hours'
+	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours'
 	DEFAULT_RANDOM ||= true
 
 	REJECT_PRICE ||= ['$$$','$$$$']
@@ -25,6 +25,9 @@ class GraphApiService
 		location = "#{lat},#{lng}"
 		facebook_results = graph.search(DEFAULT_SEARCH, type: :place,center: location, distance: max_distance, fields: DEFAULT_FIELDS, locale: I18n.locale.to_s)
 		results = facebook_results.reject { |r| REJECT_PRICE.include?(r['price_range'].to_s) }
+		results = results.reject { |r| 
+			!r['category'].include?('餐') && 
+			!r['category_list'].any? {|c| c['name'].include?('餐') } }
 		results = results.select { |r| r['link'].to_s.present? }
 		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
 		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
