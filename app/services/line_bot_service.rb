@@ -124,7 +124,7 @@ class LineBotService
       uri = URI.parse(uri)
       actions << set_action('Google搜尋結果', uri)
 
-      today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
+      today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : "無提供"
       # Rails.logger.info "today_open_time: #{today_open_time}"
       # # match_google_result = ""
       # match_google_result = {'score' => 0.0, 'match_score' => 0.0}
