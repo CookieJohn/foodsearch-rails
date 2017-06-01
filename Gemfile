@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+ source 'https://rubygems.org'
 
 ruby '2.4.1'
 
@@ -19,6 +19,7 @@ gem 'koala'
 
 # db
 gem 'pg'
+gem 'rails-i18n', '~> 5.0.0'
 
 # gem 'fuzzy-string-match'
 

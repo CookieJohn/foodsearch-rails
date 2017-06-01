@@ -3,7 +3,7 @@ require 'line/bot'
 
 class LineBotService
 
-  COMMANDS ||= ['使用者', '指令', '距離', '評分', '隨機']
+  COMMANDS ||= [I18n.t('command.user'), I18n.t('command.command'), I18n.t('command.radius'), I18n.t('command.point'), I18n.t('command.random')]
 
   attr_accessor :client, :graph, :google, :common
   def initialize
@@ -58,7 +58,7 @@ class LineBotService
           if fb_results.size > 0
             client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
           else
-            client.reply_message(event['replyToken'], bot.text_format('此區域查無餐廳。'))
+            client.reply_message(event['replyToken'], bot.text_format(I18n.t('empty.no_restaurants'))
           end
         # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
@@ -105,11 +105,11 @@ class LineBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << set_action('官方資訊', common.safe_url(link_url))
-      actions << set_action('位置', google.get_map_link(lat,lng))
-      actions << set_action('相關評論', common.safe_url(google.get_google_search(name)))
+      actions << set_action(I18n.t('button.official'), common.safe_url(link_url))
+      actions << set_action(I18n.t('button.location'), google.get_map_link(lat,lng))
+      actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
-      today_open_time = hours.present? ? graph.get_current_open_time(hours) : "無提供營業時間"
+      today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       # jarow = FuzzyStringMatch::JaroWinkler.create(:native)
       # Rails.logger.info "today_open_time: #{today_open_time}"
       # # match_google_result = ""
@@ -124,7 +124,7 @@ class LineBotService
       # end
 
       text = ""
-      text += "FB評分：#{rating}分/#{rating_count}人" if rating.present?
+      text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += "\n#{description}" if description.present?
       text += "\n#{today_open_time}" if today_open_time.present?
 
@@ -138,7 +138,7 @@ class LineBotService
 
     carousel_result = {
       type: "template",
-      altText: "你看，出來了",
+      altText: I18n.t('carousel.text'),
       template: {
         type: "carousel",
         columns: columns
@@ -163,37 +163,37 @@ class LineBotService
 
   def handle_with_commands msg, command, user
     case command
-    when '使用者'
-      "使用者設定：\n搜尋最大半徑：#{user.try(:max_distance)}\n搜尋最低評分：#{user.try(:min_score)}\n搜尋類型隨機：#{user.try(:random_type)}"
-    when '指令'
-      "設定指令：\n設定隨機：隨機true/false\n距離500(500~50000)\n評分3.8 (3~5 接受小數第一位)"
-    when '隨機'
+    when I18n.t('command.user')
+      "#{I18n.t('command.user')}#{I18n.t('command.setting')}：\n#{I18n.t('command.radius')}：#{user.try(:max_distance)}\n#{I18n.t('command.point')}：#{user.try(:min_score)}\n#{I18n.t('command.random')}：#{user.try(:random_type)}"
+    when I18n.t('command.command')
+      "#{I18n.t('command.command')}：\n#{I18n.t('command.setting')}#{I18n.t('command.random')}：#{I18n.t('command.random')}true/false\n#{I18n.t('command.radius')}500(500~50000)\n#{I18n.t('command.point')}3.8 (3~5 接受小數第一位)"
+    when I18n.t('command.random')
       random = msg.gsub(command, '').to_s
       user.random_type = random
       if random == 'true' || random == 'false'
         if user.save
-          "設定成功，隨機模式設為：#{random}。"
+          "#{I18n.t('command.success')}，#{I18n.t('command.random')}：#{random}。"
         else
-          "設定失敗，輸入有誤。"
+          I18n.t('command.error')
         end
       else
-        "設定失敗，輸入有誤。"
+        I18n.t('command.error')
       end
-    when '距離'
+    when I18n.t('command.radius')
       distance = msg.gsub(command, '').to_i
       user.max_distance = distance
       if user.save
-        "設定成功，半徑設為：#{distance}m。"
+        "#{I18n.t('command.success')}，#{I18n.t('command.radius')}：#{distance}m。"
       else
-        "設定失敗，輸入有誤。"
+        I18n.t('command.error')
       end
-    when '評分'
+    when I18n.t('command.point')
       score = msg.gsub(command, '').to_f
       user.min_score = score
       if user.save
-        "設定成功，評分設為：#{score}。"
+        "#{I18n.t('command.success')}，#{I18n.t('command.point')}：#{score}。"
       else
-        "設定失敗，輸入有誤。"
+        I18n.t('command.error')
       end
     end
   end
