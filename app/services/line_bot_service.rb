@@ -87,13 +87,16 @@ class LineBotService
       rating_count = result['rating_count']
       phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
       link_url = result['link'] || result['website']
+      category = result['category']
       category_list = result['category_list']
       hours = result['hours']
 
-      description = ""
+      description = category
       category_list.each_with_index do |c, index|
-        description += ', ' if index > 0
-        description += c['name']
+        if c['name'] != category
+          description += ', ' if index > 0
+          description += c['name']
+        end
         if !Category.exists?(facebook_id: c['id'])
           new_category = Category.new(facebook_id: c['id'], facebook_name: c['name'])
           new_category.save
@@ -122,8 +125,8 @@ class LineBotService
 
       text = ""
       text += "FB評分：#{rating}分/#{rating_count}人" if rating.present?
-      text += "\n類型：#{description}" if description.present?
-      text += "\n時間：#{today_open_time}" if today_open_time.present?
+      text += "\n#{description}" if description.present?
+      text += "\n#{today_open_time}" if today_open_time.present?
 
       columns << {
         thumbnailImageUrl: image_url,
