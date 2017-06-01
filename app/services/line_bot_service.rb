@@ -116,7 +116,9 @@ class LineBotService
 
       actions = []
       # actions << set_action('電話聯絡店家', "tel:#{phone}")
-      # actions << set_action('Facebook粉絲團', link_url) if link_url.present?
+      uri = URI.encode(link_url)
+      uri = URI.parse(uri)
+      actions << set_action('Facebook粉絲團', uri)
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
       uri = URI.encode(google_service.get_google_search(name))
       uri = URI.parse(uri)
