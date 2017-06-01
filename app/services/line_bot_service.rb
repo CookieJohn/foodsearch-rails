@@ -125,11 +125,11 @@ class LineBotService
       end
 
       text = ""
-      text += "Facebook評分：#{rating}分" if rating.present?
+      text += "Fb評分：#{rating}分" if rating.present?
       text += "/#{rating_count}人" if rating_count.present?
-      text += "\nGoogle評分：#{match_google_result['score']}" if match_google_result['score'].to_i > 0
-      text += "\n類型：#{description}" if description.present?
-      text += "\n電話：#{phone}" if phone.present?
+      text += "\nG評分：#{match_google_result['score']}" if match_google_result['score'].to_i > 0
+      text += "\n#{description}" if description.present?
+      text += "\n#{phone}" if phone.present?
       # text += "\n時間：#{today_open_time}" if today_open_time.present?
       # text = text.truncate(60)
 
