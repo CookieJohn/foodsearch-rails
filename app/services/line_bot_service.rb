@@ -136,8 +136,8 @@ class LineBotService
       # text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
       text += "\n#{description}" if description.present?
       text += "\n時間：#{today_open_time}" if today_open_time.present?
-      text += "\n#{phone}" if phone.present?
-      text = text.truncate(60)
+      # text += "\n#{phone}" if phone.present?
+      # text = text.truncate(60)
 
       columns << {
         thumbnailImageUrl: image_url,
