@@ -58,7 +58,7 @@ class LineBotService
           if fb_results.size > 0
             client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
           else
-            client.reply_message(event['replyToken'], bot.text_format(I18n.t('empty.no_restaurants'))
+            client.reply_message(event['replyToken'], bot.text_format(I18n.t('empty.no_restaurants')))
           end
         # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
