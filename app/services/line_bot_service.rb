@@ -49,7 +49,7 @@ class LineBotService
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
           fb_results = GraphApiService.new.search_places(lat, lng, user)
-          google_results = GoogleMapService.new.place_search(lat, lng, user)
+          # google_results = GoogleMapService.new.place_search(lat, lng, user)
           if fb_results.size > 0
             client.reply_message(event['replyToken'], bot.carousel_format(fb_results, google_results))
           else
@@ -113,25 +113,25 @@ class LineBotService
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
       # actions << set_action('Google搜尋結果', google_service.get_google_search(name))
 
-      # today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
-      match_google_result = ""
-      match_google_result = {'score' => 0.0, 'match_score' => 0.0}
-      google_results.each do |r|
-        match_score = jarow.getDistance(r['name'],name).to_f
-        if match_score >= 0.5 && match_score > match_google_result['match_score']
-          match_google_result['score'] = r['rating'].to_f.round(2)
-          match_google_result['match_score'] = match_score
-        end
-        Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
-      end
+      today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
+      # match_google_result = ""
+      # match_google_result = {'score' => 0.0, 'match_score' => 0.0}
+      # google_results.each do |r|
+      #   match_score = jarow.getDistance(r['name'],name).to_f
+      #   if match_score >= 0.5 && match_score > match_google_result['match_score']
+      #     match_google_result['score'] = r['rating'].to_f.round(2)
+      #     match_google_result['match_score'] = match_score
+      #   end
+      #   Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
+      # end
 
       text = ""
       text += "Fb：#{rating}分/#{rating_count}人" if rating.present?
       # text += "/#{rating_count}人" if rating_count.present?
-      text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
+      # text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
       text += "\n#{description}" if description.present?
       text += "\n#{phone}" if phone.present?
-      # text += "\n時間：#{today_open_time}" if today_open_time.present?
+      text += "\n#{today_open_time}" if today_open_time.present?
       # text = text.truncate(60)
 
       columns << {
