@@ -97,7 +97,7 @@ class LineBotService
       hours = result['hours']
 
       description = ""
-      category_list.first(2).each_with_index do |c, index|
+      category_list.each_with_index do |c, index|
         description += ', ' if index > 0
         description += c['name']
         if !Category.exists?(facebook_id: c['id'])
