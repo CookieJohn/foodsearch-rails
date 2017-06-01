@@ -1,7 +1,7 @@
 # require 'net/http'
 
 class GoogleMapService
-	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
+	API_URL ||= "https://maps.googleapis.com/maps/api/place/radarsearch/json?"
 	API_KEY ||= Settings.google.google_api_key
 
 	RADIUS ||= 500
@@ -12,7 +12,7 @@ class GoogleMapService
 	def place_search lat, lng, user=nil
 		max_distance = user.present? ? user.max_distance : RADIUS
 		location = "#{lat},#{lng}"
-		uri = URI("#{API_URL}location=#{location}&radius=#{max_distance*2}&key=#{API_KEY}")
+		uri = URI("#{API_URL}location=#{location}&radius=#{max_distance}&key=#{API_KEY}")
 		res = Net::HTTP.get_response(uri)
 		results = JSON.parse(res.body)['results']
 		return results
