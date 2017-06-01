@@ -91,7 +91,7 @@ class LineBotService
       lng = result['location']['longitude']
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
-      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : ""
+      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
       link_url = result['link']
       category_list = result['category_list']
       hours = result['hours']
@@ -107,12 +107,12 @@ class LineBotService
       end
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
-
+      phone_text = (phone == "00000000") ? '電話聯絡店家', ' 店家無提供電話'
       actions = []
-      actions << set_action('電話聯絡店家', "tel:#{phone}")
+      actions << set_action(phone_text, "tel:#{phone}")
       # actions << set_action('Facebook粉絲團', link_url) if link_url.present?
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
-      actions << set_action('Google搜尋結果', google_service.get_google_search(name))
+      # actions << set_action('Google搜尋結果', google_service.get_google_search(name))
 
       today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
       Rails.logger.info "today_open_time: #{today_open_time}"
