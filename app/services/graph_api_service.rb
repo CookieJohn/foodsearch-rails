@@ -5,7 +5,6 @@ class GraphApiService
 	DEFAULT_DISTANCE ||= 500
 	DEFAULT_MIN_SCORE ||= 3.9
 	DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,phone,link,price_range,category_list,hours'
-	DEFAULT_LOCALE ||= 'zh-TW'
 	DEFAULT_RANDOM ||= true
 
 	REJECT_PRICE ||= ['$$$','$$$$']
@@ -24,7 +23,7 @@ class GraphApiService
 		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
 
 		location = "#{lat},#{lng}"
-		facebook_results = graph.search(DEFAULT_SEARCH, type: :place,center: location, distance: max_distance, fields: DEFAULT_FIELDS, locale: DEFAULT_LOCALE)
+		facebook_results = graph.search(DEFAULT_SEARCH, type: :place,center: location, distance: max_distance, fields: DEFAULT_FIELDS, locale: I18n.locale.to_s)
 		results = facebook_results.reject { |r| REJECT_PRICE.include?(r['price_range'].to_s) }
 		results = results.select { |r| r['link'].to_s.present? }
 		results = results.select { |r| r['overall_star_rating'].to_f >= min_score }
