@@ -114,7 +114,7 @@ class LineBotService
       # actions << set_action('Google搜尋結果', google_service.get_google_search(name))
 
       # today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
-
+      match_google_result = ""
       match_google_result = {'score' => 0, 'match_score' => 0}
       google_results.each do |r|
         match_score = jarow.getDistance( r['name'], name ).to_f
