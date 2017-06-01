@@ -22,4 +22,8 @@ class GoogleMapService
 		zoom = 15
 		"https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
 	end
+
+	def get_google_search query
+		"https://www.google.com.tw/search?q=#{query}"
+	end
 end

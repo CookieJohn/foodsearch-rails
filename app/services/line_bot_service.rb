@@ -107,16 +107,17 @@ class LineBotService
       # actions << set_action('電話聯絡店家', "tel:#{phone}") if phone.present?
       # actions << set_action('Facebook粉絲團', link_url) if link_url.present?
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
+      actions << set_action('Google 搜尋結果', google_service.get_google_search(name))
 
-      today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
+      # today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
 
       text = ""
       text += "Facebook評分：#{rating}分" if rating.present?
       text += "/#{rating_count}人" if rating_count.present?
       text += "\n類型：#{description}" if description.present?
       text += "\n電話：#{phone}" if phone.present?
-      text += "\n時間：#{today_open_time}" if today_open_time.present?
-      text = text.truncate(60)
+      # text += "\n時間：#{today_open_time}" if today_open_time.present?
+      # text = text.truncate(60)
 
       columns << {
         thumbnailImageUrl: image_url,
