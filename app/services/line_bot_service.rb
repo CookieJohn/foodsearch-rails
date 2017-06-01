@@ -1,5 +1,6 @@
 require 'active_support'
 require 'line/bot'
+require 'fuzzystringmatch'
 
 class LineBotService
 
@@ -50,7 +51,7 @@ class LineBotService
           fb_results = GraphApiService.new.search_places(lat, lng, user)
           google_results = GoogleMapService.new.place_search(lat, lng, user)
           if fb_results.size > 0
-            client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
+            client.reply_message(event['replyToken'], bot.carousel_format(fb_results, google_results))
           else
             client.reply_message(event['replyToken'], bot.text_format('此區域查無餐廳。'))
           end
@@ -71,7 +72,7 @@ class LineBotService
     }
   end
 
-  def carousel_format results=nil
+  def carousel_format results=nil, google_results=nil
    
     test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
     google_service = GoogleMapService.new
@@ -80,6 +81,8 @@ class LineBotService
     today = Time.now.wday
 
     columns = []
+
+    jarow = FuzzyStringMatch::JaroWinkler.create( :pure )
 
     results.each do |result|
       id = result['id']
@@ -112,9 +115,19 @@ class LineBotService
 
       # today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
 
+      match_google_result = {'score' => 0, 'match_score' => 0}
+      google_results.each do |r|
+        match_score = jarow.getDistance( r['name'], name ).to_f
+        if match_score > 0.5 && match_score > match_google_result['match_score']
+          match_google_result['score'] = r['rating']
+          match_google_result['match_score'] = match_score
+        end
+      end
+
       text = ""
       text += "Facebook評分：#{rating}分" if rating.present?
       text += "/#{rating_count}人" if rating_count.present?
+      text += "\nGoogle評分：#{match_google_result['score']}" if match_google_result['score'].to_i > 0
       text += "\n類型：#{description}" if description.present?
       text += "\n電話：#{phone}" if phone.present?
       # text += "\n時間：#{today_open_time}" if today_open_time.present?

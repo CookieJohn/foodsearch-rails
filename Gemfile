@@ -20,6 +20,8 @@ gem 'koala'
 # db
 gem 'pg'
 
+gem 'fuzzy-string-match'
+
 group :development, :test do
   gem 'byebug'
 end
