@@ -6,13 +6,13 @@ class LineBotService
 
   COMMANDS ||= ['使用者', '指令', '距離=', '評分=', '隨機=']
 
-  attr_accessor :client
+  attr_accessor :client, :graph, :google, :common
   def initialize
     self.client ||= Line::Bot::Client.new { |config|
       config.channel_secret = Settings.line.channel_secret
       config.channel_token = Settings.line.channel_token
     }
-    self.graph ||= GraphApiService.new
+    self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
   end
