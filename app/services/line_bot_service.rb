@@ -91,7 +91,7 @@ class LineBotService
       lng = result['location']['longitude']
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
-      phone = result['phone'].gsub('+886','0')
+      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : ""
       link_url = result['link']
       category_list = result['category_list']
       hours = result['hours']
