@@ -12,6 +12,9 @@ class LineBotService
       config.channel_secret = Settings.line.channel_secret
       config.channel_token = Settings.line.channel_token
     }
+    self.graph ||= GraphApiService.new
+    self.google ||= GoogleMapService.new
+    self.common = CommonService.new
   end
 
   def reply_msg request
@@ -48,15 +51,15 @@ class LineBotService
           # address = event.message['address'].to_s.downcase
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
-          fb_results = GraphApiService.new.search_places(lat, lng, user)
+          fb_results = graph.search_places(lat, lng, user)
           # keywords = ""
           # fb_results.select {|f| keywords = keywords.present? ? keywords = "#{keywords},#{f['name']}" : keywords = "#{f['name']}"}
           # google_results = []
           # fb_results.each do |f|
-          #   results = GoogleMapService.new.place_search(lat, lng, user, f['name'])
+          #   results = google.place_search(lat, lng, user, f['name'])
           #   google_results += results
           # end
-          # google_results = GoogleMapService.new.place_search(lat, lng, user, keywords)
+          # google_results = google.place_search(lat, lng, user, keywords)
           if fb_results.size > 0
             client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
           else
@@ -80,17 +83,8 @@ class LineBotService
   end
 
   def carousel_format results=nil, google_results=nil
-   
-    test_image_url = 'https://pbs.twimg.com/media/CgzniPeUkAEMkTl.jpg'
-    google_service = GoogleMapService.new
-    fb_service = GraphApiService.new
-    common_service = CommonService.new
-
-    today = Time.now.wday
 
     columns = []
-
-    jarow = FuzzyStringMatch::JaroWinkler.create(:native)
 
     results.each do |result|
       id = result['id']
@@ -113,15 +107,16 @@ class LineBotService
           new_category.save
         end
       end
-      image_url = id.present? ? fb_service.get_photo(id) : test_image_url
+      image_url = graph.get_photo(id)
 
       actions = []
       # actions << set_action('電話聯絡店家', "tel:#{phone}")
-      actions << set_action('Facebook粉絲團', common_service.safe_url(link_url))
-      actions << set_action('Google Map', google_service.get_map_link(lat,lng))
-      actions << set_action('前往Google搜尋', common_service.safe_url(google_service.get_google_search(name)))
+      actions << set_action('Facebook粉絲團', common.safe_url(link_url))
+      actions << set_action('Google Map', google.get_map_link(lat,lng))
+      actions << set_action('前往Google搜尋', common.safe_url(google.get_google_search(name)))
 
-      today_open_time = hours.present? ? fb_service.get_current_open_time(hours, today) : "無提供"
+      today_open_time = hours.present? ? graph.get_current_open_time(hours) : "無提供"
+      # jarow = FuzzyStringMatch::JaroWinkler.create(:native)
       # Rails.logger.info "today_open_time: #{today_open_time}"
       # # match_google_result = ""
       # match_google_result = {'score' => 0.0, 'match_score' => 0.0}

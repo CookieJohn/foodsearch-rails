@@ -42,7 +42,8 @@ class GraphApiService
 		"https://graph.facebook.com/#{id}/picture?type=large"
 	end
 
-	def get_current_open_time hours, today
+	def get_current_open_time hours
+		today = Time.now.wday
 		case today
 		when '1', 1
 			date = 'mon'
