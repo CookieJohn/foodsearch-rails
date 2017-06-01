@@ -108,7 +108,7 @@ class LineBotService
       image_url = id.present? ? fb_service.get_photo(id) : test_image_url
 
       actions = []
-      # actions << set_action('電話聯絡店家', "tel:#{phone}") if phone.present?
+      actions << set_action('電話聯絡店家', "tel:#{phone}")
       # actions << set_action('Facebook粉絲團', link_url) if link_url.present?
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
       # actions << set_action('Google搜尋結果', google_service.get_google_search(name))
@@ -128,7 +128,7 @@ class LineBotService
 
       text = ""
       text += "Fb：#{rating}分/#{rating_count}人" if rating.present?
-      text += " #{phone}" if phone.present?
+      # text += " #{phone}" if phone.present?
       # text += "/#{rating_count}人" if rating_count.present?
       # text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
       text += "\n#{description}" if description.present?
