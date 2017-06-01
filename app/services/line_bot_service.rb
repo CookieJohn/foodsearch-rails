@@ -93,10 +93,7 @@ class LineBotService
 
       description = category
       category_list.each_with_index do |c, index|
-        if c['name'] != category
-          description += ', ' if index > 0
-          description += c['name']
-        end
+        description += ", #{c['name']}" if c['name'] != category
         if !Category.exists?(facebook_id: c['id'])
           new_category = Category.new(facebook_id: c['id'], facebook_name: c['name'])
           new_category.save
