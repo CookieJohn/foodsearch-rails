@@ -102,7 +102,7 @@ class LineBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      # actions << set_action('官方資訊', common.safe_url(link_url))
+      actions << set_action('官方資訊', common.safe_url(link_url))
       actions << set_action('位置', google.get_map_link(lat,lng))
       actions << set_action('相關評論', common.safe_url(google.get_google_search(name)))
 
