@@ -47,20 +47,13 @@ class GraphApiService
 	def get_current_open_time hours
 		today = Time.now.wday
 		date = case today
-		when '1', 1
-			'mon'
-		when '2', 2
-			'tue'
-		when '3', 3
-			'wed'
-		when '4', 4
-			'thu'
-		when '5', 5
-			'fri'
-		when '6', 6
-			'sat'
-		when '7', 7
-			'sun'
+		when '1', 1 then 'mon'
+		when '2', 2 then 'tue'
+		when '3', 3 then 'wed'
+		when '4', 4 then 'thu'
+		when '5', 5 then 'fri'
+		when '6', 6 then 'sat'
+		when '0', 0 then 'sun'
 		end
 		hours = hours.reject { |key, value| !key.include?(date) }
 		open_time = ""
