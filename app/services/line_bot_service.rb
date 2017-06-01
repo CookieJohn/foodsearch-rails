@@ -118,7 +118,7 @@ class LineBotService
       match_google_result = {'score' => 0, 'match_score' => 0}
       google_results.each do |r|
         match_score = jarow.getDistance( r['name'], name ).to_f
-        if match_score > 0.5 && match_score > match_google_result['match_score']
+        if match_score >= 0.4 && match_score > match_google_result['match_score']
           match_google_result['score'] = r['rating']
           match_google_result['match_score'] = match_score
         end
@@ -126,8 +126,8 @@ class LineBotService
 
       text = ""
       text += "Fb評分：#{rating}分" if rating.present?
-      text += "/#{rating_count}人" if rating_count.present?
-      text += "\nG評分：#{match_google_result['score']}" if match_google_result['score'].to_i > 0
+      # text += "/#{rating_count}人" if rating_count.present?
+      text += ", G評分：#{match_google_result['score']}" if match_google_result['score'].to_i > 0
       text += "\n#{description}" if description.present?
       text += "\n#{phone}" if phone.present?
       # text += "\n時間：#{today_open_time}" if today_open_time.present?
