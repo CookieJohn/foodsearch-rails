@@ -24,6 +24,6 @@ class GoogleMapService
 	end
 
 	def get_google_search query
-		"https://www.google.com.tw/search?q=#{query}"
+		"https://www.google.com/search?q=#{query}"
 	end
 end
