@@ -115,8 +115,8 @@ class LineBotService
       text += "/#{rating_count}人" if rating_count.present?
       text += "\n類型：#{description}" if description.present?
       text += "\n電話：#{phone}" if phone.present?
-      text = text.truncate(60, separator: ' ')
-      # text += "\n今日時間：\n#{today_open_time}" if today_open_time.present?
+      text += "\n時間：#{today_open_time}" if today_open_time.present?
+      text = text.truncate(60)
 
       columns << {
         thumbnailImageUrl: image_url,
