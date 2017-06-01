@@ -130,9 +130,9 @@ class LineBotService
       text += "Fb：#{rating}分/#{rating_count}人" if rating.present?
       # text += "/#{rating_count}人" if rating_count.present?
       # text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
-      text += "\n#{description}" if description.present?
-      # text += "\n#{phone}" if phone.present?
-      text += "\n#{today_open_time}" if today_open_time.present?
+      text += "#{description}" if description.present?
+      text += "#{phone}" if phone.present?
+      text += "#{today_open_time}" if today_open_time.present?
       # text = text.truncate(60)
 
       columns << {
