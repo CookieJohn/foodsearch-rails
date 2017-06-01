@@ -76,6 +76,8 @@ class LineBotService
     google_service = GoogleMapService.new
     fb_service = GraphApiService.new
 
+    today = Time.now.wday
+
     columns = []
 
     results.each do |result|
@@ -88,6 +90,7 @@ class LineBotService
       phone = result['phone']
       link_url = result['link']
       category_list = result['category_list']
+      hours = result['hours']
 
       description = ""
       category_list.each_with_index do |c, index|
@@ -105,11 +108,14 @@ class LineBotService
       # actions << set_action('Facebook粉絲團', link_url) if link_url.present?
       actions << set_action('Google Map', google_service.get_map_link(lat,lng))
 
+      current_hours = hours.present? ? fb_service.get_current_open_time(hours, today) : ""
+
       text = ""
       text += "Facebook評分：#{rating}分" if rating.present?
       text += "/#{rating_count}人" if rating_count.present?
       text += "\n類型：#{description}" if description.present?
       text += "\n電話：#{phone}" if phone.present?
+      text += "\n今日時間：\n#{current_hours}" if current_hours.present?
 
       columns << {
         thumbnailImageUrl: image_url,
