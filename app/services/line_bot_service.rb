@@ -131,7 +131,7 @@ class LineBotService
       # text += "/#{rating_count}人" if rating_count.present?
       # text += ", G：#{match_google_result['score']}分" if match_google_result['score'].to_i > 0
       text += "\n#{description}" if description.present?
-      text += "\n#{phone}" if phone.present?
+      # text += "\n#{phone}" if phone.present?
       text += "\n#{today_open_time}" if today_open_time.present?
       # text = text.truncate(60)
 
