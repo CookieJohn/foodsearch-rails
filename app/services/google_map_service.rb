@@ -20,10 +20,10 @@ class GoogleMapService
 		return results
 	end
 
-	def get_map_link name, street
+	def get_map_link lat, lng, name, street
 		zoom = I18n.t('settings.google.zoom')
 		# "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
-		"https://www.google.com/maps/place/#{name.strip},#{street.strip},#{zoom}z/data=!3m1!4b1"
+		"https://www.google.com/maps/place/#{name.strip},#{street.strip}/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
 	end
 
 	def get_google_search query

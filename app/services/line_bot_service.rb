@@ -104,7 +104,7 @@ class LineBotService
 
       actions = []
       actions << set_action(I18n.t('button.official'), common.safe_url(link_url))
-      actions << set_action(I18n.t('button.location'), google.get_map_link(name,street))
+      actions << set_action(I18n.t('button.location'), google.get_map_link(lat, lng, name, street))
       actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
