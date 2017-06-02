@@ -83,6 +83,7 @@ class LineBotService
       name = result['name']
       lat = result['location']['latitude']
       lng = result['location']['longitude']
+      street = result['location']['street']
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
@@ -103,7 +104,7 @@ class LineBotService
 
       actions = []
       actions << set_action(I18n.t('button.official'), common.safe_url(link_url))
-      actions << set_action(I18n.t('button.location'), google.get_map_link(lat,lng))
+      actions << set_action(I18n.t('button.location'), google.get_map_link(name,street))
       actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')

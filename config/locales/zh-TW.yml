@@ -34,3 +34,5 @@ zh-TW:
       random: true
       reject_price: ['$$$','$$$$']
       reject_name: ['飯店','酒店']
+    google:
+      zoom: 15
