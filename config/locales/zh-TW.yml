@@ -35,4 +35,4 @@ zh-TW:
       reject_price: ['$$$','$$$$']
       reject_name: ['飯店','酒店']
     google:
-      zoom: 15
+      zoom: 13
