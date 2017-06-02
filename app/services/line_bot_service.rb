@@ -96,7 +96,7 @@ class LineBotService
 
       description = category
       category_list.each_with_index do |c, index|
-        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|c| c['name'].include?(c) }
+        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
         if !Category.exists?(facebook_id: c['id'])
           new_category = Category.new(facebook_id: c['id'], facebook_name: c['name'])
           new_category.save
