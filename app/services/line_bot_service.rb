@@ -4,6 +4,8 @@ require 'line/bot'
 class LineBotService
 
   COMMANDS ||= [I18n.t('common.user'), I18n.t('common.command'), I18n.t('common.radius'), I18n.t('common.point'), I18n.t('common.random')]
+  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
+
 
   attr_accessor :client, :graph, :google, :common
   def initialize
@@ -80,10 +82,10 @@ class LineBotService
 
     results.each do |result|
       id = result['id']
-      name = result['name']
+      name = result['name'] || ""
       lat = result['location']['latitude']
       lng = result['location']['longitude']
-      street = result['location']['street']
+      street = result['location']['street'] || ""
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
@@ -94,7 +96,7 @@ class LineBotService
 
       description = category
       category_list.each_with_index do |c, index|
-        description += ", #{c['name']}" if c['name'] != category
+        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|c| c['name'].include?(c) }
         if !Category.exists?(facebook_id: c['id'])
           new_category = Category.new(facebook_id: c['id'], facebook_name: c['name'])
           new_category.save
