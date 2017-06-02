@@ -23,7 +23,9 @@ class GoogleMapService
 	def get_map_link lat, lng, name, street
 		zoom = I18n.t('settings.google.zoom')
 		# "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
-		"https://www.google.com/maps?q=#{name.strip},#{street.strip}&z=#{zoom}"
+		query = name.strip
+		query += ",#{street.strip}" if street.present?
+		"https://www.google.com/maps?q=#{query}&z=#{zoom}"
 	end
 
 	def get_google_search query
