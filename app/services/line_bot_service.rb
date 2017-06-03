@@ -19,8 +19,8 @@ class LineBotService
   end
 
   def reply_msg request
-    bot = LineBotService.new
-    bot.varify_signature(request)
+
+    self.varify_signature(request)
     
     body = request.body.read
 
@@ -42,9 +42,9 @@ class LineBotService
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
           if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
-            return_msg = bot.handle_with_commands(msg, command, user)
+            return_msg = self.handle_with_commands(msg, command, user)
           end
-          client.reply_message(event['replyToken'], bot.text_format(return_msg))
+          client.reply_message(event['replyToken'], self.text_format(return_msg)) if return_msg.present?
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
@@ -58,9 +58,9 @@ class LineBotService
           # end
           # google_results = google.place_search(lat, lng, user, keywords)
           if fb_results.size > 0
-            client.reply_message(event['replyToken'], bot.carousel_format(fb_results))
+            client.reply_message(event['replyToken'], self.carousel_format(fb_results))
           else
-            client.reply_message(event['replyToken'], bot.text_format(I18n.t('empty.no_restaurants')))
+            client.reply_message(event['replyToken'], self.text_format(I18n.t('empty.no_restaurants')))
           end
         # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
