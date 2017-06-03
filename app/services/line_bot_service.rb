@@ -28,7 +28,7 @@ class LineBotService
     command = ''
     events = client.parse_events_from(body)
     events.each { |event|
-      user = ''
+
       user_id = event['source']['userId']
       if !User.exists?(line_user_id: user_id)
         user = User.create(line_user_id: user_id)
@@ -57,11 +57,8 @@ class LineBotService
           #   google_results += results
           # end
           # google_results = google.place_search(lat, lng, user, keywords)
-          if fb_results.size > 0
-            client.reply_message(event['replyToken'], self.carousel_format(fb_results))
-          else
-            client.reply_message(event['replyToken'], self.text_format(I18n.t('empty.no_restaurants')))
-          end
+          return_response = (fb_results.size>0) ? self.carousel_format(fb_results) : self.text_format(I18n.t('empty.no_restaurants'))
+          client.reply_message(event['replyToken'], return_response)
         # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
       end
