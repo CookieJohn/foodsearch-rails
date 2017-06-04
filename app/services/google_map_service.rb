@@ -20,7 +20,7 @@ class GoogleMapService
 		results = []
 		requests = keywords.map {|keyword|
 			uri = common.safe_url("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}&key=#{API_KEY}")
-			request = Typhoeus::Request.new(uri, followlocation: true)
+			request = Typhoeus::Request.new(uri, followlocation: true, ssl_verifypeer: false)
 			hydra.queue(request)
 			request
 		}
