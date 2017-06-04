@@ -25,11 +25,14 @@ class GoogleMapService
 			request
 		}
 		hydra.run
-		requests.each do |request|
-			Rails.logger.info "request: #{request}"
-		  Rails.logger.info "body: #{request.response.body}"
+		responses = requests.map { |request|
 		  results += JSON.parse(request.response.body)['results']
-		end
+		}
+		# requests.each do |request|
+		# 	Rails.logger.info "request: #{request}"
+		#   Rails.logger.info "body: #{request.response.body}"
+		#   results += JSON.parse(request.response.body)['results']
+		# end
 		return results
 	end
 
