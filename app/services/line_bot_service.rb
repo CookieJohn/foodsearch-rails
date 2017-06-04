@@ -1,5 +1,6 @@
 require 'active_support'
 require 'line/bot'
+require 'fuzzystringmatch'
 
 class LineBotService
 
@@ -7,7 +8,7 @@ class LineBotService
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
 
-  attr_accessor :client, :graph, :google, :common
+  attr_accessor :client, :graph, :google, :common, :jarow
   def initialize
     self.client ||= Line::Bot::Client.new { |config|
       config.channel_secret = Settings.line.channel_secret
@@ -16,6 +17,7 @@ class LineBotService
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
+    self.jarow = FuzzyStringMatch::JaroWinkler.create(:native)
   end
 
   def reply_msg request
@@ -109,21 +111,23 @@ class LineBotService
       actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
-      # jarow = FuzzyStringMatch::JaroWinkler.create(:native)
-      # Rails.logger.info "today_open_time: #{today_open_time}"
-      # # match_google_result = ""
-      # match_google_result = {'score' => 0.0, 'match_score' => 0.0}
-      # google_results.each do |r|
-      #   match_score = jarow.getDistance(r['name'],name).to_f
-      #   if match_score >= 0.8 && match_score > match_google_result['match_score']
-      #     match_google_result['score'] = r['rating'].to_f.round(2)
-      #     match_google_result['match_score'] = match_score
-      #   end
-      #   Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
-      # end
+      g_match = {'score' => 0.0, 'match_score' => 0.0}
+      if google_results.present?
+        # jarow = FuzzyStringMatch::JaroWinkler.create(:native)
+        # Rails.logger.info "today_open_time: #{today_open_time}"
+        google_results.each do |r|
+          match_score = jarow.getDistance(r['name'],name).to_f
+          if match_score >= 0.8 && match_score > g_match['match_score']
+            g_match['score'] = r['rating'].to_f.round(2)
+            g_match['match_score'] = match_score
+          end
+          # Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
+        end
+      end
 
       text = ""
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
+      text += " #{I18n.t('google.score')}：#{g_match['score']}#{I18n.t('common.score')}" if g_match['score'].to_i > 1
       text += "\n#{description}" if description.present?
       text += "\n#{today_open_time}" if today_open_time.present?
 

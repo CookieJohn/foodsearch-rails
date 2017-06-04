@@ -19,7 +19,7 @@ gem 'koala'
 gem 'pg'
 gem 'rails-i18n', '~> 5.0.0'
 
-# gem 'fuzzy-string-match'
+gem 'fuzzy-string-match'
 
 group :development, :test do
   gem 'byebug'
