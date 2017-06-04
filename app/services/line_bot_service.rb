@@ -117,7 +117,7 @@ class LineBotService
         # Rails.logger.info "today_open_time: #{today_open_time}"
         google_results.each do |r|
           match_score = jarow.getDistance(r['name'],name).to_f
-          if match_score >= 0.8 && match_score > g_match['match_score']
+          if match_score >= 0.7 && match_score > g_match['match_score']
             g_match['score'] = r['rating'].to_f.round(2)
             g_match['match_score'] = match_score
           end
