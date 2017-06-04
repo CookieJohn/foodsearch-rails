@@ -75,9 +75,12 @@ GEM
     debug_inspector (0.0.3)
     erubi (1.6.0)
     erubis (2.7.0)
+    ethon (0.10.1)
+      ffi (>= 1.3.0)
     execjs (2.7.0)
     faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
+    ffi (1.9.18)
     fuzzy-string-match (1.0.0)
       RubyInline (>= 3.8.6)
     globalid (0.4.0)
@@ -179,6 +182,8 @@ GEM
     turbolinks (5.0.1)
       turbolinks-source (~> 5)
     turbolinks-source (5.0.3)
+    typhoeus (1.1.2)
+      ethon (>= 0.9.0)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     uglifier (3.2.0)
@@ -216,6 +221,7 @@ DEPENDENCIES
   slim-rails
   spring
   turbolinks
+  typhoeus
   uglifier
   web-console (~> 2.0)
 
