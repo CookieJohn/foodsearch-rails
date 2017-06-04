@@ -118,7 +118,7 @@ class LineBotService
         # Rails.logger.info "today_open_time: #{today_open_time}"
         google_results.each do |r|
           match_score = jarow.getDistance(r['name'],name).to_f
-          if match_score >= 0.7 && match_score > g_match['match_score']
+          if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
             g_match['score'] = r['rating'].to_f.round(2)
             g_match['match_score'] = match_score
           end
@@ -128,7 +128,7 @@ class LineBotService
 
       text = ""
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      text += " #{I18n.t('google.score')}：#{g_match['score']}#{I18n.t('common.score')}" if g_match['score'].to_i > 1
+      text += ", #{I18n.t('google.score')}：#{g_match['score']}#{I18n.t('common.score')}" if g_match['score'].to_i > 1
       text += "\n#{description}" if description.present?
       text += "\n#{today_open_time}" if today_open_time.present?
 
