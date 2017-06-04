@@ -9,26 +9,31 @@ class GoogleMapService
 	# OPENNOW ||= true
 	# PROMINENCE ||= 'prominence'
 
-	attr_accessor :common
+	attr_accessor :common, :hydra
   def initialize
     self.common ||= CommonService.new
+    self.hydra ||= Typhoeus::Hydra.new
   end
 
-	def place_search lat, lng, user=nil, keywords=nil
+	def search_places lat, lng, user=nil, keywords=nil
 		max_distance = user.present? ? user.max_distance : RADIUS
-		location = "#{lat},#{lng}"
-		search_keywords = keywords.present? ? "&keyword=#{keywords}" : ""
-		uri = URI.encode("#{API_URL}location=#{location}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}#{search_keywords}&key=#{API_KEY}")
-		uri = URI.parse(uri)
-		res = Net::HTTP.get_response(uri)
-		results = JSON.parse(res.body)['results']
+		results = []
+		requests = keywords.map {|keyword|
+			uri = common.safe_url("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}&key=#{API_KEY}")
+			request = Typhoeus::Request.new(uri, followlocation: true)
+			hydra.queue(request)
+			request
+		}
+		hydra.run
+		requests.each do |request|
+		  results += JSON.parse(request.response.body)['results']
+		end
 		return results
 	end
 
 	def search_place_by_keyword lat, lng, user=nil, keyword=nil
 		max_distance = user.present? ? user.max_distance : RADIUS
-		uri = "#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}#{search_keywords}&key=#{API_KEY}"
-		uri = common.safe_url(uri)
+		uri = common.safe_url("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}&key=#{API_KEY}")
 		res = Net::HTTP.get_response(uri)
 		results = JSON.parse(res.body)['results']
 		return results

@@ -17,7 +17,7 @@ class LineBotService
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
-    self.jarow = FuzzyStringMatch::JaroWinkler.create(:native)
+    self.jarow ||= FuzzyStringMatch::JaroWinkler.create(:native)
   end
 
   def reply_msg request
@@ -55,11 +55,12 @@ class LineBotService
           if user.get_google_result
             keywords = []
             fb_results.select {|f| keywords << f['name']}
-            google_results = []
-            keywords.each do |keyword|
-              results = google.place_search(lat, lng, user, keyword)
-              google_results += results
-            end
+            google_results = google.search_places(lat, lng, user, keywords)
+            # google_results = []
+            # keywords.each do |keyword|
+            #   results = google.search_place_by_keyword(lat, lng, user, keyword)
+            #   google_results += results
+            # end
           end
           return_response = (fb_results.size>0) ? self.carousel_format(fb_results, google_results) : self.text_format(I18n.t('empty.no_restaurants'))
           client.reply_message(event['replyToken'], return_response)
