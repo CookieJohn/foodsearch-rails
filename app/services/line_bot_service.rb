@@ -49,15 +49,17 @@ class LineBotService
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
           fb_results = graph.search_places(lat, lng, user)
-          # keywords = ""
-          # fb_results.select {|f| keywords = keywords.present? ? keywords = "#{keywords},#{f['name']}" : keywords = "#{f['name']}"}
-          # google_results = []
-          # fb_results.each do |f|
-          #   results = google.place_search(lat, lng, user, f['name'])
-          #   google_results += results
-          # end
-          # google_results = google.place_search(lat, lng, user, keywords)
-          return_response = (fb_results.size>0) ? self.carousel_format(fb_results) : self.text_format(I18n.t('empty.no_restaurants'))
+          google_results = ''
+          if user.get_google_result
+            keywords = []
+            fb_results.select {|f| keywords << f['name']}
+            google_results = []
+            keywords.each do |keyword|
+              results = google.place_search(lat, lng, user, keyword)
+              google_results += results
+            end
+          end
+          return_response = (fb_results.size>0) ? self.carousel_format(fb_results, google_results) : self.text_format(I18n.t('empty.no_restaurants'))
           client.reply_message(event['replyToken'], return_response)
         # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
