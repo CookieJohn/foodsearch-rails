@@ -26,7 +26,8 @@ class GoogleMapService
 		}
 		hydra.run
 		responses = requests.map { |request|
-		  results += JSON.parse(request.response.body)['results']
+			result = JSON.parse(request.response.body)['results']
+		  results += result if result.present?
 		}
 		# requests.each do |request|
 		# 	Rails.logger.info "request: #{request}"

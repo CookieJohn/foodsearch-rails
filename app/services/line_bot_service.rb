@@ -128,7 +128,7 @@ class LineBotService
 
       text = ""
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      text += ", #{I18n.t('google.score')}：#{g_match['score']}#{I18n.t('common.score')}" if g_match['score'].to_i > 1
+      text += ", #{I18n.t('google.score')}：#{g_match['score']}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}" if description.present?
       text += "\n#{today_open_time}" if today_open_time.present?
 
