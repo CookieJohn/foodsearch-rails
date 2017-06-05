@@ -16,7 +16,7 @@ zh-TW:
   facebook:
     score: FB
   google:
-    score: G
+    score: Google
     match_score: 0.4
   button:
     official: 官方資訊
