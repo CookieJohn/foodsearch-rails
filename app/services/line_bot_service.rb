@@ -122,6 +122,8 @@ class LineBotService
       text += "\n#{description}" if description.present?
       text += "\n#{today_open_time}" if today_open_time.present?
 
+      text = text[0, 60]
+
       columns << {
         thumbnailImageUrl: image_url,
         title: name,
