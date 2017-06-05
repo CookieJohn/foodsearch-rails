@@ -14,7 +14,10 @@ zh-TW:
   carousel:
     text: 搜尋結果如下
   facebook:
-    score: FB評分
+    score: FB
+  google:
+    score: Google
+    match_score: 0.4
   button:
     official: 官方資訊
     location: 位置

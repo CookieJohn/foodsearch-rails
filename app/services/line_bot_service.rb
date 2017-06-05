@@ -6,7 +6,6 @@ class LineBotService
   COMMANDS ||= [I18n.t('common.user'), I18n.t('common.command'), I18n.t('common.radius'), I18n.t('common.point'), I18n.t('common.random')]
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-
   attr_accessor :client, :graph, :google, :common
   def initialize
     self.client ||= Line::Bot::Client.new { |config|
@@ -49,17 +48,14 @@ class LineBotService
           lat = event.message['latitude'].to_s
           lng = event.message['longitude'].to_s
           fb_results = graph.search_places(lat, lng, user)
-          # keywords = ""
-          # fb_results.select {|f| keywords = keywords.present? ? keywords = "#{keywords},#{f['name']}" : keywords = "#{f['name']}"}
-          # google_results = []
-          # fb_results.each do |f|
-          #   results = google.place_search(lat, lng, user, f['name'])
-          #   google_results += results
-          # end
-          # google_results = google.place_search(lat, lng, user, keywords)
-          return_response = (fb_results.size>0) ? self.carousel_format(fb_results) : self.text_format(I18n.t('empty.no_restaurants'))
+          google_results = ''
+          if user.get_google_result
+            keywords = []
+            fb_results.select {|f| keywords << f['name']}
+            google_results = google.search_places(lat, lng, user, keywords)
+          end
+          return_response = (fb_results.size>0) ? self.carousel_format(fb_results, google_results) : self.text_format(I18n.t('empty.no_restaurants'))
           client.reply_message(event['replyToken'], return_response)
-        # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
       end
     }
@@ -107,23 +103,26 @@ class LineBotService
       actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
-      # jarow = FuzzyStringMatch::JaroWinkler.create(:native)
-      # Rails.logger.info "today_open_time: #{today_open_time}"
-      # # match_google_result = ""
-      # match_google_result = {'score' => 0.0, 'match_score' => 0.0}
-      # google_results.each do |r|
-      #   match_score = jarow.getDistance(r['name'],name).to_f
-      #   if match_score >= 0.8 && match_score > match_google_result['match_score']
-      #     match_google_result['score'] = r['rating'].to_f.round(2)
-      #     match_google_result['match_score'] = match_score
-      #   end
-      #   Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
-      # end
+      g_match = {'score' => 0.0, 'match_score' => 0.0}
+      if google_results.present?
+        # Rails.logger.info "today_open_time: #{today_open_time}"
+        google_results.each do |r|
+          match_score = common.fuzzy_match(r['name'],name)
+          if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
+            g_match['score'] = r['rating'].to_f.round(2)
+            g_match['match_score'] = match_score
+          end
+          # Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
+        end
+      end
 
       text = ""
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
+      text += ", #{I18n.t('google.score')}：#{g_match['score']}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}" if description.present?
       text += "\n#{today_open_time}" if today_open_time.present?
+
+      text = text[0, 60]
 
       columns << {
         thumbnailImageUrl: image_url,
@@ -141,6 +140,7 @@ class LineBotService
         columns: columns
       }
     }
+    Rails.logger.info "CAROUSEL_RESULT: #{carousel_result}"
     return carousel_result
   end
 
