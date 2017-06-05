@@ -50,8 +50,7 @@ class LineBotService
           fb_results = graph.search_places(lat, lng, user)
           google_results = ''
           if user.get_google_result
-            keywords = []
-            fb_results.select {|f| keywords << f['name']}
+            keywords = fb_results.map {|f| f['name']}
             google_results = google.search_places(lat, lng, user, keywords)
           end
           return_response = (fb_results.size>0) ? self.carousel_format(fb_results, google_results) : self.text_format(I18n.t('empty.no_restaurants'))
