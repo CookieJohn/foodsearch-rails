@@ -140,7 +140,7 @@ class LineBotService
         columns: columns
       }
     }
-    Rails.logger.info "CAROUSEL_RESULT: #{carousel_result}"
+    # Rails.logger.info "CAROUSEL_RESULT: #{carousel_result}"
     return carousel_result
   end
 
