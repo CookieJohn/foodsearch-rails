@@ -45,7 +45,7 @@ class GoogleMapService
 		# "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
 		query = name.strip
 		query += ",#{street.strip}" if street.present?
-		"https://www.google.com/maps?q=#{query}&z=#{zoom}"
+		"https://www.google.com/maps?q=#{query}"
 	end
 
 	def get_google_search query
