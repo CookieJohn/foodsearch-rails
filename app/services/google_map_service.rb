@@ -29,11 +29,6 @@ class GoogleMapService
 			result = JSON.parse(request.response.body)['results']
 		  results += result if result.present?
 		}
-		# requests.each do |request|
-		# 	Rails.logger.info "request: #{request}"
-		#   Rails.logger.info "body: #{request.response.body}"
-		#   results += JSON.parse(request.response.body)['results']
-		# end
 		return results
 	end
 
@@ -46,7 +41,7 @@ class GoogleMapService
 	end
 
 	def get_map_link lat, lng, name, street
-		zoom = I18n.t('settings.google.zoom')
+		# zoom = I18n.t('settings.google.zoom')
 		# "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
 		query = name.strip
 		query += ",#{street.strip}" if street.present?

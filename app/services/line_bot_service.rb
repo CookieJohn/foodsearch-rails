@@ -53,15 +53,9 @@ class LineBotService
             keywords = []
             fb_results.select {|f| keywords << f['name']}
             google_results = google.search_places(lat, lng, user, keywords)
-            # google_results = []
-            # keywords.each do |keyword|
-            #   results = google.search_place_by_keyword(lat, lng, user, keyword)
-            #   google_results += results
-            # end
           end
           return_response = (fb_results.size>0) ? self.carousel_format(fb_results, google_results) : self.text_format(I18n.t('empty.no_restaurants'))
           client.reply_message(event['replyToken'], return_response)
-        # when Line::Bot::Event::MessageType::Image, Line::Bot::Event::MessageType::Video
         end
       end
     }
@@ -144,6 +138,7 @@ class LineBotService
         columns: columns
       }
     }
+    Rails.logger.info "CAROUSEL_RESULT: #{carousel_result}"
     return carousel_result
   end
 
