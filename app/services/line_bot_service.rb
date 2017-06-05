@@ -1,14 +1,12 @@
 require 'active_support'
 require 'line/bot'
-require 'fuzzystringmatch'
 
 class LineBotService
 
   COMMANDS ||= [I18n.t('common.user'), I18n.t('common.command'), I18n.t('common.radius'), I18n.t('common.point'), I18n.t('common.random')]
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-
-  attr_accessor :client, :graph, :google, :common, :jarow
+  attr_accessor :client, :graph, :google, :common
   def initialize
     self.client ||= Line::Bot::Client.new { |config|
       config.channel_secret = Settings.line.channel_secret
@@ -17,7 +15,6 @@ class LineBotService
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
-    self.jarow ||= FuzzyStringMatch::JaroWinkler.create(:native)
   end
 
   def reply_msg request
@@ -114,10 +111,9 @@ class LineBotService
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       g_match = {'score' => 0.0, 'match_score' => 0.0}
       if google_results.present?
-        # jarow = FuzzyStringMatch::JaroWinkler.create(:native)
         # Rails.logger.info "today_open_time: #{today_open_time}"
         google_results.each do |r|
-          match_score = jarow.getDistance(r['name'],name).to_f
+          match_score = common.fuzzy_match(r['name'],name)
           if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
             g_match['score'] = r['rating'].to_f.round(2)
             g_match['match_score'] = match_score
