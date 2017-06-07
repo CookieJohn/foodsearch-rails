@@ -29,10 +29,7 @@ class LineBotService
     events.each { |event|
 
       user_id = event['source']['userId']
-      if !User.exists?(line_user_id: user_id)
-        user = User.create(line_user_id: user_id)
-        user.save
-      end
+      User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
       user = User.find_by(line_user_id: user_id)
 
       case event
@@ -45,8 +42,8 @@ class LineBotService
           end
           client.reply_message(event['replyToken'], self.text_format(return_msg)) if return_msg.present?
         when Line::Bot::Event::MessageType::Location
-          lat = event.message['latitude'].to_s
-          lng = event.message['longitude'].to_s
+          lat = event.message['latitude']
+          lng = event.message['longitude']
           fb_results = graph.search_places(lat, lng, user)
           google_results = ''
           if user.get_google_result
@@ -80,19 +77,16 @@ class LineBotService
       street = result['location']['street'] || ""
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
-      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
+      # phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
       link_url = result['link'] || result['website']
       category = result['category']
       category_list = result['category_list']
       hours = result['hours']
 
       description = category
-      category_list.each_with_index do |c, index|
+      category_list.each do |c|
         description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
-        if !Category.exists?(facebook_id: c['id'])
-          new_category = Category.new(facebook_id: c['id'], facebook_name: c['name'])
-          new_category.save
-        end
+        new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !Category.exists?(facebook_id: c['id'])
       end
       image_url = graph.get_photo(id)
 
@@ -104,20 +98,18 @@ class LineBotService
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       g_match = {'score' => 0.0, 'match_score' => 0.0}
       if google_results.present?
-        # Rails.logger.info "today_open_time: #{today_open_time}"
         google_results.each do |r|
           match_score = common.fuzzy_match(r['name'],name)
           if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
-            g_match['score'] = r['rating'].to_f.round(2)
+            g_match['score'] = r['rating']
             g_match['match_score'] = match_score
           end
-          # Rails.logger.info "判斷字串：#{name}, 比對字串：#{r['name']}, 判斷分數：#{match_score.round(2)}"
         end
       end
 
       text = ""
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      text += ", #{I18n.t('google.score')}：#{g_match['score']}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
+      text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}" if description.present?
       text += "\n#{today_open_time}" if today_open_time.present?
 
