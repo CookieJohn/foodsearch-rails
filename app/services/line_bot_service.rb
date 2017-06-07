@@ -85,7 +85,7 @@ class LineBotService
 
       description = category
       category_list.each do |c|
-        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
+        description += ", #{c['name']}" if c['name'] != category# && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
         new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !Category.exists?(facebook_id: c['id'])
       end
       image_url = graph.get_photo(id)
