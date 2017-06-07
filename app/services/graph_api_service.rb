@@ -29,12 +29,11 @@ class GraphApiService
 		# 移除類別不包含 餐 的搜尋結果
 		# 移除評分低於設定數字的搜尋結果
 		results = facebook_results.reject { |r| 
-			REJECT_PRICE.include?(r['price_range'].to_s) ||
+			(r['price_range'] == '$$$' || '$$$$') ||
 			REJECT_NAME.any? {|n| r['name'].include?(n)} ||
-			!r['link'].to_s.present? ||
 			(!r['category'].include?(I18n.t('common.meal')) && !r['category_list'].any? {|c| c['name'].include?(I18n.t('common.meal')) }) ||
-			r['overall_star_rating'].to_f < min_score }
-		results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
+			r['overall_star_rating'].to_f <= min_score }
+		# results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
 		results = random_type ? results.sample(5) : results.first(5)
 	end
