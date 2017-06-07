@@ -24,7 +24,6 @@ class LineBotService
     body = request.body.read
 
     return_msg = ''
-    command = ''
     events = client.parse_events_from(body)
     events.each { |event|
 
@@ -36,6 +35,7 @@ class LineBotService
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
+          command = ''
           msg = event.message['text'].to_s.downcase
           if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
             return_msg = self.handle_with_commands(msg, command, user)
@@ -77,7 +77,7 @@ class LineBotService
       street = result['location']['street'] || ""
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
-      # phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
+      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
       link_url = result['link'] || result['website']
       category = result['category']
       category_list = result['category_list']
@@ -112,6 +112,7 @@ class LineBotService
       text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}"
       text += "\n#{today_open_time}"
+      text += "\n#{phone}"
 
       text = text[0, 60]
 
