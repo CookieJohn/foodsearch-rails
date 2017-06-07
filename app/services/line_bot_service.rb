@@ -71,7 +71,7 @@ class LineBotService
 
     results.each do |result|
       id = result['id']
-      name = result['name'] || ""
+      name = result['name'][0, 40]
       lat = result['location']['latitude']
       lng = result['location']['longitude']
       street = result['location']['street'] || ""
@@ -110,8 +110,8 @@ class LineBotService
       text = ""
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
-      text += "\n#{description}" if description.present?
-      text += "\n#{today_open_time}" if today_open_time.present?
+      text += "\n#{description}"
+      text += "\n#{today_open_time}"
 
       text = text[0, 60]
 
