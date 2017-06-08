@@ -18,7 +18,7 @@ class FacebookBotService
     messageData = self.text_format(recipientID, message)
 
     token = Settings.facebook.page_access_token
-    uri = URI("https://graph.facebook.com/v2.9/me/messages?access_token=#{token}")
+    uri = URI("https://graph.facebook.com/v2.6/me/messages?access_token=#{token}")
     res = Net::HTTP.post_form(uri, messageData)
   end
 
