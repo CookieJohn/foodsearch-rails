@@ -15,24 +15,21 @@ class FacebookBotService
     timeOfMessage = body['entry'].first['time']
     message = body['entry'].first['messaging'].first['message']['text']
 
-    messageData = {
-      recipient: {
-        id: recipientID
-      },
-      message: {
-        text: message
-      }
-    };
+    messageData = self.text_format(recipientID, message)
 
     token = Settings.facebook.page_access_token
     uri = URI("https://graph.facebook.com/v2.9/me/messages?access_token=#{token}")
     res = Net::HTTP.post_form(uri, messageData)
   end
 
-  def text_format return_msg
+  def text_format id, text
     {
-      type: 'text',
-      text: return_msg
+      recipient: {
+        id: id
+      },
+      message: {
+        text: text
+      }
     }
   end
 end

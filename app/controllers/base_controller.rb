@@ -16,6 +16,6 @@ class BaseController < ApplicationController
 
 	def facebook_callback
 		msg = FacebookBotService.new.reply_msg(request)
-		# render plain: msg
+		render nothing: true, status: 200
 	end
 end
