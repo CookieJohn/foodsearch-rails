@@ -29,7 +29,7 @@ class FacebookBotService
     token = Settings.facebook.page_access_token
     uri = "https://graph.facebook.com/v2.6/me/messages?access_token=#{token}"
     # res = Net::HTTP.post_form(uri, messageData)
-    res = HTTParty.post(uri, body: messageData)
+    # res = HTTParty.post(uri, body: messageData)
     # Rails.logger.info res
   end
 
