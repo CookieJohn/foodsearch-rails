@@ -9,7 +9,7 @@ class FacebookBotService
   end
 
   def reply_msg request
-    body = request.body
+    body = JSON.parse(request.body.read)
     senderID = body['entry'].first['messaging'].first['sender']['id']
     recipientID = body['entry'].first['messaging'].first['recipient']['id']
     timeOfMessage = body['entry'].first['time']
@@ -24,10 +24,9 @@ class FacebookBotService
       }
     };
 
-    # qs = { access_token: PAGE_ACCESS_TOKEN },
-    uri = URI('https://graph.facebook.com/v2.9/me/messages')
-    # res = Net::HTTP.post_form(uri, 'q' => ['ruby', 'perl'], 'max' => '50')
-  	return JSON.parse(request.body)
+    token = Settings.facebook.page_access_token
+    uri = URI('https://graph.facebook.com/v2.9/me/messages?access_token=#{token}')
+    res = Net::HTTP.post_form(uri, messageData)
   end
 
   def text_format return_msg
