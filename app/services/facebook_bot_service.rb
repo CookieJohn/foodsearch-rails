@@ -10,10 +10,10 @@ class FacebookBotService
 
   def reply_msg request
     body = request.body
-    senderID = ['entry'].first['messaging'].first['sender']['id']
-    recipientID = params['entry'].first['messaging'].first['recipient']['id']
-    timeOfMessage = params['entry'].first['time']
-    message = params['entry'].first['messaging'].first['message']['text']
+    senderID = body['entry'].first['messaging'].first['sender']['id']
+    recipientID = body['entry'].first['messaging'].first['recipient']['id']
+    timeOfMessage = body['entry'].first['time']
+    message = body['entry'].first['messaging'].first['message']['text']
 
     messageData = {
       recipient: {
@@ -24,9 +24,9 @@ class FacebookBotService
       }
     };
 
-    qs = { access_token: PAGE_ACCESS_TOKEN },
+    # qs = { access_token: PAGE_ACCESS_TOKEN },
     uri = URI('https://graph.facebook.com/v2.9/me/messages')
-    res = Net::HTTP.post_form(uri, 'q' => ['ruby', 'perl'], 'max' => '50')
+    # res = Net::HTTP.post_form(uri, 'q' => ['ruby', 'perl'], 'max' => '50')
   	return JSON.parse(request.body)
   end
 
