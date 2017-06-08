@@ -15,7 +15,7 @@ class FacebookBotService
     entries = body['entry']
 
     senderID = entries.first['messaging'].first['sender']['id']
-    message = entries.first['messaging'].first.dig('message','text').present? ? entries.first['messaging'].first['message']['text'] : 'QQ'
+    message = entries.first['messaging'].first.dig('message','text')
 
     # entries.each do |entry|
     #   entry['messaging'].each do |message|
@@ -30,7 +30,7 @@ class FacebookBotService
     uri = "https://graph.facebook.com/v2.6/me/messages?access_token=#{token}"
     # res = Net::HTTP.post_form(uri, messageData)
     res = HTTParty.post(uri, body: messageData)
-    Rails.logger.info res
+    # Rails.logger.info res
   end
 
   def text_format id, text
