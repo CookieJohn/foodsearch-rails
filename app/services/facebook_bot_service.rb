@@ -15,7 +15,7 @@ class FacebookBotService
     entries = body['entry']
 
     senderID = entries.first['messaging'].first['sender']['id']
-    message = entries.first['messaging'].first['message']['text']
+    message = entries.first['messaging'].first.dig('message','text').present? ? entries.first['messaging'].first['message']['text'] : 'QQ'
 
     # entries.each do |entry|
     #   entry['messaging'].each do |message|
