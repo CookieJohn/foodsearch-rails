@@ -14,12 +14,15 @@ class FacebookBotService
 
     entries = body['entry']
 
-    entries.each do |entry|
-      entry['messaging'].each do |message|
-        message   = message['message']['text'].to_s
-        senderID = message['sender']['id']
-      end
-    end
+    senderID = entries.first['messaging'].first['sender']['id']
+    message = entries.first['messaging'].first['message']['text']
+
+    # entries.each do |entry|
+    #   entry['messaging'].each do |message|
+    #     message   = message['message']['text'].to_s
+    #     senderID = message['sender']['id']
+    #   end
+    # end
 
     messageData = self.text_format(senderID, message)
 
