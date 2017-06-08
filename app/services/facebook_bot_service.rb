@@ -11,12 +11,17 @@ class FacebookBotService
 
   def reply_msg request
     body = JSON.parse(request.body.read)
-    senderID = body['entry'].first['messaging'].first['sender']['id']
-    recipientID = body['entry'].first['messaging'].first['recipient']['id']
-    timeOfMessage = body['entry'].first['time']
-    message = body['entry'].first['messaging'].first['message']['text']
 
-    messageData = self.text_format(recipientID, message)
+    entries = body['entry']
+
+    entries.each do |entry|
+      entry['messaging'].each do |message|
+        message   = message['message']['text'].to_s
+        senderID = message['sender']['id']
+      end
+    end
+
+    messageData = self.text_format(senderID, message)
 
     token = Settings.facebook.page_access_token
     uri = "https://graph.facebook.com/v2.6/me/messages?access_token=#{token}"
