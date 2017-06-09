@@ -73,7 +73,7 @@ class FacebookBotService
 
     columns = []
 
-    results.first(4).each do |result|
+    results.each do |result|
       id = result['id']
       name = result['name'][0, 80]
       lat = result['location']['latitude']
@@ -95,8 +95,8 @@ class FacebookBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      # actions << button(common.safe_url(link_url), I18n.t('button.official'))
-      # actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
+      actions << button(common.safe_url(link_url), I18n.t('button.official'))
+      actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
       actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
@@ -121,8 +121,8 @@ class FacebookBotService
 
       columns << {
         title: name,
-        subtitle: text,
         image_url: image_url,
+        subtitle: text,
         buttons: actions
       }
     end
@@ -135,8 +135,8 @@ class FacebookBotService
         attachment: {
           type: 'template',
           payload: {
-            template_type: 'list',
-            # image_aspect_ratio: 'horizontal',
+            template_type: 'generic',
+            # image_aspect_ratio: 'square',
             elements: columns
           }
         }
