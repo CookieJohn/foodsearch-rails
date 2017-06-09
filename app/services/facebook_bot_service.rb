@@ -20,6 +20,8 @@ class FacebookBotService
         entry['messaging'].each do |message|
           reveive_message = message.dig('message','text').to_s
           senderID = message.dig('sender','id')
+          lat = ''
+          lng = ''
           message['message']['attachments'].try(:each) do |location|
             lat = location.dig('payload','coordinates','lat')
             lng = location.dig('payload','coordinates','long')
