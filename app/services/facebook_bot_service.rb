@@ -16,7 +16,7 @@ class FacebookBotService
 
     # senderID = entries.first['messaging'].first['sender']['id']
     # message = entries.first['messaging'].first['message']['text']
-    if body['object'] == 'page'
+    if body.dig('object') == 'page'
       entries.each do |entry|
         entry['messaging'].each do |message|
           message = ''
