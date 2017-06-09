@@ -142,7 +142,7 @@ class FacebookBotService
         }
       }
     }
-    Rails.logger.info "generic_format: #{generic_format.size}"
+    Rails.logger.info "generic_format: #{columns.size}"
     return generic_format
   end
 end
