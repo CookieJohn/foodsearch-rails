@@ -61,7 +61,7 @@ class FacebookBotService
     }
   end
 
-  def button title, url
+  def button url, title
     {
       type: 'web_url',
       url: url,
@@ -73,8 +73,7 @@ class FacebookBotService
 
     columns = []
 
-    # results.first(2).each do |result|
-    result = results.first
+    results.each do |result|
       id = result['id']
       name = result['name'][0, 80]
       lat = result['location']['latitude']
@@ -96,9 +95,9 @@ class FacebookBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << self.button(I18n.t('button.official'), common.safe_url(link_url))
-      actions << self.button(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
-      actions << self.button(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
+      actions << button(common.safe_url(link_url), I18n.t('button.official'))
+      actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
+      actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       g_match = {'score' => 0.0, 'match_score' => 0.0}
@@ -126,7 +125,7 @@ class FacebookBotService
         image_url: image_url,
         buttons: actions
       }
-    # end
+    end
 
     generic_format = {
       recipient: {
@@ -137,6 +136,7 @@ class FacebookBotService
           type: 'template',
           payload: {
             template_type: 'generic',
+            image_aspect_ratio: 'square',
             elements: columns
           }
         }
