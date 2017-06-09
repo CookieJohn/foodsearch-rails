@@ -10,13 +10,14 @@ class FacebookBotService
   end
 
   def reply_msg request
-    body = JSON.parse(request.body.read)
+    body = JSON.parse(request.body)
 
     entries = body['entry']
-    page = body['object'] || ''
+    page = body['object']
 
     # senderID = entries.first['messaging'].first['sender']['id']
     # message = entries.first['messaging'].first['message']['text']
+    Rails.logger.info "entries: #{entries}"
     if page == 'page'
       entries.each do |entry|
         entry['messaging'].each do |message|
