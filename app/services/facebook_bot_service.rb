@@ -62,7 +62,7 @@ class FacebookBotService
 
   def button title, url
     {
-      type: "web_url",
+      type: 'web_url',
       url: url,
       title: title
     }
@@ -121,7 +121,6 @@ class FacebookBotService
       columns << {
         title: name,
         subtitle: text,
-        item_url: image_url,               
         image_url: image_url,
         buttons: actions
       }
@@ -133,9 +132,10 @@ class FacebookBotService
       },
       message: {
         attachment: {
-          type: "template",
+          type: 'template',
           payload: {
-            template_type: "generic",
+            template_type: 'generic',
+            image_aspect_ratio: 'square',
             elements: columns
           }
         }
