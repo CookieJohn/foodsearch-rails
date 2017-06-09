@@ -20,8 +20,10 @@ class FacebookBotService
         entry['messaging'].each do |message|
           reveive_message = message['message']['text'].to_s
           senderID = message['sender']['id']
-          lat = message['message']['attachments'].first['payload']['coordinates']['lat']
-          lng = message['message']['attachments'].first['payload']['coordinates']['long']
+          message['message']['attachments'].try(:each) do |location|
+            lat = location['payload']['coordinates']['lat']
+            lng = location['payload']['coordinates']['long']
+          end
           if lat.present? && lng.present?
             messageData = self.text_format(senderID, "#{lat},#{lng}")
             res = HTTParty.post(uri, body: messageData)
