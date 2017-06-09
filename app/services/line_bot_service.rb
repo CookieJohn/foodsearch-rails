@@ -27,10 +27,10 @@ class LineBotService
     events = client.parse_events_from(body)
     events.each { |event|
 
-      # user_id = event['source']['userId']
-      # User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
-      # user = User.find_by(line_user_id: user_id)
-      user = nil
+      user_id = event['source']['userId']
+      User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
+      user = User.find_by(line_user_id: user_id)
+      # user = nil
 
       case event
       when Line::Bot::Event::Message
@@ -87,7 +87,7 @@ class LineBotService
       description = category
       category_list.sample(2).each do |c|
         description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
-        # new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !Category.exists?(facebook_id: c['id'])
+        new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !Category.exists?(facebook_id: c['id'])
       end
       image_url = graph.get_photo(id)
 
