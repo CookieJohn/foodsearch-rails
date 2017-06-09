@@ -18,11 +18,11 @@ class FacebookBotService
     if body.dig('object') == 'page'
       entries.each do |entry|
         entry['messaging'].each do |message|
-          reveive_message = message['message']['text'].to_s
-          senderID = message['sender']['id']
+          reveive_message = message.dig('message','text').to_s
+          senderID = message.dig('sender','id')
           message['message']['attachments'].try(:each) do |location|
-            lat = location['payload']['coordinates']['lat']
-            lng = location['payload']['coordinates']['long']
+            lat = location.dig('payload','coordinates','lat')
+            lng = location.dig('payload','coordinates','long')
           end
           if lat.present? && lng.present?
             messageData = self.text_format(senderID, "#{lat},#{lng}")
