@@ -14,13 +14,14 @@ class FacebookBotService
 
     entries = body['entry']
     Rails.logger.info "entries: #{entries}"
-    # page = body['object']
+    page = body['object']
+    Rails.logger.info "page: #{page}"
 
     # # senderID = entries.first['messaging'].first['sender']['id']
     # # message = entries.first['messaging'].first['message']['text']
     # # Rails.logger.info "entries: #{entries}"
-    # if page == 'page'
-    #   entries.each do |entry|
+    if page == 'page'
+      entries.each do |entry|
     #     entry['messaging'].each do |message|
     #       message = message['message']['text'].to_s
     #       senderID = message['sender']['id']
@@ -35,8 +36,8 @@ class FacebookBotService
     #         # Rails.logger.info "res: #{JSON.parse(res)}"
     #       end
     #     end
-    #   end
-    # end
+      end
+    end
   end
 
   def text_format id, text
