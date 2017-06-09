@@ -10,7 +10,7 @@ class FacebookBotService
   end
 
   def reply_msg request
-    body = request.body.read
+    body = JSON.parse(request.body.read)
 
     entries = body['entry']
     page = body['object']
