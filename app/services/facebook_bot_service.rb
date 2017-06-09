@@ -36,7 +36,7 @@ class FacebookBotService
             keywords = fb_results.map {|f| f['name']}
             google_results = google.search_places(lat, lng, user, keywords)
 
-            messageData = self.text_format(senderID, "#{lat},#{lng}")
+            messageData = self.generic_elements(senderID, fb_results, google_results)
             res = HTTParty.post(uri, body: messageData)
           elsif reveive_message.present?
             messageData = self.text_format(senderID, reveive_message)
@@ -56,5 +56,89 @@ class FacebookBotService
         text: text
       }
     }
+  end
+
+  def button title, url
+    {
+      type: "web_url",
+      url: url,
+      title: title
+    }
+  end
+
+  def generic_elements sender_id, results=nil, google_results=nil
+
+    columns = []
+
+    results.each do |result|
+      id = result['id']
+      name = result['name'][0, 40]
+      lat = result['location']['latitude']
+      lng = result['location']['longitude']
+      street = result['location']['street'] || ""
+      rating = result['overall_star_rating']
+      rating_count = result['rating_count']
+      # phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
+      link_url = result['link'] || result['website']
+      category = result['category']
+      category_list = result['category_list']
+      hours = result['hours']
+
+      description = category
+      category_list.sample(2).each do |c|
+        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
+        new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !Category.exists?(facebook_id: c['id'])
+      end
+      image_url = graph.get_photo(id)
+
+      actions = []
+      actions << button(I18n.t('button.official'), common.safe_url(link_url))
+      actions << button(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
+      actions << button(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
+
+      today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
+      g_match = {'score' => 0.0, 'match_score' => 0.0}
+      if google_results.present?
+        google_results.each do |r|
+          match_score = common.fuzzy_match(r['name'],name)
+          if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
+            g_match['score'] = r['rating']
+            g_match['match_score'] = match_score
+          end
+        end
+      end
+
+      text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
+      text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
+      text += "\n#{description}"
+      text += "\n#{today_open_time}"
+      # text += "\n#{phone}"
+
+      text = text[0, 60]
+
+      columns << {
+        title: name,
+        subtitle: text,
+        item_url: image_url,               
+        image_url: image_url,
+        buttons: actions
+      }
+    end
+
+    generic_format = {
+      recipient: {
+        id: sender_id
+      },
+      message: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "generic",
+            elements: columns
+          }
+        }
+      }
+    }
+    return generic_format
   end
 end
