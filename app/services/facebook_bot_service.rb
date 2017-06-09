@@ -40,6 +40,7 @@ class FacebookBotService
 
             messageData = self.generic_elements(senderID, fb_results, google_results)
             res = HTTParty.post(uri, body: messageData)
+            Rails.logger.info "res: #{JSON.parse(res)}"
           elsif reveive_message.present?
             messageData = self.text_format(senderID, reveive_message)
             res = HTTParty.post(uri, body: messageData)
