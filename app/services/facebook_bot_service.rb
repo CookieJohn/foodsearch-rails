@@ -73,7 +73,7 @@ class FacebookBotService
 
     columns = []
 
-    results.each do |result|
+    results.first(4).each do |result|
       id = result['id']
       name = result['name'][0, 80]
       lat = result['location']['latitude']
