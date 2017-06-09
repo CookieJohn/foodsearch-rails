@@ -134,7 +134,6 @@ class FacebookBotService
       message: {
         attachment: {
           type: 'template',
-          top_element_style: 'compact',
           payload: {
             template_type: 'list',
             # image_aspect_ratio: 'horizontal',
