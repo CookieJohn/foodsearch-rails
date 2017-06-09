@@ -73,7 +73,7 @@ class FacebookBotService
 
     columns = []
 
-    results.first(4).each do |result|
+    results.first(2).each do |result|
       id = result['id']
       name = result['name'][0, 80]
       lat = result['location']['latitude']
@@ -95,9 +95,9 @@ class FacebookBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << button(I18n.t('button.official'), common.safe_url(link_url))
-      actions << button(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
-      actions << button(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
+      actions << self.button(I18n.t('button.official'), common.safe_url(link_url))
+      actions << self.button(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
+      actions << self.button(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       g_match = {'score' => 0.0, 'match_score' => 0.0}
@@ -142,6 +142,7 @@ class FacebookBotService
         }
       }
     }
+    Rails.logger.info "generic_format: #{generic_format.size}"
     return generic_format
   end
 end
