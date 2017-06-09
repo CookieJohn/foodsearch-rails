@@ -73,7 +73,8 @@ class FacebookBotService
 
     columns = []
 
-    results.first(2).each do |result|
+    # results.first(2).each do |result|
+    result = results.first
       id = result['id']
       name = result['name'][0, 80]
       lat = result['location']['latitude']
@@ -125,7 +126,7 @@ class FacebookBotService
         image_url: image_url,
         buttons: actions
       }
-    end
+    # end
 
     generic_format = {
       recipient: {
@@ -136,7 +137,6 @@ class FacebookBotService
           type: 'template',
           payload: {
             template_type: 'generic',
-            image_aspect_ratio: 'square',
             elements: columns
           }
         }
