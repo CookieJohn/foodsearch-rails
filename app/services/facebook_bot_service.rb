@@ -18,9 +18,8 @@ class FacebookBotService
     # senderID = entries.first['messaging'].first['sender']['id']
     # message = entries.first['messaging'].first['message']['text']
     if page == 'page'
-      entries.try(:each) do |entry|
-        entry['messaging'].try(:each) do |message|
-          message = ''
+      entries.each do |entry|
+        entry['messaging'].each do |message|
           message = message['message']['text'].to_s
           senderID = message['sender']['id']
           Rails.logger.info "message: #{message}"
