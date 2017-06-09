@@ -2,6 +2,8 @@ require 'httparty'
 
 class FacebookBotService
 
+  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
+
   attr_accessor :graph, :google, :common
 	def initialize
     self.graph  ||= GraphApiService.new
@@ -72,7 +74,7 @@ class FacebookBotService
 
     results.each do |result|
       id = result['id']
-      name = result['name'][0, 40]
+      name = result['name'][0, 80]
       lat = result['location']['latitude']
       lng = result['location']['longitude']
       street = result['location']['street'] || ""
@@ -114,7 +116,7 @@ class FacebookBotService
       text += "\n#{today_open_time}"
       # text += "\n#{phone}"
 
-      text = text[0, 60]
+      text = text[0, 80]
 
       columns << {
         title: name,
