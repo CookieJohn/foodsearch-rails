@@ -13,10 +13,11 @@ class FacebookBotService
     body = JSON.parse(request.body.read)
 
     entries = body['entry']
+    page = body['object'] || ''
 
     # senderID = entries.first['messaging'].first['sender']['id']
     # message = entries.first['messaging'].first['message']['text']
-    if body.dig('object') == 'page'
+    if page == 'page'
       entries.each do |entry|
         entry['messaging'].each do |message|
           message = ''
