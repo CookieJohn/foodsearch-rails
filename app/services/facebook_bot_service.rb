@@ -2,6 +2,7 @@ require 'httparty'
 
 class FacebookBotService
 
+  attr_accessor :graph, :google, :common
 	def initialize
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
