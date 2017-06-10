@@ -18,4 +18,8 @@ class BaseController < ApplicationController
 		msg = FacebookBotService.new.reply_msg(request)
 		render plain: '200'
 	end
+
+	def privacy
+		
+	end
 end

@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   post 'callback' => 'base#callback'
   get 'webhook' => 'base#webhook'
   post 'webhook' => 'base#facebook_callback'
+  get 'privacy' => 'base#privacy'
 end
