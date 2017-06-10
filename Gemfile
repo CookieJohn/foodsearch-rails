@@ -15,6 +15,8 @@ gem 'line-bot-api'
 gem 'settingslogic'
 gem 'koala'
 
+gem 'httparty'
+
 # db
 gem 'pg'
 gem 'rails-i18n', '~> 5.0.0'
