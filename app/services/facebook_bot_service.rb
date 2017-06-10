@@ -142,7 +142,34 @@ class FacebookBotService
         }
       }
     }
-    Rails.logger.info "generic_format: #{generic_format}"
+
+    test_msg = {
+      "recipient":{
+        "id": sender_id
+      },
+      "message":{
+        "attachment":{
+          "type": "template",
+          "payload":{
+            "template_type": "button",
+            "text": "What do you want to do next?",
+            "buttons":[
+              {
+                "type": "web_url",
+                "url": "https://petersapparel.parseapp.com",
+                "title": "Show Website"
+              },
+              {
+                "type": "postback",
+                "title": "Start Chatting",
+                "payload": "USER_DEFINED_PAYLOAD"
+              }
+            ]
+          }
+        }
+      }
+    }
+    Rails.logger.info "test_msg: #{test_msg}"
     return generic_format
   end
 end
