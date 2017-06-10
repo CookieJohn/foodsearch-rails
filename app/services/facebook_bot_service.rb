@@ -141,7 +141,7 @@ class FacebookBotService
           }
         }
       }
-    }
+    }.to_json
     Rails.logger.info "return generic_format: #{generic_format}"
     Rails.logger.info "generic_format: #{columns.size}"
     return generic_format
