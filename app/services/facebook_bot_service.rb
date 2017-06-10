@@ -39,7 +39,7 @@ class FacebookBotService
             google_results = google.search_places(lat, lng, user, keywords)
 
             messageData = self.generic_elements(senderID, fb_results, google_results)
-            res = HTTParty.post(uri, body: messageData.to_json)
+            res = HTTParty.post(uri, body: messageData, headers: { 'Content-Type' => 'application/json' })
             Rails.logger.info "res: #{JSON.parse(res.body)}"
           elsif reveive_message.present?
             messageData = self.text_format(senderID, reveive_message)
@@ -73,7 +73,7 @@ class FacebookBotService
 
     columns = []
 
-    results.first(2).each do |result|
+    results.each do |result|
       id = result['id']
       name = result['name'][0, 80]
       lat = result['location']['latitude']
@@ -144,7 +144,7 @@ class FacebookBotService
           type: 'template',
           payload: {
             template_type: 'generic',
-            # image_aspect_ratio: 'square',
+            image_aspect_ratio: 'square',
             elements: columns
           }
         }
