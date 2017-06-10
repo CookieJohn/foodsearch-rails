@@ -39,7 +39,7 @@ class FacebookBotService
             google_results = google.search_places(lat, lng, user, keywords)
 
             messageData = self.generic_elements(senderID, fb_results, google_results)
-            res = HTTParty.post(uri, body: messageData)
+            res = HTTParty.post(uri, body: messageData.to_json, headers: { 'Content-Type' => 'application/json' })
             Rails.logger.info "res: #{JSON.parse(res.body)}"
           elsif reveive_message.present?
             messageData = self.text_format(senderID, reveive_message)
@@ -95,10 +95,10 @@ class FacebookBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      # actions << button(common.safe_url(link_url), I18n.t('button.official'))
-      # actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
-      # actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
-      actions << button('https://www.facebook.com/', 'test')
+      actions << button(common.safe_url(link_url), I18n.t('button.official'))
+      actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
+      actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
+      # actions << button('https://www.facebook.com/', 'test')
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       g_match = {'score' => 0.0, 'match_score' => 0.0}
@@ -120,19 +120,19 @@ class FacebookBotService
 
       text = text[0, 80]
 
-      # columns << {
-      #   title: name,
-      #   subtitle: text,
-      #   image_url: image_url,
-      #   buttons: actions
-      # }
-
       columns << {
-        title: 'test',
-        subtitle: 'test',
-        image_url: 'https://www.fotor.com/images2/features/photo_effects/e_bw.jpg',
+        title: name,
+        subtitle: text,
+        image_url: image_url,
         buttons: actions
       }
+
+      # columns << {
+      #   title: 'test',
+      #   subtitle: 'test',
+      #   image_url: 'https://www.fotor.com/images2/features/photo_effects/e_bw.jpg',
+      #   buttons: actions
+      # }
     end
 
     generic_format = {
