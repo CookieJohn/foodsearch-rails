@@ -170,6 +170,6 @@ class FacebookBotService
       }
     }
     Rails.logger.info "test_msg: #{test_msg}"
-    return generic_format
+    return test_msg
   end
 end
