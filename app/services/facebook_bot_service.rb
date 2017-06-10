@@ -73,7 +73,7 @@ class FacebookBotService
 
     columns = []
 
-    results.each do |result|
+    results.first(2).each do |result|
       id = result['id']
       name = result['name'][0, 80]
       lat = result['location']['latitude']
@@ -95,9 +95,10 @@ class FacebookBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << button(common.safe_url(link_url), I18n.t('button.official'))
-      actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
-      actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
+      # actions << button(common.safe_url(link_url), I18n.t('button.official'))
+      # actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
+      # actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
+      actions << button('test','https://www.facebook.com/')
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       g_match = {'score' => 0.0, 'match_score' => 0.0}
@@ -119,10 +120,17 @@ class FacebookBotService
 
       text = text[0, 80]
 
+      # columns << {
+      #   title: name,
+      #   subtitle: text,
+      #   image_url: image_url,
+      #   buttons: actions
+      # }
+
       columns << {
-        title: "測試名稱",
-        subtitle: "測試描述",
-        image_url: "https://www.fotor.com/images2/features/photo_effects/e_bw.jpg",
+        title: 'test',
+        subtitle: 'test',
+        image_url: 'https://www.fotor.com/images2/features/photo_effects/e_bw.jpg',
         buttons: actions
       }
     end
