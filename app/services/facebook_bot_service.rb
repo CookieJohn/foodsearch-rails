@@ -32,7 +32,7 @@ class FacebookBotService
             lng = location.dig('payload','coordinates','long')
           end
           if lat.present? && lng.present?
-            fb_results = graph.search_places(lat, lng, user)
+            fb_results = graph.search_places(lat, lng, user, 10)
             google_results = ''
 
             keywords = fb_results.map {|f| f['name']}

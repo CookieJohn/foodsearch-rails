@@ -17,7 +17,7 @@ class GraphApiService
 		self.graph = Koala::Facebook::API.new(oauth_access_token)
 	end
 
-	def search_places lat, lng, user=nil
+	def search_places lat, lng, user=nil, size=5
 			
 		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
 		min_score = user.present? ? user.min_score : DEFAULT_MIN_SCORE
@@ -35,7 +35,7 @@ class GraphApiService
 			r['overall_star_rating'].to_f <= min_score }
 		# results = results.sort_by { |r| r['overall_star_rating'].to_f }.reverse
 
-		results = random_type ? results.sample(5) : results.first(5)
+		results = random_type ? results.sample(size) : results.first(size)
 	end
 
 	def get_photo id
