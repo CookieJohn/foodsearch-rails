@@ -30,6 +30,7 @@ class LineBotService
       user_id = event['source']['userId']
       User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
       user = User.find_by(line_user_id: user_id)
+      # user = nil
 
       case event
       when Line::Bot::Event::Message
