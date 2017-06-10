@@ -142,28 +142,7 @@ class FacebookBotService
         }
       }
     }
-
-    test_msg = {
-      "recipient": {
-        "id": sender_id
-      },
-      "message": {
-        "text": "Pick a color:",
-        "quick_replies": [
-          {
-            "content_type": "text",
-            "title": "Red",
-            "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_RED"
-          },
-          {
-            "content_type": "text",
-            "title": "Green",
-            "payload": "DEVELOPER_DEFINED_PAYLOAD_FOR_PICKING_GREEN"
-          }
-        ]
-      }
-    }
-    Rails.logger.info "test_msg: #{test_msg}"
-    return test_msg
+    Rails.logger.info "generic_format: #{columns.size}"
+    return generic_format
   end
 end
