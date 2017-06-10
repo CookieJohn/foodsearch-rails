@@ -120,9 +120,9 @@ class FacebookBotService
       text = text[0, 80]
 
       columns << {
-        title: name,
-        subtitle: text,
-        image_url: image_url,
+        title: "測試名稱",
+        subtitle: "測試描述",
+        image_url: "https://www.fotor.com/images2/features/photo_effects/e_bw.jpg",
         buttons: actions
       }
     end
@@ -141,7 +141,7 @@ class FacebookBotService
           }
         }
       }
-    }.to_json
+    }
     Rails.logger.info "return generic_format: #{generic_format}"
     Rails.logger.info "generic_format: #{columns.size}"
     return generic_format
