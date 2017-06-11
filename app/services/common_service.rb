@@ -23,8 +23,8 @@ class CommonService
 		results = JSON.parse(res.body)['results']
 	end
 
-	def http_post uri, params
-		uri = safe_url(get_uri)
+	def http_post post_uri, params
+		uri = safe_url(post_uri)
 		res = Net::HTTP.post(uri, params.to_json, "Content-Type" => "application/json")
 		results = JSON.parse(res.body)
 	end
