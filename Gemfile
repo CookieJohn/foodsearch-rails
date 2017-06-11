@@ -11,6 +11,7 @@ gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'slim-rails'
+gem 'meta-tags'
 
 # third-party
 gem 'line-bot-api'

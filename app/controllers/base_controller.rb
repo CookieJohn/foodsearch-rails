@@ -1,7 +1,10 @@
 class BaseController < ApplicationController
+	include MetaHelper
+
   skip_before_action :verify_authenticity_token, only: [:callback, :facebook_callback]
 
   def index
+  	set_meta
   end
 
   def callback
