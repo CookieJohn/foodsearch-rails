@@ -1,28 +1,30 @@
 source 'https://rubygems.org'
 
+# fornt
 gem 'rails', '5.1.0'
-# gem 'sass-rails'
+gem 'sass-rails'
 gem 'uglifier'
-# gem 'coffee-rails'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
-# gem 'jbuilder'
+gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0', group: :doc
-
+gem 'bootstrap-sass', '~> 3.3.6'
 gem 'slim-rails'
-gem 'line-bot-api'
 
+# third-party
+gem 'line-bot-api'
 gem 'settingslogic'
 gem 'koala'
-
 gem 'httparty'
+gem 'fuzzy-string-match'
+gem 'typhoeus'
 
 # db
 gem 'pg'
-gem 'rails-i18n', '~> 5.0.0'
 
-gem 'fuzzy-string-match'
-gem 'typhoeus'
+# others
+gem 'rails-i18n', '~> 5.0.0'
 
 group :development, :test do
   gem 'byebug'
