@@ -1,5 +1,3 @@
-require 'httparty'
-
 class FacebookBotService
 
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
@@ -39,11 +37,11 @@ class FacebookBotService
             google_results = google.search_places(lat, lng, user, keywords)
 
             messageData = self.generic_elements(senderID, fb_results, google_results)
-            res = HTTParty.post(uri, body: messageData.to_json, headers: { 'Content-Type' => 'application/json' })
-            Rails.logger.info "res: #{JSON.parse(res.body)}"
-          elsif reveive_message.present?
-            messageData = self.text_format(senderID, reveive_message)
-            res = HTTParty.post(uri, body: messageData)
+            results = common.http_post(uri, messageData)
+            #Rails.logger.info "res: #{JSON.parse(res.body)}"
+          # elsif reveive_message.present?
+          #   messageData = self.text_format(senderID, reveive_message)
+          #   res = HTTParty.post(uri, body: messageData)
           end
         end
       end
