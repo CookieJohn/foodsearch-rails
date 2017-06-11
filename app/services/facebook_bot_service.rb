@@ -1,6 +1,7 @@
 class FacebookBotService
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
+  API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
+  
   attr_accessor :graph, :google, :common
 	def initialize
     self.graph  ||= GraphApiService.new
@@ -11,9 +12,6 @@ class FacebookBotService
   def reply_msg request
     body = JSON.parse(request.body.read)
     entries = body['entry']
-
-    token = Settings.facebook.page_access_token
-    uri = "https://graph.facebook.com/v2.6/me/messages?access_token=#{token}"
 
     user = nil
 
@@ -36,7 +34,7 @@ class FacebookBotService
             google_results = google.search_places(lat, lng, user, keywords)
 
             messageData = self.generic_elements(senderID, fb_results, google_results)
-            results = common.http_post(uri, messageData)
+            results = common.http_post(API_URL, messageData)
             #Rails.logger.info "res: #{JSON.parse(res.body)}"
           # elsif reveive_message.present?
           #   messageData = self.text_format(senderID, reveive_message)
