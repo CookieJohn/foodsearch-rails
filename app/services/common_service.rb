@@ -1,4 +1,5 @@
 require 'fuzzystringmatch'
+require 'net/http'
 
 class CommonService
 
@@ -14,5 +15,15 @@ class CommonService
 
 	def fuzzy_match compare_a, compare_b
 		jarow.getDistance(compare_a,compare_b).to_f
+	end
+
+	def http_get get_uri, params=nil
+		uri = safe_url(get_uri)
+		res = Net::HTTP.get_response(uri)
+		results = JSON.parse(res.body)['results']
+	end
+
+	def http_post uri, params
+		
 	end
 end

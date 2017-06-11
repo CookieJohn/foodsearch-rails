@@ -1,5 +1,3 @@
-require 'net/http'
-
 class GoogleMapService
 	API_URL ||= "https://maps.googleapis.com/maps/api/place/nearbysearch/json?"
 	API_KEY ||= Settings.google.google_api_key
@@ -34,10 +32,7 @@ class GoogleMapService
 
 	def search_place_by_keyword lat, lng, user=nil, keyword=nil
 		max_distance = user.present? ? user.max_distance : RADIUS
-		uri = common.safe_url("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}&key=#{API_KEY}")
-		res = Net::HTTP.get_response(uri)
-		results = JSON.parse(res.body)['results']
-		return results
+		results = common.http_get("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}&key=#{API_KEY}")
 	end
 
 	def get_map_link lat, lng, name, street
