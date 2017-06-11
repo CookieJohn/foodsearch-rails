@@ -1,5 +1,6 @@
 require 'fuzzystringmatch'
 require 'net/http'
+require 'httparty'
 
 class CommonService
 
@@ -25,7 +26,7 @@ class CommonService
 
 	def http_post post_uri, params
 		uri = safe_url(post_uri)
-		res = Net::HTTP.post(uri, params.to_json, {"Content-Type" => "application/json"})
+		res = HTTParty.post(uri, body: params.to_json, headers: { 'Content-Type' => 'application/json' })
 		results = JSON.parse(res.body)
 	end
 end
