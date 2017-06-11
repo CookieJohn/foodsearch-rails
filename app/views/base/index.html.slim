@@ -1,15 +1,21 @@
 .container-fluid.text-center
 	h1 = "FoodSearch"
 
-	br
+	/ br
 
-	h2 = "Add Me!"
+	/ h2 = "Add Me!"
 
-	br
+	/ br
 
-	= link_to "https://line.me/R/ti/p/%40cqh3529k", class: 'btn btn-default' do
-		= image_tag "https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png"
+	/ = link_to "https://line.me/R/ti/p/%40cqh3529k", class: 'btn btn-default' do
+	/ 	= image_tag "https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png"
 
-	br
+	/ br
 
-	= image_tag "https://qr-official.line.me/L/J_2eIaGVVg.png"
+	/ = image_tag "https://qr-official.line.me/L/J_2eIaGVVg.png"
+
+	#map
+
+script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{Settings.google.google_js_api_key}&callback=initMap"]
+
+
