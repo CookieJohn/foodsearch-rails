@@ -1,5 +1,4 @@
 class FacebookBotService
-
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
   attr_accessor :graph, :google, :common
@@ -124,13 +123,6 @@ class FacebookBotService
         image_url: image_url,
         buttons: actions
       }
-
-      # columns << {
-      #   title: 'test',
-      #   subtitle: 'test',
-      #   image_url: 'https://www.fotor.com/images2/features/photo_effects/e_bw.jpg',
-      #   buttons: actions
-      # }
     end
 
     generic_format = {
@@ -148,8 +140,6 @@ class FacebookBotService
         }
       }
     }
-    Rails.logger.info "return generic_format: #{generic_format}"
-    Rails.logger.info "generic_format: #{columns.size}"
     return generic_format
   end
 end
