@@ -70,6 +70,8 @@ class LineBotService
 
     columns = []
 
+    category_lists = Category.pluck(:facebook_name)
+
     results.each do |result|
       id = result['id']
       name = result['name'][0, 40]
@@ -87,7 +89,7 @@ class LineBotService
       description = category
       category_list.sample(2).each do |c|
         description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
-        new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !Category.exists?(facebook_id: c['id'])
+        new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['name']) }
       end
       image_url = graph.get_photo(id)
 
