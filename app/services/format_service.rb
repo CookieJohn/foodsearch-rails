@@ -51,19 +51,23 @@ class FormatService
         end
       end
 
-      text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
-      text += "\n#{description}"
+      # text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
+      # text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
+      text = "\n#{description}"
       text += "\n#{today_open_time}"
       text += "\n#{phone}"
 
-      google_score = (g_match['score'] > 1) ? g_match['score'].to_f.round(2) : '無'
+      google_score = (g_match['score'] > 1) ? g_match['score'].to_f.round(2) : 0
 
       columns << {
         image_url: image_url,
         title: name,
         text: text,
+        types: description,
+        today_open_time: today_open_time,
+        phone: phone,
         facebook_score: rating,
+        facebook_score_count: rating_count,
         google_score: google_score,
         official: link_url,
   			location: google.get_map_link(lat, lng, name, street),

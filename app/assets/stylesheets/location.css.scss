@@ -3,25 +3,54 @@
 }
 
 .facebook-color {
-	color: #1245F5;
+	color: #3b5998;
 }
 
 .google-color {
-	color: #E0161B;
+	color: #dd4b39;
 }
 
 .button-link {
 	display: block;
 }
 
-.card-bolder {
-	// border: 1px solid #ddd;
-}
-.cards {
-  display: flex;
-  justify-content: space-between;
-}
-
 .col-sm-3{
   display: inline-block;
+}
+
+.card-shadow {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    // transition: 0.3s;
+    // border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+$text: #303336;
+$light-text: #8c98a8;
+$border: #CED5E0;
+
+.stats {
+  margin: auto;
+  border-top: 1px solid $border;
+  width: 240px;
+  
+  .followers, .following, .stories {
+    display: inline-block;
+    padding: 6px 10px 0;
+  }
+  
+  .followers, .following {
+    border-right: 1px solid $border;
+  }
+  
+  .value {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .label {
+    display: block;
+    font-size: 14px;
+    color: $light-text;
+  }
 }

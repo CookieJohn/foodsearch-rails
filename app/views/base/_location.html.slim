@@ -8,21 +8,34 @@
 /   related_comment: "https://www.google.com/search")
 
 - if location.present?
-  .card.col-sm-3 id="location_#{location_counter + 1}"
-    .card-img-top.img-fluid
-      = image_tag location[:image_url], class: 'full-width'
-    .card-block.text-left
-      h4.card-title = location[:title]
-      p.card-text = simple_format location[:text]
-    .card-block
-      i.fa.fa-facebook-square.fa-2x.facebook-color
-        = " #{location[:facebook_score]}分"
-      i.fa.fa-google.fa-2x.google-color
-        = " #{location[:google_score]}"
-    ul.list-group.list-group-flush
-      li.list-group-item
-        = link_to I18n.t('button.official'), location[:official], class: 'button-link', target: '_blank'
-      li.list-group-item
-        = link_to I18n.t('button.location'), location[:location], class: 'button-link', target: '_blank'
-      li.list-group-item
-        = link_to I18n.t('button.related_comment'), location[:related_comment], class: 'button-link', target: '_blank'
+  .col-sm-3
+    .card.card-shadow id="location_#{location_counter + 1}"
+      .card-img-top
+        = image_tag location[:image_url], class: 'full-width'
+      .text-left style="margin: 5px 5px 5px 5px"
+        h4.card-title style="display: inline-block;" = location[:title]
+        p.card-text = simple_format location[:text]
+      / .card-block.container-fluid
+      /   i.fa.fa-facebook-square.fa-2x.facebook-color
+      /     = " #{location[:facebook_score]}分"
+      /   i.fa.fa-google.fa-2x.google-color
+      /     = " #{location[:google_score]}"
+      .stats
+        span.followers
+          span.value
+            = " #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
+          span.label
+            i.fa.fa-facebook-square.fa-2x.facebook-color
+        span.stories
+          span.value
+            - google_score = location.dig(:google_score).to_i > 0 ? "#{location[:google_score]}分" : '無'
+            = google_score
+          span.label
+            i.fa.fa-google.fa-2x.google-color
+      ul.list-group.list-group-flush
+        li.list-group-item
+          = link_to I18n.t('button.official'), location[:official], class: 'button-link', target: '_blank'
+        li.list-group-item
+          = link_to I18n.t('button.location'), location[:location], class: 'button-link', target: '_blank'
+        li.list-group-item
+          = link_to I18n.t('button.related_comment'), location[:related_comment], class: 'button-link', target: '_blank'

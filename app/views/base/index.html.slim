@@ -14,14 +14,14 @@
 
 	/ = image_tag "https://qr-official.line.me/L/J_2eIaGVVg.png"
 	#google_address = '地址：'
-	.col-sm-6
-		#lat = '經度：'
-	.col-sm-6
-		#lng = '緯度：'
+	/ .col-sm-6
+	/ 	#lat = '經度：'
+	/ .col-sm-6
+	/ 	#lng = '緯度：'
 
 	#map
 	br
-	.card-deck#locations style="overflow-x:scroll; white-space: nowrap;"
+	#locations style="overflow-x:scroll; white-space: nowrap;"
 		- 4.times do
 			= render partial: "base/location", collection: [], as: :location
 
