@@ -57,12 +57,14 @@ class FormatService
       text += "\n#{today_open_time}"
       text += "\n#{phone}"
 
+      google_score = (g_match['score'] > 1) ? g_match['score'].to_f.round(2) : '無'
+
       columns << {
         image_url: image_url,
         title: name,
         text: text,
         facebook_score: rating,
-        google_score: g_match['score'].to_f.round(2),
+        google_score: google_score,
         official: link_url,
   			location: google.get_map_link(lat, lng, name, street),
   			related_comment: google.get_google_search(name)

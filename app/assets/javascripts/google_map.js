@@ -28,6 +28,10 @@ function initMap() {
       type: "POST",
       data: {lat: lat, lng: lng},
       success: function(resp){
+        $('html, body').animate({
+    // Grab the offset (position relative to document)
+          scrollTop: $("#location_1").offset().top
+        }, 'slow');
         $('#loading').hide();
       }
     });

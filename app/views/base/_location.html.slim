@@ -8,7 +8,7 @@
 /   related_comment: "https://www.google.com/search")
 
 - if location.present?
-  .card.col-sm-3
+  .card.col-sm-3 id="location_#{location_counter + 1}"
     .card-img-top.img-fluid
       = image_tag location[:image_url], class: 'full-width'
     .card-block.text-left
