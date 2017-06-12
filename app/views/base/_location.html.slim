@@ -12,10 +12,8 @@
     .card.card-shadow id="location_#{location_counter + 1}"
       .card-img-top
         = image_tag location[:image_url], class: 'full-width'
-      .text-left style="margin: 5px 5px 5px 5px"
-        div style="display: inline;"
-          h4.card-title = location[:title]
-        p.card-text = simple_format location[:text]
+      h4.card-title = location[:title]
+      p.card-text = simple_format location[:text]
       .stats
         span.followers
           span.value
