@@ -11,15 +11,11 @@
   .col-sm-3
     .card.card-shadow id="location_#{location_counter + 1}"
       .card-img-top
-        = image_tag location[:image_url], class: 'full-width'
+        = image_tag location[:image_url], class: 'full-width', size: '500x350'
       .text-left style="margin: 5px 5px 5px 5px"
-        h4.card-title style="display: inline-block;" = location[:title]
+        div style="display: inline;"
+          h4.card-title = location[:title]
         p.card-text = simple_format location[:text]
-      / .card-block.container-fluid
-      /   i.fa.fa-facebook-square.fa-2x.facebook-color
-      /     = " #{location[:facebook_score]}分"
-      /   i.fa.fa-google.fa-2x.google-color
-      /     = " #{location[:google_score]}"
       .stats
         span.followers
           span.value
