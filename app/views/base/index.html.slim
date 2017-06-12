@@ -1,25 +1,12 @@
 .container-fluid.text-center
 	h1 = "FoodSearch"
-	p = '請移動座標以尋找附近餐廳。'
 
-	/ = link_to "https://line.me/R/ti/p/%40cqh3529k", class: 'btn btn-default' do
-	/ 	= image_tag "https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png"
+	h2 = '網站搜尋'
+	= link_to '前往', search_path, class: 'btn btn-default'
 
-	/ br
+	h2 = 'Line Bot'
+	= link_to "https://line.me/R/ti/p/%40cqh3529k", class: 'btn btn-default' do
+		= image_tag "https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png"
 
-	/ = image_tag "https://qr-official.line.me/L/J_2eIaGVVg.png"
-
-	#map
-	br
-	#google_address = '地址：'
-	br
-#locations.text-center style="overflow-x:scroll; white-space: nowrap;"
-	- 4.times do
-		= render partial: "base/location", collection: [], as: :location
-
-	= render partial: "base/loading"
-
-script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{Settings.google.google_js_api_key}&callback=initMap"]
-
-javascript:
-	rails_env = "#{Rails.env}"
+	h2 = 'Messenger Bot'
+	= link_to '前往粉絲團', 'https://www.facebook.com/%E7%BE%8E%E9%A3%9F%E5%BF%AB%E6%90%9C-844639869021578/?fref=ts', class: 'btn btn-default'

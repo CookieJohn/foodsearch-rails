@@ -7,6 +7,10 @@ class BaseController < ApplicationController
   	set_meta
   end
 
+  def search
+  	set_meta
+  end
+
   def refresh_locations
   	lat = params['lat']
   	lng = params['lng']
