@@ -20,7 +20,31 @@
 		#lng = '緯度：'
 
 	#map
+	br
+	.card-deck#locations style="overflow-x:scroll; white-space: nowrap;"
+		- 4.times do
+			= render partial: "base/location", collection: [], as: :location
+
+	#loading.loader style="display: none;"
+	  .ajax-spinner-bars
+		.bar-1
+		.bar-2
+		.bar-3
+		.bar-4
+		.bar-5
+		.bar-6
+		.bar-7
+		.bar-8
+		.bar-9
+		.bar-10
+		.bar-11
+		.bar-12
+		.bar-13
+		.bar-14
+		.bar-15
+		.bar-16
 
 script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{Settings.google.google_js_api_key}&callback=initMap"]
 
-
+javascript:
+	rails_env = "#{Rails.env}"

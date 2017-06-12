@@ -9,8 +9,9 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass'
 gem 'slim-rails'
+gem "font-awesome-rails"
 gem 'meta-tags'
 
 # third-party

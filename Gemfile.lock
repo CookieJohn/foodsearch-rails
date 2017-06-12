@@ -93,6 +93,8 @@ GEM
     faraday (0.12.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.9.18)
+    font-awesome-rails (4.7.0.2)
+      railties (>= 3.2, < 5.2)
     fuzzy-string-match (1.0.0)
       RubyInline (>= 3.8.6)
     globalid (0.4.0)
@@ -230,13 +232,14 @@ PLATFORMS
 
 DEPENDENCIES
   better_errors
-  bootstrap-sass (~> 3.3.6)
+  bootstrap-sass
   byebug
   capistrano
   capistrano-passenger
   capistrano-rails
   capistrano-rvm
   coffee-rails
+  font-awesome-rails
   fuzzy-string-match
   httparty
   jbuilder

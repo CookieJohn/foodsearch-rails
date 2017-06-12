@@ -7,6 +7,19 @@ class BaseController < ApplicationController
   	set_meta
   end
 
+  def refresh_locations
+  	lat = params['lat']
+  	lng = params['lng']
+  	fb_results = GraphApiService.new.search_places(lat, lng, nil, 999)
+  	keywords = fb_results.map {|f| f['name']}
+    google_results = GoogleMapService.new.search_places(lat, lng, nil, keywords)
+
+    @location_data = FormatService.new.web_format(fb_results, google_results)
+    respond_to do |format|
+	    format.js
+	  end
+  end
+
   def callback
 		msg = LineBotService.new.reply_msg(request)
 		render plain: msg

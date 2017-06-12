@@ -11,17 +11,32 @@ function initMap() {
   });
   var geocoder = new google.maps.Geocoder();
   google.maps.event.addListener(marker, 'dragend', function (event) {
-    // document.getElementById("google_address").innerHTML = "地址：" + results[0].formatted_address;
-    document.getElementById("lat").innerHTML = "經度：" + event.latLng.lat();
-    document.getElementById("lng").innerHTML = "緯度：" +event.latLng.lng();
-    // alert(document.getElementById("lat").value);
+    lat = event.latLng.lat();
+    lng = event.latLng.lng();
+    document.getElementById("lat").innerHTML = "經度：" + lat;
+    document.getElementById("lng").innerHTML = "緯度：" + lng;
+    if (rails_env == "development"){
+      url = "http://localhost:3000/refresh_locations"
+      // url = "https://johnwudevelop.tk/refresh_locations"
+    }else{
+      // url = "http://localhost:3000/refresh_locations"
+      url = "https://johnwudevelop.tk/refresh_locations"
+    }
+    $('#loading').show();
+    $.ajax({
+      url: url,
+      type: "POST",
+      data: {lat: lat, lng: lng},
+      success: function(resp){
+        $('#loading').hide();
+      }
+    });
     geocoder.geocode({
     'latLng': event.latLng
     }, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[0]) {
           document.getElementById("google_address").innerHTML = "地址：" + results[0].formatted_address;
-          // alert(results[0].formatted_address);
         }
       }
     });
