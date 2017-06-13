@@ -13,7 +13,8 @@
       .card-img-top
         = image_tag location[:image_url], class: 'full-width'
       h4.card-title = location[:title]
-      p.card-text = simple_format location[:text]
+      .text-left
+        p.card-text = simple_format location[:text]
       .stats
         span.followers
           span.value
