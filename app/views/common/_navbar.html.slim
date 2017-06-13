@@ -1,0 +1,20 @@
+nav.navbar.navbar-inverse.navbar-fixed-top style=('panding-bottom: 50p;')
+	.container
+		.navbar-header
+			a.navbar-brand href=root_url
+				i.fa.fa-spoon
+				= " FoodSearch"
+
+			button#hamburger.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button" 
+			  span.icon-bar
+			  span.icon-bar
+			  span.icon-bar
+
+		div.collapse.navbar-collapse
+			ul.nav.navbar-nav.navbar-right
+			  li = link_to root_path do
+			  	i.fa.fa-home
+			  	= ' Home'
+			  li = link_to search_path do
+			  	i.fa.fa-search
+			  	= ' Search'
