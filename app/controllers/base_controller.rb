@@ -1,8 +1,27 @@
 class BaseController < ApplicationController
+	include MetaHelper
+
   skip_before_action :verify_authenticity_token, only: [:callback, :facebook_callback]
 
   def index
-  	render plain: '200'
+  	set_meta
+  end
+
+  def search
+  	set_meta
+  end
+
+  def refresh_locations
+  	lat = params['lat']
+  	lng = params['lng']
+  	fb_results = GraphApiService.new.search_places(lat, lng, nil, 999)
+  	keywords = fb_results.map {|f| f['name']}
+    google_results = GoogleMapService.new.search_places(lat, lng, nil, keywords)
+
+    @location_data = FormatService.new.web_format(fb_results, google_results)
+    respond_to do |format|
+	    format.js
+	  end
   end
 
   def callback

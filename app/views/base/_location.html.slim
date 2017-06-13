@@ -1,0 +1,35 @@
+/ - location = OpenStruct.new(image_url: "https://graph.facebook.com/274434666256007/picture??width=450&height=450", link_url: "",
+/   title: "兔子兔子茶飲專賣店- 蘆洲長安店",
+/   text: "FB：4.7分/24人\n餐廳, 茶店\n10:00~22:00",
+/   facebook_score: '5.0',
+/   google_score: '4.5',
+/   official: "https://www.facebook.com/",
+/   location: "https://www.google.com/",
+/   related_comment: "https://www.google.com/search")
+
+- if location.present?
+  .col-sm-3
+    .card.card-shadow id="location_#{location_counter + 1}"
+      .card-img-top
+        = image_tag location[:image_url], class: 'full-width'
+      h4.card-title = location[:title]
+      p.card-text = simple_format location[:text]
+      .stats
+        span.followers
+          span.value
+            = " #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
+          span.label
+            i.fa.fa-facebook-square.fa-2x.facebook-color
+        span.stories
+          span.value
+            - google_score = location.dig(:google_score).to_i > 0 ? "#{location[:google_score]}分" : '無'
+            = google_score
+          span.label
+            i.fa.fa-google.fa-2x.google-color
+      ul.list-group.list-group-flush
+        li.list-group-item
+          = link_to I18n.t('button.official'), location[:official], class: 'button-link', target: '_blank'
+        li.list-group-item
+          = link_to I18n.t('button.location'), location[:location], class: 'button-link', target: '_blank'
+        li.list-group-item
+          = link_to I18n.t('button.related_comment'), location[:related_comment], class: 'button-link', target: '_blank'

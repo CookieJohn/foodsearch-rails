@@ -38,8 +38,8 @@ class GraphApiService
 		results = random_type ? results.sample(size) : results.first(size)
 	end
 
-	def get_photo id
-		"https://graph.facebook.com/#{id}/picture??width=450&height=450"
+	def get_photo id, width=450, height=450
+		"https://graph.facebook.com/#{id}/picture??width=#{width}&height=#{height}"
 	end
 
 	def get_current_open_time hours
