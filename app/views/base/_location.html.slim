@@ -30,9 +30,9 @@
           / span.label
           /   i.fa.fa-google.fa-2x.google-color
       ul.list-group.list-group-flush
-        li.list-group-item
-          = link_to I18n.t('button.official'), location[:official], class: 'button-link', target: '_blank', class: 'btn btn-default'
-        li.list-group-item
-          = link_to I18n.t('button.location'), location[:location], class: 'button-link', target: '_blank', class: 'btn btn-default'
-        li.list-group-item
-          = link_to I18n.t('button.related_comment'), location[:related_comment], class: 'button-link', target: '_blank', class: 'btn btn-default'
+        li.list-group-item.btn.btn-default
+          = link_to I18n.t('button.official'), location[:official], class: 'button-link', target: '_blank'
+        li.list-group-item.btn.btn-default
+          = link_to I18n.t('button.location'), location[:location], class: 'button-link', target: '_blank'
+        li.list-group-item.btn.btn-default
+          = link_to I18n.t('button.related_comment'), location[:related_comment], class: 'button-link', target: '_blank'
