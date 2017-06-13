@@ -17,15 +17,17 @@
       .stats
         span.followers
           span.value
-            = " #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
-          span.label
             i.fa.fa-facebook-square.fa-2x.facebook-color
+            = " #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
+          / span.label
+          /   i.fa.fa-facebook-square.fa-2x.facebook-color
         span.stories
           span.value
-            - google_score = location.dig(:google_score).to_i > 0 ? "#{location[:google_score]}分" : '無'
-            = google_score
-          span.label
+            - google_score = location.dig(:google_score).to_i > 0 ? " #{location[:google_score]}分" : ' 無'
             i.fa.fa-google.fa-2x.google-color
+            = google_score
+          / span.label
+          /   i.fa.fa-google.fa-2x.google-color
       ul.list-group.list-group-flush
         li.list-group-item
           = link_to I18n.t('button.official'), location[:official], class: 'button-link', target: '_blank'
