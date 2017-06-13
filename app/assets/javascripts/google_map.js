@@ -22,34 +22,34 @@ function initMap() {
     lng = event.latLng.lng();
     // document.getElementById("lat").innerHTML = "經度：" + lat;
     // document.getElementById("lng").innerHTML = "緯度：" + lng;
-    if (rails_env == "development"){
-      url = "http://localhost:3000/refresh_locations"
-      // url = "https://johnwudevelop.tk/refresh_locations"
-    }else{
-      // url = "http://localhost:3000/refresh_locations"
-      url = "https://johnwudevelop.tk/refresh_locations"
-    }
-    $('#loading').show();
-    $.ajax({
-      url: url,
-      type: "POST",
-      data: {lat: lat, lng: lng},
-      success: function(resp){
-        $('html, body').animate({
-    // Grab the offset (position relative to document)
-          scrollTop: $("#location_1").offset().top
-        }, 'slow');
-        $('#loading').hide();
-      }
-    });
+    send_post();
     geocoder.geocode({
     'latLng': event.latLng
     }, function(results, status) {
       if (status == google.maps.GeocoderStatus.OK) {
         if (results[0]) {
-          document.getElementById("google_address").innerHTML = "地址：" + results[0].formatted_address;
+          document.getElementById("google_address").innerHTML = results[0].formatted_address;
         }
       }
     });
+  });
+}
+function send_post() {
+  if (rails_env == "development"){
+    url = "http://localhost:3000/refresh_locations"
+  }else{
+    url = "https://johnwudevelop.tk/refresh_locations"
+  }
+  $('#loading').show();
+  $.ajax({
+    url: url,
+    type: "POST",
+    data: {lat: lat, lng: lng},
+    success: function(resp){
+      $('html, body').animate({
+        scrollTop: $("#location_1").offset().top
+      }, 'slow');
+      $('#loading').hide();
+    }
   });
 }
