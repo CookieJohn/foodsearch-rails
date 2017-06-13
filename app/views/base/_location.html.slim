@@ -17,14 +17,14 @@
       .stats
         span.followers
           span.value
-            i.fa.fa-facebook-square.fa-2x.facebook-color
+            i.fa.fa-facebook-square.facebook-color
             = " #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
           / span.label
           /   i.fa.fa-facebook-square.fa-2x.facebook-color
         span.stories
           span.value
             - google_score = location.dig(:google_score).to_i > 0 ? " #{location[:google_score]}分" : ' 無'
-            i.fa.fa-google.fa-2x.google-color
+            i.fa.fa-google.google-color
             = google_score
           / span.label
           /   i.fa.fa-google.fa-2x.google-color
