@@ -31,6 +31,13 @@
     border-radius: 5px;
 }
 
+.button {
+  height: 20vh;
+  width: 33.33%; /* as @passatgt mentioned in the comment, for the older browsers fallback */
+  vertical-align: middle;
+  display: inline-block;
+}
+
 $text: #303336;
 $light-text: #8c98a8;
 $border: #CED5E0;
