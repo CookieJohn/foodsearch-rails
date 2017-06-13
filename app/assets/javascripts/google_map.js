@@ -10,11 +10,11 @@ function initMap() {
     draggable: true,
   });
   var geocoder = new google.maps.Geocoder();
-  $('#loading').hide();
   var loading = document.getElementById('loading');
   google.maps.event.addListener(marker, 'dragend', function (event) {
     lat = event.latLng.lat();
     lng = event.latLng.lng();
+    $('#loading').toggle();
     $('#loading').show();
     send_post();
     geocoder.geocode({
