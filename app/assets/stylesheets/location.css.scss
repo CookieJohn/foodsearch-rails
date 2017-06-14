@@ -19,6 +19,9 @@
   overflow-x: scroll; 
   white-space: nowrap;
 }
+.inline {
+  display: inline-block;
+}
 
 .card-text {
   text-align: left;
