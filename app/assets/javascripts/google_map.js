@@ -16,6 +16,7 @@ function initMap() {
     lng = event.latLng.lng();
     $('#loading').toggle();
     $('#loading').show();
+    map.setCenter(new google.maps.LatLng(lat, lng));
     send_post();
     geocoder.geocode({
     'latLng': event.latLng
