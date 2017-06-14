@@ -14,7 +14,6 @@ function initMap() {
   google.maps.event.addListener(marker, 'dragend', function (event) {
     lat = event.latLng.lat();
     lng = event.latLng.lng();
-    $('#loading').toggle();
     $('#loading').show();
     map.setCenter(new google.maps.LatLng(lat, lng));
     send_post();
