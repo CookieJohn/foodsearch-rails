@@ -21,7 +21,7 @@ class FormatService
       street = result['location']['street'] || ""
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
-      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
+      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : '無提供電話'
       link_url = result['link'] || result['website']
       category = result['category']
       category_list = result['category_list']

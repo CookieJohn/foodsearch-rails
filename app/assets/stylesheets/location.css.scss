@@ -15,8 +15,17 @@
 	display: block;
 }
 
-.col-sm-3{
+.scroll_inline {
+  overflow-x: scroll; 
+  white-space: nowrap;
+}
+.inline {
   display: inline-block;
+}
+
+.card-text {
+  text-align: left;
+  margin-left: 20px;
 }
 
 .card-shadow {
@@ -24,6 +33,13 @@
     // transition: 0.3s;
     // border: 1px solid #ddd;
     border-radius: 5px;
+}
+
+.button {
+  height: 20vh;
+  width: 33.33%; /* as @passatgt mentioned in the comment, for the older browsers fallback */
+  vertical-align: middle;
+  display: inline-block;
 }
 
 $text: #303336;

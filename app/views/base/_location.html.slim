@@ -8,30 +8,25 @@
 /   related_comment: "https://www.google.com/search")
 
 - if location.present?
-  .col-sm-3
+  .col-sm-6.col-md-4.col-lg-3.inline
     .card.card-shadow id="location_#{location_counter + 1}"
       .card-img-top
         = image_tag location[:image_url], class: 'full-width'
       h4.card-title = location[:title]
-      p.card-text = simple_format location[:text]
+      .card-text
+        p= simple_format location[:text]
       .stats
         span.followers
           span.value
             i.fa.fa-facebook-square.facebook-color
-            = " #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
-          / span.label
-          /   i.fa.fa-facebook-square.fa-2x.facebook-color
+            = " #{location[:facebook_score]}分 / #{location[:facebook_score_count]}人"
         span.stories
           span.value
-            - google_score = location.dig(:google_score).to_i > 0 ? " #{location[:google_score]}分" : ' 無'
+            - google_score = location.dig(:google_score) > 0 ? " #{location[:google_score]}分" : ' 無'
             i.fa.fa-google.google-color
             = google_score
-          / span.label
-          /   i.fa.fa-google.fa-2x.google-color
       ul.list-group.list-group-flush
-        li.list-group-item
-          = link_to I18n.t('button.official'), location[:official], class: 'button-link', target: '_blank'
-        li.list-group-item
-          = link_to I18n.t('button.location'), location[:location], class: 'button-link', target: '_blank'
-        li.list-group-item
-          = link_to I18n.t('button.related_comment'), location[:related_comment], class: 'button-link', target: '_blank'
+        = render partial: "common/button", locals: {title: i18n_button(:official), link: location[:official]}
+        = render partial: "common/button", locals: {title: i18n_button(:location), link: location[:location]}
+        = render partial: "common/button", locals: {title: i18n_button(:related_comment), link: location[:related_comment]}
+        
