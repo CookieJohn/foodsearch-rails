@@ -15,3 +15,10 @@
 //= require jquery_ujs
 //= require turbolinks
 //= require_tree .
+
+$(document).on('click', '#search-title', function(event){
+  event.preventDefault();
+  $('html, body').animate({
+    scrollTop: $("#search-title").offset().top
+  }, 'slow');
+});
