@@ -1,20 +1,11 @@
 .container-fluid.text-center
-	h4 = '請移動座標以尋找附近餐廳。'
-
-	/ = link_to "https://line.me/R/ti/p/%40cqh3529k", class: 'btn btn-default' do
-	/ 	= image_tag "https://scdn.line-apps.com/n/line_add_friends/btn/zh-Hant.png"
-
-	/ br
-
-	/ = image_tag "https://qr-official.line.me/L/J_2eIaGVVg.png"
+	h4#search-title = '請移動座標以尋找附近餐廳。'
 
 	#map
 	br
 	h5#google_address = ''
 	br
 #locations.text-center.scroll_inline
-	- 4.times do
-		= render partial: "base/location", collection: [], as: :location
 
 = render partial: "common/loading"
 
