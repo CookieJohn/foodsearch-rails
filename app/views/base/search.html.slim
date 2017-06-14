@@ -16,7 +16,7 @@
 	- 4.times do
 		= render partial: "base/location", collection: [], as: :location
 
-= render partial: "base/loading"
+= render partial: "common/loading"
 
 script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{Settings.google.google_js_api_key}&callback=initMap"]
 
