@@ -1,15 +1,10 @@
 .container-fluid.text-center
-	h4#search-title = '請移動座標以尋找附近餐廳。'
+	.col-lg-10.col-lg-offset-1
+		h4#search-title = '請移動座標以尋找附近餐廳。'
+		#map
+		p#google_address = ''
 
-	#map
-	br
-	h5#google_address = ''
-	br
 #locations.text-center.scroll_inline
 
 = render partial: "common/loading"
-
-script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{Settings.google.google_js_api_key}&callback=initMap"]
-
-javascript:
-	rails_env = "#{Rails.env}"
+= render partial: "common/map_script"
