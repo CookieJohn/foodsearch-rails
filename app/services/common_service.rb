@@ -29,4 +29,8 @@ class CommonService
 		res = HTTParty.post(uri, body: params.to_json, headers: { 'Content-Type' => 'application/json' })
 		results = JSON.parse(res.body)
 	end
+
+	def count_distance current_lat_lng, position_lat_lng
+		Geocoder::Calculations.distance_between(current_lat_lng, position_lat_lng).round(3)
+	end
 end
