@@ -33,7 +33,17 @@
   margin-bottom: 10px;
 }
 
-// .button-list { margin: 0 0px 10px 0px; }
+select option {
+  text-align: center;
+}
+
+.select {
+  float: right;
+  font-size: 18px;
+  width: 150px;
+  height: 30px;
+  margin: 10px;
+}
 
 .data {
   margin-top: .6em;
