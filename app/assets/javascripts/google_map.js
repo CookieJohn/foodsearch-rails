@@ -59,13 +59,16 @@ function detect_position(map, marker, uluru) {
   $('#loading').show();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
+      lat = position.coords.latitude;
+      lng = position.coords.longitude;
       var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
+        lat: lat,
+        lng: lng
       };
       marker.setPosition(pos);
       map.setCenter(pos);
       $('#loading').hide();
+      send_post(lat, lng);
     }, function() {
       handleLocationError(true, infoWindow, map.getCenter(), map, marker, uluru);
     });

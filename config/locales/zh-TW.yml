@@ -37,7 +37,7 @@ zh-TW:
       search_type: restaurant
       distance: 500
       fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website
-      score: 3.9
+      score: 3.8
       random: true
       reject_price: ['$$$','$$$$']
       reject_name: ['飯店','酒店']
