@@ -36,8 +36,12 @@ class GraphApiService
 			(!r['category'].include?(I18n.t('common.meal')) && !r['category_list'].any? {|c| c['name'].include?(I18n.t('common.meal')) }) ||
 			r['overall_star_rating'].to_f <= min_score }
 
-		results = results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse if mode == 'score'
-		results = results.sort_by { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) } if mode == 'distance'
+		results = case mode
+		when 'score'
+			results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
+		when 'distance'
+			results = results.sort_by { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
+		end
 
 		# results = random_type ? results.sample(size) : results.first(size)
 	end
