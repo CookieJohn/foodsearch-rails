@@ -4,8 +4,8 @@
 		#map
 		p#google_address = ''
 
-		- selected = cookies['mode'].present? ? cookies['mode'] : ''
-		= select_tag('select-mode', options_for_select([['評分', 'score'], ['距離', 'distance']], selected: selected), onchange: "SelectMode();", class: 'select')
+	- selected = cookies['mode'].present? ? cookies['mode'] : ''
+	= select_tag('select-mode', options_for_select([['評分', 'score'], ['距離', 'distance']], selected: selected), onchange: "SelectMode();", class: 'select')
 
 #locations.text-center.scroll_inline
 
