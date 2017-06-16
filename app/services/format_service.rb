@@ -26,6 +26,7 @@ class FormatService
       category = result['category']
       category_list = result['category_list']
       hours = result['hours']
+      distance = result['distance']
 
       description = category
       category_list.sample(2).each do |c|
@@ -56,6 +57,7 @@ class FormatService
       text = "\n#{description}"
       text += "\n#{today_open_time}"
       text += "\n#{phone}"
+      text += "\n#{(distance*1000).to_i}公尺" if distance.present?
 
       google_score = (g_match['score'].to_f > 1) ? g_match['score'].to_f.round(2) : 0
 
