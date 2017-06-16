@@ -57,7 +57,7 @@ class FormatService
       text += "\n#{today_open_time}"
       text += "\n#{phone}"
 
-      google_score = (g_match['score'].to_f > 1.0) ? g_match['score'].to_f.round(2) : 0
+      google_score = (g_match['score'].to_f > 1) ? g_match['score'].to_f.round(2) : 0
 
       columns << {
         image_url: image_url,

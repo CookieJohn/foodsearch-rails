@@ -18,18 +18,13 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-body { 
-    padding-top: 60px; 
+@import url(https://fonts.googleapis.com/css?family=Roboto:400);
+html, html * {
+  font-family: Roboto;
+  font-weight: 400;
 }
 
-h1 {
-	font-size: 35px;
-}
-
-h4 {
-	font-size: 20px;
-}
-
-p {
-	font-size: 15px;
-}
+body {padding-top: 60px;}
+h1 {font-size: 35px;}
+h4 {font-size: 20px;}
+p {font-size: 16px;}
