@@ -1,4 +1,8 @@
 zh-TW:
+  label:
+    search_intro: 請移動座標以尋找附近餐廳。
+    score: 評分
+    distance: 距離
   common:
     score: 分
     people: 人

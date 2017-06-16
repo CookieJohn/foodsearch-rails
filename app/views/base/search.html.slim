@@ -1,11 +1,11 @@
 .container-fluid.text-center
 	.col-lg-10.col-lg-offset-1
-		h4#search-title = '請移動座標以尋找附近餐廳。'
+		h4#search-title = i18n_label(:search_intro)
 		#map
 		p#google_address = ''
 
 	- selected = cookies['mode'].present? ? cookies['mode'] : ''
-	= select_tag('select-mode', options_for_select([['評分', 'score'], ['距離', 'distance']], selected: selected), onchange: "SelectMode();", class: 'select')
+	= select_tag('select-mode', options_for_select([[i18n_label(:score), 'score'], [i18n_label(:distance), 'distance']], selected: selected), onchange: "SelectMode();", class: 'select')
 
 #locations.text-center.scroll_inline
 
