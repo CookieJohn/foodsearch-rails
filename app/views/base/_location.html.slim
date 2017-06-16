@@ -15,6 +15,7 @@
     .card-text
       p= simple_format location[:text]
     .card-text.text-right
+      p = "#{location[:distance]}"
       i.fa.fa-facebook-square.facebook-color
       = " #{location[:facebook_score]}分 / #{location[:facebook_score_count]}人"
       = " "

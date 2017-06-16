@@ -26,7 +26,7 @@ class FormatService
       category = result['category']
       category_list = result['category_list']
       hours = result['hours']
-      distance = result['distance']
+      distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
 
       description = category
       category_list.sample(2).each do |c|
@@ -57,7 +57,7 @@ class FormatService
       text = "\n#{description}"
       text += "\n#{today_open_time}"
       text += "\n#{phone}"
-      text += "\n#{(distance*1000).to_i}公尺" if distance.present?
+      # text += "\n#{(distance*1000).to_i}公尺" if distance.present?
 
       google_score = (g_match['score'].to_f > 1) ? g_match['score'].to_f.round(2) : 0
 
@@ -65,15 +65,16 @@ class FormatService
         image_url: image_url,
         title: name,
         text: text,
-        types: description,
-        today_open_time: today_open_time,
-        phone: phone,
+        # types: description,
+        # today_open_time: today_open_time,
+        # phone: phone,
         facebook_score: rating,
         facebook_score_count: rating_count,
         google_score: google_score,
         official: link_url,
   			location: google.get_map_link(lat, lng, name, street),
-  			related_comment: google.get_google_search(name)
+  			related_comment: google.get_google_search(name),
+        distance: distance
       }
     end
     return columns
