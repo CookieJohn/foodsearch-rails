@@ -2,8 +2,8 @@ doctype 5
 html
   head
     = favicon_link_tag 'favicon.ico'
-    = display_meta_tags
     meta property="fb:app_id" content="#{Settings.facebook.app_id}"
+    = display_meta_tags
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags

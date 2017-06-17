@@ -11,7 +11,7 @@ module MetaHelper
 			url: website_url,
 			description: '餐廳搜尋',
 	    image: {
-		    _: ActionController::Base.helpers.asset_url('fork_and_knife.jpg'),
+		    _: site_image + ActionController::Base.helpers.image_url('fork_and_knife.jpg'),
 		    width: 400,
 		    height: 400,
 		  }}
@@ -21,7 +21,7 @@ module MetaHelper
 		  title: 'FoodSearch',
 		  description: '餐廳搜尋',
 		  image: {
-		    _: ActionController::Base.helpers.asset_url('fork_and_knife.jpg'),
+		    _: site_image + ActionController::Base.helpers.image_url('fork_and_knife.jpg'),
 		    width: 400,
 		    height: 400,
 		  }}
@@ -29,5 +29,9 @@ module MetaHelper
 
 	def website_url
 		"https://#{request.host+request.fullpath}"
+	end
+
+	def site_image
+		"#{request.protocol}#{request.host_with_port}"
 	end
 end
