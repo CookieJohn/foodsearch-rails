@@ -1,7 +1,6 @@
 class BaseController < ApplicationController
-	include MetaHelper
-
   skip_before_action :verify_authenticity_token, only: [:callback, :facebook_callback]
+  before_action :get_lat_lng, only: [:refresh_locations]
 
   def index
   	set_meta
@@ -14,11 +13,9 @@ class BaseController < ApplicationController
   def refresh_locations
     mode = cookies['mode'].present? ? cookies['mode'] : 'score'
 
-  	lat = params['lat']
-  	lng = params['lng']
-  	fb_results = GraphApiService.new.search_places(lat, lng, nil, 999, mode)
+  	fb_results = GraphApiService.new.search_places(@lat, @lng, nil, 999, mode)
   	keywords = fb_results.map {|f| f['name']}
-    google_results = GoogleMapService.new.search_places(lat, lng, nil, keywords)
+    google_results = GoogleMapService.new.search_places(@lat, @lng, nil, keywords)
 
     @location_data = FormatService.new.web_format(fb_results, google_results)
     respond_to do |format|
@@ -41,6 +38,11 @@ class BaseController < ApplicationController
 	end
 
 	def privacy
-		
 	end
+
+  private
+    def get_lat_lng
+      @lat = params['lat']
+      @lng = params['lng']
+    end
 end
