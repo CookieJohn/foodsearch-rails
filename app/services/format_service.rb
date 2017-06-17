@@ -29,7 +29,7 @@ class FormatService
       distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
 
       description = category
-      category_list.sample(2).each do |c|
+      category_list.each do |c|
         description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
         new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['name']) }
       end
@@ -47,8 +47,7 @@ class FormatService
         end
       end
 
-      text = "\n#{description}"
-      text += "\n#{today_open_time}"
+      text = "\n#{today_open_time}"
       text += "\n#{phone}"
 
       google_score = (g_match['score'].to_f > 1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
@@ -57,6 +56,7 @@ class FormatService
         image_url: image_url,
         title: name,
         text: text,
+        types: description,
         facebook_score: rating,
         facebook_score_count: rating_count,
         google_score: google_score,

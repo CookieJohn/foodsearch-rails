@@ -13,8 +13,8 @@
       = image_tag location[:image_url], class: 'full-width'
     h4.card-title = truncate_utf8(location[:title], 16)
     .card-text
-      p= simple_format location[:text]
-    .card-text.text-right
+      p = simple_format "#{truncate_utf8(location[:types], 20)}\n#{location[:text]}"
+    .card-location
       p = "#{location[:distance]}"
       i.fa.fa-facebook-square.facebook-color
       = " #{location[:facebook_score]}分 / #{location[:facebook_score_count]}人"

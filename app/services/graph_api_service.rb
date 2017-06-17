@@ -25,7 +25,7 @@ class GraphApiService
 		min_score = user.present? ? user.min_score : DEFAULT_MIN_SCORE
 		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
 
-		facebook_results = graph.search(DEFAULT_SEARCH, type: :place,center: position, distance: max_distance, fields: DEFAULT_FIELDS, locale: I18n.locale.to_s)
+		facebook_results = graph.search(DEFAULT_SEARCH, type: :place,center: position, distance: max_distance, limit: 100, fields: DEFAULT_FIELDS, locale: I18n.locale.to_s)
 		# 移除金額過高的搜尋結果
 		# 移除連結不存在 的搜尋結果
 		# 移除類別不包含 餐 的搜尋結果
