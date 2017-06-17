@@ -1,12 +1,12 @@
-nav.navbar.navbar-inverse.navbar-fixed-top style=('panding-bottom: 50p;')
+nav.navbar.navbar-default.navbar-fixed-top style=('panding-bottom: 50p;')
 	.container
 		.navbar-header.pull-left
-			a.navbar-brand href=root_url
+			a.navbar-brand.web-title href=root_url
 				= " FoodSearch"
 		.navbar-header.pull-right
 			- if current_page?(root_path)
 				a.navbar-brand href=search_path
 					i.fa.fa-search
 			- if current_page?(search_path)
-				a.navbar-brand href="#search-title"
-					i.fa.fa-map-marker
+				a.navbar-brand.map-icon href="#search-title"
+					i.fa.fa-map-marker.fa-2x
