@@ -35,11 +35,6 @@ class FormatService
       end
       image_url = graph.get_photo(id,500,500)
 
-      # actions = []
-      # actions << set_action(I18n.t('button.official'), common.safe_url(link_url))
-      # actions << set_action(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
-      # actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
-
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       g_match = {'score' => 0.0, 'match_score' => 0.0}
       if google_results.present?
@@ -52,22 +47,16 @@ class FormatService
         end
       end
 
-      # text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      # text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text = "\n#{description}"
       text += "\n#{today_open_time}"
       text += "\n#{phone}"
-      # text += "\n#{(distance*1000).to_i}公尺" if distance.present?
 
-      google_score = (g_match['score'].to_f > 1) ? g_match['score'].to_f.round(2) : 0
+      google_score = (g_match['score'].to_f > 1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
 
       columns << {
         image_url: image_url,
         title: name,
         text: text,
-        # types: description,
-        # today_open_time: today_open_time,
-        # phone: phone,
         facebook_score: rating,
         facebook_score_count: rating_count,
         google_score: google_score,

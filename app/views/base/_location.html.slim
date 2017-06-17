@@ -19,9 +19,8 @@
       i.fa.fa-facebook-square.facebook-color
       = " #{location[:facebook_score]}分 / #{location[:facebook_score_count]}人"
       = " "
-      - google_score = location.dig(:google_score) > 0 ? " #{location[:google_score]}分" : ' 無'
       i.fa.fa-google.google-color
-      = google_score
+      = location[:google_score]
     .data
       = render partial: "common/button", locals: {title: i18n_button(:official), link: location[:official]}
       = render partial: "common/button", locals: {title: i18n_button(:location), link: location[:location]}

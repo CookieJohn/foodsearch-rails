@@ -18,7 +18,7 @@ class GraphApiService
 		self.common ||= CommonService.new
 	end
 
-	def search_places lat, lng, user=nil, size=5, mode='score'
+	def search_places lat, lng, user=nil, size=5, mode=nil
 		
 		position = "#{lat},#{lng}"
 		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
@@ -41,9 +41,9 @@ class GraphApiService
 			results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
 		when 'distance'
 			results = results.sort_by { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
+		else
+			results = random_type ? results.sample(size) : results.first(size)
 		end
-
-		# results = random_type ? results.sample(size) : results.first(size)
 	end
 
 	def get_photo id, width=450, height=450
