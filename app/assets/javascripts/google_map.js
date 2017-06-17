@@ -1,3 +1,5 @@
+var current_lat = 0.0, current_lng = 0.0;
+
 function initMap() {
   var uluru = {lat: 25.059651, lng: 121.533380};
   var map = new google.maps.Map(document.getElementById('map'), {
@@ -61,6 +63,8 @@ function detect_position(map, marker, uluru) {
     navigator.geolocation.getCurrentPosition(function(position) {
       lat = position.coords.latitude;
       lng = position.coords.longitude;
+      current_lat = lat;
+      current_lng = lng;
       var pos = {
         lat: lat,
         lng: lng
