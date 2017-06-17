@@ -1,4 +1,4 @@
-var current_lat = 0.0, current_lng = 0.0;
+var current_lat, current_lng;
 
 function initMap() {
   var uluru = {lat: 25.059651, lng: 121.533380};
@@ -17,6 +17,8 @@ function initMap() {
   google.maps.event.addListener(marker, 'dragend', function (event) {
     lat = event.latLng.lat();
     lng = event.latLng.lng();
+    current_lat = lat;
+    current_lng = lng;
     map.setCenter(new google.maps.LatLng(lat, lng));
     send_post();
     geocoder.geocode({
