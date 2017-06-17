@@ -12,9 +12,11 @@ class BaseController < ApplicationController
   end
 
   def refresh_locations
+    mode = cookies['mode'].present? ? cookies['mode'] : 'score'
+
   	lat = params['lat']
   	lng = params['lng']
-  	fb_results = GraphApiService.new.search_places(lat, lng, nil, 999)
+  	fb_results = GraphApiService.new.search_places(lat, lng, nil, 999, mode)
   	keywords = fb_results.map {|f| f['name']}
     google_results = GoogleMapService.new.search_places(lat, lng, nil, keywords)
 

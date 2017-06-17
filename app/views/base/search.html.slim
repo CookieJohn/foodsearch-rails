@@ -1,10 +1,12 @@
 .container-fluid.text-center
-	.col-lg-10.col-lg-offset-1
-		h4#search-title = '請移動座標以尋找附近餐廳。'
+	.col-md-10.col-md-offset-1
+		h4#search-title = i18n_label(:search_intro)
 		#map
 		p#google_address = ''
 
-#locations.text-center.scroll_inline
+	= render partial: "common/select"
+
+#locations.text-center
 
 = render partial: "common/loading"
 = render partial: "common/map_script"

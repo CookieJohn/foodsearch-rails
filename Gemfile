@@ -21,6 +21,7 @@ gem 'koala'
 gem 'httparty'
 gem 'fuzzy-string-match'
 gem 'typhoeus'
+gem 'geocoder'
 
 # db
 gem 'pg'

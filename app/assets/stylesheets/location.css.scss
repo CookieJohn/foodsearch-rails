@@ -1,29 +1,32 @@
-.full-width {
-	width: 100%;
-  height: 35vh;
+.facebook-color {color: #3b5998;}
+.google-color {color: #dd4b39;}
+.web-title {
+  color: black !important;
+  font-weight: bold;}
+.map-icon {
+  color: #DD3639 !important; 
+  position:relative;
+  top: -8px;
+  right: 5px;}
+
+// 下拉式
+.select {
+  float: right;
+  font-size: 18px;
+  width: 150px;
+  height: 30px;
+  margin: 10px;
+  text-indent: 40px;
+  background-color: white;
 }
 
-.facebook-color {
-	color: #3b5998;
-}
-
-.google-color {
-	color: #dd4b39;
-}
-
-.scroll_inline {
-  overflow-x: scroll; 
-  white-space: nowrap;
-}
+// card
+// .scroll_inline {
+//   overflow-x: scroll; 
+//   white-space: nowrap;
+// }
 .inline {
   display: inline-block;
-}
-
-.card-title { display: inline-block; font-weight: bold; }
-
-.card-text {
-  text-align: left;
-  margin: 10px 20px 10px 20px;
 }
 
 .card {
@@ -33,8 +36,26 @@
   margin-bottom: 10px;
 }
 
-// .button-list { margin: 0 0px 10px 0px; }
+.full-width {
+  width: 100%;
+  height: 35vh;
+}
 
+.card-title { display: inline-block; font-weight: bold; }
+
+.card-text {
+  text-align: left;
+  height: 80px;
+  margin: 0px 20px 0px 20px;
+}
+
+.card-location {
+  text-align: right;
+  height: 50px;
+  margin: 0px 20px 0px 20px;
+}
+
+// 按鈕
 .data {
   margin-top: .6em;
   color: #81878b; }
@@ -46,33 +67,3 @@
     border-right: solid 1px #bdc3c7; }
     .data li:last-child {
       border: none; }
-
-$text: #303336;
-$light-text: #8c98a8;
-$border: #CED5E0;
-
-.stats {
-  margin: auto;
-  border-top: 1px solid $border;
-  width: 240px;
-  
-  .followers, .following, .stories {
-    display: inline-block;
-    padding: 6px 10px 0;
-  }
-  
-  .followers, .following {
-    border-right: 1px solid $border;
-  }
-  
-  .value {
-    font-size: 18px;
-    font-weight: 600;
-  }
-  
-  .label {
-    display: block;
-    font-size: 14px;
-    color: $light-text;
-  }
-}

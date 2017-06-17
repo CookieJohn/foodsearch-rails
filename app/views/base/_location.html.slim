@@ -7,20 +7,20 @@
 /   location: "https://www.google.com/",
 /   related_comment: "https://www.google.com/search")
 
-.col-sm-6.col-md-4.col-lg-3.inline
+.col-sm-6.col-md-4.col-lg-3
   .card id="location_#{location_counter + 1}"
     .card-img-top
       = image_tag location[:image_url], class: 'full-width'
-    h4.card-title = truncate(location[:title], length: 24)
+    h4.card-title = truncate_utf8(location[:title], 16)
     .card-text
-      p= simple_format location[:text]
-    .card-text.text-right
+      p = simple_format "#{truncate_utf8(location[:types], 20)}\n#{location[:text]}"
+    .card-location
+      p = "#{location[:distance]}"
       i.fa.fa-facebook-square.facebook-color
       = " #{location[:facebook_score]}分 / #{location[:facebook_score_count]}人"
       = " "
-      - google_score = location.dig(:google_score) > 0 ? " #{location[:google_score]}分" : ' 無'
       i.fa.fa-google.google-color
-      = google_score
+      = location[:google_score]
     .data
       = render partial: "common/button", locals: {title: i18n_button(:official), link: location[:official]}
       = render partial: "common/button", locals: {title: i18n_button(:location), link: location[:location]}
