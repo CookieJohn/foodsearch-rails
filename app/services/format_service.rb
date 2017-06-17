@@ -49,6 +49,7 @@ class FormatService
 
       text = "\n#{today_open_time}"
       text += "\n#{phone}"
+      text += "\n#{street}"
 
       google_score = (g_match['score'].to_f > 1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
 
