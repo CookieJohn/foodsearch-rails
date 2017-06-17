@@ -4,8 +4,7 @@
 		#map
 		p#google_address = ''
 
-	- selected = cookies['mode'].present? ? cookies['mode'] : ''
-	= select_tag('select-mode', options_for_select([[i18n_label(:score), 'score'], [i18n_label(:distance), 'distance']], selected: selected), onchange: "SelectMode();", class: 'select')
+	= render partial: "common/select"
 
 #locations.text-center.scroll_inline
 
