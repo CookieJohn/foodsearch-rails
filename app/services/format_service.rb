@@ -15,7 +15,7 @@ class FormatService
 
     results.each do |result|
       id = result['id']
-      name = result['name'][0, 40]
+      name = result['name']
       lat = result['location']['latitude']
       lng = result['location']['longitude']
       street = result['location']['street'] || ""
