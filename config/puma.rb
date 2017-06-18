@@ -1,6 +1,5 @@
-workers 1
-threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 5)
-threads threads_count, threads_count
+workers 3
+threads 4, 32
 
 preload_app!
 
