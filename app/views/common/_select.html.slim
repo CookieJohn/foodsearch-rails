@@ -1,2 +1,2 @@
 - selected = cookies['mode'].present? ? cookies['mode'] : ''
-= select_tag('select-mode', options_for_select([[i18n_label(:score), 'score'], [i18n_label(:distance), 'distance']], selected: selected), class: 'select')
+= select_tag('sort-mode', options_for_select([[i18n_label(:score), 'score'], [i18n_label(:distance), 'distance']], selected: selected), class: 'select')
