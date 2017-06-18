@@ -15,7 +15,7 @@ class FormatService
 
     results.each do |result|
       id = result['id']
-      name = result['name'][0, 40]
+      name = result['name']
       lat = result['location']['latitude']
       lng = result['location']['longitude']
       street = result['location']['street'] || ""
@@ -28,9 +28,9 @@ class FormatService
       hours = result['hours']
       distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
 
-      description = category
+      types = [category]
       category_list.each do |c|
-        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
+        types << c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
         new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['name']) }
       end
       image_url = graph.get_photo(id,500,500)
@@ -49,14 +49,15 @@ class FormatService
 
       text = "\n#{today_open_time}"
       text += "\n#{phone}"
+      text += "\n#{street}"
 
-      google_score = (g_match['score'].to_f > 1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
+      google_score = (g_match['score'].to_f > 0.1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
 
       columns << {
         image_url: image_url,
         title: name,
         text: text,
-        types: description,
+        types: types,
         facebook_score: rating,
         facebook_score_count: rating_count,
         google_score: google_score,

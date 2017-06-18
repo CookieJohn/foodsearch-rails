@@ -43,6 +43,10 @@ class GoogleMapService
 		"https://www.google.com/maps?q=#{query}"
 	end
 
+	def get_nevigation saddr, daddr
+		"http://maps.google.com/maps?saddr=#{saddr}&daddr=#{daddr}"
+	end
+
 	def get_google_search query
 		"https://www.google.com/search?q=#{query}"
 	end

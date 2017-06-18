@@ -1,9 +1,10 @@
 .container-fluid.text-center
 	.col-md-10.col-md-offset-1
-		h4#search-title = i18n_label(:search_intro)
+		h4 = i18n_label(:search_intro)
 		#map
 		p#google_address = ''
 
+		h4#results_num = ''
 	= render partial: "common/select"
 
 #locations.text-center

@@ -46,7 +46,7 @@ function send_post() {
     complete: function(e){
       if(e.status == 200){
         $('html, body').animate({
-          scrollTop: $("#location_1").offset().top
+          scrollTop: $("#results_num").position().top
         }, 'slow');
         $('#loading').hide();
       }else{
