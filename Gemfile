@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # fornt
-gem 'rails', '5.1.0'
+gem 'rails', '~> 5.1'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
@@ -41,6 +41,9 @@ group :development do
 
   gem 'web-console', '~> 2.0'
   gem 'spring'
+  gem 'guard-livereload', '~> 2.5', require: false
+  gem 'guard-foreman'
+
   gem 'better_errors'
   gem 'pry'
   gem 'puma'
