@@ -51,7 +51,7 @@ class FormatService
       text += "\n#{phone}"
       text += "\n#{street}"
 
-      google_score = (g_match['score'].to_f > 1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
+      google_score = (g_match['score'].to_f > 0.1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
 
       columns << {
         image_url: image_url,
