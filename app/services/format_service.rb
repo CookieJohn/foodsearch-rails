@@ -28,9 +28,9 @@ class FormatService
       hours = result['hours']
       distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
 
-      description = category
+      types = [category]
       category_list.each do |c|
-        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
+        types << c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
         new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['name']) }
       end
       image_url = graph.get_photo(id,500,500)
@@ -57,7 +57,7 @@ class FormatService
         image_url: image_url,
         title: name,
         text: text,
-        types: description,
+        types: types,
         facebook_score: rating,
         facebook_score_count: rating_count,
         google_score: google_score,
