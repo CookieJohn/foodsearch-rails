@@ -21,7 +21,7 @@ zh-TW:
     score: FB
   google:
     score: Google
-    match_score: 0.5
+    match_score: 0.4
   button:
     official: 官方資訊
     location: 位置
