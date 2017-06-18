@@ -14,14 +14,17 @@ gem 'slim-rails'
 gem "font-awesome-rails"
 gem 'meta-tags'
 
+# back
+gem 'fuzzy-string-match'
+gem 'typhoeus'
+gem 'geocoder'
+
 # third-party
 gem 'line-bot-api'
 gem 'settingslogic'
 gem 'koala'
 gem 'httparty'
-gem 'fuzzy-string-match'
-gem 'typhoeus'
-gem 'geocoder'
+gem 'newrelic_rpm'
 
 # db
 gem 'pg'
