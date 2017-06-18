@@ -1,6 +1,14 @@
 .index_tag {
   float: right;
-}
+  border-radius: 50%;
+  // display:block;
+  width: 30px; 
+  height: 27px;
+  background-color: #133EC7;
+  color: white;
+  text-align: center;
+  padding: 0.2em;
+  font-weight: bold;}
 
 .tag {
   display: inline-block;
@@ -12,8 +20,7 @@
   margin-right: 0.3em;
   vertical-align: middle;
   position: relative;
-  transition: background 0.25s, border 0.25s;
-}
+  transition: background 0.25s, border 0.25s;}
 
 .web-title {
   color: black !important;
@@ -64,8 +71,8 @@
 
 .card-location {
   text-align: right;
-  height: 50px;
-  margin: 0px 20px 0px 20px;}
+  height: 30px;
+  margin: 10px 20px 5px 20px;}
 
 // 按鈕
 .data {
