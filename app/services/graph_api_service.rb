@@ -20,7 +20,7 @@ class GraphApiService
 
 	def search_places lat, lng, user=nil, size=5, mode=nil
 
-		limit = Rails.env.production? ? 100 : 10
+		limit = Rails.env.production? ? 100 : 100
 		
 		position = "#{lat},#{lng}"
 		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
@@ -35,7 +35,7 @@ class GraphApiService
 		results = facebook_results.reject { |r| 
 			REJECT_PRICE.include?(r['price_range'].to_s) ||
 			REJECT_NAME.any? {|n| r['name'].include?(n)} ||
-			(!r['category'].include?(I18n.t('common.meal')) && !r['category_list'].any? {|c| c['name'].include?(I18n.t('common.meal')) }) ||
+			# (!r['category'].include?(I18n.t('common.meal')) && !r['category_list'].any? {|c| c['name'].include?(I18n.t('common.meal')) }) ||
 			r['overall_star_rating'].to_f <= min_score }
 		# 計算距離
 		results = results.each { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
