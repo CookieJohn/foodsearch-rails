@@ -20,7 +20,7 @@ class GraphApiService
 
 	def search_places lat, lng, user=nil, size=5, mode=nil
 
-		limit = Rails.env.production? ? 100 : 100
+		limit = Rails.env.production? ? 100 : 10
 		
 		position = "#{lat},#{lng}"
 		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
