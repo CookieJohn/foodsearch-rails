@@ -9,6 +9,7 @@ class GraphApiService
 
 	REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
 	REJECT_NAME ||= I18n.t('settings.facebook.reject_name')
+	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
 	attr_accessor :graph, :common
 	def initialize
@@ -32,10 +33,12 @@ class GraphApiService
 		# 移除連結不存在 的搜尋結果
 		# 移除類別不包含 餐 的搜尋結果
 		# 移除評分低於設定數字的搜尋結果
+
 		results = facebook_results.reject { |r| 
+			Rails.logger.info r['category_list'].map{|c| c['name']}
 			REJECT_PRICE.include?(r['price_range'].to_s) ||
 			REJECT_NAME.any? {|n| r['name'].include?(n)} ||
-			# (!r['category'].include?(I18n.t('common.meal')) && !r['category_list'].any? {|c| c['name'].include?(I18n.t('common.meal')) }) ||
+			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'].include?(n)} } ||
 			r['overall_star_rating'].to_f <= min_score }
 		# 計算距離
 		results = results.each { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
