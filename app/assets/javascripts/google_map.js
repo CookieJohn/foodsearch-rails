@@ -1,7 +1,9 @@
 var current_lat, current_lng;
 
 function initMap() {
-  var uluru = {lat: 25.059651, lng: 121.533380};
+  var lat = 25.059651;
+  var lng = 121.533380;
+  var uluru = {lat: lat, lng: lng};
   var map = new google.maps.Map(document.getElementById('map'), {
     zoom: 14,
   });
@@ -20,7 +22,7 @@ function initMap() {
     current_lat = lat;
     current_lng = lng;
     map.setCenter(new google.maps.LatLng(lat, lng));
-    send_post();
+    send_post(current_lat, current_lng);
     geocoder.geocode({
     'latLng': event.latLng
     }, function(results, status) {
@@ -31,8 +33,10 @@ function initMap() {
       }
     });
   });
+  if (rails_env == "development"){
+    send_post(lat, lng);}
 }
-function send_post() {
+function send_post(lat, lng) {
   if (rails_env == "development"){
     url = "http://localhost:3000/refresh_locations"
   }else{
@@ -59,7 +63,6 @@ function send_post() {
 
 function detect_position(map, marker, uluru) {
   var infoWindow = '';
-  // Try HTML5 geolocation.
   $('#loading').show();
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -79,7 +82,6 @@ function detect_position(map, marker, uluru) {
       handleLocationError(true, infoWindow, map.getCenter(), map, marker, uluru);
     });
   } else {
-    // Browser doesn't support Geolocation
     handleLocationError(false, infoWindow, map.getCenter(), map, marker, uluru);
   }
 }

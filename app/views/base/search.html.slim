@@ -1,4 +1,4 @@
-.container-fluid.text-center
+.container-fluid
 	.col-md-10.col-md-offset-1
 		h4 = i18n_label(:search_intro)
 		#map
@@ -7,7 +7,7 @@
 		h4#results_num = ''
 	= render partial: "common/select"
 
-#locations.text-center
+#locations
 
 = render partial: "common/loading"
 = render partial: "common/map_script"

@@ -1,0 +1,76 @@
+.custom_icon_size { font-size: 15px; }
+
+.tag {
+  display: inline-block;
+  background: #555;
+  color: white;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-radius: 5px;
+  margin: 0.3em 0.3em 0.3em 0px;
+}
+
+.card {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  border-radius: 5px;
+  margin: 5px 0px 20px 0px;
+  .card-img-top img {
+    width: 100%; 
+    height: 35vh;}
+  .title h4 { 
+    font-weight: bold;
+  }
+  .text {
+    margin: 0px 20px 0px 20px;
+    height: 30px;
+    .tag-float-left {
+      float: left; width: 80%; 
+      text-align: left;
+    }
+    .tag-float-right {
+      float: right;  
+      width: 20%;
+      .index_tag {
+        border-radius: 50%;
+        background-color: #133EC7;
+        color: white;
+        padding: 0.1em;
+        margin: 0.1em 0px 0.1em 0px;
+        font-weight: bold;}
+      }
+  }
+  .description p {
+    margin: 5px 20px 5px 20px;
+    text-align: left;
+    height: 90px;}
+  .location {
+    height: 30px;
+    margin: 10px 20px 5px 20px;
+    .distance {
+      float: left;
+      width: 30%; 
+      text-align: left;
+      .inon-text p {
+        display: inline-block; 
+        margin-left: 4px;
+        height: 100%; 
+        font-size: 14px;}}
+    .score {
+      float: right;  
+      width: 70%;
+      text-align: right;
+      .inon-text p {
+        display: inline-block;
+        margin-left: 4px; 
+        font-size: 14px;}}}
+  .data {
+    margin-top: .6em;
+    color: #81878b; }
+    .data li {
+      width: 33%;
+      height: 50px;
+      text-align: center;
+      display: inline-block;
+      font-size: 1.5em;
+      border-right: solid 1px #bdc3c7; }
+      .data li:last-child {
+        border: none; }}
