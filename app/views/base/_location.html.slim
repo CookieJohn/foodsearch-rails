@@ -8,32 +8,31 @@
 /   related_comment: "https://www.google.com/search")
 - index = location_counter + 1
 
-.col-xs-12.col-sm-6.col-md-4.col-lg-4
-  .card id="location_#{index}"
-    .card-img-top
-      = image_tag location[:image_url]
-    .title 
-      h4 = truncate_utf8(location[:title], 16)
-    .text
-      .tag-float-left
-        - location[:types].each do |t|
-          .tag = truncate_utf8(t, 8)
-      .tag-float-right
-        p.index_tag = "##{index}"
-    .description
-      = simple_format location[:text]
-    .location
-      .distance
-        i.fa.fa-car.custom_icon_size
-        p.inon-text = " #{location[:distance]}"
-      .score
-        i.fa.fa-facebook-square.facebook-color.custom_icon_size
-        p.inon-text = "  #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
-        = " "
-        i.fa.fa-google.google-color.custom_icon_size
-        p.inon-text = location[:google_score]
-    .data
-      = render partial: "common/button", locals: {title: i18n_button(:official), link: location[:official]}
-      = render partial: "common/button", locals: {title: i18n_button(:location), link: location[:location]}
-      = render partial: "common/button", locals: {title: i18n_button(:related_comment), link: location[:related_comment]}
+.card id="location_#{index}"
+  .card-img-top
+    = image_tag location[:image_url]
+  .title 
+    h4 = truncate_utf8(location[:title], 16)
+  .text
+    .tag-float-left
+      - location[:types].each do |t|
+        .tag = truncate_utf8(t, 8)
+    .tag-float-right
+      .index_tag = "##{index}"
+  .description
+    = simple_format location[:text]
+  .location
+    .distance
+      i.fa.fa-car.custom_icon_size
+      p.inon-text = " #{location[:distance]}"
+    .score
+      i.fa.fa-facebook-square.facebook-color.custom_icon_size
+      p.inon-text = "  #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
+      = " "
+      i.fa.fa-google.google-color.custom_icon_size
+      p.inon-text = location[:google_score]
+  .data
+    = render partial: "common/button", locals: {title: i18n_button(:official), link: location[:official]}
+    = render partial: "common/button", locals: {title: i18n_button(:location), link: location[:location]}
+    = render partial: "common/button", locals: {title: i18n_button(:related_comment), link: location[:related_comment]}
         
