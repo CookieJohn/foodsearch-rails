@@ -19,10 +19,10 @@ $(document).on 'change', '#display-mode', (event) ->
 $ ->
 	match = document.cookie.match(new RegExp('display=([^;]+)'));
 	cookie = match[0].split('=')
-	if cookie[1] == 'nowrap'
-		document.getElementById("locations").style.flexWrap = 'nowrap'
-		document.getElementById("locations").style.justifyContent = 'flex-start'
-	else
+	if cookie[1] == 'wrap'
 		document.getElementById("locations").style.flexWrap = 'wrap'
 		document.getElementById("locations").style.justifyContent = 'center'
+	else
+		document.getElementById("locations").style.flexWrap = 'nowrap'
+		document.getElementById("locations").style.justifyContent = 'flex-start'
 	return
