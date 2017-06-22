@@ -35,7 +35,6 @@ class GraphApiService
 		# 移除評分低於設定數字的搜尋結果
 
 		results = facebook_results.reject { |r| 
-			Rails.logger.info r['category_list'].map{|c| c['name']}
 			REJECT_PRICE.include?(r['price_range'].to_s) ||
 			REJECT_NAME.any? {|n| r['name'].include?(n)} ||
 			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'].include?(n)} } ||
