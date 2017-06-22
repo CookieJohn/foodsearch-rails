@@ -13,10 +13,15 @@
 
 // 下拉式
 .select {
+  // display: block;
+  display: flex;
   float: right;
   font-size: 18px;
-  width: 150px;
+  // width: 250px;
   height: 30px;
-  margin: 10px;
-  text-indent: 40px;
-  background-color: white;}
+  background-color: white;
+  .left{
+    width: 50%}
+  .right{
+  margin-left: 10px;
+  width: 50%}}
