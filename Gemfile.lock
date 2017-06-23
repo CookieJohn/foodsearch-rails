@@ -115,9 +115,6 @@ GEM
       shellany (~> 0.0)
       thor (>= 0.18.1)
     guard-compat (1.2.1)
-    guard-foreman (0.0.4)
-      guard (~> 2.6)
-      spoon (~> 0.0, >= 0.0.4)
     guard-livereload (2.5.2)
       em-websocket (~> 0.5)
       guard (~> 2.8)
@@ -179,6 +176,8 @@ GEM
     public_suffix (2.0.5)
     puma (3.9.1)
     rack (2.0.3)
+    rack-livereload (0.3.16)
+      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.1.1)
@@ -233,8 +232,6 @@ GEM
       railties (>= 3.1)
       slim (~> 3.0)
     slop (3.6.0)
-    spoon (0.0.6)
-      ffi
     spring (2.0.2)
       activesupport (>= 4.2)
     sprockets (3.7.1)
@@ -284,7 +281,6 @@ DEPENDENCIES
   font-awesome-rails
   fuzzy-string-match
   geocoder
-  guard-foreman
   guard-livereload (~> 2.5)
   httparty
   jbuilder
@@ -296,6 +292,7 @@ DEPENDENCIES
   pg
   pry
   puma
+  rack-livereload
   rails (~> 5.1)
   rails-i18n (~> 5.0.0)
   sass-rails
