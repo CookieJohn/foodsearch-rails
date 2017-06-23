@@ -176,8 +176,6 @@ GEM
     public_suffix (2.0.5)
     puma (3.9.1)
     rack (2.0.3)
-    rack-livereload (0.3.16)
-      rack
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.1.1)
@@ -292,7 +290,6 @@ DEPENDENCIES
   pg
   pry
   puma
-  rack-livereload
   rails (~> 5.1)
   rails-i18n (~> 5.0.0)
   sass-rails
