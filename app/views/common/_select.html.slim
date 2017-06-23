@@ -1,2 +1,9 @@
-- selected = cookies['mode'].present? ? cookies['mode'] : ''
-= select_tag('sort-mode', options_for_select([[i18n_label(:score), 'score'], [i18n_label(:distance), 'distance']], selected: selected), class: 'select')
+- selected_sort = cookies['mode'].present? ? cookies['mode'] : ''
+- selected_display = cookies['display'].present? ? cookies['display'] : ''
+.select
+	.left
+		= i18n_label(:display_mode)
+		= select_tag('display-mode', options_for_select([[i18n_label(:wrap), 'wrap'], [i18n_label(:nowrap), 'nowrap']], selected: selected_display))
+	.right
+		= i18n_label(:search_mode)
+		= select_tag('sort-mode', options_for_select([[i18n_label(:score), 'score'], [i18n_label(:distance), 'distance']], selected: selected_sort))

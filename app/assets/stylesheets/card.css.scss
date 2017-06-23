@@ -1,0 +1,96 @@
+// @media all and (max-width: 450px) {
+//   .card {
+//     max-width: 100%;
+//     .card-img-top img {
+//       max-width: 100%;
+//       max-height: 35vh;}
+//   }
+// }
+
+.custom_icon_size { font-size: 15px; }
+
+.tag {
+  display: inline-block;
+  background: #555;
+  color: white;
+  padding: 0.2em 0.5em 0.2em 0.5em;
+  border-radius: 5px;
+  margin: 0.3em 0.3em 0.3em 0px;
+}
+
+#locations {
+  display: -webkit-flex;
+  display: flex;
+  overflow-x: auto;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;}
+
+.card {
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  border-radius: 5px;
+  margin: 10px;
+  width: 350px;
+  .card-img-top img {
+    width: 350px; 
+    height: 225px;
+    border: solid 1px #bdc3c7;}
+  .title h4 { 
+    font-weight: bold;
+  }
+  .text {
+    margin: 0px 20px 0px 20px;
+    display: flex;
+    flex-wrap: wrap; 
+    .tag-float-left {
+      width: 85%; 
+      text-align: left;
+    }
+    .tag-float-right { 
+      text-align: right;
+      width: 15%;
+      .index_tag {
+        display: inline-block;
+        border-radius: 50%;
+        background-color: #133EC7;
+        color: white;
+        padding: 0.2em 0.5em 0.2em 0.5em;
+        margin: 0.3em 0.3em 0.3em 0px;
+        font-weight: bold;}
+      }
+  }
+  .description p {
+    height: 85px;
+    margin: 5px 20px 5px 20px;
+    text-align: left;}
+  .location {
+    margin: 10px 20px 5px 20px;
+    display: flex;
+    flex-wrap: wrap; 
+    .distance {
+      width: 30%; 
+      text-align: left;
+      .inon-text p {
+        display: inline-block; 
+        margin-left: 4px;
+        height: 100%; 
+        font-size: 14px;}}
+    .score {
+      width: 70%;
+      text-align: right;
+      .inon-text p {
+        display: inline-block;
+        margin-left: 4px; 
+        font-size: 14px;}}}
+  .data {
+    margin-top: .6em;
+    color: #81878b; }
+    .data li {
+      width: 33%;
+      height: 50px;
+      text-align: center;
+      display: inline-block;
+      font-size: 1.5em;
+      border-right: solid 1px #bdc3c7; }
+      .data li:last-child {
+        border: none; }}

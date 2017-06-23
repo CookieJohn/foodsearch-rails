@@ -36,6 +36,7 @@ class FormatService
       image_url = graph.get_photo(id,500,500)
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
+      
       g_match = {'score' => 0.0, 'match_score' => 0.0}
       if google_results.present?
         google_results.each do |r|
@@ -47,7 +48,7 @@ class FormatService
         end
       end
 
-      text = "\n#{today_open_time}"
+      text = "#{today_open_time}"
       text += "\n#{phone}"
       text += "\n#{street}"
 

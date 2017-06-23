@@ -1,5 +1,28 @@
 $(document).on 'change', '#sort-mode', (event) ->
+  lat = window.current_lat
+  lng = window.current_lng
   document.cookie = 'mode=' + this.value
-  if typeof current_lat != 'undefined' and typeof current_lng != 'undefined'
-    send_post current_lat, current_lng
+  if typeof lat != 'undefined' and typeof lng != 'undefined'
+    window.send_post(lat, lng)
   return
+
+$(document).on 'change', '#display-mode', (event) ->  
+  document.cookie = 'display=' + this.value
+  set_display(this.value)
+
+$ ->
+	match = document.cookie.match(new RegExp('display=([^;]+)'));
+	cookie = match[0].split('=')
+	set_display(cookie[1])
+
+window.set_display = (value) ->
+	location = document.getElementById("locations")
+	if value == 'wrap'
+		location.style.flexWrap = 'wrap'
+		location.style.justifyContent = 'center'
+		# location.style.overflowX = ''
+	else
+		location.style.flexWrap = 'nowrap'
+		location.style.justifyContent = 'flex-start'
+		# location.style.overflowX = 'auto'
+	return
