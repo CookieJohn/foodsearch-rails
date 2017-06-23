@@ -21,6 +21,7 @@
 #locations {
   display: -webkit-flex;
   display: flex;
+  overflow-x: auto;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;}
