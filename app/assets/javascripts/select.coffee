@@ -8,21 +8,19 @@ $(document).on 'change', '#sort-mode', (event) ->
 
 $(document).on 'change', '#display-mode', (event) ->  
   document.cookie = 'display=' + this.value
-  if this.value == 'wrap'
-    document.getElementById("locations").style.flexWrap = this.value;
-    document.getElementById("locations").style.justifyContent = 'center'
-  else
-    document.getElementById("locations").style.flexWrap = this.value;
-    document.getElementById("locations").style.justifyContent = 'flex-start'
-  return
+  set_display(this.value)
 
 $ ->
 	match = document.cookie.match(new RegExp('display=([^;]+)'));
 	cookie = match[0].split('=')
-	if cookie[1] == 'wrap'
-		document.getElementById("locations").style.flexWrap = 'wrap'
-		document.getElementById("locations").style.justifyContent = 'center'
+	set_display(cookie[1])
+
+window.set_display = (value) ->
+	location = document.getElementById("locations")
+	if value == 'wrap'
+		location.style.flexWrap = 'wrap'
+		location.style.justifyContent = 'center'
 	else
-		document.getElementById("locations").style.flexWrap = 'nowrap'
-		document.getElementById("locations").style.justifyContent = 'flex-start'
+		location.style.flexWrap = 'nowrap'
+		location.style.justifyContent = 'flex-start'
 	return
