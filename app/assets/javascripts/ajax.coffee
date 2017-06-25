@@ -16,7 +16,7 @@ $ ->
         lng: lng
       complete: (e) ->
         if e.status == 200
-          $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
+          $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
           $('#loading').hide()
         else
           alert '載入錯誤，請重新整理網頁。'
