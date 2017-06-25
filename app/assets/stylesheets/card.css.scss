@@ -1,11 +1,10 @@
-// @media all and (max-width: 450px) {
-//   .card {
-//     max-width: 100%;
-//     .card-img-top img {
-//       max-width: 100%;
-//       max-height: 35vh;}
-//   }
-// }
+@media all and (max-width: 450px) {
+  .card {
+    width: 100%;
+    .card-img-top img {
+      width: 100%;}
+  }
+}
 
 .custom_icon_size { font-size: 15px; }
 
@@ -30,10 +29,13 @@
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   border-radius: 5px;
   margin: 10px;
-  width: 350px;
-  .card-img-top img {
-    width: 350px; 
-    height: 225px;
+  width: 300px;
+  .card-img-top {
+    background-repeat: no-repeat; 
+    background-size: cover;  
+    background-position: 50% 50%;  
+    width: 300px; 
+    height: 200px;
     border: solid 1px #bdc3c7;}
   .title h4 { 
     font-weight: bold;

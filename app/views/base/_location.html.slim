@@ -9,8 +9,7 @@
 - index = location_counter + 1
 
 .card id="location_#{index}"
-  .card-img-top
-    = image_tag location[:image_url]
+  .card-img-top style="background-image: url(#{location[:image_url]});"
   .title 
     h4 = truncate_utf8(location[:title], 16)
   .text
