@@ -1,10 +1,10 @@
-@media all and (max-width: 450px) {
-  .card {
-    width: 100%;
-    .card-img-top img {
-      width: 100%;}
-  }
-}
+// @media all and (max-width: 450px) {
+//   .card {
+//     width: 100%;
+//     .card-img-top {
+//       width: 100%;}
+//   }
+// }
 
 .custom_icon_size { font-size: 15px; }
 
@@ -34,7 +34,7 @@
     background-repeat: no-repeat; 
     background-size: cover;  
     background-position: 50% 50%;  
-    width: 100%;
+    width: 320px;
     height: 180px;
     border: solid 1px #bdc3c7;}
   .title h4 { font-weight: bold;}
