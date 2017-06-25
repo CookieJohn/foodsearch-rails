@@ -52,12 +52,14 @@ class FormatService
       text += "\n#{phone}"
       text += "\n#{street}"
 
+      open_time = today_open_time.present? ? today_open_time : '無提供時間'
+
       google_score = (g_match['score'].to_f > 0.1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
 
       columns << {
         image_url: image_url,
         title: name,
-        open_time: today_open_time,
+        open_time: open_time,
         phone: phone,
         street: street,
         text: text,
