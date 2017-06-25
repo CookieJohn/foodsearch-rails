@@ -7,14 +7,14 @@
 }
 .ajax-spinner-bars > div {
 	position: absolute;
-	width: 8px;
-	height: 15px;
+	width: 10px;
+	height: 40px;
 	background-color: #25363F;
-	opacity: 0.05;
+	opacity: 0;
   animation: fadeit 0.8s linear infinite;
 }
 .ajax-spinner-bars > body {
-  background-color: black;
+  background-color: white;
   opacity: 0.05;
 }
 .ajax-spinner-bars > .bar-1 {
