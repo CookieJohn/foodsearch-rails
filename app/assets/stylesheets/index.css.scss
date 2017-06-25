@@ -8,20 +8,17 @@
   right: 5px;}
 
 #results_num {
+  height: 20px;
   text-align: center;
   font-weight: bold;}
 
 // 下拉式
 .select {
-  // display: block;
   display: flex;
   float: right;
   font-size: 18px;
-  // width: 250px;
-  height: 30px;
   background-color: white;
-  .left{
-    width: 50%}
-  .right{
-  margin-left: 10px;
-  width: 50%}}
+  .box{
+    flex: 1;
+    margin: 10px;}
+}
