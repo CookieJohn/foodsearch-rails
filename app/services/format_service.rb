@@ -29,7 +29,7 @@ class FormatService
       distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
 
       types = [category]
-      category_list.each do |c|
+      category_list.first(2).each do |c|
         types << c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
         new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['name']) }
       end
@@ -57,6 +57,9 @@ class FormatService
       columns << {
         image_url: image_url,
         title: name,
+        open_time: today_open_time,
+        phone: phone,
+        street: street,
         text: text,
         types: types,
         facebook_score: rating,
