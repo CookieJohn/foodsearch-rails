@@ -18,7 +18,7 @@ class FormatService
       name = result['name']
       lat = result['location']['latitude']
       lng = result['location']['longitude']
-      street = result['location']['street'] || ""
+      street = result['location']['street'] || "無提供地址"
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : '無提供電話'
@@ -29,7 +29,7 @@ class FormatService
       distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
 
       types = [category]
-      category_list.each do |c|
+      category_list.first(2).each do |c|
         types << c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
         new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['name']) }
       end
@@ -52,11 +52,16 @@ class FormatService
       text += "\n#{phone}"
       text += "\n#{street}"
 
+      open_time = today_open_time.present? ? today_open_time : '無提供時間'
+
       google_score = (g_match['score'].to_f > 0.1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
 
       columns << {
         image_url: image_url,
         title: name,
+        open_time: open_time,
+        phone: phone,
+        street: street,
         text: text,
         types: types,
         facebook_score: rating,
