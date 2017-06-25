@@ -20,9 +20,9 @@ window.set_display = (value) ->
 	if value == 'wrap'
 		location.style.flexWrap = 'wrap'
 		location.style.justifyContent = 'center'
-		# location.style.overflowX = ''
+		location.style.overflowX = ''
 	else
 		location.style.flexWrap = 'nowrap'
 		location.style.justifyContent = 'flex-start'
-		# location.style.overflowX = 'auto'
+		location.style.overflowX = 'auto'
 	return
