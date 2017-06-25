@@ -7,9 +7,18 @@ $(document).on 'change', '#sort-mode', (event) ->
   return
 
 $(document).on 'change', '#display-mode', (event) ->  
-  document.cookie = 'display=' + this.value
-  set_display(this.value)
-  # $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
+  mode = this.value
+  document.cookie = 'display=' + mode
+  set_display(mode)
+
+$(document).on 'change', '#type-mode', (event) ->  
+  lat = window.current_lat
+  lng = window.current_lng
+  type = this.value
+  document.cookie = 'type=' + type
+  if typeof lat != 'undefined' and typeof lng != 'undefined'
+    window.send_post(lat, lng)
+  return
 
 $ ->
 	match = document.cookie.match(new RegExp('display=([^;]+)'));

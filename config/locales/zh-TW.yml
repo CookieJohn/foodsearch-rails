@@ -3,8 +3,11 @@ zh-TW:
     search_intro: 請移動座標以尋找附近餐廳。
     score: 評分
     distance: 距離
-    search_mode: 搜尋：
+    search_mode: 排序：
     display_mode: 顯示：
+    type_mode: 類型：
+    restaurant: 餐廳
+    coffee: 咖啡
     wrap: 直式
     nowrap: 橫式
   common:
