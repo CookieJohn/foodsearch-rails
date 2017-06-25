@@ -3,8 +3,8 @@ zh-TW:
     search_intro: 請移動座標以尋找附近餐廳。
     score: 評分
     distance: 距離
-    search_mode: 搜尋模式：
-    display_mode: 顯示方式：
+    search_mode: 搜尋：
+    display_mode: 顯示：
     wrap: 直式
     nowrap: 橫式
   common:

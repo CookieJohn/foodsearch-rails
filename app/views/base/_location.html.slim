@@ -11,7 +11,7 @@
 .card id="location_#{index}"
   .card-img-top style="background-image: url(#{location[:image_url]});"
   .title 
-    h4 = truncate_utf8(location[:title], 14)
+    h4 = truncate_utf8(location[:title], 15)
   .text
     .tag-float-left
       - location[:types].each do |t|
@@ -21,7 +21,7 @@
   .description
     p = location[:open_time]
     p = location[:phone]
-    p = truncate_utf8(location[:street], 15)
+    p = truncate_utf8(location[:street], 16)
   .location
     .distance
       i.fa.fa-car.custom_icon_size
