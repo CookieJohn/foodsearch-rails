@@ -18,7 +18,7 @@ class FormatService
       name = result['name']
       lat = result['location']['latitude']
       lng = result['location']['longitude']
-      street = result['location']['street'] || ""
+      street = result['location']['street'] || "無提供地址"
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : '無提供電話'
