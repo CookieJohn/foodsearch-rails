@@ -9,6 +9,7 @@ $(document).on 'change', '#sort-mode', (event) ->
 $(document).on 'change', '#display-mode', (event) ->  
   document.cookie = 'display=' + this.value
   set_display(this.value)
+  $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
 
 $ ->
 	match = document.cookie.match(new RegExp('display=([^;]+)'));
