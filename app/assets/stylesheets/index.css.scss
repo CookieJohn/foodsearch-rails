@@ -15,29 +15,34 @@
 // 下拉式
 .select {
   display: flex;
-  font-size: 16px;
+  font-size: 18px;
   background-color: white;
   justify-content: center;
+  .label {
+    display: block;
+  }
   .box{
     flex: 1;
-    margin: 10px;}
+    margin: 10px;
+    justify-content: center;}
 }
 
 @media all and (max-width: 768px) {
   .select {
     display: flex;
-    font-size: 16px;
+    font-size: 18px;
     background-color: white;
     justify-content: center;
     align-items: center;
     position:fixed;
     bottom:0px;
-    height: 40px; 
+    height: 50px; 
     width: 100%;
     background-color: #f8f8f8;
     border-color: #e7e7e7;
     .box{
       flex: 1;
-      margin: 10px;}
+      margin: 10px;
+      justify-content: center;}
   }
 }
