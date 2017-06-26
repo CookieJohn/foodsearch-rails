@@ -20,6 +20,9 @@ $ ->
             $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
           else
             $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
+            element =  document.getElementById('location_1');
+            if typeof element != 'undefined' && element != null
+              $('#locations').animate { scrollLeft: $('#location_1').position().left }, 'slow'
         else
           alert '載入錯誤，請重新整理網頁。'
           $('#loading').hide()

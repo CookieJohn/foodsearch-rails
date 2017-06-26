@@ -2,12 +2,12 @@
 - selected_display = cookies['display'].present? ? cookies['display'] : ''
 - selected_type = cookies['type'].present? ? cookies['type'] : ''
 .select
-	.left
+	.box
 		= i18n_label(:type_mode)
 		= select_tag('type-mode', options_for_select([[i18n_label(:restaurant), 'restaurant'], [i18n_label(:coffee), 'coffee']], selected: selected_type))
-	.left
+	.box
 		= i18n_label(:display_mode)
 		= select_tag('display-mode', options_for_select([[i18n_label(:wrap), 'wrap'], [i18n_label(:nowrap), 'nowrap']], selected: selected_display))
-	.right
+	.box
 		= i18n_label(:search_mode)
 		= select_tag('sort-mode', options_for_select([[i18n_label(:score), 'score'], [i18n_label(:distance), 'distance']], selected: selected_sort))
