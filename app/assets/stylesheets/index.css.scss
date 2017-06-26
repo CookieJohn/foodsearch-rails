@@ -18,14 +18,20 @@
   font-size: 18px;
   background-color: white;
   justify-content: center;
-  .label {
-    display: block;
-  }
   .box{
     flex: 1;
     margin: 10px;
+    border-radius: 10px;
     justify-content: center;}
 }
+
+#locations {
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  overflow-x: '';
+  align-items: center;
+  justify-content: center;}
 
 @media all and (max-width: 768px) {
   .select {
@@ -43,7 +49,8 @@
     border-color: #e7e7e7;
     .box{
       flex: 1;
-      margin: 10px;
+      margin: 0px;
+      border-radius: 10px;
       justify-content: center;}
   }
 }
