@@ -11,7 +11,7 @@ class FormatService
 	def web_format results=nil, google_results=nil
 		columns = []
 
-    category_lists = Category.pluck(:facebook_name)
+    category_lists = Category.pluck(:id)
 
     results.each do |result|
       id = result['id']
@@ -31,7 +31,7 @@ class FormatService
       types = [category]
       category_list.first(2).each do |c|
         types << c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
-        new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['name']) }
+        new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['id']) }
       end
       image_url = graph.get_photo(id,500,500)
 
