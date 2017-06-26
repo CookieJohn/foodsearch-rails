@@ -16,10 +16,10 @@ $ ->
           $('#loading').hide()
           match = document.cookie.match(new RegExp('display=([^;]+)'));
           cookie = match[0].split('=')
-          if cookie[1] == 'nowrap'
-            $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
-          else
+          if cookie[1] == 'wrap'
             $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
+          else
+            $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
         else
           alert '載入錯誤，請重新整理網頁。'
           $('#loading').hide()
