@@ -26,15 +26,18 @@ $ ->
 	set_display(cookie[1])
 
 window.set_display = (value) ->
-	location = document.getElementById("locations")
-	if value == 'wrap'
-		location.style.flexWrap = 'wrap'
-		location.style.justifyContent = 'center'
-		location.style.overflowX = ''
-		$('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
-	else
-		location.style.flexWrap = 'nowrap'
-		location.style.justifyContent = 'flex-start'
-		location.style.overflowX = 'auto'
-		$('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
-	return
+  location = document.getElementById("locations")
+  if value == 'wrap'
+    location.style.flexWrap = 'wrap'
+    location.style.justifyContent = 'center'
+    location.style.overflowX = ''
+    $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
+  else
+    location.style.flexWrap = 'nowrap'
+    location.style.justifyContent = 'flex-start'
+    location.style.overflowX = 'auto'
+    $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
+    element =  document.getElementById('location_1');
+    if typeof element != 'undefined' && element != null
+      $('#locations').animate { scrollLeft: $('#location_1').position().left }, 'slow'
+  return
