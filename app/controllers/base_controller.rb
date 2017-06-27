@@ -13,6 +13,7 @@ class BaseController < ApplicationController
   def refresh_locations
     mode = cookies['mode'].present? ? cookies['mode'] : 'score'
     type = cookies['type'].present? ? cookies['type'] : 'restaurant'
+    type = @search_type.present? ? @search_type : type
 
   	fb_results = GraphApiService.new.search_places(@lat, @lng, nil, 999, mode, type)
   	keywords = fb_results.map {|f| f['name']}
@@ -45,5 +46,6 @@ class BaseController < ApplicationController
     def get_lat_lng
       @lat = params['lat']
       @lng = params['lng']
+      @search_type = params.dig('search_type')
     end
 end

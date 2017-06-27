@@ -58,3 +58,5 @@ zh-TW:
         '露天展場','公眾服務','公共服務','兒童保護服務']
     google:
       zoom: 13
+  placeholder:
+    search_field: 請輸入關鍵字

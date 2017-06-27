@@ -1,5 +1,5 @@
-window.current_lat = undefined
-window.current_lng = undefined
+window.current_lat = 25.059651
+window.current_lng = 121.533380
 
 window.default_lat = 25.059651
 window.default_lng = 121.533380

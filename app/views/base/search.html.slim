@@ -2,6 +2,7 @@
 	.col-md-10.col-md-offset-1
 		h4 = i18n_label(:search_intro)
 		#map
+		= render partial: "common/search_field"
 		p#google_address = ''
 
 		h4#results_num = ''
