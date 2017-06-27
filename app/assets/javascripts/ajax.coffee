@@ -2,9 +2,10 @@ local_post_url = 'http://localhost:3000/refresh_locations'
 production_post_url = 'https://johnwudevelop.tk/refresh_locations'
 
 $ ->
-  window.send_post = (lat, lng, search_type='') ->
+  window.send_post = (lat, lng) ->
     url = if rails_env == 'development' then local_post_url else production_post_url
     $('#loading').show()
+    search_type = document.getElementById('searchbox').value
     $.ajax
       url: url
       type: 'POST'

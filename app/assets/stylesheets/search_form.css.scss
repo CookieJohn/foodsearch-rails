@@ -36,19 +36,18 @@
 		padding: 5px;
 		border: 5px solid transparent;
     border-color: #e7e7e7;
-    height: 40px;
     // margin: 10px !important;
     // width: 80%;
 		.searchbox {
 			// flex: 1;
-			// height: 40px;
+			height: 40px;
 			flex: 9;
 			font-size: 20px;
 			}
 		.searchsubmit {
 			// flex: 0;
 			// width: 40px;
-			// height: 40px;
+			height: 40px;
 			flex: 1;
 		}
 	}

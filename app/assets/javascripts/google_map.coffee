@@ -24,7 +24,7 @@ $ ->
       window.current_lat = lat
       window.current_lng = lng
       map.setCenter new (google.maps.LatLng)(lat, lng)
-      window.send_post current_lat, current_lng
+      window.send_post(current_lat, current_lng)
       geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
         if status == google.maps.GeocoderStatus.OK
           if results[0]
