@@ -17,6 +17,7 @@ $ ->
           $('#loading').hide()
           match = document.cookie.match(new RegExp('display=([^;]+)'));
           cookie = match[0].split('=')
+          window.search_bar_toggle()
           if cookie[1] == 'wrap'
             $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
           else
