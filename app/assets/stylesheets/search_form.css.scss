@@ -26,7 +26,9 @@
 @media all and (max-width: 768px) {
   .searchform {
   	position:fixed;
-		top: 60px;
+		top: 55px;
+		left: 0;
+		right: 0;
 		align-items: center;
   	justify-content: center;
 		display: flex;
@@ -34,8 +36,9 @@
 		padding: 5px;
 		border: 5px solid transparent;
     border-color: #e7e7e7;
-    margin: 10px !important;
-    width: 80%;
+    height: 40px;
+    // margin: 10px !important;
+    // width: 80%;
 		.searchbox {
 			// flex: 1;
 			// height: 40px;

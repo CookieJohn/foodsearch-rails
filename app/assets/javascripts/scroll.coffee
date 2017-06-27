@@ -5,8 +5,8 @@ $(document).on 'click', '#map-link', (event) ->
 
 $(document).on 'click', '#search-link', (event) ->
 	event.preventDefault()
-	window.search_bar_toggle()
+	$('#search-form').slideToggle()
 
-window.search_bar_toggle = () ->
-  $('#search-form').slideToggle()
+window.search_bar_toggle = (state=false) ->
+  $('#search-form').toggle(state)
   return
