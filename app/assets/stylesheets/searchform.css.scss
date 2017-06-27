@@ -1,10 +1,40 @@
 .searchform {
 	margin: 10px;
-	display: block;
-	input {
-		width: 90%;
+	.searchbox {
+		width: 80%;
+		height: 40px;
+		font-size: 20px;
 		}
-	button {
-		width: 30px;
+	.searchsubmit {
+		width: 40px;
+		height: 40px;
+	}
+}
+
+@media all and (max-width: 768px) {
+  .searchform {
+  	position:fixed;
+		top: 60px;
+		align-items: center;
+  	justify-content: center;
+		display: flex;
+		background-color: white;
+		padding: 5px;
+		border: 5px solid transparent;
+    border-color: #e7e7e7;
+    margin: 10px !important;
+    width: 80%;
+		.searchbox {
+			// flex: 1;
+			// height: 40px;
+			flex: 9;
+			font-size: 20px;
+			}
+		.searchsubmit {
+			// flex: 0;
+			// width: 40px;
+			// height: 40px;
+			flex: 1;
+		}
 	}
 }
