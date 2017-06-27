@@ -28,12 +28,21 @@
 #locations {
   display: -webkit-flex;
   display: flex;
+  margin-bottom: 0px;
   flex-wrap: wrap;
   overflow-x: '';
   align-items: center;
   justify-content: center;}
 
 @media all and (max-width: 768px) {
+  #locations {
+    display: -webkit-flex;
+    display: flex;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+    overflow-x: '';
+    align-items: center;
+    justify-content: center;}
   .select {
     display: flex;
     font-size: 18px;
@@ -41,7 +50,7 @@
     justify-content: center;
     align-items: center;
     position:fixed;
-    bottom:0px;
+    bottom: 0px;
     height: 50px; 
     width: 100%;
     background-color: #f8f8f8;

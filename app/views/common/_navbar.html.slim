@@ -8,6 +8,7 @@ nav.navbar.navbar-default.navbar-fixed-top style=('panding-bottom: 50p;')
 				a.navbar-brand href=search_path
 					i.fa.fa-search
 			- if current_page?(search_path)
+				= link_to '使用說明', '', class: 'navbar-brand', id: 'website-intro'
 				a.navbar-brand.search-icon#search-link href=""
 					i.fa.fa-search.fa-2x.search_icon_size
 				a.navbar-brand.map-icon#map-link href=""
