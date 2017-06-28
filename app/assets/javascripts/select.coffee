@@ -9,7 +9,7 @@ $(document).on 'change', '#sort-mode', (event) ->
 $(document).on 'change', '#display-mode', (event) ->  
   mode = this.value
   document.cookie = 'display=' + mode
-  set_display(mode)
+  window.set_display()
 
 $(document).on 'change', '#type-mode', (event) ->  
   lat = window.current_lat
@@ -20,14 +20,11 @@ $(document).on 'change', '#type-mode', (event) ->
     window.send_post(lat, lng)
   return
 
-$ ->
-	match = document.cookie.match(new RegExp('display=([^;]+)'));
-	cookie = match[0].split('=')
-	set_display(cookie[1])
-
 window.set_display = (value) ->
+  match = document.cookie.match(new RegExp('display=([^;]+)'));
+  cookie = match[0].split('=')
   location = document.getElementById("locations")
-  if value == 'wrap'
+  if cookie[1] == 'wrap'
     location.style.flexWrap = 'wrap'
     location.style.justifyContent = 'center'
     location.style.overflowX = ''

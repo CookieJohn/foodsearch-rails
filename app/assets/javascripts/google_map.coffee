@@ -15,7 +15,7 @@ $ ->
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
-    window.detect_position map, marker, uluru
+    window.detect_position(map, marker, uluru)
     geocoder = new (google.maps.Geocoder)
     loading = document.getElementById('loading')
     google.maps.event.addListener marker, 'dragend', (event) ->
@@ -31,6 +31,7 @@ $ ->
             document.getElementById('google_address').innerHTML = results[0].formatted_address
         return
       return
+    window.set_display()
     if rails_env == 'development'
       window.send_post(window.default_lat, window.default_lng)
     return
