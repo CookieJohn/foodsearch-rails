@@ -12,7 +12,7 @@
   display: inline-block;
   background: #555;
   color: white;
-  padding: 0.2em 0.5em 0.2em 0.5em;
+  padding: 0.2em 0.5em;
   border-radius: 5px;
   margin: 0.3em 0.3em 0.3em 0px;
 }
@@ -40,7 +40,7 @@
     border: solid 1px #bdc3c7;}
   .title h4 { font-weight: bold;}
   .content {
-    margin: 5px 15px 5px 15px;
+    margin: 5px 15px;
     .text {
       display: flex;
       flex-wrap: wrap; 
@@ -56,14 +56,15 @@
           border-radius: 50%;
           background-color: #133EC7;
           color: white;
-          padding: 0.2em 0.5em 0.2em 0.5em;
+          padding: 0.2em 0.5em;
           font-weight: bold;}
         }
     }
     .description p {
       text-align: left;
-      margin-bottom: 5px;}
+      margin: 5px 0px;}
     .location {
+      margin: 5px 0px;
       display: flex;
       flex-wrap: wrap; 
       .distance {

@@ -5,17 +5,20 @@ $ ->
   window.send_post = (lat, lng) ->
     url = if rails_env == 'development' then local_post_url else production_post_url
     $('#loading').show()
+    search_type = document.getElementById('searchbox').value
     $.ajax
       url: url
       type: 'POST'
       data:
         lat: lat
         lng: lng
+        search_type: search_type
       complete: (e) ->
         if e.status == 200
           $('#loading').hide()
           match = document.cookie.match(new RegExp('display=([^;]+)'));
           cookie = match[0].split('=')
+          window.search_bar_toggle()
           if cookie[1] == 'wrap'
             $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
           else
