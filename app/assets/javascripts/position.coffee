@@ -18,6 +18,7 @@ $ ->
         return
       ), ->
         handleLocationError true, infoWindow, map.getCenter(), map, marker, uluru
+        alert('您未開啟裝置的位置功能\n您可以在開啟位置功能後\n重新整理頁面')
         return
     else
       handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
