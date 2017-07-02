@@ -21,20 +21,18 @@ $(document).on 'change', '#type-mode', (event) ->
   return
 
 window.set_display = (value) ->
-  match = document.cookie.match(new RegExp('display=([^;]+)'));
-  cookie = match[0].split('=')
-  location = document.getElementById("locations")
-  if cookie[1] == 'wrap'
-    location.style.flexWrap = 'wrap'
-    location.style.justifyContent = 'center'
-    location.style.overflowX = ''
+  display_cookie = document.cookie.indexOf('display=')
+  if display_cookie != -1
+    match = document.cookie.match(new RegExp('display=([^;]+)'));
+    cookie = match[0].split('=')
+    location = document.getElementById("locations")
     $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
-  else
-    location.style.flexWrap = 'nowrap'
-    location.style.justifyContent = 'flex-start'
-    location.style.overflowX = 'auto'
-    $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
-    element =  document.getElementById('location_1');
-    if typeof element != 'undefined' && element != null
-      $('#locations').animate { scrollLeft: $('#location_1').position().left }, 'slow'
-  return
+    if cookie[1] == 'wrap'
+      location.style.flexWrap = 'wrap'
+      location.style.justifyContent = 'center'
+      location.style.overflowX = ''
+    else
+      location.style.flexWrap = 'nowrap'
+      location.style.justifyContent = 'flex-start'
+      location.style.overflowX = 'auto'
+    return
