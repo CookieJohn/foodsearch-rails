@@ -21,7 +21,7 @@ class GraphApiService
 
 	def search_places lat, lng, user=nil, size=5, mode=nil, type=nil
 
-		limit = Rails.env.production? ? 100 : 10
+		limit = 100
 
 		type = type.present? ? type : 'restaurant'
 		
