@@ -26,7 +26,6 @@ window.set_display = (value) ->
     match = document.cookie.match(new RegExp('display=([^;]+)'));
     cookie = match[0].split('=')
     location = document.getElementById("locations")
-    $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
     if cookie[1] == 'wrap'
       location.style.flexWrap = 'wrap'
       location.style.justifyContent = 'center'
@@ -35,4 +34,5 @@ window.set_display = (value) ->
       location.style.flexWrap = 'nowrap'
       location.style.justifyContent = 'flex-start'
       location.style.overflowX = 'auto'
-    return
+  window.scroll_to_card()
+  return

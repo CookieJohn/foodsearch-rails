@@ -18,12 +18,11 @@ window.search_bar_toggle = (state=false) ->
 window.scroll_to_card = () ->
 	display_cookie = document.cookie.indexOf('display=')
 	if display_cookie == -1
-		$('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
+		$('html, body').animate { scrollTop: $('#google_address').position().top }, 'slow'
 	else
 	  match = document.cookie.match(new RegExp('display=([^;]+)'))
 	  cookie = match[0].split('=')
 	  window.search_bar_toggle()
-	  window.scroll_to_card
 	  if cookie[1] == 'wrap'
 	    $('html, body').animate { scrollTop: $('#google_address').position().top }, 'slow'
 	  else
