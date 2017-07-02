@@ -24,9 +24,8 @@ window.scroll_to_card = () ->
 	  cookie = match[0].split('=')
 	  window.search_bar_toggle()
 	  window.scroll_to_card
-	  $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
 	  if cookie[1] == 'wrap'
-	    $('html, body').animate { scrollTop: $('#results_num').position().top }, 'slow'
+	    $('html, body').animate { scrollTop: $('#google_address').position().top }, 'slow'
 	  else
 	    $('html, body').animate { scrollTop: $('#locations').position().top }, 'slow'
 	    element =  document.getElementById('location_1');
