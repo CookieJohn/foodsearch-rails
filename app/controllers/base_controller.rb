@@ -16,8 +16,13 @@ class BaseController < ApplicationController
     type = @search_type.present? ? @search_type : type
 
   	fb_results = GraphApiService.new.search_places(@lat, @lng, nil, 999, mode, type)
-  	keywords = fb_results.map {|f| f['name']}
-    google_results = GoogleMapService.new.search_places(@lat, @lng, nil, keywords)
+  	# if Rails.env.production?
+   #    keywords = fb_results.map {|f| f['name']}
+   #    google_results = GoogleMapService.new.search_places(@lat, @lng, nil, keywords)
+   #  else
+   #    google_results = nil
+   #  end
+    google_results = nil
 
     @location_data = FormatService.new.web_format(fb_results, google_results)
     respond_to do |format|

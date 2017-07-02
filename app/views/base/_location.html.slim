@@ -9,7 +9,8 @@
 - index = location_counter + 1
 
 .card id="location_#{index}"
-  .card-img-top style="background-image: url(#{location[:image_url]});"
+  = link_to location[:official], target: '_blank'
+    .card-img-top style="background-image: url(#{location[:image_url]});"
   .title 
     h4 = truncate_utf8(location[:title], 15)
   .content
@@ -30,9 +31,9 @@
       .score
         i.fa.fa-facebook-square.facebook-color.custom_icon_size
         p.inon-text = "  #{location[:facebook_score]}分/#{location[:facebook_score_count]}人"
-        = " "
-        i.fa.fa-google.google-color.custom_icon_size
-        p.inon-text = location[:google_score]
+        / = " "
+        / i.fa.fa-google.google-color.custom_icon_size
+        / p.inon-text = location[:google_score]
   .data
     = render partial: "common/button", locals: {title: i18n_button(:official), link: location[:official]}
     = render partial: "common/button", locals: {title: i18n_button(:location), link: location[:location]}
