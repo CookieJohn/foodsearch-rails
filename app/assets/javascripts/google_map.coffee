@@ -25,6 +25,7 @@ $ ->
       window.current_lat = lat
       window.current_lng = lng
       map.setCenter new (google.maps.LatLng)(lat, lng)
+      window.move_circle(cityCircle, {lat: lat,lng: lng})
       cityCircle.setOptions({center:{lat: lat,lng: lng}})
       window.send_post(lat, lng)
       geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
@@ -52,3 +53,5 @@ $ ->
     }
     cityCircle = new google.maps.Circle(circle_options)
     return cityCircle
+  window.move_circle = (cityCircle, center) ->
+    cityCircle.setOptions({center: center})

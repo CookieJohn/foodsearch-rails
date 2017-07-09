@@ -13,7 +13,7 @@ $ ->
           lng: lng
         marker.setPosition pos
         map.setCenter pos
-        cityCircle.setOptions({center:{lat: lat,lng: lng}})
+        window.move_circle(cityCircle, {lat: lat,lng: lng})
         $('#loading').hide()
         window.send_post(lat, lng)
         return
