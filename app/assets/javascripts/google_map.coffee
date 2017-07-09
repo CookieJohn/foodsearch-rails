@@ -26,7 +26,6 @@ $ ->
       window.current_lng = lng
       map.setCenter new (google.maps.LatLng)(lat, lng)
       window.move_circle(cityCircle, {lat: lat,lng: lng})
-      cityCircle.setOptions({center:{lat: lat,lng: lng}})
       window.send_post(lat, lng)
       geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
         if status == google.maps.GeocoderStatus.OK
@@ -49,7 +48,7 @@ $ ->
       map: map,
       center: center,
       radius: 500,
-      draggable:true
+      # draggable:true
     }
     cityCircle = new google.maps.Circle(circle_options)
     return cityCircle
