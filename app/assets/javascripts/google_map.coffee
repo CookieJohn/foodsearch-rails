@@ -11,11 +11,12 @@ $ ->
     uluru = 
       lat: lat
       lng: lng
-    map = new (google.maps.Map)(document.getElementById('map'), zoom: 14)
+    map = new (google.maps.Map)(document.getElementById('map'), zoom: 15)
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
     window.detect_position(map, marker, uluru)
+    cityCircle = window.set_circle(map, {lat: lat, lng: lng})
     geocoder = new (google.maps.Geocoder)
     loading = document.getElementById('loading')
     google.maps.event.addListener marker, 'dragend', (event) ->
@@ -24,14 +25,30 @@ $ ->
       window.current_lat = lat
       window.current_lng = lng
       map.setCenter new (google.maps.LatLng)(lat, lng)
+      cityCircle.setOptions({center:{lat: lat,lng: lng}})
       window.send_post(lat, lng)
       geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
         if status == google.maps.GeocoderStatus.OK
           if results[0]
             document.getElementById('google_address').innerHTML = results[0].formatted_address
         return
-      return
+      return       
     window.set_display()
     if rails_env == 'development'
       window.send_post(window.default_lat, window.default_lng)
     return
+  # set circle around maker
+  window.set_circle = (map, center) ->
+    circle_options = {
+      strokeColor: '#FF0000',
+      strokeOpacity: 0.5,
+      strokeWeight: 2,
+      fillColor: '#FF0000',
+      fillOpacity: 0.1,
+      map: map,
+      center: center,
+      radius: 500,
+      draggable:true
+    }
+    cityCircle = new google.maps.Circle(circle_options)
+    return cityCircle
