@@ -1,11 +1,10 @@
 .container-fluid
-	.col-md-10.col-md-offset-1
-		h4 = i18n_label(:search_intro)
-		#map
-		= render partial: "common/search_field"
-		p#google_address = ''
+	h4 = i18n_label(:search_intro)
+	#map
+	= render partial: "common/search_field"
+	p#google_address = ''
 
-		#results_num = ''
+	#results_num = ''
 = render partial: "common/select"
 
 #locations
