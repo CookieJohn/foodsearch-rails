@@ -15,8 +15,8 @@ $ ->
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
-    window.detect_position(map, marker, uluru)
     cityCircle = window.set_circle(map, {lat: lat, lng: lng})
+    window.detect_position(map, marker, uluru, cityCircle)
     geocoder = new (google.maps.Geocoder)
     loading = document.getElementById('loading')
     google.maps.event.addListener marker, 'dragend', (event) ->
