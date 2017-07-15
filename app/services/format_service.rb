@@ -10,8 +10,7 @@ class FormatService
 
 	def web_format results=nil, google_results=nil
 		columns = []
-
-    category_lists = Category.pluck(:id)
+    # category_lists = Category.pluck(:id)
 
     results.each do |result|
       id = result['id']
