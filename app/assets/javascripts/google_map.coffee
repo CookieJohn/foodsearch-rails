@@ -11,7 +11,15 @@ $ ->
     uluru = 
       lat: lat
       lng: lng
+    myStyle = [
+      {
+        featureType: 'poi'
+        elementType: 'labels'
+        stylers: [ { visibility: 'off' } ]
+      }
+    ]
     map = new (google.maps.Map)(document.getElementById('map'), zoom: 15)
+    map.set('styles', myStyle)
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
