@@ -28,14 +28,13 @@ class FacebookBotService
           end
           if lat.present? && lng.present?
             fb_results = graph.search_places(lat, lng, user, 10)
-            google_results = ''
+            # google_results = ''
 
             keywords = fb_results.map {|f| f['name']}
-            google_results = google.search_places(lat, lng, user, keywords)
+            # google_results = google.search_places(lat, lng, user, keywords)
 
-            messageData = self.generic_elements(senderID, fb_results, google_results)
+            messageData = self.generic_elements(senderID, fb_results)
             results = common.http_post(API_URL, messageData)
-            #Rails.logger.info "res: #{JSON.parse(res.body)}"
           # elsif reveive_message.present?
           #   messageData = self.text_format(senderID, reveive_message)
           #   res = HTTParty.post(uri, body: messageData)
@@ -46,14 +45,8 @@ class FacebookBotService
   end
 
   def text_format id, text
-    {
-      recipient: {
-        id: id
-      },
-      message: {
-        text: text
-      }
-    }
+    { recipient: { id: id },
+      message: { text: text }}
   end
 
   def button url, title
@@ -126,9 +119,7 @@ class FacebookBotService
     end
 
     generic_format = {
-      recipient: {
-        id: sender_id
-      },
+      recipient: { id: sender_id },
       message: {
         attachment: {
           type: 'template',
@@ -136,10 +127,7 @@ class FacebookBotService
             template_type: 'generic',
             image_aspect_ratio: 'square',
             elements: columns
-          }
-        }
-      }
-    }
+          }}}}
     return generic_format
   end
 end
