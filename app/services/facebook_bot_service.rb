@@ -22,6 +22,7 @@ class FacebookBotService
           reveive_message = message.dig('message','text').to_s
           postback_message = message.dig('postback','title').to_s
           senderID = message.dig('sender','id').to_s
+          puts "postback_message #{postback_message}"
           lat = ''
           lng = ''
           message['message']['attachments'].try(:each) do |location|
@@ -33,7 +34,7 @@ class FacebookBotService
             if lat.present? && lng.present?
               fb_results = graph.search_places(lat, lng, user, 10)
 
-              keywords = fb_results.map {|f| f['name']}
+              # keywords = fb_results.map {|f| f['name']}
 
               messageData = generic_elements(senderID, fb_results)
               results = common.http_post(API_URL, messageData)
@@ -192,7 +193,7 @@ class FacebookBotService
         {
           type: "postback",
           title: "搜尋",
-          payload: "添加紀錄"
+          payload: "search"
         },
         {
           type: "web_url",
