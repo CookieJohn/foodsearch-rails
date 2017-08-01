@@ -25,9 +25,11 @@ class FacebookBotService
           puts "postback_message #{postback_message}"
           lat = ''
           lng = ''
-          message['message']['attachments'].try(:each) do |location|
-            lat = location.dig('payload','coordinates','lat')
-            lng = location.dig('payload','coordinates','long')
+          if message.dig('message','attachments').present?
+            message['message']['attachments'].try(:each) do |location|
+              lat = location.dig('payload','coordinates','lat')
+              lng = location.dig('payload','coordinates','long')
+            end
           end
           last_message = reveive_message.present? ? reveive_message : postback_message
           if senderID != BOT_ID 
