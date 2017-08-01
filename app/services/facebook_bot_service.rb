@@ -40,6 +40,7 @@ class FacebookBotService
             elsif last_message.present?
               messageData = get_response(senderID, last_message)
               results = common.http_post(API_URL, messageData)
+              puts "results #{results}"
             end
           end
         end
