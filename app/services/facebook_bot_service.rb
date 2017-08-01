@@ -125,7 +125,7 @@ class FacebookBotService
           type: 'template',
           payload: {
             template_type: 'generic',
-            image_aspect_ratio: 'square',
+            # image_aspect_ratio: 'square',
             elements: columns
           }}}}
     return generic_format
