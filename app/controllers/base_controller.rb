@@ -31,15 +31,6 @@ class BaseController < ApplicationController
 		render plain: msg
 	end
 
-	def webhook
-		render plain: params['hub.challenge'], status: 200
-	end
-
-	def facebook_callback
-		msg = FacebookBotService.new.reply_msg(request)
-		render plain: '200'
-	end
-
 	def privacy
 	end
 
