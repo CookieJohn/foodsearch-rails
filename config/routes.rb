@@ -8,5 +8,5 @@ Rails.application.routes.draw do
   post 'callback' => 'line#callback'
   # facebook bot
   get 'webhook' => 'facebook#webhook'
-  post 'webhook' => 'facebook#webhook'
+  post 'webhook' => 'facebook#post_webhook'
 end

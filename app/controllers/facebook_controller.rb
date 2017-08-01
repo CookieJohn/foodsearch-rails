@@ -1,11 +1,11 @@
 class FacebookController < ApplicationController
-	skip_before_action :verify_authenticity_token, only: [:webhook]
+	skip_before_action :verify_authenticity_token, only: [:post_webhook]
 
 	def webhook
 		render plain: params['hub.challenge'], status: 200
 	end
 
-	def facebook_callback
+	def post_webhook
 		msg = FacebookBotService.new.reply_msg(request)
 		render plain: '200'
 	end
