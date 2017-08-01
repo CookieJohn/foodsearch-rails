@@ -1,6 +1,7 @@
 class FacebookBotService
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
+  BOT_ID ||= '844639869021578'
   
   attr_accessor :graph, :google, :common
 	def initialize
@@ -19,25 +20,27 @@ class FacebookBotService
       entries.each do |entry|
         entry['messaging'].each do |message|
           reveive_message = message.dig('message','text').to_s
-          senderID = message.dig('sender','id')
+          postback_message = message.dig('postback','title').to_s
+          senderID = message.dig('sender','id').to_s
           lat = ''
           lng = ''
           message['message']['attachments'].try(:each) do |location|
             lat = location.dig('payload','coordinates','lat')
             lng = location.dig('payload','coordinates','long')
           end
-          if lat.present? && lng.present?
-            fb_results = graph.search_places(lat, lng, user, 10)
-            # google_results = ''
+          last_message = reveive_message.present? ? reveive_message : postback_message
+          if senderID != BOT_ID 
+            if lat.present? && lng.present?
+              fb_results = graph.search_places(lat, lng, user, 10)
 
-            keywords = fb_results.map {|f| f['name']}
-            # google_results = google.search_places(lat, lng, user, keywords)
+              keywords = fb_results.map {|f| f['name']}
 
-            messageData = self.generic_elements(senderID, fb_results)
-            results = common.http_post(API_URL, messageData)
-          # elsif reveive_message.present?
-          #   messageData = self.text_format(senderID, reveive_message)
-          #   res = HTTParty.post(uri, body: messageData)
+              messageData = generic_elements(senderID, fb_results)
+              results = common.http_post(API_URL, messageData)
+            elsif last_message.present?
+              messageData = get_response(senderID, last_message)
+              results = common.http_post(API_URL, messageData)
+            end
           end
         end
       end
@@ -88,7 +91,6 @@ class FacebookBotService
       actions << button(common.safe_url(link_url), I18n.t('button.official'))
       actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
       actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
-      # actions << button('https://www.facebook.com/', 'test')
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       # g_match = {'score' => 0.0, 'match_score' => 0.0}
@@ -129,5 +131,96 @@ class FacebookBotService
             elements: columns
           }}}}
     return generic_format
+  end
+
+  def get_response id, text
+    response = case text
+    when '搜尋'
+      title_text = "您想新增？"
+      # options = [
+      #   {
+      #     type: "postback",
+      #     title: "早餐",
+      #     payload: "加入完成！"
+      #   },
+      #   {
+      #     type: "postback",
+      #     title: "午餐",
+      #     payload: "加入完成！"
+      #   },
+      #   {
+      #     type: "postback",
+      #     title: "晚餐",
+      #     payload: "加入完成！"
+      #   }
+      # ]
+      options = [
+        {
+          content_type: "text",
+          title: "日式",
+          payload: "加入完成！"
+        },
+        {
+          content_type: "text",
+          title: "中式",
+          payload: "加入完成！"
+        },
+        {
+          content_type: "text",
+          title: "韓式",
+          payload: "加入完成！"
+        }
+      ]
+      quick_replies_format(id, text, title_text, options)
+    else
+      title_text = "請選擇想做的事"
+    #   title_text = "Hi~又到了繳納的時間拉，拿出你今天的進貢吧！"
+      # options = [
+      #   {
+      #     content_type: "text",
+      #     title: "添加紀錄",
+      #     payload: "加入完成！"
+      #   },
+      #   {
+      #     content_type: "text",
+      #     title: "不用了謝謝！",
+      #     payload: "QQ..."
+      #   }
+      # ]
+      options = [
+        {
+          type: "postback",
+          title: "搜尋",
+          payload: "添加紀錄"
+        },
+        {
+          type: "web_url",
+          url: "https://track-spending.herokuapp.com/",
+          title: "設定",
+          webview_height_ratio: "tall"
+        }
+      ]
+      button_format(id, text, title_text, options)
+    end
+  end
+
+  def quick_replies_format id, text, title_text=nil, quick_reply_options=nil
+    { recipient: { id: id },
+      message: {
+        text: "請選擇：",
+        quick_replies: quick_reply_options}
+    }
+  end
+
+  def button_format id, text, title_text=nil, button_options=nil
+    { recipient: { id: id },
+      message: {
+        attachment: {
+          type: "template",
+          payload: {
+            template_type: "button",
+            text: title_text,
+            buttons: button_options }}}
+    }
   end
 end
