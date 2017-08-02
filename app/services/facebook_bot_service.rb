@@ -140,7 +140,7 @@ class FacebookBotService
   def get_response id, text
     response = case text
     when 'choose_search_type'
-      title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
+      title_text = "請選擇想搜尋的類型，或者直接使用目前位置搜尋。"
       options = [
         {
           content_type: "text",
