@@ -19,10 +19,10 @@ class FacebookBotService
     if body.dig('object') == 'page'
       entries.each do |entry|
         entry['messaging'].each do |message|
-          reveive_message = message.dig('message','text').to_s
-          postback_message = message.dig('postback','payload').to_s
+          message = message.dig('message','text')
+          payload = message.dig('postback','payload')
+          payload_title = message.dig('postback','title')
           senderID = message.dig('sender','id').to_s
-          puts "postback_message #{postback_message}"
           lat = ''
           lng = ''
           if message.dig('message','attachments').present?
@@ -31,10 +31,10 @@ class FacebookBotService
               lng = location.dig('payload','coordinates','long')
             end
           end
-          last_message = reveive_message.present? ? reveive_message : postback_message
+          last_message = message.present? ? message : payload
           if senderID != BOT_ID 
             if lat.present? && lng.present?
-              fb_results = graph.search_places(lat, lng, user, 10)
+              fb_results = graph.search_places(lat, lng, user, 10, nil, payload_title)
               # 傳送餐廳資訊
               messageData = generic_elements(senderID, fb_results)
               results = common.http_post(API_URL, messageData)
@@ -145,17 +145,17 @@ class FacebookBotService
         {
           content_type: "text",
           title: "咖啡",
-          payload: "咖啡"
+          payload: "search_specific_item"
         },
         {
           content_type: "text",
           title: "拉麵",
-          payload: "拉麵"
+          payload: "search_specific_item"
         },
         {
           content_type: "text",
           title: "丼飯",
-          payload: "丼飯"
+          payload: "search_specific_item"
         },
         { content_type: "location" }
       ]
