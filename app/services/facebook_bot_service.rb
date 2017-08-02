@@ -18,15 +18,15 @@ class FacebookBotService
 
     if body.dig('object') == 'page'
       entries.each do |entry|
-        entry['messaging'].each do |message|
-          message = message.dig('message','text')
-          payload = message.dig('postback','payload')
-          payload_title = message.dig('postback','title')
-          senderID = message.dig('sender','id').to_s
+        entry['messaging'].each do |receive_message|
+          message = receive_message.dig('message','text')
+          payload = receive_message.dig('postback','payload')
+          payload_title = receive_message.dig('postback','title')
+          senderID = receive_message.dig('sender','id').to_s
           lat = ''
           lng = ''
-          if message.dig('message','attachments').present?
-            message['message']['attachments'].try(:each) do |location|
+          if receive_message.dig('message','attachments').present?
+            receive_message['message']['attachments'].try(:each) do |location|
               lat = location.dig('payload','coordinates','lat')
               lng = location.dig('payload','coordinates','long')
             end
