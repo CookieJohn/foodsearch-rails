@@ -208,7 +208,7 @@ class FacebookBotService
         },
         {
           type: 'web_url',
-          url: "https://track-spending.herokuapp.com/",
+          url: "https://johnwudevelop.tk/",
           title: "搜尋設定",
           webview_height_ratio: "tall"
         }
