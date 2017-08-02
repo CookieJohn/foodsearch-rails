@@ -20,8 +20,10 @@ class FacebookBotService
       entries.each do |entry|
         entry['messaging'].each do |receive_message|
           message = receive_message.dig('message','text')
-          payload = receive_message.dig('postback','payload')
-          payload_title = receive_message.dig('postback','title')
+          button_payload = receive_message.dig('postback','payload')
+          button_payload_title = receive_message.dig('postback','title')
+          quick_reply_payload = receive_message.dig('quick_reply','payload')
+          quick_reply_payload_title = receive_message.dig('quick_reply','title')
           senderID = receive_message.dig('sender','id').to_s
           lat = ''
           lng = ''
@@ -31,19 +33,25 @@ class FacebookBotService
               lng = location.dig('payload','coordinates','long')
             end
           end
-          last_message = message.present? ? message : payload
+          
           if senderID != BOT_ID 
-            if lat.present? && lng.present?
-              fb_results = graph.search_places(lat, lng, user, 10, nil, payload_title)
+            if lat.present?
+              fb_results = graph.search_places(lat, lng, user, 10, nil, quick_reply_payload_title)
               # 傳送餐廳資訊
               messageData = generic_elements(senderID, fb_results)
               results = common.http_post(API_URL, messageData)
               # 傳送詢問訊息
-              messageData = get_response(senderID, 'done')
+              messageData = get_response(senderID, 'done', nil)
               results = common.http_post(API_URL, messageData)
-            elsif last_message.present?
-              messageData = get_response(senderID, last_message)
-              results = common.http_post(API_URL, messageData)
+            else 
+              if quick_reply_payload.present?
+                messageData = get_response(senderID, quick_reply_payload, message)
+              elsif button_payload.present?
+                messageData = get_response(senderID, button_payload, message)
+              elsif message.present?
+                messageData = get_response(senderID, 'message', message)
+              end
+              results = common.http_post(API_URL, messageData) if messageData.present?
             end
           end
         end
@@ -137,8 +145,8 @@ class FacebookBotService
     return generic_format
   end
 
-  def get_response id, text
-    response = case text
+  def get_response id, type, text=nil
+    response = case type
     when 'choose_search_type'
       title_text = "請選擇想搜尋的類型，或者直接使用目前位置搜尋。"
       options = [
@@ -162,15 +170,11 @@ class FacebookBotService
       quick_replies_format(id, text, title_text, options)
     when 'direct_search'
       title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
-      options = [
-        { content_type: "location" }
-      ]
+      options = [ { content_type: "location" } ]
       quick_replies_format(id, text, title_text, options)
     when 'done'
       title_text = "搜尋結果滿意嗎？或是您想重新搜尋？"
-      options = [
-        { content_type: "location" }
-      ]
+      options = [ { content_type: "location" } ]
       quick_replies_format(id, text, title_text, options)
     else
       title_text = "請選擇："
