@@ -140,7 +140,7 @@ class FacebookBotService
   def get_response id, text
     response = case text
     when '搜尋'
-      title_text = "您想新增？"
+      title_text = "請告訴我你的位置，或者移動到您想查詢的位置。"
       # options = [
       #   {
       #     type: "postback",
@@ -159,21 +159,21 @@ class FacebookBotService
       #   }
       # ]
       options = [
-        {
-          content_type: "text",
-          title: "日式",
-          payload: "加入完成！"
-        },
-        {
-          content_type: "text",
-          title: "中式",
-          payload: "加入完成！"
-        },
-        {
-          content_type: "text",
-          title: "韓式",
-          payload: "加入完成！"
-        },
+        # {
+        #   content_type: "text",
+        #   title: "日式",
+        #   payload: "加入完成！"
+        # },
+        # {
+        #   content_type: "text",
+        #   title: "中式",
+        #   payload: "加入完成！"
+        # },
+        # {
+        #   content_type: "text",
+        #   title: "韓式",
+        #   payload: "加入完成！"
+        # },
         {
           content_type: "location"
         }
@@ -214,7 +214,7 @@ class FacebookBotService
   def quick_replies_format id, text, title_text=nil, quick_reply_options=nil
     { recipient: { id: id },
       message: {
-        text: "請選擇：",
+        text: title_text,
         quick_replies: quick_reply_options}
     }
   end
