@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+ source 'https://rubygems.org'
 
 # fornt
 gem 'rails', '~> 5.1'
@@ -18,6 +18,7 @@ gem 'meta-tags'
 gem 'fuzzy-string-match'
 gem 'typhoeus'
 gem 'geocoder'
+gem 'friendly_id'
 
 # third-party
 gem 'line-bot-api'
