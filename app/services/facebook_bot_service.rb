@@ -41,13 +41,20 @@ class FacebookBotService
             if lat.present?
               keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
               fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
-              user.update!(last_search: '{}') if user.last_search['keyword'].present?
+              if user.last_search['keyword'].present?
+                user.last_search['keyword'] = '' 
+                user.save
+              end
               # 傳送餐廳資訊
               messageData = generic_elements(senderID, fb_results)
               results = common.http_post(API_URL, messageData)
               # 傳送詢問訊息
               messageData = get_response(senderID, 'done', nil)
               results = common.http_post(API_URL, messageData)
+
+              user.last_search['lat'] = lat
+              user.last_search['lng'] = lng
+              user.save
             else 
               if quick_reply_payload.present?
                 messageData = get_response(senderID, quick_reply_payload, message)
@@ -175,7 +182,7 @@ class FacebookBotService
       quick_replies_format(id, text, title_text, options)
     when 'search_specific_item'
       user.update!(last_search: { keyword: text })
-      title_text = "您搜尋的是： #{text}\n正確的話請點選：傳送地點，或點選重新選擇"
+      title_text = "您搜尋的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = [
         { content_type: "location" },
         {
@@ -187,10 +194,46 @@ class FacebookBotService
       quick_replies_format(id, text, title_text, options)
     when 'direct_search'
       title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
-      options = [ { content_type: "location" } ]
+      options = [
+        {
+          content_type: "text",
+          title: "使用上次的位置",
+          payload: "last_location"
+        }, 
+        { content_type: "location" } ]
       quick_replies_format(id, text, title_text, options)
+    when 'last_location'
+      if user.last_search['lat'].present?
+        lat = user.last_search['lat']
+        lng = user.last_search['lng']
+        keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
+        fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
+        if user.last_search['keyword'].present?
+          user.last_search['keyword'] = '' 
+          user.save
+        end
+        # 傳送餐廳資訊
+        messageData = generic_elements(senderID, fb_results)
+        results = common.http_post(API_URL, messageData)
+        # 傳送詢問訊息
+        messageData = get_response(senderID, 'done', nil)
+        results = common.http_post(API_URL, messageData)
+      else
+        messageData = get_response(senderID, 'no_last_location', nil)
+        results = common.http_post(API_URL, messageData)
+      end
     when 'done'
       title_text = "搜尋結果滿意嗎？或是您想重新搜尋？"
+      options = [ 
+        { content_type: "location" },
+        {
+          content_type: "text",
+          title: "重新選擇類型",
+          payload: "choose_search_type"
+        } ]
+      quick_replies_format(id, text, title_text, options)
+    when 'no_last_location'
+      title_text = "您沒有搜尋過唷！"
       options = [ 
         { content_type: "location" },
         {
