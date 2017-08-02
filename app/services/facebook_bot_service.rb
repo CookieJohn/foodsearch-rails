@@ -35,15 +35,15 @@ class FacebookBotService
           if senderID != BOT_ID 
             if lat.present? && lng.present?
               fb_results = graph.search_places(lat, lng, user, 10)
-
-              # keywords = fb_results.map {|f| f['name']}
-
+              # 傳送餐廳資訊
               messageData = generic_elements(senderID, fb_results)
+              results = common.http_post(API_URL, messageData)
+              # 傳送詢問訊息
+              messageData = get_response(senderID, 'done')
               results = common.http_post(API_URL, messageData)
             elsif last_message.present?
               messageData = get_response(senderID, last_message)
               results = common.http_post(API_URL, messageData)
-              puts "results #{results}"
             end
           end
         end
@@ -141,23 +141,6 @@ class FacebookBotService
     response = case text
     when '搜尋'
       title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
-      # options = [
-      #   {
-      #     type: "postback",
-      #     title: "早餐",
-      #     payload: "加入完成！"
-      #   },
-      #   {
-      #     type: "postback",
-      #     title: "午餐",
-      #     payload: "加入完成！"
-      #   },
-      #   {
-      #     type: "postback",
-      #     title: "晚餐",
-      #     payload: "加入完成！"
-      #   }
-      # ]
       options = [
         # {
         #   content_type: "text",
@@ -174,14 +157,17 @@ class FacebookBotService
         #   title: "韓式",
         #   payload: "加入完成！"
         # },
-        {
-          content_type: "location"
-        }
+        { content_type: "location" }
+      ]
+      quick_replies_format(id, text, title_text, options)
+    when 'done'
+      title_text = "搜尋結果滿意嗎？或是您想重新搜尋？"
+      options = [
+        { content_type: "location" }
       ]
       quick_replies_format(id, text, title_text, options)
     else
       title_text = "請選擇："
-    #   title_text = "Hi~又到了繳納的時間拉，拿出你今天的進貢吧！"
       # options = [
       #   {
       #     content_type: "text",
