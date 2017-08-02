@@ -22,8 +22,8 @@ class FacebookBotService
           message = receive_message.dig('message','text')
           button_payload = receive_message.dig('postback','payload')
           button_payload_title = receive_message.dig('postback','title')
-          quick_reply_payload = receive_message.dig('quick_reply','payload')
-          quick_reply_payload_title = receive_message.dig('quick_reply','title')
+          quick_reply_payload = receive_message.dig('message','quick_reply','payload')
+          quick_reply_payload_title = receive_message.dig('message','quick_reply','title')
           senderID = receive_message.dig('sender','id').to_s
           lat = ''
           lng = ''
