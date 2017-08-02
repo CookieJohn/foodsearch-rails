@@ -20,7 +20,7 @@ class FacebookBotService
       entries.each do |entry|
         entry['messaging'].each do |message|
           reveive_message = message.dig('message','text').to_s
-          postback_message = message.dig('postback','title').to_s
+          postback_message = message.dig('postback','payload').to_s
           senderID = message.dig('sender','id').to_s
           puts "postback_message #{postback_message}"
           lat = ''
@@ -139,24 +139,30 @@ class FacebookBotService
 
   def get_response id, text
     response = case text
-    when '搜尋'
+    when 'choose_search_type'
       title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = [
-        # {
-        #   content_type: "text",
-        #   title: "日式",
-        #   payload: "加入完成！"
-        # },
-        # {
-        #   content_type: "text",
-        #   title: "中式",
-        #   payload: "加入完成！"
-        # },
-        # {
-        #   content_type: "text",
-        #   title: "韓式",
-        #   payload: "加入完成！"
-        # },
+        {
+          content_type: "text",
+          title: "咖啡",
+          payload: "咖啡"
+        },
+        {
+          content_type: "text",
+          title: "拉麵",
+          payload: "拉麵"
+        },
+        {
+          content_type: "text",
+          title: "丼飯",
+          payload: "丼飯"
+        },
+        { content_type: "location" }
+      ]
+      quick_replies_format(id, text, title_text, options)
+    when 'direct_search'
+      title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
+      options = [
         { content_type: "location" }
       ]
       quick_replies_format(id, text, title_text, options)
@@ -168,28 +174,21 @@ class FacebookBotService
       quick_replies_format(id, text, title_text, options)
     else
       title_text = "請選擇："
-      # options = [
-      #   {
-      #     content_type: "text",
-      #     title: "添加紀錄",
-      #     payload: "加入完成！"
-      #   },
-      #   {
-      #     content_type: "text",
-      #     title: "不用了謝謝！",
-      #     payload: "QQ..."
-      #   }
-      # ]
       options = [
         {
-          type: "postback",
-          title: "搜尋",
-          payload: "search"
+          type: 'postback',
+          title: "選擇搜尋類型",
+          payload: "choose_search_type"
         },
         {
-          type: "web_url",
+          type: 'postback',
+          title: "直接搜尋",
+          payload: "direct_search"
+        },
+        {
+          type: 'web_url',
           url: "https://track-spending.herokuapp.com/",
-          title: "設定",
+          title: "搜尋設定",
           webview_height_ratio: "tall"
         }
       ]
