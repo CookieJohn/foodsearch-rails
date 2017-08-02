@@ -174,7 +174,7 @@ class FacebookBotService
         { content_type: "location" },
         {
           content_type: "text",
-          title: "重新選擇",
+          title: "重新選擇類型",
           payload: "choose_search_type"
         }
       ]
@@ -185,7 +185,13 @@ class FacebookBotService
       quick_replies_format(id, text, title_text, options)
     when 'done'
       title_text = "搜尋結果滿意嗎？或是您想重新搜尋？"
-      options = [ { content_type: "location" } ]
+      options = [ 
+        { content_type: "location" },
+        {
+          content_type: "text",
+          title: "重新選擇類型",
+          payload: "choose_search_type"
+        } ]
       quick_replies_format(id, text, title_text, options)
     else
       title_text = "請選擇："
