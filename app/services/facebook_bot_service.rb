@@ -41,17 +41,22 @@ class FacebookBotService
             if lat.present?
               keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
               fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
-              # 傳送餐廳資訊
-              messageData = generic_elements(senderID, fb_results)
-              results = common.http_post(API_URL, messageData)
-              # 傳送詢問訊息
-              messageData = get_response(senderID, 'done', nil)
-              results = common.http_post(API_URL, messageData)
+              if fb_results.size > 0 
+                # 傳送餐廳資訊
+                messageData = generic_elements(senderID, fb_results)
+                results = common.http_post(API_URL, messageData)
+                # 傳送詢問訊息
+                messageData = get_response(senderID, 'done', nil)
+                results = common.http_post(API_URL, messageData)
 
-              user.last_search['keyword'] = '' 
-              user.last_search['lat'] = lat
-              user.last_search['lng'] = lng
-              user.save
+                user.last_search['keyword'] = '' 
+                user.last_search['lat'] = lat
+                user.last_search['lng'] = lng
+                user.save
+              else
+                messageData = get_response(id, 'no_result', nil)
+                results = common.http_post(API_URL, messageData)
+              end
             else 
               if quick_reply_payload.present?
                 messageData = get_response(senderID, quick_reply_payload, message)
@@ -148,7 +153,6 @@ class FacebookBotService
           type: 'template',
           payload: {
             template_type: 'generic',
-            # image_aspect_ratio: 'square',
             elements: columns
           }}}}
     return generic_format
@@ -190,7 +194,7 @@ class FacebookBotService
         { content_type: "location" },
         {
           content_type: "text",
-          title: "重新選擇類型",
+          title: "重新選擇",
           payload: "choose_search_type"
         }
       ]
@@ -211,22 +215,27 @@ class FacebookBotService
         lng = user.last_search['lng']
         keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
         fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
-        if user.last_search['keyword'].present?
-          user.last_search['keyword'] = '' 
-          user.save
+        if fb_results.size > 0 
+          if user.last_search['keyword'].present?
+            user.last_search['keyword'] = '' 
+            user.save
+          end
+          # 傳送餐廳資訊
+          messageData = generic_elements(id, fb_results)
+          results = common.http_post(API_URL, messageData)
+          # 傳送詢問訊息
+          messageData = get_response(id, 'done', nil)
+          results = common.http_post(API_URL, messageData)
+        else
+          messageData = get_response(id, 'no_result', nil)
+          results = common.http_post(API_URL, messageData)
         end
-        # 傳送餐廳資訊
-        messageData = generic_elements(id, fb_results)
-        results = common.http_post(API_URL, messageData)
-        # 傳送詢問訊息
-        messageData = get_response(id, 'done', nil)
-        results = common.http_post(API_URL, messageData)
       else
         messageData = get_response(id, 'no_last_location', nil)
         results = common.http_post(API_URL, messageData)
       end
     when 'done'
-      title_text = "搜尋結果滿意嗎？或是您想重新搜尋？"
+      title_text = "找到您想吃的嗎？"
       options = [ 
         { content_type: "location" },
         {
@@ -241,7 +250,17 @@ class FacebookBotService
         { content_type: "location" },
         {
           content_type: "text",
-          title: "重新選擇類型",
+          title: "重新選擇",
+          payload: "choose_search_type"
+        } ]
+      quick_replies_format(id, text, title_text, options)
+    when 'no_result'
+      title_text = "在這個位置，沒有與#{user.last_search['keyword']}相關的餐廳！"
+      options = [ 
+        { content_type: "location" },
+        {
+          content_type: "text",
+          title: "重新選擇",
           payload: "choose_search_type"
         } ]
       quick_replies_format(id, text, title_text, options)
