@@ -173,6 +173,9 @@ class FacebookBotService
           content_type: "text",
           title: "韓式",
           payload: "加入完成！"
+        },
+        {
+          content_type: "location"
         }
       ]
       quick_replies_format(id, text, title_text, options)

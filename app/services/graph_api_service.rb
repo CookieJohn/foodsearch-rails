@@ -13,8 +13,7 @@ class GraphApiService
 
 	attr_accessor :graph, :common
 	def initialize
-		@oauth = Koala::Facebook::OAuth.new
-		oauth_access_token = @oauth.get_app_access_token
+		oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
 		self.graph = Koala::Facebook::API.new(oauth_access_token)
 		self.common ||= CommonService.new
 	end
