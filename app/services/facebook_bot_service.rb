@@ -244,7 +244,7 @@ class FacebookBotService
         { content_type: "location" },
         {
           content_type: "text",
-          title: "重新選擇類型",
+          title: "重新選擇",
           payload: "choose_search_type"
         } ]
       quick_replies_format(id, text, title_text, options)
@@ -283,7 +283,7 @@ class FacebookBotService
         },
         {
           type: 'web_url',
-          url: "https://johnwudevelop.tk/",
+          url: "https://johnwudevelop.tk/users/#{user.id}",
           title: "搜尋設定",
           webview_height_ratio: "tall"
         }
