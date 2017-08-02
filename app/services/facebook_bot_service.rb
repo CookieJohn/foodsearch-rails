@@ -168,6 +168,17 @@ class FacebookBotService
         { content_type: "location" }
       ]
       quick_replies_format(id, text, title_text, options)
+    when 'search_specific_item'
+      title_text = "您搜尋的是：'QQ', 沒錯的話請點選：傳送地點，或是點選重新選擇"
+      options = [
+        { content_type: "location" },
+        {
+          content_type: "text",
+          title: "重新選擇",
+          payload: "choose_search_type"
+        }
+      ]
+      quick_replies_format(id, text, title_text, options)
     when 'direct_search'
       title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = [ { content_type: "location" } ]
