@@ -54,7 +54,7 @@ class FacebookBotService
                 user.last_search['lng'] = lng
                 user.save
               else
-                messageData = get_response(id, 'no_result', nil)
+                messageData = get_response(senderID, 'no_result', nil)
                 results = common.http_post(API_URL, messageData)
               end
             else 
