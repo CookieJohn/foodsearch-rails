@@ -140,7 +140,7 @@ class FacebookBotService
   def get_response id, text
     response = case text
     when '搜尋'
-      title_text = "請告訴我你的位置，或者移動到您想查詢的位置。"
+      title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       # options = [
       #   {
       #     type: "postback",
@@ -180,7 +180,7 @@ class FacebookBotService
       ]
       quick_replies_format(id, text, title_text, options)
     else
-      title_text = "請選擇想做的事"
+      title_text = "請選擇："
     #   title_text = "Hi~又到了繳納的時間拉，拿出你今天的進貢吧！"
       # options = [
       #   {
