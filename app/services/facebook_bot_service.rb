@@ -39,7 +39,9 @@ class FacebookBotService
           
           if senderID != BOT_ID 
             if lat.present?
-              fb_results = graph.search_places(lat, lng, user, 10, nil, quick_reply_payload_title)
+              keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
+              fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
+              user.update!(last_search: '{}') if user.last_search['keyword'].present?
               # 傳送餐廳資訊
               messageData = generic_elements(senderID, fb_results)
               results = common.http_post(API_URL, messageData)
@@ -188,7 +190,6 @@ class FacebookBotService
       options = [ { content_type: "location" } ]
       quick_replies_format(id, text, title_text, options)
     when 'done'
-      user.update!(last_search: '{}') if user.last_search['keyword'].present?
       title_text = "搜尋結果滿意嗎？或是您想重新搜尋？"
       options = [ 
         { content_type: "location" },
