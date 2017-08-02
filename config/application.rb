@@ -31,5 +31,14 @@ module Foodsearch
     # config.i18n.default_locale = :de
     config.i18n.available_locales = ["zh-TW"]
     config.i18n.default_locale = "zh-TW"
+    
+    config.generators.test_framework false
+
+    config.generators do |g|
+      g.stylesheets = false
+      g.javascripts = false
+      g.helper = false
+      g.skip_routes true
+    end
   end
 end
