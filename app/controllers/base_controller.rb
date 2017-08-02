@@ -1,5 +1,6 @@
 class BaseController < ApplicationController
   before_action :get_lat_lng, only: [:refresh_locations]
+  skip_before_action :verify_authenticity_token, only: [:refresh_locations]
 
   def index
   	set_meta
