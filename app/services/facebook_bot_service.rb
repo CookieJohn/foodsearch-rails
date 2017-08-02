@@ -41,10 +41,6 @@ class FacebookBotService
             if lat.present?
               keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
               fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
-              if user.last_search['keyword'].present?
-                user.last_search['keyword'] = '' 
-                user.save
-              end
               # 傳送餐廳資訊
               messageData = generic_elements(senderID, fb_results)
               results = common.http_post(API_URL, messageData)
@@ -52,6 +48,7 @@ class FacebookBotService
               messageData = get_response(senderID, 'done', nil)
               results = common.http_post(API_URL, messageData)
 
+              user.last_search['keyword'] = '' 
               user.last_search['lat'] = lat
               user.last_search['lng'] = lng
               user.save
@@ -181,7 +178,8 @@ class FacebookBotService
       ]
       quick_replies_format(id, text, title_text, options)
     when 'search_specific_item'
-      user.update!(last_search: { keyword: text })
+      user.last_search['keyword'] = text
+      user.save
       title_text = "您搜尋的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = [
         {
