@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :find_user, only: :show
 
   def show
+  	set_meta
   end
 
   private
