@@ -184,6 +184,11 @@ class FacebookBotService
       user.update!(last_search: { keyword: text })
       title_text = "您搜尋的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = [
+        {
+          content_type: "text",
+          title: "使用上次的位置",
+          payload: "last_location"
+        }, 
         { content_type: "location" },
         {
           content_type: "text",
@@ -213,13 +218,13 @@ class FacebookBotService
           user.save
         end
         # 傳送餐廳資訊
-        messageData = generic_elements(senderID, fb_results)
+        messageData = generic_elements(id, fb_results)
         results = common.http_post(API_URL, messageData)
         # 傳送詢問訊息
-        messageData = get_response(senderID, 'done', nil)
+        messageData = get_response(id, 'done', nil)
         results = common.http_post(API_URL, messageData)
       else
-        messageData = get_response(senderID, 'no_last_location', nil)
+        messageData = get_response(id, 'no_last_location', nil)
         results = common.http_post(API_URL, messageData)
       end
     when 'done'
