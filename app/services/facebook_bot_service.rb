@@ -3,18 +3,17 @@ class FacebookBotService
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
   BOT_ID ||= '844639869021578'
   
-  attr_accessor :graph, :google, :common
+  attr_accessor :graph, :google, :common, :user
 	def initialize
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
+    self.user ||= nil
   end
 
   def reply_msg request
     body = JSON.parse(request.body.read)
     entries = body['entry']
-
-    user = nil
 
     if body.dig('object') == 'page'
       entries.each do |entry|
@@ -25,6 +24,10 @@ class FacebookBotService
           quick_reply_payload = receive_message.dig('message','quick_reply','payload')
           quick_reply_payload_title = receive_message.dig('message','quick_reply','title')
           senderID = receive_message.dig('sender','id').to_s
+
+          User.create!(facebook_user_id: senderID) if !User.exists?(facebook_user_id: senderID)
+          self.user = User.find_by(facebook_user_id: senderID)
+
           lat = ''
           lng = ''
           if receive_message.dig('message','attachments').present?
@@ -169,7 +172,8 @@ class FacebookBotService
       ]
       quick_replies_format(id, text, title_text, options)
     when 'search_specific_item'
-      title_text = "您搜尋的是：'QQ', 沒錯的話請點選：傳送地點，或是點選重新選擇"
+      user.update!(last_search: { keyword: text })
+      title_text = "您搜尋的是： #{text}\n正確的話請點選：傳送地點，或點選重新選擇"
       options = [
         { content_type: "location" },
         {
@@ -184,6 +188,7 @@ class FacebookBotService
       options = [ { content_type: "location" } ]
       quick_replies_format(id, text, title_text, options)
     when 'done'
+      user.update!(last_search: '{}') if user.last_search['keyword'].present?
       title_text = "搜尋結果滿意嗎？或是您想重新搜尋？"
       options = [ 
         { content_type: "location" },

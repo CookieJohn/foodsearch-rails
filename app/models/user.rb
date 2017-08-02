@@ -1,6 +1,7 @@
 class User < ApplicationRecord
 
-	validates :line_user_id, uniqueness: true, presence: true
+	validates :line_user_id, uniqueness: true, allow_nil: true
+	validates :facebook_user_id, uniqueness: true, allow_nil: true
 	validates :max_distance, presence: true, numericality: {greater_than_or_equal_to: 500, less_than_or_equal_to: 50000}
 	validates :min_score, presence: true, numericality: {greater_than_or_equal_to: 3, less_than_or_equal_to: 5}
 
