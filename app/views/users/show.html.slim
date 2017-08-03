@@ -1,4 +1,5 @@
-.container-fluid.text-center
+p.hidden#user_id = @user.id 
+.container-fluid.text-center style="padding-top: 50px;"
 	.panel.panel-info
 		/ h1 = @user.id
 		.panel-heading = '使用者設定'
@@ -7,19 +8,24 @@
 				.title style="display: inline; width: 100px;"
 					= "搜尋半徑 "
 				.material-switch style="display: inline; margin-left; 5px;"
-					input[type="range" name="range" min="500" max="1000" value="50" onchange="rangePrimary.value=value"]
-					output#rangePrimary = @user.max_distance
+					input#max_distance[type="range" name="range" min="500" max="2000" value=@user.max_distance step="50"]
+					output#max_distance_value = "#{@user.max_distance}公尺"
 		.list-group
 			.list-group-item style="display: flex; justify-content: center;"
 				.title style="display: inline; width: 100px;"
 					= "最低評分 "
 				.material-switch style="display: inline; margin-left; 5px;"
-					input[type="range" name="range" min="2.0" max="5.0" value="0.1" onchange="rangePrimary.value=value"]
-					output#rangePrimary = @user.min_score
+					input#min_score[type="range" name="range" min="2.0" max="5.0" value=@user.min_score step="0.1"]
+					output#min_score_value = "#{@user.min_score}分"
 		.list-group
 			.list-group-item style="display: flex; justify-content: center;"
 				.title style="display: inline; width: 100px;"
 					= "隨機結果 "
+				- random_open = @user.random_type ? 'checked' : ''
 				.material-switch style="display: inline; margin-left; 5px;"
-					input#someSwitchOptionPrimary[name="someSwitchOption001" type="checkbox"]
-					label.label-primary[for="someSwitchOptionPrimary"]
+					= check_box_tag 'random', 'random', @user.random_type
+					label.label-primary[for="random"]
+	= link_to '儲存', '', class: 'btn btn-success', data: { confirm: "確定儲存？" }, id: 'save_user_setting', remote: true
+
+javascript:
+	rails_env = "#{Rails.env}"
