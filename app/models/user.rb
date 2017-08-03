@@ -8,6 +8,6 @@ class User < ApplicationRecord
 	before_validation :set_defaults, on: [:create]
   def set_defaults
     self.max_distance = 500
-    self.min_score = 4
+    self.min_score = 3.8
   end
 end
