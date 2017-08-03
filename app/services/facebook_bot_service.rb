@@ -182,12 +182,8 @@ class FacebookBotService
       ]
       quick_replies_format(id, text, title_text, options)
     when 'search_specific_item'
-      if user.last_search['keyword'].present?
-        user.last_search['keyword'] = text
-        user.save
-      else
-        user.update!(last_search: { keyword: text })
-      end
+      user.last_search['keyword'] = text
+      user.save
       title_text = "您搜尋的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = [
         {
