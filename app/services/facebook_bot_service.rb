@@ -159,9 +159,9 @@ class FacebookBotService
       options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'customized_keyword'
-      text_format(id, '你想查什麼？')
       user.last_search['customize'] = true
       user.save
+      text_format(id, '你想查什麼？')
     when 'search_specific_item'
       user.last_search['keyword'] = text
       user.last_search['customize'] == false
@@ -170,6 +170,7 @@ class FacebookBotService
       options = []
       options << quick_replies_option('使用上次的位置', 'last_location')
       options << quick_replies_option('重新選擇', 'choose_search_type')
+      options << send_location
       options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'direct_search'
