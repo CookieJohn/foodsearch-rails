@@ -92,6 +92,7 @@ class FacebookBotService
       category = result['category']
       category_list = result['category_list']
       hours = result['hours']
+      distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
 
       description = category
       category_list.sample(2).each do |c|
@@ -121,6 +122,7 @@ class FacebookBotService
       # text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}"
       text += "\n#{today_open_time}"
+      text += "\n#{distance}"
       # text += "\n#{phone}"
 
       text = text[0, 80]
