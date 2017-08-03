@@ -273,19 +273,20 @@ class FacebookBotService
       options = [
         {
           type: 'postback',
-          title: "選擇搜尋類型",
+          title: '選擇搜尋類型',
           payload: "choose_search_type"
         },
         {
           type: 'postback',
-          title: "直接搜尋",
+          title: '直接搜尋',
           payload: "direct_search"
         },
         {
           type: 'web_url',
           url: "https://johnwudevelop.tk/users/#{user.id}",
-          title: "搜尋設定",
-          webview_height_ratio: "tall"
+          title: '搜尋設定',
+          webview_height_ratio: 'tall',
+          webview_share_button: 'hide'
         }
       ]
       button_format(id, text, title_text, options)
