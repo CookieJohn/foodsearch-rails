@@ -146,18 +146,25 @@ class FacebookBotService
   end
 
   def get_response id, type, text=nil
+    type = 'search_specific_item' if user.last_search['customize'] == true
     response = case type
     when 'choose_search_type'
       title_text = "請選擇想搜尋的類型，或者直接使用目前位置搜尋。"
       options = []
-      options << quick_replies_option('咖啡', 'search_specific_item')
-      options << quick_replies_option('拉麵', 'search_specific_item')
-      options << quick_replies_option('丼飯', 'search_specific_item')
+      options << quick_replies_option('飯', 'search_specific_item')
+      options << quick_replies_option('麵', 'search_specific_item')
+      options << quick_replies_option('鍋', 'search_specific_item')
+      options << quick_replies_option('自己輸入', 'customized_keyword')
       options << send_location
       options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
+    when 'customized_keyword'
+      text_format(id, '你想查什麼？')
+      user.last_search['customize'] = true
+      user.save
     when 'search_specific_item'
       user.last_search['keyword'] = text
+      user.last_search['customize'] == false
       user.save
       title_text = "您搜尋的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = []
