@@ -9,4 +9,6 @@ Rails.application.routes.draw do
   # facebook bot
   get 'webhook' => 'facebook#webhook'
   post 'webhook' => 'facebook#post_webhook'
+
+  resources :users, only: [:show, :edit, :update]
 end
