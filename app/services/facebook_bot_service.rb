@@ -173,16 +173,17 @@ class FacebookBotService
       options = []
       options << quick_replies_option('重新選擇', 'choose_search_type')
       options << quick_replies_option('回主選單', 'back')
-      quick_replies_format(id, text, title_text, options)
+      messageData = quick_replies_format(id, text, title_text, options)
+      results = common.http_post(API_URL, messageData)
     when 'search_specific_item'
       user.last_search['keyword'] = text
       user.last_search['customize'] = false
       user.save
-      title_text = "你想找的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
+      title_text = "你想找的是： #{text}\n請告訴我你的位置"
       options = []
       options << quick_replies_option('使用上次的位置', 'last_location')
-      options << quick_replies_option('重新選擇', 'choose_search_type')
       options << send_location
+      options << quick_replies_option('重新選擇', 'choose_search_type')
       options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'direct_search'
