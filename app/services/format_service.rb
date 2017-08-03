@@ -25,7 +25,7 @@ class FormatService
       category = result['category']
       category_list = result['category_list']
       hours = result['hours']
-      distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
+      distance = result['distance'].present? ? "#{result['distance']}公尺" : ''
 
       types = [category]
       category_list.first(2).each do |c|

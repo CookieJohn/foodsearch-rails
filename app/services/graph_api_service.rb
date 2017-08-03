@@ -42,8 +42,8 @@ class GraphApiService
 			r['overall_star_rating'].to_f <= min_score }
 		# 計算距離
 		if mode.present?
-			results = results.each { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
-			results = results.reject { |r| (r['distance']*1000).to_i > max_distance }
+			results = results.each { |r| r['distance'] = (common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
+			results = results.reject { |r| r['distance'] > max_distance }
 		end
 		results = case mode
 		when 'score'
@@ -52,13 +52,13 @@ class GraphApiService
 			results = results.sort_by { |r| r['distance'] }
 		else
 			results = random_type ? results.sample(size) : results.first(size)
-			results = results.each { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
-			results = results.reject { |r| (r['distance']*1000).to_i > max_distance }
+			results = results.each { |r| r['distance'] = (common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
+			results = results.reject { |r| r['distance'] > max_distance }
 		end
 	end
 
 	def get_photo id, width=450, height=450
-		"https://graph.facebook.com/#{id}/picture??width=#{width}&height=#{height}"
+		"https://graph.facebook.com/#{id}/picture?width=#{width}&height=#{height}"
 	end
 
 	def get_current_open_time hours

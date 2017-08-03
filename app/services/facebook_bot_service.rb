@@ -77,7 +77,7 @@ class FacebookBotService
 
     columns = []
 
-    category_lists = Category.pluck(:id)
+    # category_lists = Category.pluck(:id)
 
     results.each do |result|
       id = result['id']
@@ -92,7 +92,7 @@ class FacebookBotService
       category = result['category']
       category_list = result['category_list']
       hours = result['hours']
-      distance = result['distance'].present? ? "#{(result['distance']*1000).to_i}公尺" : ''
+      distance = result['distance'].present? ? "#{result['distance']}公尺" : ''
 
       description = category
       category_list.sample(2).each do |c|
