@@ -25,9 +25,7 @@ class CommonService
 	end
 
 	def http_post post_uri, params
-		uri = safe_url(post_uri)
-		res = HTTParty.post(uri, body: params.to_json, headers: { 'Content-Type' => 'application/json' })
-		results = JSON.parse(res.body)
+		res = HTTParty.post(post_uri, body: params.to_json, headers: { 'Content-Type' => 'application/json' })
 	end
 
 	def count_distance current_lat_lng, position_lat_lng
