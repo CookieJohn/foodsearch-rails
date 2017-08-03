@@ -158,28 +158,27 @@ class FacebookBotService
     return generic_format
   end
 
+  def quick_replies_option title, payload
+    {
+      content_type: "text",
+      title: title,
+      payload: payload
+    }
+  end
+
+  def send_location
+    { content_type: "location" }
+  end
+
   def get_response id, type, text=nil
     response = case type
     when 'choose_search_type'
       title_text = "請選擇想搜尋的類型，或者直接使用目前位置搜尋。"
-      options = [
-        {
-          content_type: "text",
-          title: "咖啡",
-          payload: "search_specific_item"
-        },
-        {
-          content_type: "text",
-          title: "拉麵",
-          payload: "search_specific_item"
-        },
-        {
-          content_type: "text",
-          title: "丼飯",
-          payload: "search_specific_item"
-        },
-        { content_type: "location" }
-      ]
+      options = []
+      options << quick_replies_option('咖啡', 'search_specific_item')
+      options << quick_replies_option('拉麵', 'search_specific_item')
+      options << quick_replies_option('丼飯', 'search_specific_item')
+      options << send_location
       quick_replies_format(id, text, title_text, options)
     when 'search_specific_item'
       user.last_search['keyword'] = text
