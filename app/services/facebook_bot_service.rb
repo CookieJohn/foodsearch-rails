@@ -23,21 +23,21 @@ class FacebookBotService
           button_payload_title = receive_message.dig('postback','title')
           quick_reply_payload = receive_message.dig('message','quick_reply','payload')
           quick_reply_payload_title = receive_message.dig('message','quick_reply','title')
-          senderID = receive_message.dig('sender','id').to_s
+          senderID = receive_message.dig('sender','id')
 
-          User.create!(facebook_user_id: senderID) if !User.exists?(facebook_user_id: senderID)
-          self.user = User.find_by(facebook_user_id: senderID)
+          if senderID != BOT_ID
+            User.create!(facebook_user_id: senderID) if !User.exists?(facebook_user_id: senderID)
+            self.user = User.find_by(facebook_user_id: senderID)
 
-          lat = ''
-          lng = ''
-          if receive_message.dig('message','attachments').present?
-            receive_message['message']['attachments'].try(:each) do |location|
-              lat = location.dig('payload','coordinates','lat')
-              lng = location.dig('payload','coordinates','long')
+            lat = ''
+            lng = ''
+            if receive_message.dig('message','attachments').present?
+              receive_message['message']['attachments'].try(:each) do |location|
+                lat = location.dig('payload','coordinates','lat')
+                lng = location.dig('payload','coordinates','long')
+              end
             end
-          end
           
-          if senderID != BOT_ID 
             if lat.present?
               keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
               fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
@@ -67,6 +67,8 @@ class FacebookBotService
               end
               results = common.http_post(API_URL, messageData) if messageData.present?
             end
+          else
+            false
           end
         end
       end
