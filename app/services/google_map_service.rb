@@ -36,11 +36,11 @@ class GoogleMapService
 	end
 
 	def get_map_link lat, lng, name, street
-		# zoom = I18n.t('settings.google.zoom')
-		# "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
-		query = name.strip
-		query += ",#{street.strip}" if street.present?
-		"https://www.google.com/maps?q=#{query}"
+		zoom = I18n.t('settings.google.zoom')
+		"https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},#{zoom}z/data=!3m1!4b1"
+		# query = name.strip
+		# query += ",#{street.strip}" if street.present?
+		# "https://www.google.com/maps?q=#{query}"
 	end
 
 	def get_nevigation saddr, daddr
