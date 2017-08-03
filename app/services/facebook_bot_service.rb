@@ -73,19 +73,6 @@ class FacebookBotService
     end
   end
 
-  def text_format id, text
-    { recipient: { id: id },
-      message: { text: text }}
-  end
-
-  def button url, title
-    {
-      type: 'web_url',
-      url: url,
-      title: title
-    }
-  end
-
   def generic_elements sender_id, results=nil, google_results=nil
 
     columns = []
@@ -158,18 +145,6 @@ class FacebookBotService
     return generic_format
   end
 
-  def quick_replies_option title, payload
-    {
-      content_type: "text",
-      title: title,
-      payload: payload
-    }
-  end
-
-  def send_location
-    { content_type: "location" }
-  end
-
   def get_response id, type, text=nil
     response = case type
     when 'choose_search_type'
@@ -184,29 +159,15 @@ class FacebookBotService
       user.last_search['keyword'] = text
       user.save
       title_text = "您搜尋的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
-      options = [
-        {
-          content_type: "text",
-          title: "使用上次的位置",
-          payload: "last_location"
-        }, 
-        { content_type: "location" },
-        {
-          content_type: "text",
-          title: "重新選擇",
-          payload: "choose_search_type"
-        }
-      ]
+      options = []
+      options << quick_replies_option('使用上次的位置', 'last_location')
+      options << quick_replies_option('重新選擇', 'choose_search_type')
       quick_replies_format(id, text, title_text, options)
     when 'direct_search'
       title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
-      options = [
-        {
-          content_type: "text",
-          title: "使用上次的位置",
-          payload: "last_location"
-        }, 
-        { content_type: "location" } ]
+      options = []
+      options << quick_replies_option('使用上次的位置', 'last_location')
+      options << send_location
       quick_replies_format(id, text, title_text, options)
     when 'last_location'
       if user.last_search['lat'].present?
@@ -235,57 +196,43 @@ class FacebookBotService
       end
     when 'done'
       title_text = "找到您想吃的嗎？"
-      options = [ 
-        { content_type: "location" },
-        {
-          content_type: "text",
-          title: "重新選擇",
-          payload: "choose_search_type"
-        } ]
+      options = []
+      options << send_location
+      options << quick_replies_option('重新選擇', 'choose_search_type')
       quick_replies_format(id, text, title_text, options)
     when 'no_last_location'
       title_text = "您沒有搜尋過唷！"
-      options = [ 
-        { content_type: "location" },
-        {
-          content_type: "text",
-          title: "重新選擇",
-          payload: "choose_search_type"
-        } ]
+      options = []
+      options << send_location
+      options << quick_replies_option('重新選擇', 'choose_search_type')
       quick_replies_format(id, text, title_text, options)
     when 'no_result'
       title_text = "在這個位置，沒有與#{user.last_search['keyword']}相關的餐廳！"
-      options = [ 
-        { content_type: "location" },
-        {
-          content_type: "text",
-          title: "重新選擇",
-          payload: "choose_search_type"
-        } ]
+      options = []
+      options << send_location
+      options << quick_replies_option('重新選擇', 'choose_search_type')
       quick_replies_format(id, text, title_text, options)
     else
       title_text = "請選擇："
-      options = [
-        {
-          type: 'postback',
-          title: '選擇搜尋類型',
-          payload: "choose_search_type"
-        },
-        {
-          type: 'postback',
-          title: '直接搜尋',
-          payload: "direct_search"
-        },
-        {
-          type: 'web_url',
-          url: "https://johnwudevelop.tk/users/#{user.id}",
-          title: '搜尋設定',
-          webview_height_ratio: 'tall',
-          webview_share_button: 'hide'
-        }
-      ]
+      options = []
+      options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
+      options << button_option('postback', '直接搜尋', 'direct_search')
+      options << button_link_option("https://johnwudevelop.tk/users/#{user.id}", '搜尋設定')
       button_format(id, text, title_text, options)
     end
+  end
+
+  def text_format id, text
+    { recipient: { id: id },
+      message: { text: text }}
+  end
+
+  def button url, title
+    {
+      type: 'web_url',
+      url: url,
+      title: title
+    }
   end
 
   def quick_replies_format id, text, title_text=nil, quick_reply_options=nil
@@ -306,5 +253,37 @@ class FacebookBotService
             text: title_text,
             buttons: button_options }}}
     }
+  end
+
+  def button_option type, title, payload
+    # type: postback, web_url
+    {
+      type: type,
+      title: title,
+      payload: payload
+    }
+  end
+
+  def button_link_option url, title, webview_height='tall', share_button='hide'
+    # type: postback, web_url
+    {
+      type: 'web_url',
+      url: url,
+      title: title,
+      webview_height_ratio: webview_height,
+      webview_share_button: share_button
+    }
+  end
+
+  def quick_replies_option title, payload
+    {
+      content_type: "text",
+      title: title,
+      payload: payload
+    }
+  end
+
+  def send_location
+    { content_type: "location" }
   end
 end
