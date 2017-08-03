@@ -87,7 +87,7 @@ class FacebookBotService
       street = result['location']['street'] || ""
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
-      phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
+      # phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
       link_url = result['link'] || result['website']
       category = result['category']
       category_list = result['category_list']
@@ -105,7 +105,7 @@ class FacebookBotService
       actions << button(common.safe_url(link_url), I18n.t('button.official'))
       actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
       actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
-      actions << phone_option('電話', phone)
+      # actions << phone_option('電話', phone)
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
       # g_match = {'score' => 0.0, 'match_score' => 0.0}
       # if google_results.present?
