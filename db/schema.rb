@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20170802072302) do
     t.datetime "updated_at", null: false
     t.boolean "get_google_result", default: false
     t.string "facebook_user_id"
-    t.json "last_search", default: "{}"
+    t.json "last_search", default: {}
     t.index ["line_user_id"], name: "index_users_on_line_user_id"
   end
 
