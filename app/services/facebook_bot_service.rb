@@ -154,6 +154,7 @@ class FacebookBotService
       options << quick_replies_option('拉麵', 'search_specific_item')
       options << quick_replies_option('丼飯', 'search_specific_item')
       options << send_location
+      options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'search_specific_item'
       user.last_search['keyword'] = text
@@ -162,6 +163,7 @@ class FacebookBotService
       options = []
       options << quick_replies_option('使用上次的位置', 'last_location')
       options << quick_replies_option('重新選擇', 'choose_search_type')
+      options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'direct_search'
       title_text = "請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
@@ -199,18 +201,21 @@ class FacebookBotService
       options = []
       options << send_location
       options << quick_replies_option('重新選擇', 'choose_search_type')
+      options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'no_last_location'
       title_text = "您沒有搜尋過唷！"
       options = []
       options << send_location
       options << quick_replies_option('重新選擇', 'choose_search_type')
+      options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'no_result'
       title_text = "在這個位置，沒有與#{user.last_search['keyword']}相關的餐廳！"
       options = []
       options << send_location
       options << quick_replies_option('重新選擇', 'choose_search_type')
+      options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     else
       title_text = "請選擇："
