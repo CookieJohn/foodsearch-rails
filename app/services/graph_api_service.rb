@@ -41,8 +41,10 @@ class GraphApiService
 			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'].include?(n)} } ||
 			r['overall_star_rating'].to_f <= min_score }
 		# 計算距離
-		results = results.each { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
-		results = results.reject { |r| (r['distance']*1000).to_i > max_distance }
+		if mode.present?
+			results = results.each { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
+			results = results.reject { |r| (r['distance']*1000).to_i > max_distance }
+		end
 		results = case mode
 		when 'score'
 			results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
@@ -50,6 +52,8 @@ class GraphApiService
 			results = results.sort_by { |r| r['distance'] }
 		else
 			results = random_type ? results.sample(size) : results.first(size)
+			results = results.each { |r| r['distance'] = common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]) }
+			results = results.reject { |r| (r['distance']*1000).to_i > max_distance }
 		end
 	end
 
