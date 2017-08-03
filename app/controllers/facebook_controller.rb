@@ -7,6 +7,6 @@ class FacebookController < ApplicationController
 
 	def post_webhook
 		msg = FacebookBotService.new.reply_msg(request)
-		render plain: '200'
+		render plain: msg
 	end
 end
