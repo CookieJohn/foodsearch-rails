@@ -162,7 +162,7 @@ class FacebookBotService
       options << quick_replies_option('麵', 'search_specific_item')
       options << quick_replies_option('鍋', 'search_specific_item')
       options << quick_replies_option('自己輸入', 'customized_keyword')
-      options << send_location
+      options << quick_replies_option('系統推薦', 'direct_search')
       options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'customized_keyword'
