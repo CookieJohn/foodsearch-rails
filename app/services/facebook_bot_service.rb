@@ -168,7 +168,8 @@ class FacebookBotService
     when 'customized_keyword'
       user.last_search['customize'] = true
       user.save
-      text_format(id, '請輸入你想查詢的關鍵字：')
+      messageData = text_format(id, '請輸入你想查詢的關鍵字：')
+      results = common.http_post(API_URL, messageData)
       options = []
       options << quick_replies_option('重新選擇', 'choose_search_type')
       options << quick_replies_option('回主選單', 'back')
@@ -177,7 +178,7 @@ class FacebookBotService
       user.last_search['keyword'] = text
       user.last_search['customize'] = false
       user.save
-      title_text = "您搜尋的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
+      title_text = "你想找的是： #{text}\n請告訴我你的位置(需開啟定位)，或者移動到您想查詢的位置。"
       options = []
       options << quick_replies_option('使用上次的位置', 'last_location')
       options << quick_replies_option('重新選擇', 'choose_search_type')
