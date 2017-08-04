@@ -25,10 +25,7 @@ class LineBotService
     return_msg = ''
     events = client.parse_events_from(body)
     events.each { |event|
-
-      user_id = event['source']['userId']
-      User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
-      self.user = User.find_by(line_user_id: user_id)
+      find_line_user(event['source']['userId'])
 
       case event
       when Line::Bot::Event::Message
@@ -66,7 +63,7 @@ class LineBotService
         columns: columns }}
   end
 
-  def set_action text, link
+  def button_format text, link
     { type: "uri",
       label: text,
       uri: link }
@@ -76,6 +73,11 @@ class LineBotService
     body = request.body.read
     signature = request.env['HTTP_X_LINE_SIGNATURE']
     return '400 Bad Request' unless client.validate_signature(body, signature)
+  end
+
+  def find_line_user id
+    User.create!(line_user_id: id) if !User.exists?(line_user_id: id)
+    self.user = User.find_by(line_user_id: id)
   end
 
   def carousel_options results
@@ -104,9 +106,9 @@ class LineBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << set_action(I18n.t('button.official'), common.safe_url(link_url))
-      actions << set_action(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
-      actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
+      actions << button_format(I18n.t('button.official'), common.safe_url(link_url))
+      actions << button_format(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
+      actions << button_format(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 
