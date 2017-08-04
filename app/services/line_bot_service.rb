@@ -2,10 +2,9 @@ require 'line/bot'
 
 class LineBotService
 
-  COMMANDS ||= [I18n.t('common.user'), I18n.t('common.command'), I18n.t('common.radius'), I18n.t('common.point'), I18n.t('common.random')]
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-  attr_accessor :client, :graph, :google, :common
+  attr_accessor :client, :graph, :google, :common, :user
   def initialize
     self.client ||= Line::Bot::Client.new { |config|
       config.channel_secret = Settings.line.channel_secret
@@ -14,6 +13,7 @@ class LineBotService
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
+    self.user ||= nil
   end
 
   def reply_msg request
@@ -29,17 +29,12 @@ class LineBotService
       user_id = event['source']['userId']
       User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
       user = User.find_by(line_user_id: user_id)
-      # user = nil
 
       case event
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          command = ''
           msg = event.message['text'].to_s.downcase
-          if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
-            return_msg = self.handle_with_commands(msg, command, user)
-          end
           client.reply_message(event['replyToken'], self.text_format(return_msg)) if return_msg.present?
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude']
@@ -59,14 +54,11 @@ class LineBotService
   end
 
   def text_format return_msg
-    {
-      type: 'text',
-      text: return_msg
-    }
+    { type: 'text',
+      text: return_msg }
   end
 
   def carousel_format results=nil, google_results=nil
-
     columns = []
 
     # category_lists = Category.pluck(:id)
@@ -149,43 +141,5 @@ class LineBotService
     body = request.body.read
     signature = request.env['HTTP_X_LINE_SIGNATURE']
     return '400 Bad Request' unless client.validate_signature(body, signature)
-  end
-
-  def handle_with_commands msg, command, user
-    case command
-    when I18n.t('common.user')
-      "#{I18n.t('common.user')}#{I18n.t('common.setting')}：\n#{I18n.t('common.radius')}：#{user.try(:max_distance)}m\n#{I18n.t('common.point')}：#{user.try(:min_score)}#{I18n.t('common.score')}\n#{I18n.t('common.random')}：#{user.random_type ? I18n.t('common.open') : I18n.t('common.close')}"
-    when I18n.t('common.command')
-      "#{I18n.t('common.command')}#{I18n.t('common.setting')}：\n#{I18n.t('common.random')}：#{I18n.t('common.random')}true/false\n#{I18n.t('common.radius')}500(500~50000)\n#{I18n.t('common.point')}3.8 (3~5 接受小數第一位)"
-    when I18n.t('common.random')
-      random = msg.gsub(command, '').to_s
-      set_random = (random == I18n.t('common.open')) ? true : false
-      user.random_type = set_random
-      if random == I18n.t('common.open') || random == I18n.t('common.close')
-        if user.save
-          "#{I18n.t('command.success')}，#{I18n.t('common.random')}：#{random}"
-        else
-          I18n.t('command.error')
-        end
-      else
-        I18n.t('command.error')
-      end
-    when I18n.t('common.radius')
-      radius = msg.gsub(command, '').to_i
-      user.max_distance = radius
-      if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('common.radius')}：#{radius}m"
-      else
-        I18n.t('command.error')
-      end
-    when I18n.t('common.point')
-      score = msg.gsub(command, '').to_f
-      user.min_score = score
-      if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('common.point')}：#{score}"
-      else
-        I18n.t('command.error')
-      end
-    end
   end
 end
