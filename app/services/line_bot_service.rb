@@ -34,13 +34,18 @@ class LineBotService
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          msg = event.message['text'].to_s.downcase
-          client.reply_message(event['replyToken'], text_format(return_msg)) if return_msg.present?
+          msg = event.message['text'].downcase
+          client.reply_message(event['replyToken'], text_format(msg))
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude']
           lng = event.message['longitude']
-          fb_results = graph.search_places(lat, lng, user)
-          return_response = (fb_results.size>0) ? carousel_format(fb_results) : text_format(I18n.t('empty.no_restaurants'))
+          facebook_results = graph.search_places(lat, lng, user)
+          if facebook_results.size > 0
+            options = carousel_options(facebook_results)
+            return_response = carousel_format(options)
+          else
+            return_response = text_format(I18n.t('empty.no_restaurants'))
+          end
           client.reply_message(event['replyToken'], return_response)
         end
       end
@@ -53,9 +58,28 @@ class LineBotService
       text: return_msg }
   end
 
-  def carousel_format results=nil
-    columns = []
+  def carousel_format columns
+    { type: "template",
+      altText: I18n.t('carousel.text'),
+      template: {
+        type: "carousel",
+        columns: columns }}
+  end
 
+  def set_action text, link
+    { type: "uri",
+      label: text,
+      uri: link }
+  end
+
+  def varify_signature request
+    body = request.body.read
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    return '400 Bad Request' unless client.validate_signature(body, signature)
+  end
+
+  def carousel_options results
+    columns = []
     # category_lists = Category.pluck(:id)
 
     results.each do |result|
@@ -97,33 +121,8 @@ class LineBotService
         thumbnailImageUrl: image_url,
         title: name,
         text: text,
-        actions: actions
-      }
+        actions: actions }
     end
-
-    carousel_result = {
-      type: "template",
-      altText: I18n.t('carousel.text'),
-      template: {
-        type: "carousel",
-        columns: columns
-      }
-    }
-    # Rails.logger.info "CAROUSEL_RESULT: #{carousel_result}"
-    return carousel_result
-  end
-
-  def set_action text, link
-    {
-      type: "uri",
-      label: text,
-      uri: link
-    }
-  end
-
-  def varify_signature request
-    body = request.body.read
-    signature = request.env['HTTP_X_LINE_SIGNATURE']
-    return '400 Bad Request' unless client.validate_signature(body, signature)
+    return columns
   end
 end
