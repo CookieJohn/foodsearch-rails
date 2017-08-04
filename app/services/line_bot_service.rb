@@ -1,4 +1,3 @@
-require 'active_support'
 require 'line/bot'
 
 class LineBotService
