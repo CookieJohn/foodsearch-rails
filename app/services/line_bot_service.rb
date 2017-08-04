@@ -18,7 +18,7 @@ class LineBotService
 
   def reply_msg request
 
-    self.varify_signature(request)
+    varify_signature(request)
     
     body = request.body.read
 
@@ -35,7 +35,7 @@ class LineBotService
         case event.type
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].to_s.downcase
-          client.reply_message(event['replyToken'], self.text_format(return_msg)) if return_msg.present?
+          client.reply_message(event['replyToken'], text_format(return_msg)) if return_msg.present?
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude']
           lng = event.message['longitude']
@@ -45,7 +45,7 @@ class LineBotService
           #   keywords = fb_results.map {|f| f['name']}
           #   google_results = google.search_places(lat, lng, user, keywords)
           # end
-          return_response = (fb_results.size>0) ? self.carousel_format(fb_results) : self.text_format(I18n.t('empty.no_restaurants'))
+          return_response = (fb_results.size>0) ? carousel_format(fb_results) : text_format(I18n.t('empty.no_restaurants'))
           client.reply_message(event['replyToken'], return_response)
         end
       end
