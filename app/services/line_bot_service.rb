@@ -28,7 +28,7 @@ class LineBotService
 
       user_id = event['source']['userId']
       User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
-      user = User.find_by(line_user_id: user_id)
+      self.user = User.find_by(line_user_id: user_id)
 
       case event
       when Line::Bot::Event::Message
@@ -40,11 +40,6 @@ class LineBotService
           lat = event.message['latitude']
           lng = event.message['longitude']
           fb_results = graph.search_places(lat, lng, user)
-          # google_results = ''
-          # if user.get_google_result
-          #   keywords = fb_results.map {|f| f['name']}
-          #   google_results = google.search_places(lat, lng, user, keywords)
-          # end
           return_response = (fb_results.size>0) ? carousel_format(fb_results) : text_format(I18n.t('empty.no_restaurants'))
           client.reply_message(event['replyToken'], return_response)
         end
@@ -58,7 +53,7 @@ class LineBotService
       text: return_msg }
   end
 
-  def carousel_format results=nil, google_results=nil
+  def carousel_format results=nil
     columns = []
 
     # category_lists = Category.pluck(:id)
@@ -90,19 +85,8 @@ class LineBotService
       actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
-      # g_match = {'score' => 0.0, 'match_score' => 0.0}
-      # if google_results.present?
-      #   google_results.each do |r|
-      #     match_score = common.fuzzy_match(r['name'],name)
-      #     if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
-      #       g_match['score'] = r['rating']
-      #       g_match['match_score'] = match_score
-      #     end
-      #   end
-      # end
 
       text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      # text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}"
       text += "\n#{today_open_time}"
       # text += "\n#{phone}"

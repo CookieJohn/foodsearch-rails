@@ -75,8 +75,7 @@ class FacebookBotService
     end
   end
 
-  def generic_elements sender_id, results=nil, google_results=nil
-
+  def generic_elements sender_id, results=nil
     columns = []
 
     # category_lists = Category.pluck(:id)
@@ -107,21 +106,9 @@ class FacebookBotService
       actions << button(common.safe_url(link_url), I18n.t('button.official'))
       actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
       actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
-      # actions << phone_option('電話', phone)
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
-      # g_match = {'score' => 0.0, 'match_score' => 0.0}
-      # if google_results.present?
-      #   google_results.each do |r|
-      #     match_score = common.fuzzy_match(r['name'],name)
-      #     if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
-      #       g_match['score'] = r['rating']
-      #       g_match['match_score'] = match_score
-      #     end
-      #   end
-      # end
 
       text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      # text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}"
       text += "\n#{today_open_time}"
       text += "\n#{distance}"
