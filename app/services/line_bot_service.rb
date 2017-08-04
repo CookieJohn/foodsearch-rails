@@ -4,8 +4,8 @@ class LineBotService
 
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-  attr_accessor :client, :graph, :google, :common, :user
-  def initialize
+  attr_accessor :client, :graph, :google, :common, :user, :request
+  def initialize request
     self.client ||= Line::Bot::Client.new { |config|
       config.channel_secret = Settings.line.channel_secret
       config.channel_token = Settings.line.channel_token
@@ -14,14 +14,13 @@ class LineBotService
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
     self.user ||= nil
+    self.request ||= request
   end
 
-  def reply_msg request
+  def reply_msg
+    varify_signature
 
-    varify_signature(request)
-    
     body = request.body.read
-
     return_msg = ''
     events = client.parse_events_from(body)
     events.each { |event|
@@ -69,7 +68,7 @@ class LineBotService
       uri: link }
   end
 
-  def varify_signature request
+  def varify_signature
     body = request.body.read
     signature = request.env['HTTP_X_LINE_SIGNATURE']
     return '400 Bad Request' unless client.validate_signature(body, signature)
