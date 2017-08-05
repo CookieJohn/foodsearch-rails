@@ -46,6 +46,7 @@ zh-TW:
       fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website,is_permanently_closed,categories=FOOD_BEVERAGE
       score: 3.8
       random: true
+      open_now: false
       reject_price: ['$$$','$$$$']
       reject_name: ['飯店','酒店']
       reject_category: ['藝術與娛樂','保險經紀','電器行','購物區','服飾店','飾品配件','旅行社','購物商場',

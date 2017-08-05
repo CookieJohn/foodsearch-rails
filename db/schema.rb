@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170802072302) do
+ActiveRecord::Schema.define(version: 20170805015833) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20170802072302) do
     t.boolean "get_google_result", default: false
     t.string "facebook_user_id"
     t.json "last_search", default: {}
+    t.boolean "open_now", default: false
     t.index ["line_user_id"], name: "index_users_on_line_user_id"
   end
 

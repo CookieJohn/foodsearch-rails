@@ -23,6 +23,7 @@ $(document).on 'click', '#save_user_setting', (event) ->
   max_distance = document.getElementById("max_distance").value
   min_score = document.getElementById("min_score").value
   random_type = document.getElementById("random").checked
+  open_now = document.getElementById("open").checked
   user_id = document.getElementById("user_id").innerHTML
   url = if rails_env == 'development' then local_post_url else production_post_url
   url = url + user_id
@@ -35,7 +36,7 @@ $(document).on 'click', '#save_user_setting', (event) ->
       user: {
       	max_distance: max_distance,
       	min_score: min_score,
-      	random_type: random_type
+      	random_type: random_type,open_now: open_now
     	}
     complete: (e) ->
       if e.status == 200

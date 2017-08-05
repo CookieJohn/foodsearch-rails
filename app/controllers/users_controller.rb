@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :find_user, only: [:show, :update]
 
+  layout 'user'
+
   def show
   	set_meta
   end
@@ -20,6 +22,6 @@ class UsersController < ApplicationController
   	end
 
   	def user_params
-    	params.require(:user).permit(:max_distance, :min_score, :random_type)
+    	params.require(:user).permit(:max_distance, :min_score, :random_type, :open_now)
 	  end
 end
