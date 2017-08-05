@@ -221,7 +221,7 @@ class FacebookBotService
       options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'no_result'
-      title_text = "在這個位置，沒有與#{user.last_search['keyword']}相關的餐廳！"
+      title_text = "這個位置，沒有與#{user.last_search['keyword']}相關的搜尋結果！"
       options = []
       options << send_location
       options << quick_replies_option('重新選擇', 'choose_search_type')
