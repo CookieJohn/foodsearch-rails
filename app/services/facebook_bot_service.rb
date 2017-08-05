@@ -138,10 +138,11 @@ class FacebookBotService
 
   def get_response id, type, text=nil
     if user.last_search['customize'] == true
-      if type != 'choose_search_type' || 'back'
+      if type == 'message'
         type = 'search_specific_item'
       else
         user.last_search['customize'] = false
+        user.last_search['keyword'] = ''
         user.save
       end
     end
