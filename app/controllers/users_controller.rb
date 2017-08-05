@@ -20,6 +20,6 @@ class UsersController < ApplicationController
   	end
 
   	def user_params
-    	params.require(:user).permit(:max_distance, :min_score, :random_type)
+    	params.require(:user).permit(:max_distance, :min_score, :random_type, :open_now)
 	  end
 end
