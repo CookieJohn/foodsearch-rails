@@ -213,11 +213,10 @@ class FacebookBotService
         results = common.http_post(API_URL, messageData)
       end
     when 'done'
-      title_text = "找到您想吃的嗎？"
+      title_text = "有找到喜歡的嗎？"
       options = []
-      options << send_location
-      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
+      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     when 'no_last_location'
