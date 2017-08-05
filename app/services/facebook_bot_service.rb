@@ -230,7 +230,6 @@ class FacebookBotService
     when 'no_result'
       title_text = "這個位置，沒有與#{user.last_search['keyword']}相關的搜尋結果！"
       options = []
-      options << send_location
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
