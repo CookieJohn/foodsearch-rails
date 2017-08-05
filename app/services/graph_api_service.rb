@@ -7,8 +7,7 @@ class GraphApiService
 	DEFAULT_FIELDS ||= I18n.t('settings.facebook.fields')
 	DEFAULT_RANDOM ||= I18n.t('settings.facebook.random')
 
-	REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
-	REJECT_NAME ||= I18n.t('settings.facebook.reject_name')
+	# REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
 	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
 	attr_accessor :graph, :common
@@ -36,9 +35,9 @@ class GraphApiService
 		# 移除評分低於設定數字的搜尋結果
 
 		results = facebook_results.reject { |r| 
-			REJECT_PRICE.include?(r['price_range'].to_s) ||
-			REJECT_NAME.any? {|n| r['name'].include?(n)} ||
-			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'].include?(n)} } ||
+			# REJECT_PRICE.include?(r['price_range'].to_s) ||
+			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'] == n } } ||
+			r['is_permanently_closed'] == true ||
 			r['overall_star_rating'].to_f <= min_score }
 		# 計算距離
 		if mode.present?
