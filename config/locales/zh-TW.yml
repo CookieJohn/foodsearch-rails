@@ -43,19 +43,13 @@ zh-TW:
     facebook:
       search_type: restaurant
       distance: 500
-      fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website,categories=FOOD_BEVERAGE
+      fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website,is_permanently_closed,categories=FOOD_BEVERAGE
       score: 3.8
       random: true
       reject_price: ['$$$','$$$$']
       reject_name: ['飯店','酒店']
-      reject_category: ['食品與飲料公司','學校','購物與零售','藝術與娛樂',
-        '主題遊樂園','雜貨店','地標和名勝古蹟','餐飲批發商','食品批發商','公家單位與政府機關',
-        '大批發供應店','保齡球場','區域','銷售服務','購物區','戶外與休閒活動、健身',
-        '活動','校園建築','過敏症醫師','醫療中心','藝廊','禮品店','社群俱樂部',
-        '書局','旅館','水療','地區','住宅','大型零售商','電腦維修服務','食品服務批發商',
-        '專業服務','旅遊服務','航空業服務','地鐵站','機場航站中心','棒球場','旅行社',
-        '休閒育樂','遊樂場','購物中心','體育場、比賽場和運動場','餐飲用品店','其他','旅遊與運輸',
-        '露天展場','公眾服務','公共服務','兒童保護服務']
+      reject_category: ['藝術與娛樂','保險經紀','電器行','購物區','服飾店','飾品配件','旅行社','購物商場',
+        '餐飲批發商','餐飲用品店','地鐵站','公車站','暢貨中心','運動用品店','汽車旅館']
     google:
       zoom: 13
   placeholder:
