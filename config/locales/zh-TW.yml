@@ -43,7 +43,7 @@ zh-TW:
     facebook:
       search_type: restaurant
       distance: 500
-      fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website
+      fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website,categories=FOOD_BEVERAGE
       score: 3.8
       random: true
       reject_price: ['$$$','$$$$']
