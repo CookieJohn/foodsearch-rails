@@ -6,6 +6,7 @@ class GraphApiService
 	DEFAULT_MIN_SCORE ||= I18n.t('settings.facebook.score')
 	DEFAULT_FIELDS ||= I18n.t('settings.facebook.fields')
 	DEFAULT_RANDOM ||= I18n.t('settings.facebook.random')
+	DEFAULT_OPEN ||= I18n.t('settings.facebook.open_now')
 
 	# REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
 	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
@@ -27,6 +28,7 @@ class GraphApiService
 		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
 		min_score = user.present? ? user.min_score : DEFAULT_MIN_SCORE
 		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
+		open_now = user.present? ? user.open_now : DEFAULT_OPEN
 
 		facebook_results = graph.search(type, type: :place,center: position, distance: max_distance, limit: limit, fields: DEFAULT_FIELDS, locale: I18n.locale.to_s)
 		# 移除金額過高的搜尋結果
@@ -39,6 +41,8 @@ class GraphApiService
 			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'] == n } } ||
 			r['is_permanently_closed'] == true ||
 			r['overall_star_rating'].to_f <= min_score }
+		# 判斷目前是否營業中
+		results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
 		# 計算距離
 		if mode.present?
 			results = results.each { |r| r['distance'] = (common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
@@ -70,5 +74,30 @@ class GraphApiService
 			open_time += value.to_s
 		end
 		return open_time
+	end
+
+	def check_open_now hours=nil
+		open_now = false
+		if hours.present?
+			date = Time.now.strftime('%a').downcase
+			hours = hours.reject {|key, value| !key.include?(date)}
+			if hours.size > 0
+				open_time_array = []
+				(1..3).each do |i|
+					temp_array = []
+					hours.each do |key, value|
+						temp_array << value if key.include?("_#{i}_")
+					end
+					open_time_array << temp_array if temp_array.size > 0
+				end
+				current_time = Time.now.strftime('%R')
+				open_time_array.each do |time|
+					open_now = true if current_time.between?(time.first, time.last)
+				end
+			end
+		else
+			open_now = true
+		end
+		return open_now	
 	end
 end

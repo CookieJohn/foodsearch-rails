@@ -1,5 +1,4 @@
-p.hidden#user_id = @user.id 
-.container-fluid.text-center style="padding-top: 50px;"
+.container-fluid.text-center
 	.panel.panel-info
 		/ h1 = @user.id
 		.panel-heading = '使用者設定'
@@ -28,6 +27,8 @@ p.hidden#user_id = @user.id
 					= check_box_tag 'open', 'open', @user.open_now
 					label.label-primary[for="open"]
 	= link_to '儲存', '', class: 'btn btn-success', data: { confirm: "確定儲存？" }, id: 'save_user_setting', remote: true
+	
+p.hidden#user_id = @user.id
 
 javascript:
 	rails_env = "#{Rails.env}"
