@@ -176,7 +176,7 @@ class FacebookBotService
       user.save
       title_text = "你想找的是： #{text}\n請告訴我你的位置。"
       options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if user.last_search['lat'].present?
       options << send_location
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
@@ -184,7 +184,7 @@ class FacebookBotService
     when 'direct_search'
       title_text = I18n.t('messenger.your-location')
       options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if user.last_search['lat'].present?
       options << send_location
       quick_replies_format(id, text, title_text, options)
     when 'last_location'
