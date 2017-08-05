@@ -145,6 +145,11 @@ class FacebookBotService
         user.last_search['keyword'] = ''
         user.save
       end
+    else
+      if user.last_search['keyword'].present?
+        user.last_search['keyword'] = ''
+        user.save
+      end
     end
     response = case type
     when 'choose_search_type'
@@ -171,7 +176,7 @@ class FacebookBotService
       user.save
       title_text = "你想找的是： #{text}\n請告訴我你的位置。"
       options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if user.last_search['lat'].present?
       options << send_location
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
@@ -179,7 +184,7 @@ class FacebookBotService
     when 'direct_search'
       title_text = I18n.t('messenger.your-location')
       options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if user.last_search['lat'].present?
       options << send_location
       quick_replies_format(id, text, title_text, options)
     when 'last_location'
@@ -208,9 +213,9 @@ class FacebookBotService
         results = common.http_post(API_URL, messageData)
       end
     when 'done'
-      title_text = "找到您想吃的嗎？"
+      title_text = "有找到喜歡的嗎？"
       options = []
-      options << send_location
+      options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
@@ -224,7 +229,6 @@ class FacebookBotService
     when 'no_result'
       title_text = "這個位置，沒有與#{user.last_search['keyword']}相關的搜尋結果！"
       options = []
-      options << send_location
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)

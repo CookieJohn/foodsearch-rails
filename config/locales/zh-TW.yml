@@ -27,7 +27,7 @@ zh-TW:
   facebook:
     score: FB
   messenger:
-    re-select: 重新選擇
+    re-select: 重新選擇類型
     menu: 主選單
     all: 所有類型
     enter-keyword: 輸入關鍵字
