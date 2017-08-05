@@ -231,7 +231,7 @@ class FacebookBotService
       title_text = "請選擇："
       options = []
       options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
-      options << button_option('postback', '直接搜尋', 'direct_search')
+      options << button_option('postback', '關鍵字搜尋', 'customized_keyword')
       options << button_link_option("https://johnwudevelop.tk/users/#{user.id}", '搜尋設定')
       button_format(id, text, title_text, options)
     end
