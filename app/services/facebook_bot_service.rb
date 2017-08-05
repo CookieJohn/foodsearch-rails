@@ -149,11 +149,11 @@ class FacebookBotService
     when 'choose_search_type'
       title_text = "請選擇類型，或直接輸入關鍵字"
       options = []
-      options << quick_replies_option('飯', 'search_specific_item')
-      options << quick_replies_option('麵', 'search_specific_item')
-      options << quick_replies_option('鍋', 'search_specific_item')
       options << quick_replies_option('自己輸入', 'customized_keyword')
-      options << quick_replies_option('系統推薦', 'direct_search')
+      I18n.t('settings.facebook.search_texts').each do |search_text|
+        options << quick_replies_option(search_text, 'search_specific_item')
+      end
+      options << quick_replies_option('所有類型', 'direct_search')
       options << quick_replies_option('回主選單', 'back')
       quick_replies_format(id, text, title_text, options)
     when 'customized_keyword'
