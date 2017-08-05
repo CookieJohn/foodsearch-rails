@@ -147,22 +147,22 @@ class FacebookBotService
     end
     response = case type
     when 'choose_search_type'
-      title_text = "請選擇類型，或直接輸入關鍵字"
+      title_text = I18n.t('messenger.please-enter-keyword')
       options = []
-      options << quick_replies_option('自己輸入', 'customized_keyword')
+      options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
       I18n.t('settings.facebook.search_texts').each do |search_text|
         options << quick_replies_option(search_text, 'search_specific_item')
       end
-      options << quick_replies_option('所有類型', 'direct_search')
-      options << quick_replies_option('回主選單', 'back')
+      options << quick_replies_option(I18n.t('messenger.all'), 'direct_search')
+      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     when 'customized_keyword'
       user.last_search['customize'] = true
       user.save
       title_text = '請輸入你想查詢的關鍵字：'
       options = []
-      options << quick_replies_option('重新選擇', 'choose_search_type')
-      options << quick_replies_option('回主選單', 'back')
+      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
+      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     when 'search_specific_item'
       user.last_search['keyword'] = text
@@ -170,15 +170,15 @@ class FacebookBotService
       user.save
       title_text = "你想找的是： #{text}\n請告訴我你的位置。"
       options = []
-      options << quick_replies_option('使用上次的位置', 'last_location')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location')
       options << send_location
-      options << quick_replies_option('重新選擇', 'choose_search_type')
-      options << quick_replies_option('回主選單', 'back')
+      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
+      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     when 'direct_search'
-      title_text = "請告訴我你的位置。"
+      title_text = I18n.t('messenger.your-location')
       options = []
-      options << quick_replies_option('使用上次的位置', 'last_location')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location')
       options << send_location
       quick_replies_format(id, text, title_text, options)
     when 'last_location'
@@ -210,25 +210,25 @@ class FacebookBotService
       title_text = "找到您想吃的嗎？"
       options = []
       options << send_location
-      options << quick_replies_option('重新選擇', 'choose_search_type')
-      options << quick_replies_option('回主選單', 'back')
+      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
+      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     when 'no_last_location'
       title_text = "您沒有搜尋過唷！"
       options = []
       options << send_location
-      options << quick_replies_option('重新選擇', 'choose_search_type')
-      options << quick_replies_option('回主選單', 'back')
+      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
+      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     when 'no_result'
       title_text = "這個位置，沒有與#{user.last_search['keyword']}相關的搜尋結果！"
       options = []
       options << send_location
-      options << quick_replies_option('重新選擇', 'choose_search_type')
-      options << quick_replies_option('回主選單', 'back')
+      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
+      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     else
-      title_text = "請選擇："
+      title_text = "請選擇搜尋方式，設定頁面可以調整搜尋條件。"
       options = []
       options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
       options << button_option('postback', '關鍵字搜尋', 'customized_keyword')

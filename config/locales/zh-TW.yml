@@ -26,6 +26,14 @@ zh-TW:
     text: 搜尋結果如下
   facebook:
     score: FB
+  messenger:
+    re-select: 重新選擇
+    menu: 主選單
+    all: 所有類型
+    enter-keyword: 輸入關鍵字
+    please-enter-keyword: 請選擇搜尋的類型，或輸入關鍵字
+    last-location: 使用上次查詢的位置
+    your-location: 請告訴我你的位置。
   google:
     score: Google
     match_score: 0.5
