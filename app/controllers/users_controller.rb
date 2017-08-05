@@ -1,6 +1,8 @@
 class UsersController < ApplicationController
   before_action :find_user, only: [:show, :update]
 
+  layout 'user'
+
   def show
   	set_meta
   end
