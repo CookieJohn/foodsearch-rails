@@ -1,13 +1,11 @@
-require 'active_support'
 require 'line/bot'
 
 class LineBotService
 
-  COMMANDS ||= [I18n.t('common.user'), I18n.t('common.command'), I18n.t('common.radius'), I18n.t('common.point'), I18n.t('common.random')]
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-  attr_accessor :client, :graph, :google, :common
-  def initialize
+  attr_accessor :client, :graph, :google, :common, :user, :request
+  def initialize request
     self.client ||= Line::Bot::Client.new { |config|
       config.channel_secret = Settings.line.channel_secret
       config.channel_token = Settings.line.channel_token
@@ -15,43 +13,35 @@ class LineBotService
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.common ||= CommonService.new
+    self.user ||= nil
+    self.request ||= request
   end
 
-  def reply_msg request
+  def reply_msg
+    varify_signature
 
-    self.varify_signature(request)
-    
     body = request.body.read
-
     return_msg = ''
     events = client.parse_events_from(body)
     events.each { |event|
-
-      user_id = event['source']['userId']
-      User.create!(line_user_id: user_id) if !User.exists?(line_user_id: user_id)
-      user = User.find_by(line_user_id: user_id)
-      # user = nil
+      find_line_user(event['source']['userId'])
 
       case event
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          command = ''
-          msg = event.message['text'].to_s.downcase
-          if COMMANDS.any? {|c| msg.include?(c); command = c if msg.include?(c); }
-            return_msg = self.handle_with_commands(msg, command, user)
-          end
-          client.reply_message(event['replyToken'], self.text_format(return_msg)) if return_msg.present?
+          msg = event.message['text'].downcase
+          client.reply_message(event['replyToken'], text_format(msg))
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude']
           lng = event.message['longitude']
-          fb_results = graph.search_places(lat, lng, user)
-          # google_results = ''
-          # if user.get_google_result
-          #   keywords = fb_results.map {|f| f['name']}
-          #   google_results = google.search_places(lat, lng, user, keywords)
-          # end
-          return_response = (fb_results.size>0) ? self.carousel_format(fb_results) : self.text_format(I18n.t('empty.no_restaurants'))
+          facebook_results = graph.search_places(lat, lng, user)
+          if facebook_results.size > 0
+            options = carousel_options(facebook_results)
+            return_response = carousel_format(options)
+          else
+            return_response = text_format(I18n.t('empty.no_restaurants'))
+          end
           client.reply_message(event['replyToken'], return_response)
         end
       end
@@ -60,16 +50,37 @@ class LineBotService
   end
 
   def text_format return_msg
-    {
-      type: 'text',
-      text: return_msg
-    }
+    { type: 'text',
+      text: return_msg }
   end
 
-  def carousel_format results=nil, google_results=nil
+  def carousel_format columns
+    { type: "template",
+      altText: I18n.t('carousel.text'),
+      template: {
+        type: "carousel",
+        columns: columns }}
+  end
 
+  def button_format text, link
+    { type: "uri",
+      label: text,
+      uri: link }
+  end
+
+  def varify_signature
+    body = request.body.read
+    signature = request.env['HTTP_X_LINE_SIGNATURE']
+    return '400 Bad Request' unless client.validate_signature(body, signature)
+  end
+
+  def find_line_user id
+    User.create!(line_user_id: id) if !User.exists?(line_user_id: id)
+    self.user = User.find_by(line_user_id: id)
+  end
+
+  def carousel_options results
     columns = []
-
     # category_lists = Category.pluck(:id)
 
     results.each do |result|
@@ -94,24 +105,13 @@ class LineBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << set_action(I18n.t('button.official'), common.safe_url(link_url))
-      actions << set_action(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
-      actions << set_action(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
+      actions << button_format(I18n.t('button.official'), common.safe_url(link_url))
+      actions << button_format(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
+      actions << button_format(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
-      # g_match = {'score' => 0.0, 'match_score' => 0.0}
-      # if google_results.present?
-      #   google_results.each do |r|
-      #     match_score = common.fuzzy_match(r['name'],name)
-      #     if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
-      #       g_match['score'] = r['rating']
-      #       g_match['match_score'] = match_score
-      #     end
-      #   end
-      # end
 
       text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      # text += ", #{I18n.t('google.score')}：#{g_match['score'].to_f.round(2)}#{I18n.t('common.score')}" if g_match['score'].to_f > 2.0
       text += "\n#{description}"
       text += "\n#{today_open_time}"
       # text += "\n#{phone}"
@@ -122,71 +122,8 @@ class LineBotService
         thumbnailImageUrl: image_url,
         title: name,
         text: text,
-        actions: actions
-      }
+        actions: actions }
     end
-
-    carousel_result = {
-      type: "template",
-      altText: I18n.t('carousel.text'),
-      template: {
-        type: "carousel",
-        columns: columns
-      }
-    }
-    # Rails.logger.info "CAROUSEL_RESULT: #{carousel_result}"
-    return carousel_result
-  end
-
-  def set_action text, link
-    {
-      type: "uri",
-      label: text,
-      uri: link
-    }
-  end
-
-  def varify_signature request
-    body = request.body.read
-    signature = request.env['HTTP_X_LINE_SIGNATURE']
-    return '400 Bad Request' unless client.validate_signature(body, signature)
-  end
-
-  def handle_with_commands msg, command, user
-    case command
-    when I18n.t('common.user')
-      "#{I18n.t('common.user')}#{I18n.t('common.setting')}：\n#{I18n.t('common.radius')}：#{user.try(:max_distance)}m\n#{I18n.t('common.point')}：#{user.try(:min_score)}#{I18n.t('common.score')}\n#{I18n.t('common.random')}：#{user.random_type ? I18n.t('common.open') : I18n.t('common.close')}"
-    when I18n.t('common.command')
-      "#{I18n.t('common.command')}#{I18n.t('common.setting')}：\n#{I18n.t('common.random')}：#{I18n.t('common.random')}true/false\n#{I18n.t('common.radius')}500(500~50000)\n#{I18n.t('common.point')}3.8 (3~5 接受小數第一位)"
-    when I18n.t('common.random')
-      random = msg.gsub(command, '').to_s
-      set_random = (random == I18n.t('common.open')) ? true : false
-      user.random_type = set_random
-      if random == I18n.t('common.open') || random == I18n.t('common.close')
-        if user.save
-          "#{I18n.t('command.success')}，#{I18n.t('common.random')}：#{random}"
-        else
-          I18n.t('command.error')
-        end
-      else
-        I18n.t('command.error')
-      end
-    when I18n.t('common.radius')
-      radius = msg.gsub(command, '').to_i
-      user.max_distance = radius
-      if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('common.radius')}：#{radius}m"
-      else
-        I18n.t('command.error')
-      end
-    when I18n.t('common.point')
-      score = msg.gsub(command, '').to_f
-      user.min_score = score
-      if user.save
-        "#{I18n.t('command.success')}，#{I18n.t('common.point')}：#{score}"
-      else
-        I18n.t('command.error')
-      end
-    end
+    return columns
   end
 end
