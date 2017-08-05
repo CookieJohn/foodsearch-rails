@@ -145,6 +145,11 @@ class FacebookBotService
         user.last_search['keyword'] = ''
         user.save
       end
+    else
+      if user.last_search['keyword'].present?
+        user.last_search['keyword'] = ''
+        user.save
+      end
     end
     response = case type
     when 'choose_search_type'
@@ -212,6 +217,7 @@ class FacebookBotService
       options = []
       options << send_location
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
+      options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(id, text, title_text, options)
     when 'no_last_location'
