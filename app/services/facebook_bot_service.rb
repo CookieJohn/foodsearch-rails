@@ -146,9 +146,11 @@ class FacebookBotService
         user.save
       end
     else
-      if user.last_search['keyword'].present?
-        user.last_search['keyword'] = ''
-        user.save
+      if type != 'last_location'
+        if user.last_search['keyword'].present?
+          user.last_search['keyword'] = ''
+          user.save
+        end
       end
     end
     response = case type
@@ -191,7 +193,7 @@ class FacebookBotService
       if user.last_search['lat'].present?
         lat = user.last_search['lat']
         lng = user.last_search['lng']
-        keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
+        keyword = user.last_search['keyword']
         fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
         if fb_results.size > 0 
           if user.last_search['keyword'].present?
