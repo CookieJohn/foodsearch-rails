@@ -250,19 +250,17 @@ class FacebookBotService
   end
 
   def button url, title
-    {
-      type: 'web_url',
+    { type: 'web_url',
       url: url,
-      title: title
-    }
+      title: title,
+      webview_height_ratio: 'tall' }
   end
 
   def quick_replies_format id, text, title_text=nil, quick_reply_options=nil
     { recipient: { id: id },
       message: {
         text: title_text,
-        quick_replies: quick_reply_options}
-    }
+        quick_replies: quick_reply_options}}
   end
 
   def button_format id, text, title_text=nil, button_options=nil
@@ -273,8 +271,7 @@ class FacebookBotService
           payload: {
             template_type: "button",
             text: title_text,
-            buttons: button_options }}}
-    }
+            buttons: button_options }}}}
   end
 
   def button_option type, title, payload
