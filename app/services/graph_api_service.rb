@@ -1,6 +1,6 @@
 require 'koala'
 
-class GraphApiService
+class GraphApiService < BaseService
 	DEFAULT_SEARCH ||= I18n.t('settings.facebook.search_type')
 	DEFAULT_DISTANCE ||= I18n.t('settings.facebook.distance')
 	DEFAULT_MIN_SCORE ||= I18n.t('settings.facebook.score')
@@ -11,11 +11,10 @@ class GraphApiService
 	# REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
 	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-	attr_accessor :graph, :common
+	attr_accessor :graph
 	def initialize
 		oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
 		self.graph = Koala::Facebook::API.new(oauth_access_token)
-		self.common ||= CommonService.new
 	end
 
 	def search_places lat, lng, user=nil, size=5, mode=nil, type=nil
@@ -45,7 +44,7 @@ class GraphApiService
 		results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
 		# 計算距離
 		if mode.present?
-			results = results.each { |r| r['distance'] = (common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
+			results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
 			results = results.reject { |r| r['distance'] > max_distance }
 		end
 		results = case mode
@@ -55,7 +54,7 @@ class GraphApiService
 			results = results.sort_by { |r| r['distance'] }
 		else
 			results = random_type ? results.sample(size) : results.first(size)
-			results = results.each { |r| r['distance'] = (common.count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
+			results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
 			results = results.reject { |r| r['distance'] > max_distance }
 		end
 	end

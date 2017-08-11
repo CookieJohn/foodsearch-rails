@@ -1,13 +1,9 @@
 require 'fuzzystringmatch'
-require 'net/http'
 require 'httparty'
 
-class CommonService
+class BaseService
 
-	attr_accessor :jarow
-	def initialize
-    self.jarow ||= FuzzyStringMatch::JaroWinkler.create(:native)
-  end
+	@jarow ||= FuzzyStringMatch::JaroWinkler.create(:native)
 
 	def safe_url link
 		uri = URI.encode(link)
@@ -15,7 +11,7 @@ class CommonService
 	end
 
 	def fuzzy_match compare_a, compare_b
-		jarow.getDistance(compare_a,compare_b).to_f
+		@jarow.getDistance(compare_a,compare_b).to_f
 	end
 
 	def http_get get_uri, params=nil
