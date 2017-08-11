@@ -29,7 +29,7 @@ class GraphApiService < BaseService
 		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
 		open_now = user.present? ? user.open_now : DEFAULT_OPEN
 
-		facebook_results = graph.search(type, type: :place,center: position, distance: max_distance, limit: limit, fields: DEFAULT_FIELDS, locale: I18n.locale.to_s)
+		facebook_results = graph.search(type, type: :place, center: position, distance: max_distance, locale: I18n.locale.to_s, limit: limit, matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
 		# 移除金額過高的搜尋結果
 		# 移除連結不存在 的搜尋結果
 		# 移除類別不包含 餐 的搜尋結果
