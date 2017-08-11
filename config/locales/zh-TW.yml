@@ -51,16 +51,17 @@ zh-TW:
     facebook:
       search_type: restaurant
       distance: 500
-      fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website,is_permanently_closed,categories=FOOD_BEVERAGE
+      fields: location,name,overall_star_rating,rating_count,phone,link,price_range,category,category_list,hours,website,is_permanently_closed
       score: 3.8
       random: true
       open_now: false
       reject_price: ['$$$','$$$$']
       reject_name: ['飯店','酒店']
       reject_category: ['藝術與娛樂','保險經紀','電器行','購物區','服飾店','飾品配件','旅行社','購物商場',
-        '餐飲批發商','餐飲用品店','地鐵站','公車站','暢貨中心','運動用品店','汽車旅館']
+        '餐飲批發商','餐飲用品店','地鐵站','公車站','暢貨中心','運動用品店','汽車旅館','學校','地標和名勝古蹟',
+        '公家單位與政府機關','大批發供應店','保齡球場','健身','校園建築','過敏症醫師','醫療中心','住宅',
+        '大型零售商','電腦維修服務','航空業服務','機場航站中心','棒球場','體育場','比賽場和運動場','旅遊與運輸',
+        '公眾服務','公共服務','兒童保護服務']
       search_texts: ['飯', '麵', '鍋', '咖啡', '茶']
-    google:
-      zoom: 13
   placeholder:
     search_field: 請輸入關鍵字

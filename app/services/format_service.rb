@@ -1,11 +1,10 @@
-class FormatService
+class FormatService < BaseService
 	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-	attr_accessor :graph, :google, :common
+	attr_accessor :graph, :google
   def initialize
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
-    self.common ||= CommonService.new
   end
 
 	def web_format results=nil, google_results=nil
@@ -39,7 +38,7 @@ class FormatService
       g_match = {'score' => 0.0, 'match_score' => 0.0}
       if google_results.present?
         google_results.each do |r|
-          match_score = common.fuzzy_match(r['name'],name)
+          match_score = fuzzy_match(r['name'],name)
           if match_score >= I18n.t('google.match_score') && match_score > g_match['match_score']
             g_match['score'] = r['rating']
             g_match['match_score'] = match_score

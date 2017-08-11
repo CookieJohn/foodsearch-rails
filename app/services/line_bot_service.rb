@@ -1,10 +1,10 @@
 require 'line/bot'
 
-class LineBotService
+class LineBotService < BaseService
 
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-  attr_accessor :client, :graph, :google, :common, :user, :request
+  attr_accessor :client, :graph, :google, :user, :request
   def initialize request
     self.client ||= Line::Bot::Client.new { |config|
       config.channel_secret = Settings.line.channel_secret
@@ -12,7 +12,6 @@ class LineBotService
     }
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
-    self.common ||= CommonService.new
     self.user ||= nil
     self.request ||= request
   end
@@ -105,9 +104,9 @@ class LineBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << button_format(I18n.t('button.official'), common.safe_url(link_url))
-      actions << button_format(I18n.t('button.location'), common.safe_url(google.get_map_link(lat, lng, name, street)))
-      actions << button_format(I18n.t('button.related_comment'), common.safe_url(google.get_google_search(name)))
+      actions << button_format(I18n.t('button.official'), safe_url(link_url))
+      actions << button_format(I18n.t('button.location'), safe_url(google.get_map_link(lat, lng, name, street)))
+      actions << button_format(I18n.t('button.related_comment'), safe_url(google.get_google_search(name)))
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 

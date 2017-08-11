@@ -1,13 +1,12 @@
-class FacebookBotService
+class FacebookBotService < BaseService
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
   BOT_ID ||= '844639869021578'
   
-  attr_accessor :graph, :google, :common, :user
+  attr_accessor :graph, :google, :user
 	def initialize
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
-    self.common ||= CommonService.new
     self.user ||= nil
   end
 
@@ -44,10 +43,10 @@ class FacebookBotService
               if fb_results.size > 0 
                 # 傳送餐廳資訊
                 messageData = generic_elements(senderID, fb_results)
-                results = common.http_post(API_URL, messageData)
+                results = http_post(API_URL, messageData)
                 # 傳送詢問訊息
                 messageData = get_response(senderID, 'done', nil)
-                results = common.http_post(API_URL, messageData)
+                results = http_post(API_URL, messageData)
 
                 user.last_search['keyword'] = '' 
                 user.last_search['lat'] = lat
@@ -55,7 +54,7 @@ class FacebookBotService
                 user.save
               else
                 messageData = get_response(senderID, 'no_result', nil)
-                results = common.http_post(API_URL, messageData)
+                results = http_post(API_URL, messageData)
               end
             else 
               if quick_reply_payload.present?
@@ -65,7 +64,7 @@ class FacebookBotService
               elsif message.present?
                 messageData = get_response(senderID, 'message', message)
               end
-              results = common.http_post(API_URL, messageData) if messageData.present?
+              results = http_post(API_URL, messageData) if messageData.present?
             end
           else
             false
@@ -103,9 +102,9 @@ class FacebookBotService
       image_url = graph.get_photo(id)
 
       actions = []
-      actions << button(common.safe_url(link_url), I18n.t('button.official'))
-      actions << button(common.safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
-      actions << button(common.safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
+      actions << button(safe_url(link_url), I18n.t('button.official'))
+      actions << button(safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
+      actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 
       text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
@@ -202,17 +201,17 @@ class FacebookBotService
           end
           # 傳送餐廳資訊
           messageData = generic_elements(id, fb_results)
-          results = common.http_post(API_URL, messageData)
+          results = http_post(API_URL, messageData)
           # 傳送詢問訊息
           messageData = get_response(id, 'done', nil)
-          results = common.http_post(API_URL, messageData)
+          results = http_post(API_URL, messageData)
         else
           messageData = get_response(id, 'no_result', nil)
-          results = common.http_post(API_URL, messageData)
+          results = http_post(API_URL, messageData)
         end
       else
         messageData = get_response(id, 'no_last_location', nil)
-        results = common.http_post(API_URL, messageData)
+        results = http_post(API_URL, messageData)
       end
     when 'done'
       title_text = "有找到喜歡的嗎？"
