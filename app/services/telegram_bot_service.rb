@@ -3,7 +3,7 @@ class TelegramBotService < BaseService
   API_URL ||= "https://api.telegram.org/bot#{TOKEN}/"
 
   def initialize request
-    self.user ||= nil
+    # self.user ||= nil
     self.request ||= request
   end
 
