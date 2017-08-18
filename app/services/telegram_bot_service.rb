@@ -1,5 +1,3 @@
-require 'telegram/bot'
-
 class TelegramBotService < BaseService
   TOKEN ||= Settings.telegram.token
   API_URL ||= "https://api.telegram.org/bot#{TOKEN}/"
