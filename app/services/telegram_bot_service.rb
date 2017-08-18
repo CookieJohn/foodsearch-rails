@@ -14,16 +14,16 @@ class TelegramBotService < BaseService
     msg = body['message']['text']
     self.chat_id = body['message']['from']['id']
 
-    next unless chat_id.present? && msg.present?
+    if chat_id.present? && msg.present?
+      response_api = "#{API_URL}sendMessage"
+      response = text_format(msg)
 
-    response_api = "#{API_URL}sendMessage"
-    response = text_format(msg)
-
-    results = http_post(response_api, response)
+      results = http_post(response_api, response)
+    end
   end
 
   def text_format text
     { chat_id: chat_id, 
-      text: msg}
+      text: msg }
   end
 end
