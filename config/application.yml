@@ -10,6 +10,8 @@ defaults: &defaults
     app_access_token: ''
     access_token: ''
     page_access_token: ''
+  telegram:
+    token:
 
 development:
   <<: *defaults
