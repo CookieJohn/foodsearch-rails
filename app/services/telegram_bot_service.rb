@@ -24,6 +24,6 @@ class TelegramBotService < BaseService
 
   def text_format text
     { chat_id: chat_id, 
-      text: msg }
+      text: text }
   end
 end
