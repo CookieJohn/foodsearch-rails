@@ -124,7 +124,7 @@ class TelegramBotService < BaseService
       text += "\n#{description}"
       text += "\n#{today_open_time}"
       text += "\n#{distance}"
-      text += "\n['圖片'](#{image_url})"
+      text += "\n['圖片'](goo.gl/v9Hfiq)"
       # text += "\n#{phone}"
 
       text = text[0, 80]
