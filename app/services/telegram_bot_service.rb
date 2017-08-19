@@ -58,6 +58,8 @@ class TelegramBotService < BaseService
   def generic_elements results=nil
     columns = []
 
+    return_text = ''
+
     results.each do |result|
       id = result['id']
       name = result['name'][0, 80]
@@ -94,6 +96,8 @@ class TelegramBotService < BaseService
 
       text = text[0, 80]
 
+      return_text = text
+
       # columns << {
       #   title: name,
       #   subtitle: text,
@@ -102,6 +106,6 @@ class TelegramBotService < BaseService
       # }
     end
 
-    return text
+    return return_text
   end
 end
