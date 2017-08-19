@@ -1,10 +1,12 @@
 class TelegramBotService < BaseService
   TOKEN ||= Settings.telegram.token
-  API_URL ||= "https://api.telegram.org/bot#{TOKEN}/"
+  API_URL ||= "https://api.telegram.org/bot#{TOKEN}/sendMessage"
 
-  attr_accessor :request, :chat_id
+  attr_accessor :request, :chat_id, :graph, :google, :user
   def initialize request
-    # self.user ||= nil
+    self.graph  ||= GraphApiService.new
+    self.google ||= GoogleMapService.new
+    self.user ||= nil
     self.request ||= request
     self.chat_id ||= chat_id
   end
@@ -17,13 +19,19 @@ class TelegramBotService < BaseService
     lng = body.dig('message','location','longitude')
 
     if chat_id.present?
-      response_api = "#{API_URL}sendMessage"
       if lat.present?
         response = text_format(lat)
+        keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
+        fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
+        if fb_results.size > 0 
+          response = text_format(lat)
+        else
+          response = text_format('no_result')
+        end
       elsif msg.present?
-        response = key_board_button_format(msg)
+        response = reply_format(msg)
       end
-      results = http_post(response_api, response)
+      results = http_post(API_URL, response)
     end
   end
 
@@ -32,14 +40,17 @@ class TelegramBotService < BaseService
       text: text }
   end
 
-  def key_board_button_format text
+  def reply_format text
     { chat_id: chat_id, 
       text: text,
       parse_mode: 'Markdown',
       reply_markup: {
-        keyboard: [
-          [text: '請給我位置', request_location: true]],
+        keyboard: [ location_button_format ],
         resize_keyboard: true,
         one_time_keyboard: true }}
+  end
+
+  def location_button_format
+    [ text: '請告訴我您的位置', request_location: true ]
   end
 end
