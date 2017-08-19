@@ -38,7 +38,8 @@ class TelegramBotService < BaseService
 
   def text_format text
     { chat_id: chat_id, 
-      text: text }
+      text: text,
+      parse_mode: 'Markdown' }
   end
 
   def reply_format text
