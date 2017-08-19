@@ -43,7 +43,7 @@ class TelegramBotService < BaseService
 
   def reply_format text
     { chat_id: chat_id, 
-      text: text,
+      text: '',
       parse_mode: 'Markdown',
       reply_markup: {
         keyboard: [ location_button_format ],
@@ -84,7 +84,7 @@ class TelegramBotService < BaseService
       # actions << button(safe_url(link_url), I18n.t('button.official'))
       # actions << button(safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
       # actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
-      # today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
+      today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 
       text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += "\n#{description}"
