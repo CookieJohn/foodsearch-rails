@@ -20,9 +20,8 @@ class TelegramBotService < BaseService
 
     if chat_id.present?
       if lat.present?
-        response = text_format(lat)
-        keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
-        fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
+        # keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
+        fb_results = graph.search_places(lat, lng, user, 10, nil, nil)
         if fb_results.size > 0 
           response = text_format(lat)
         else
