@@ -25,7 +25,7 @@ class TelegramBotService < BaseService
         fb_results = graph.search_places(lat, lng, user, 10, nil, nil)
         generic_format = generic_elements(fb_results)
         if fb_results.size > 0 
-          response = text_format(generic_format)
+          response = html_format(generic_format)
         else
           response = text_format('no_result')
         end
@@ -40,6 +40,12 @@ class TelegramBotService < BaseService
     { chat_id: chat_id, 
       text: text,
       parse_mode: 'Markdown' }
+  end
+
+  def html_format text
+    { chat_id: chat_id, 
+      text: text,
+      parse_mode: 'HTML' }
   end
 
   def reply_format text
@@ -69,6 +75,16 @@ class TelegramBotService < BaseService
   def location_button_format
     [ text: '請告訴我您的位置', request_location: true ]
   end
+
+  # def photo_format text
+  #   { chat_id: chat_id, 
+  #     text: text,
+  #     parse_mode: 'Markdown',
+  #     reply_markup: {
+  #       inline_keyboard: [ link_button_format ],
+  #       resize_keyboard: true,
+  #       one_time_keyboard: true }}
+  # end
 
   def generic_elements results=nil
     columns = []
@@ -103,12 +119,12 @@ class TelegramBotService < BaseService
       # actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 
-      text = "<a href=#{image_url}>&#8205;</a>\n"
-      text += "*#{name}* \n"
-      text += "```#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
+      text = "<a href=#{image_url}></a>\n"
+      text += "<h2>#{name}</h2> \n"
+      text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += "\n#{description}"
       text += "\n#{today_open_time}"
-      text += "\n#{distance}```"
+      text += "\n#{distance}"
       # text += "\n#{phone}"
 
       text = text[0, 80]
