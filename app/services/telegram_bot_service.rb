@@ -103,7 +103,7 @@ class TelegramBotService < BaseService
       # actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 
-      text = "#{image_url}"
+      text = "<a href=#{image_url}>&#8205;</a>\n"
       text += "*#{name}* \n"
       text += "```#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += "\n#{description}"
