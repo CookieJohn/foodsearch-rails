@@ -29,7 +29,11 @@ class TelegramBotService < BaseService
 
   def key_board_button_format text
     { chat_id: chat_id, 
-      text: '請給我位置',
-      request_location: true }
+      text: text,
+      keyboard: [
+        [text: '請給我位置', request_location: true]],
+      chat_id: chat_id, 
+      resize_keyboard: true,
+      one_time_keyboard: true }
   end
 end
