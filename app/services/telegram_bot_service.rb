@@ -11,13 +11,18 @@ class TelegramBotService < BaseService
 
   def reply_msg
     body = JSON.parse(request.raw_post)
-    msg = body['message']['text']
-    self.chat_id = body['message']['from']['id']
+    msg = body.dig('message','text')
+    self.chat_id = body.dig('message','from','id')
+    lat = body.dig('message','location','latitude')
+    lng = body.dig('message','location','longitude')
 
-    if chat_id.present? && msg.present?
+    if chat_id.present?
       response_api = "#{API_URL}sendMessage"
-      response = key_board_button_format(msg)
-
+      if lat.present?
+        response = text_format(lat)
+      elsif msg.present?
+        response = key_board_button_format(msg)
+      end
       results = http_post(response_api, response)
     end
   end
