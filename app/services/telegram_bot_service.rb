@@ -16,7 +16,7 @@ class TelegramBotService < BaseService
 
     if chat_id.present? && msg.present?
       response_api = "#{API_URL}sendMessage"
-      response = text_format(msg)
+      response = key_board_button_format(msg)
 
       results = http_post(response_api, response)
     end
@@ -25,5 +25,11 @@ class TelegramBotService < BaseService
   def text_format text
     { chat_id: chat_id, 
       text: text }
+  end
+
+  def key_board_button_format text
+    { chat_id: chat_id, 
+      text: '請給我位置',
+      request_location: true }
   end
 end
