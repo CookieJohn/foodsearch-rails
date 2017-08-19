@@ -25,7 +25,7 @@ class TelegramBotService < BaseService
         fb_results = graph.search_places(lat, lng, user, 10, nil, nil)
         generic_format = generic_elements(fb_results)
         if fb_results.size > 0 
-          response = html_format(generic_format)
+          response = text_format(generic_format)
         else
           response = text_format('no_result')
         end
@@ -119,8 +119,8 @@ class TelegramBotService < BaseService
       # actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 
-      text = "<a href=#{image_url}></a>\n"
-      text += "<h2>#{name}</h2> \n"
+      text = "[圖片](#{image_url})\n"
+      text += "*#{name}* \n"
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += "\n#{description}"
       text += "\n#{today_open_time}"
