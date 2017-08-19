@@ -43,7 +43,7 @@ class TelegramBotService < BaseService
 
   def reply_format text
     { chat_id: chat_id, 
-      text: '',
+      text: text,
       parse_mode: 'Markdown',
       reply_markup: {
         keyboard: [ location_button_format ],
