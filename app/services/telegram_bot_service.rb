@@ -51,6 +51,20 @@ class TelegramBotService < BaseService
         one_time_keyboard: true }}
   end
 
+  def inline_keyboard_button_format text
+    { chat_id: chat_id, 
+      text: text,
+      parse_mode: 'Markdown',
+      reply_markup: {
+        inline_keyboard: [ link_button_format ],
+        resize_keyboard: true,
+        one_time_keyboard: true }}
+  end
+
+  def link_button_format url
+    [ text: '請告訴我您的位置', url: url ]
+  end
+
   def location_button_format
     [ text: '請告訴我您的位置', request_location: true ]
   end
@@ -88,10 +102,11 @@ class TelegramBotService < BaseService
       # actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
 
-      text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
+      text = "*#{name}* \n"
+      text += "```#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += "\n#{description}"
       text += "\n#{today_open_time}"
-      text += "\n#{distance}"
+      text += "\n#{distance}```"
       # text += "\n#{phone}"
 
       text = text[0, 80]
