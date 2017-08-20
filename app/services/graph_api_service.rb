@@ -22,10 +22,10 @@ class GraphApiService < BaseService
 		keyword = options[:keyword] || 'restaurant'
 		
 		position = "#{lat},#{lng}"
-		max_distance = user.try(:max_distance) : DEFAULT_DISTANCE
-		min_score = user.try(:min_score) : DEFAULT_MIN_SCORE
-		random_type = user.try(:random_type) : DEFAULT_RANDOM
-		open_now = user.try(:open_now) : DEFAULT_OPEN
+		max_distance = user.try(:max_distance) || DEFAULT_DISTANCE
+		min_score = user.try(:min_score) || DEFAULT_MIN_SCORE
+		random_type = user.try(:random_type) || DEFAULT_RANDOM
+		open_now = user.try(:open_now) || DEFAULT_OPEN
 
 		facebook_results = graph.search(keyword, type: :place, center: position, 
 			distance: max_distance, locale: I18n.locale.to_s, limit: limit, 
