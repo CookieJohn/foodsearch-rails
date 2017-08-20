@@ -11,7 +11,7 @@ class BaseController < ApplicationController
   end
 
   def refresh_locations
-  	fb_results = GraphApiService.new.search_places(@lat, @lng, nil, 999, @mode, @type)
+  	fb_results = GraphApiService.new.search_places(@lat, @lng, size: 999, mode: @mode, keywprd: @type)
   	# if Rails.env.production?
    #    keywords = fb_results.map {|f| f['name']}
    #    google_results = GoogleMapService.new.search_places(@lat, @lng, nil, keywords)
@@ -33,8 +33,8 @@ class BaseController < ApplicationController
     def get_lat_lng
       @lat = params['lat']
       @lng = params['lng']
-      @mode = cookies['mode'].present? ? cookies['mode'] : 'score'
-      @type = cookies['type'].present? ? cookies['type'] : 'restaurant'
-      @type = params.dig('search_type').present? ? params.dig('search_type') : @type
+      @mode = cookies['mode'] || 'score'
+      @type = cookies['type'] || 'restaurant'
+      @type = params.dig('search_type') || @type
     end
 end
