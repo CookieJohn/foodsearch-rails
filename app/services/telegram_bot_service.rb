@@ -1,5 +1,4 @@
 class TelegramBotService < BaseService
-  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
   TOKEN ||= Settings.telegram.token
   API_URL ||= "https://api.telegram.org/bot#{TOKEN}/sendMessage"
 
@@ -22,7 +21,7 @@ class TelegramBotService < BaseService
     if chat_id.present?
       if lat.present?
         # keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
-        fb_results = graph.search_places(lat, lng, user, 10, nil, nil)
+        fb_results = graph.search_places(lat, lng, user: user, size: 10)
         generic_format = generic_elements(fb_results)
         if fb_results.size > 0 
           response = text_format(generic_format)

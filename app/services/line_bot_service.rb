@@ -2,8 +2,6 @@ require 'line/bot'
 
 class LineBotService < BaseService
 
-  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
   attr_accessor :client, :graph, :google, :user, :request
   def initialize request
     self.client ||= Line::Bot::Client.new { |config|
@@ -34,7 +32,7 @@ class LineBotService < BaseService
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude']
           lng = event.message['longitude']
-          facebook_results = graph.search_places(lat, lng, user)
+          facebook_results = graph.search_places(lat, lng, user: user)
           if facebook_results.size > 0
             options = carousel_options(facebook_results)
             return_response = carousel_format(options)

@@ -8,45 +8,43 @@ class GraphApiService < BaseService
 	DEFAULT_RANDOM ||= I18n.t('settings.facebook.random')
 	DEFAULT_OPEN ||= I18n.t('settings.facebook.open_now')
 
-	# REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
-	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
 	attr_accessor :graph
 	def initialize
 		oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
 		self.graph = Koala::Facebook::API.new(oauth_access_token)
 	end
 
-	def search_places lat, lng, user=nil, size=5, mode=nil, type=nil
-
+	def search_places lat, lng, options={}
 		limit = 100
-
-		type = type.present? ? type : 'restaurant'
+		user = options[:user] || nil
+		size = options[:size] || 5
+		mode = options[:mode] || nil
+		keyword = options[:keyword] || 'restaurant'
 		
 		position = "#{lat},#{lng}"
-		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
-		min_score = user.present? ? user.min_score : DEFAULT_MIN_SCORE
-		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
-		open_now = user.present? ? user.open_now : DEFAULT_OPEN
+		max_distance = user.try(:max_distance) || DEFAULT_DISTANCE
+		min_score = user.try(:min_score) || DEFAULT_MIN_SCORE
+		random_type = user.try(:random_type) || DEFAULT_RANDOM
+		open_now = user.try(:open_now) || DEFAULT_OPEN
 
-		facebook_results = graph.search(type, type: :place, center: position, distance: max_distance, locale: I18n.locale.to_s, limit: limit, matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
-		# 移除金額過高的搜尋結果
+		facebook_results = graph.search(keyword, type: :place, center: position, 
+			distance: max_distance, locale: I18n.locale.to_s, limit: limit, 
+			matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
 		# 移除連結不存在 的搜尋結果
 		# 移除類別不包含 餐 的搜尋結果
 		# 移除評分低於設定數字的搜尋結果
 
 		results = facebook_results.reject { |r| 
-			# REJECT_PRICE.include?(r['price_range'].to_s) ||
 			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'] == n } } ||
 			r['is_permanently_closed'] == true ||
 			r['overall_star_rating'].to_f <= min_score }
 		# 判斷目前是否營業中
 		results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
+
 		# 計算距離
-		if mode.present?
-			results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
-			results = results.reject { |r| r['distance'] > max_distance }
-		end
+		results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
+		results = results.reject { |r| r['distance'] > max_distance }
+
 		results = case mode
 		when 'score'
 			results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
@@ -54,8 +52,6 @@ class GraphApiService < BaseService
 			results = results.sort_by { |r| r['distance'] }
 		else
 			results = random_type ? results.sample(size) : results.first(size)
-			results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
-			results = results.reject { |r| r['distance'] > max_distance }
 		end
 	end
 

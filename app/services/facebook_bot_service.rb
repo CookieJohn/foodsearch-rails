@@ -1,5 +1,4 @@
 class FacebookBotService < BaseService
-  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
   BOT_ID ||= '844639869021578'
   
@@ -39,7 +38,7 @@ class FacebookBotService < BaseService
           
             if lat.present?
               keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
-              fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
+              fb_results = graph.search_places(lat, lng, user: user, size: 10, keyword: keyword)
               if fb_results.size > 0 
                 # 傳送餐廳資訊
                 messageData = generic_elements(senderID, fb_results)
@@ -193,7 +192,7 @@ class FacebookBotService < BaseService
         lat = user.last_search['lat']
         lng = user.last_search['lng']
         keyword = user.last_search['keyword']
-        fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
+        fb_results = graph.search_places(lat, lng, user: user, size: 10, keyword: keyword)
         if fb_results.size > 0 
           if user.last_search['keyword'].present?
             user.last_search['keyword'] = '' 
@@ -274,39 +273,29 @@ class FacebookBotService < BaseService
   end
 
   def button_option type, title, payload
-    # type: postback, web_url
-    {
-      type: type,
+    { type: type,
       title: title,
-      payload: payload
-    }
+      payload: payload }
   end
 
   def phone_option title, phone
-    {
-      type: "phone_number",
+    { type: "phone_number",
       title: title,
-      payload: phone
-     }
+      payload: phone }
   end
 
   def button_link_option url, title, webview_height='tall', share_button='hide'
-    # type: postback, web_url
-    {
-      type: 'web_url',
+    { type: 'web_url',
       url: url,
       title: title,
       webview_height_ratio: webview_height,
-      webview_share_button: share_button
-    }
+      webview_share_button: share_button }
   end
 
   def quick_replies_option title, payload
-    {
-      content_type: "text",
+    { content_type: "text",
       title: title,
-      payload: payload
-    }
+      payload: payload }
   end
 
   def send_location
