@@ -35,6 +35,6 @@ class BaseController < ApplicationController
       @lng = params['lng']
       @mode = cookies['mode'].present? ? cookies['mode'] : 'score'
       @type = cookies['type'].present? ? cookies['type'] : 'restaurant'
-      @type = params.dig('search_type') || @type
+      @type = params.dig('search_type').present? ? params.dig('search_type') : @type
     end
 end
