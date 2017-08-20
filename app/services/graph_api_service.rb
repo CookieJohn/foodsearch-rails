@@ -8,9 +8,6 @@ class GraphApiService < BaseService
 	DEFAULT_RANDOM ||= I18n.t('settings.facebook.random')
 	DEFAULT_OPEN ||= I18n.t('settings.facebook.open_now')
 
-	# REJECT_PRICE ||= I18n.t('settings.facebook.reject_price')
-	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
 	attr_accessor :graph
 	def initialize
 		oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token

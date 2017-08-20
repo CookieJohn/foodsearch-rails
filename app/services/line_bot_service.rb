@@ -2,8 +2,6 @@ require 'line/bot'
 
 class LineBotService < BaseService
 
-  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
   attr_accessor :client, :graph, :google, :user, :request
   def initialize request
     self.client ||= Line::Bot::Client.new { |config|

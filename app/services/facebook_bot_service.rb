@@ -1,5 +1,4 @@
 class FacebookBotService < BaseService
-  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
   BOT_ID ||= '844639869021578'
   

@@ -1,5 +1,4 @@
 class TelegramBotService < BaseService
-  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
   TOKEN ||= Settings.telegram.token
   API_URL ||= "https://api.telegram.org/bot#{TOKEN}/sendMessage"
 

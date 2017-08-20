@@ -1,6 +1,5 @@
 class FormatService < BaseService
-	REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
+  
 	attr_accessor :graph, :google
   def initialize
     self.graph  ||= GraphApiService.new
