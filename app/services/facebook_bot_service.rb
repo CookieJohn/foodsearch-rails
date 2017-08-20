@@ -273,39 +273,29 @@ class FacebookBotService < BaseService
   end
 
   def button_option type, title, payload
-    # type: postback, web_url
-    {
-      type: type,
+    { type: type,
       title: title,
-      payload: payload
-    }
+      payload: payload }
   end
 
   def phone_option title, phone
-    {
-      type: "phone_number",
+    { type: "phone_number",
       title: title,
-      payload: phone
-     }
+      payload: phone }
   end
 
   def button_link_option url, title, webview_height='tall', share_button='hide'
-    # type: postback, web_url
-    {
-      type: 'web_url',
+    { type: 'web_url',
       url: url,
       title: title,
       webview_height_ratio: webview_height,
-      webview_share_button: share_button
-    }
+      webview_share_button: share_button }
   end
 
   def quick_replies_option title, payload
-    {
-      content_type: "text",
+    { content_type: "text",
       title: title,
-      payload: payload
-    }
+      payload: payload }
   end
 
   def send_location
