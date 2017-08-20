@@ -11,7 +11,7 @@ class BaseController < ApplicationController
   end
 
   def refresh_locations
-  	fb_results = GraphApiService.new.search_places(@lat, @lng, size: 999, mode: @mode, keywprd: @type)
+  	fb_results = GraphApiService.new.search_places(@lat, @lng, size: 999, mode: @mode, keyword: @type)
   	# if Rails.env.production?
    #    keywords = fb_results.map {|f| f['name']}
    #    google_results = GoogleMapService.new.search_places(@lat, @lng, nil, keywords)

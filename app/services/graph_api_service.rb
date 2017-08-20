@@ -41,6 +41,10 @@ class GraphApiService < BaseService
 		# 判斷目前是否營業中
 		results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
 
+		# 計算距離
+		results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
+		results = results.reject { |r| r['distance'] > max_distance }
+
 		results = case mode
 		when 'score'
 			results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
@@ -49,10 +53,6 @@ class GraphApiService < BaseService
 		else
 			results = random_type ? results.sample(size) : results.first(size)
 		end
-
-		# 計算距離
-		results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])*1000).to_i }
-		results = results.reject { |r| r['distance'] > max_distance }
 	end
 
 	def get_photo id, width=450, height=450
