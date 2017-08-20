@@ -38,11 +38,7 @@ class FacebookBotService < BaseService
           
             if lat.present?
               keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
-              fb_results = graph.search_places(lat, lng, 
-                user: user, 
-                size: 10, 
-                mode: nil, 
-                keyword: keyword)
+              fb_results = graph.search_places(lat, lng, user: user, size: 10, keyword: keyword)
               if fb_results.size > 0 
                 # 傳送餐廳資訊
                 messageData = generic_elements(senderID, fb_results)
@@ -196,7 +192,7 @@ class FacebookBotService < BaseService
         lat = user.last_search['lat']
         lng = user.last_search['lng']
         keyword = user.last_search['keyword']
-        fb_results = graph.search_places(lat, lng, user, 10, nil, keyword)
+        fb_results = graph.search_places(lat, lng, user: user, size: 10, keyword: keyword)
         if fb_results.size > 0 
           if user.last_search['keyword'].present?
             user.last_search['keyword'] = '' 

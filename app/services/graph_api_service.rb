@@ -22,10 +22,10 @@ class GraphApiService < BaseService
 		keyword = options[:keyword] || 'restaurant'
 		
 		position = "#{lat},#{lng}"
-		max_distance = user.max_distance || DEFAULT_DISTANCE
-		min_score = user.min_score || DEFAULT_MIN_SCORE
-		random_type = user.random_type || DEFAULT_RANDOM
-		open_now = user.open_now || DEFAULT_OPEN
+		max_distance = user.present? ? user.max_distance : DEFAULT_DISTANCE
+		min_score = user.present? ? user.min_score : DEFAULT_MIN_SCORE
+		random_type = user.present? ? user.random_type : DEFAULT_RANDOM
+		open_now = user.present? ? user.open_now : DEFAULT_OPEN
 
 		facebook_results = graph.search(keyword, type: :place, center: position, distance: max_distance, locale: I18n.locale.to_s, limit: limit, matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
 		# 移除金額過高的搜尋結果
