@@ -31,21 +31,21 @@ class BaseService
 
 	# redis
 	def redis_key_exist?(key)
-		$redis.exists(key)
+		$redis.exists(key.to_s)
 	end
 
 	def redis_initialize_user(user_id)
-		$redis.set(user_id, {}.to_json)
+		$redis.set(user_id.to_s, "{}".to_json)
 	end
 
 	def redis_get_user_data(user_id)
-		JSON.parse($redis.get(user_id))
+		JSON.parse($redis.get(user_id.to_s))
 	end
 
 	def redis_set_user_data(user_id, type, data)
 		user_data = redis_get_user_data(user_id)
 		user_data.merge(type => data)
-		$redis.set(user_id, user_data)
+		$redis.set(user_id.to_s, user_data)
 	end
 
 	def get_redis_data(user_id, keyword)
