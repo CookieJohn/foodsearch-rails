@@ -26,7 +26,7 @@ class FacebookBotService < BaseService
           if senderID != BOT_ID
             User.create!(facebook_user_id: senderID) if !User.exists?(facebook_user_id: senderID)
             self.user = User.find_by(facebook_user_id: senderID)
-            redis_initialize_user(user_id) if !redis_key_exist?(user_id)
+            redis_initialize_user(user.id) if !redis_key_exist?(user.id)
 
             lat = ''
             lng = ''
