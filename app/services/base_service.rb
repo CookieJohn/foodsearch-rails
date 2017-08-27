@@ -35,7 +35,7 @@ class BaseService
 	end
 
 	def redis_initialize_user(user_id)
-		$redis.set(user_id.to_s, "{}".to_json)
+		$redis.set(user_id.to_s, {}.to_json)
 	end
 
 	def redis_get_user_data(user_id)
