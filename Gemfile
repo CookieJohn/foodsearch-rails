@@ -19,6 +19,7 @@ gem 'fuzzy-string-match'
 gem 'typhoeus'
 gem 'geocoder'
 gem 'friendly_id'
+gem 'redis'
 
 # third-party
 gem 'line-bot-api'
