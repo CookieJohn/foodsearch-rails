@@ -1,13 +1,7 @@
-require 'line/bot'
-
 class LineBotService < BaseService
 
-  attr_accessor :client, :graph, :google, :user, :request
+  attr_accessor :graph, :google, :user, :request
   def initialize request
-    self.client ||= Line::Bot::Client.new { |config|
-      config.channel_secret = Settings.line.channel_secret
-      config.channel_token = Settings.line.channel_token
-    }
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.user ||= nil
@@ -19,7 +13,7 @@ class LineBotService < BaseService
 
     body = request.body.read
     return_msg = ''
-    events = client.parse_events_from(body)
+    events = $line_client.parse_events_from(body)
     events.each { |event|
       find_line_user(event['source']['userId'])
 
@@ -28,7 +22,7 @@ class LineBotService < BaseService
         case event.type
         when Line::Bot::Event::MessageType::Text
           msg = event.message['text'].downcase
-          client.reply_message(event['replyToken'], text_format(msg))
+          $line_client.reply_message(event['replyToken'], text_format(msg))
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude']
           lng = event.message['longitude']
@@ -39,7 +33,7 @@ class LineBotService < BaseService
           else
             return_response = text_format(I18n.t('empty.no_restaurants'))
           end
-          client.reply_message(event['replyToken'], return_response)
+          $line_client.reply_message(event['replyToken'], return_response)
         end
       end
     }
@@ -68,7 +62,7 @@ class LineBotService < BaseService
   def varify_signature
     body = request.body.read
     signature = request.env['HTTP_X_LINE_SIGNATURE']
-    return '400 Bad Request' unless client.validate_signature(body, signature)
+    return '400 Bad Request' unless $line_client.validate_signature(body, signature)
   end
 
   def find_line_user id
