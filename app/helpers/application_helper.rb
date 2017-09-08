@@ -1,9 +1,10 @@
 module ApplicationHelper
-	def on_production?
-		Rails.env.production?
-	end
+  
+  def on_production?
+    Rails.env.production?
+  end
 
-	def truncate_utf8 text, length=nil
+  def truncate_utf8 text, length=nil
     sacn_string = /[a-z,A-Z,0-9,&, ,.]/
     en_size = text.scan(sacn_string).size
     cut_size = (en_size%6)==0 ? en_size/6 : en_size/6+1

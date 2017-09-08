@@ -29,6 +29,11 @@ class BaseService
 		Geocoder::Calculations.distance_between(current_lat_lng, position_lat_lng).round(3)
 	end
 
+	def pick_categories category, category_list
+
+		
+	end
+
 	# redis
 	def redis_key_exist?(key)
 		$redis.exists(key.to_s)

@@ -88,11 +88,7 @@ class LineBotService < BaseService
       category_list = result['category_list']
       hours = result['hours']
 
-      description = category
-      category_list.sample(2).each do |c|
-        description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
-        # new_category = Category.create!(facebook_id: c['id'], facebook_name: c['name']) if !category_lists.any? {|cl| cl.include?(c['id']) }
-      end
+      description = pick_categories(category, category_list)
       image_url = graph.get_photo(id)
 
       actions = []
