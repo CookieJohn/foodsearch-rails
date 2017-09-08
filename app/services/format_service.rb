@@ -26,7 +26,10 @@ class FormatService < BaseService
       distance = result['distance'].present? ? "#{result['distance']}公尺" : ''
 
       types = [category]
-      description = pick_categories(category, category_list)
+      category_list.first(2).each do |c|
+        types << c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
+      end
+      
       image_url = graph.get_photo(id,500,500)
 
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
