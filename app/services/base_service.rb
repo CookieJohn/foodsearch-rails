@@ -31,9 +31,9 @@ class BaseService
 
 	def pick_categories category="", category_list
 		description = category
-    category_list.sample(2).each do |c|
-      description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
-    end
+    category_list.map { |c| 
+    	description += c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) } 
+    }.join(', ')
     return description
 	end
 
