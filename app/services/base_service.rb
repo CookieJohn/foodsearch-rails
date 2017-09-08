@@ -29,12 +29,11 @@ class BaseService
 		Geocoder::Calculations.distance_between(current_lat_lng, position_lat_lng).round(3)
 	end
 
-	def pick_categories category="", category_list
-		description = category
-    category_list.map { |c| 
-    	description += c['name'] if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) } 
-    }.join(', ')
-    return description
+	def pick_categories category="", category_list=[]
+    category_list = category_list.map { |c| c['name'] }
+    category_list = category_list << category
+    category_list = (category_list - REJECT_CATEGORY).uniq
+    category_text = category_list.join(', ')
 	end
 
 	# redis
