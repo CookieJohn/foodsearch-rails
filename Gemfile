@@ -26,13 +26,16 @@ gem 'line-bot-api'
 gem 'settingslogic'
 gem 'koala'
 gem 'httparty'
-gem 'newrelic_rpm'
 
 # db
 gem 'pg'
 
 # others
 gem 'rails-i18n', '~> 5.0.0'
+
+group :production do
+  gem 'newrelic_rpm'
+end
 
 group :development, :test do
   gem 'byebug'
