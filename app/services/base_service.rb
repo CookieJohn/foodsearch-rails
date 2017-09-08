@@ -29,9 +29,12 @@ class BaseService
 		Geocoder::Calculations.distance_between(current_lat_lng, position_lat_lng).round(3)
 	end
 
-	def pick_categories category, category_list
-
-		
+	def pick_categories category="", category_list
+		description = category
+    category_list.sample(2).each do |c|
+      description += ", #{c['name']}" if c['name'] != category && !REJECT_CATEGORY.any? {|r| c['name'].include?(r) }
+    end
+    return description
 	end
 
 	# redis
