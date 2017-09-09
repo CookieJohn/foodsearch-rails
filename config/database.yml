@@ -1,4 +1,4 @@
-development: &default
+defaults: &defaults
   adapter: postgresql
   encoding: 'unicode'
   database: 'foodsearch_development'
@@ -6,3 +6,10 @@ development: &default
   host: '127.0.0.1'
   username: 'john'
   password: ''
+
+development:
+  <<: *defaults
+
+test:
+  <<: *defaults
+  database: 'foodsearch_test'
