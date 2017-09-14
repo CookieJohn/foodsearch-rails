@@ -40,6 +40,8 @@ end
 group :development, :test do
   gem 'byebug'
   gem 'rspec-rails', '~> 3.6'
+  gem 'vcr'
+  gem "webmock", require: false
 end
 
 group :development do
