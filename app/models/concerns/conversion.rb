@@ -36,7 +36,7 @@ module Conversion
       text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
       text += "\n#{r.category_list}"
       text += "\n#{r.today_open_time}"
-      text = r.text[0, 60]
+      text = text[0, 60]
     when 'facebook'
       text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
       text += "\n#{r.category_list}"
