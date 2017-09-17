@@ -89,7 +89,7 @@ class FacebookBotService < BaseService
 
       columns << {
         title: r.name,
-        subtitle: text,
+        subtitle: r.text,
         image_url: r.image_url,
         buttons: actions }
     end
