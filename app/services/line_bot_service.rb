@@ -76,17 +76,12 @@ class LineBotService < BaseService
 
     results.each do |result|
       r = facebook_response(result)
+      r.text = set_text(r, 'line')
 
       actions = []
       actions << button_format(I18n.t('button.official'), safe_url(r.link_url))
       actions << button_format(I18n.t('button.location'), safe_url(google.get_map_link(r.lat, r.lng, r.name, r.street)))
       actions << button_format(I18n.t('button.related_comment'), safe_url(google.get_google_search(r.name)))
-
-      text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
-      text += "\n#{r.category_list}"
-      text += "\n#{r.today_open_time}"
-
-      text = r.text[0, 60]
 
       columns << {
         thumbnailImageUrl: r.image_url,
@@ -94,6 +89,7 @@ class LineBotService < BaseService
         text: r.text,
         actions: actions }
     end
+    
     return columns
   end
 end

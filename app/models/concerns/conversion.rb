@@ -27,10 +27,25 @@ module Conversion
     return data
   end
 
-  def set_text r
-    text = "#{r.today_open_time}"
-    text += "\n#{r.phone}"
-    text += "\n#{r.street}"
+  def set_text r, type='web'
+    case type
+    when 'web'
+      text = "#{r.today_open_time}"
+      text += "\n#{r.phone}"
+      text += "\n#{r.street}"
+    when 'line'
+      text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
+      text += "\n#{r.category_list}"
+      text += "\n#{r.today_open_time}"
+      text = r.text[0, 60]
+    when 'facebook'
+      text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
+      text += "\n#{r.category_list}"
+      text += "\n#{r.today_open_time}"
+      text += "\n#{r.distance}"
+      text = text[0, 80]
+    end
+    return text
   end
 
   def get_current_open_time hours=nil
