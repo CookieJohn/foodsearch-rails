@@ -1,4 +1,5 @@
 class LineBotService < BaseService
+  include Conversion
 
   attr_accessor :graph, :google, :user, :request
   def initialize request
@@ -72,43 +73,25 @@ class LineBotService < BaseService
 
   def carousel_options results
     columns = []
-    # category_lists = Category.pluck(:id)
 
     results.each do |result|
-      id = result['id']
-      name = result['name'][0, 40]
-      lat = result['location']['latitude']
-      lng = result['location']['longitude']
-      street = result['location']['street'] || ""
-      rating = result['overall_star_rating']
-      rating_count = result['rating_count']
-      # phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
-      link_url = result['link'] || result['website']
-      category = result['category']
-      category_list = result['category_list']
-      hours = result['hours']
-
-      description = pick_categories(category, category_list)
-      image_url = graph.get_photo(id)
+      r = facebook_response(result)
 
       actions = []
       actions << button_format(I18n.t('button.official'), safe_url(link_url))
       actions << button_format(I18n.t('button.location'), safe_url(google.get_map_link(lat, lng, name, street)))
       actions << button_format(I18n.t('button.related_comment'), safe_url(google.get_google_search(name)))
 
-      today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
+      text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
+      text += "\n#{r.category_list}"
+      text += "\n#{r.today_open_time}"
 
-      text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      text += "\n#{description}"
-      text += "\n#{today_open_time}"
-      # text += "\n#{phone}"
-
-      text = text[0, 60]
+      text = r.text[0, 60]
 
       columns << {
-        thumbnailImageUrl: image_url,
-        title: name,
-        text: text,
+        thumbnailImageUrl: r.image_url,
+        title: r.name,
+        text: r.text,
         actions: actions }
     end
     return columns
