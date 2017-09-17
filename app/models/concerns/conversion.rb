@@ -23,7 +23,6 @@ module Conversion
       get_photo(result['id']),
       "#{result['distance'] || ''}公尺"
     )
-    data.text = set_text(data)
     return data
   end
 
