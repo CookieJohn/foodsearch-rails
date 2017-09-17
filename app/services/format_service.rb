@@ -12,7 +12,7 @@ class FormatService < BaseService
 
     results.each do |result|
       r = facebook_response(result)
-      r.text = set_text(data)
+      r.text = set_text(r)
       
       # g_match = {'score' => 0.0, 'match_score' => 0.0}
       # if google_results.present?
