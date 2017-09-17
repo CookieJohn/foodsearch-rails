@@ -16,7 +16,7 @@
   .content
     .text
       .tag-float-left
-        - location[:types].each do |t|
+        - location[:types].to_a.each do |t|
           .tag = truncate_utf8(t, 6)
       .tag-float-right
         .index_tag = "##{index}"
