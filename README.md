@@ -14,12 +14,13 @@ Line Bot
 Facebook Messenger Bot
 -------------
 - [粉絲團連結](https://www.facebook.com/%E7%BE%8E%E9%A3%9F%E5%BF%AB%E6%90%9C-844639869021578/?fref=ts)
-- 點選左下角的＋ -> 地點 -> 目前位置
 
 建置文章參考
 ----------
 - [LineBot](https://medium.com/@johnwu2613/linebot-%E9%A4%90%E5%BB%B3%E8%B3%87%E8%A8%8A-with-ruby-on-rails-95b592851ca)
+### FaceBook
 - [MessengerBot](https://medium.com/@johnwu2613/%E6%90%9C%E5%B0%8B%E9%A4%90%E5%BB%B3-facebook-bot-ruby-on-rails-b83787bea303)
+- [MessengerBot 改善互動體驗](https://medium.com/@johnwu2613/%E6%90%9C%E5%B0%8B%E9%A4%90%E5%BB%B3-facebook-messenger-bot-%E6%94%B9%E5%96%84%E4%BA%92%E5%8B%95%E9%AB%94%E9%A9%97-4518e4b3b214)
 - [Website](https://medium.com/@johnwu2613/linebot-%E9%A4%90%E5%BB%B3%E8%B3%87%E8%A8%8A-with-ruby-on-rails-95b592851ca)
 
 
