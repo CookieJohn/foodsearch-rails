@@ -1,4 +1,6 @@
 class FacebookBotService < BaseService
+  include Conversion
+  
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
   BOT_ID ||= '844639869021578'
   
@@ -78,7 +80,7 @@ class FacebookBotService < BaseService
 
     results.each do |result|
       r = facebook_response(result)
-      
+
       actions = []
       actions << button(safe_url(r.link_url), I18n.t('button.official'))
       actions << button(safe_url(google.get_map_link(r.lat, r.lng, r.name, r.street)),I18n.t('button.location'))
