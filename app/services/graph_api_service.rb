@@ -55,22 +55,6 @@ class GraphApiService < BaseService
 		end
 	end
 
-	def get_photo id, width=450, height=450
-		"https://graph.facebook.com/#{id}/picture?width=#{width}&height=#{height}"
-	end
-
-	def get_current_open_time hours
-		date = Time.now.strftime('%a').downcase
-		hours = hours.reject {|key, value| !key.include?(date)}
-		open_time = ''
-		hours.each_with_index do |(key,value), index|
-			open_time += "-" if key.include?('open') && index > 0
-			open_time += "~" if key.include?('close')
-			open_time += value.to_s
-		end
-		return open_time
-	end
-
 	def check_open_now hours=nil
 		open_now = false
 		if hours.present?
