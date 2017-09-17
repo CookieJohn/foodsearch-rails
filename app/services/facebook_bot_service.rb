@@ -76,44 +76,25 @@ class FacebookBotService < BaseService
   def generic_elements sender_id, results=nil
     columns = []
 
-    # category_lists = Category.pluck(:id)
-
     results.each do |result|
-      id = result['id']
-      name = result['name'][0, 80]
-      lat = result['location']['latitude']
-      lng = result['location']['longitude']
-      street = result['location']['street'] || ""
-      rating = result['overall_star_rating']
-      rating_count = result['rating_count']
-      # phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
-      link_url = result['link'] || result['website']
-      category = result['category']
-      category_list = result['category_list']
-      hours = result['hours']
-      distance = result['distance'].present? ? "#{result['distance']}公尺" : ''
-
-      description = pick_categories(category, category_list)
-      image_url = graph.get_photo(id)
-
+      r = facebook_response(result)
+      
       actions = []
-      actions << button(safe_url(link_url), I18n.t('button.official'))
-      actions << button(safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
-      actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
-      today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
+      actions << button(safe_url(r.link_url), I18n.t('button.official'))
+      actions << button(safe_url(google.get_map_link(r.lat, r.lng, r.name, r.street)),I18n.t('button.location'))
+      actions << button(safe_url(google.get_google_search(r.name)),I18n.t('button.related_comment'))
 
-      text = "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
-      text += "\n#{description}"
-      text += "\n#{today_open_time}"
-      text += "\n#{distance}"
-      # text += "\n#{phone}"
+      text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
+      text += "\n#{r.category_list}"
+      text += "\n#{r.today_open_time}"
+      text += "\n#{r.distance}"
 
       text = text[0, 80]
 
       columns << {
-        title: name,
+        title: r.name,
         subtitle: text,
-        image_url: image_url,
+        image_url: r.image_url,
         buttons: actions
       }
     end
