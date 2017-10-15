@@ -24,7 +24,7 @@ RSpec.describe BaseController, type: :request do
       let(:search_type) { "" }
 
       it "success" do
-        VCR.use_cassette('facebook/search') do
+        VCR.use_cassette('facebook/search', record: :new_episodes) do
           allow_any_instance_of(ActionDispatch::Request).to receive(:remote_ip).and_return(fake_IP)
           post refresh_locations_url, params: { lat: lat, lng: lng, search_type: search_type}, xhr: true
           expect(response).to have_http_status(200)
