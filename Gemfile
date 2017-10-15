@@ -23,7 +23,7 @@ gem 'redis'
 
 # third-party
 gem 'line-bot-api'
-gem 'settingslogic'
+gem 'figaro'
 gem 'koala'
 gem 'httparty'
 

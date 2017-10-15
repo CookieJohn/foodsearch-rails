@@ -1,5 +1,5 @@
 class TelegramBotService < BaseService
-  TOKEN ||= Settings.telegram.token
+  TOKEN ||= ENV['telegram_token']
   API_URL ||= "https://api.telegram.org/bot#{TOKEN}/sendMessage"
 
   attr_accessor :request, :chat_id, :graph, :google, :user

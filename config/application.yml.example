@@ -1,19 +1,12 @@
 defaults: &defaults
-  redis:
-    url: redis://127.0.0.1:6379/0
-  line:
-    channel_secret: ''
-    channel_token: ''
-  google:
-    google_api_key: ''
-  facebook:
-    app_id: ''
-    app_secret: ''
-    app_access_token: ''
-    access_token: ''
-    page_access_token: ''
-  telegram:
-    token:
+  redis_url: redis://127.0.0.1:6379/0
+  line_channel_secret: 
+  line_channel_token: 
+  google_api_key: 
+  google_js_api_key: 
+  facebook_app_id: 
+  facebook_app_secret: 
+  telegram_token: 
 
 development:
   <<: *defaults
