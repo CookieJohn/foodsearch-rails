@@ -1,5 +1,5 @@
 class GoogleMapService < BaseService
-	API_KEY ||= Settings.google.google_api_key
+	API_KEY ||= ENV['google_api_key']
 	API_URL ||= 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{API_KEY}&'
 
 	RADIUS ||= 500

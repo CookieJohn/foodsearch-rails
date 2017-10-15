@@ -15,7 +15,7 @@ module MetaHelper
 		    width: 400,
 		    height: 400,
 		  }}
-		set_meta_tags fb: {app_id: Settings.facebook.app_id}
+		set_meta_tags fb: {app_id: ENV['facebook_app_id']}
 		set_meta_tags twitter: {
 		  card: 'summary',
 		  site: website_url,

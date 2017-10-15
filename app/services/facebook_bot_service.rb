@@ -2,7 +2,7 @@ class FacebookBotService < BaseService
   include FacebookFormat
   include Conversion
 
-  API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{Settings.facebook.page_access_token}"
+  API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{ENV['facebook_page_access_token']}"
   BOT_ID ||= '844639869021578'
   
   attr_accessor :graph, :google, :user
