@@ -37,7 +37,7 @@ class GraphApiService < BaseService
 		results = facebook_results.reject { |r| 
 			r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'] == n } } ||
 			r['is_permanently_closed'] == true ||
-			r['overall_star_rating'].to_f <= min_score }
+			(r['overall_star_rating'].to_f >= 1 && r['overall_star_rating'].to_f <= min_score) }
 		# 判斷目前是否營業中
 		results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
 
