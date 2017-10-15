@@ -20,7 +20,7 @@ $ ->
       ), ->
         handleLocationError true, infoWindow, map.getCenter(), map, marker, uluru
         if rails_env != 'development'
-          setTimeout(location_open_notification, 500);
+          setTimeout(location_open_notification, 800);
         return
     else
       handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
