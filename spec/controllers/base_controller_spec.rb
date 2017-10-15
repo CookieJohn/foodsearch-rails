@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe BaseController, type: :request do
   describe "request" do
-    let(:fake_IP) { "114.44.145.185" }
+    let(:fake_IP) { "114.44.143.184" }
 
     context "index" do
       it "success" do
