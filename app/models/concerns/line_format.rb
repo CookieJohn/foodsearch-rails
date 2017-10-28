@@ -37,7 +37,7 @@ module LineFormat
         text: r.text,
         actions: actions }
     end
-    
+
     return columns
   end
 end
