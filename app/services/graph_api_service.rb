@@ -10,10 +10,9 @@ class GraphApiService < BaseService
                             phone,link,price_range,category,category_list,
                             hours,website,is_permanently_closed'
 
-  attr_accessor :graph
   def initialize
     oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
-    self.graph = Koala::Facebook::API.new(oauth_access_token)
+    @graph = Koala::Facebook::API.new(oauth_access_token)
   end
 
   def search_places lat, lng, options={}
@@ -29,7 +28,7 @@ class GraphApiService < BaseService
     random_type = user.try(:random_type) || DEFAULT_RANDOM
     open_now = user.try(:open_now) || DEFAULT_OPEN
 
-    facebook_results = graph.search(keyword, type: :place, center: position,
+    facebook_results = @graph.search(keyword, type: :place, center: position,
                                     distance: max_distance, locale: I18n.locale.to_s, limit: limit,
                                     matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
     # 移除連結不存在 的搜尋結果
