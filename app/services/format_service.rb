@@ -1,19 +1,17 @@
 class FormatService < BaseService
   include Conversion
-  
-	attr_accessor :graph, :google
+
   def initialize
-    self.graph  ||= GraphApiService.new
-    self.google ||= GoogleMapService.new
+    @google ||= GoogleMapService.new
   end
 
-	def web_format results=nil, google_results=nil
-		columns = []
+  def web_format results=nil, google_results=nil
+    columns = []
 
     results.each do |result|
       r = facebook_response(result)
       r.text = set_text(r)
-      
+
       # g_match = {'score' => 0.0, 'match_score' => 0.0}
       # if google_results.present?
       #   google_results.each do |r|
@@ -39,11 +37,11 @@ class FormatService < BaseService
         facebook_score_count: r.rating_count,
         # google_score: google_score,
         official: r.link_url,
-  			location: google.get_map_link(r.lat, r.lng, r.name, r.street),
-  			related_comment: google.get_google_search(r.name),
+        location: @google.get_map_link(r.lat, r.lng, r.name, r.street),
+        related_comment: @google.get_google_search(r.name),
         distance: r.distance
       }
     end
     return columns
-	end
+  end
 end
