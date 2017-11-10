@@ -23,7 +23,7 @@ module LineFormat
     columns = []
 
     results.each do |result|
-      r = facebook_response(result)
+      r = format(result)
       r.text = set_text(r, 'line')
 
       actions = []
