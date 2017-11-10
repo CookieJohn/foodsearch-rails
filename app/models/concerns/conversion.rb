@@ -19,28 +19,20 @@ module Conversion
       category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
       today_open_time: get_current_open_time(result['hours']),
       image_url: get_photo(result['id']),
-      distance: "#{result['distance'] || ''}公尺")
+      distance: "#{result['distance'] || ''}公尺",
+      actions: ''
+    )
   end
 
   def set_text r, type='web'
-    case type
-    when 'web'
-      text = "#{r.today_open_time}"
-      text += "\n#{r.phone}"
-      text += "\n#{r.street}"
-    when 'line'
-      text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
-      text += "\n#{r.category_list}"
-      text += "\n#{r.today_open_time}"
-      text = text[0, 60]
-    when 'facebook'
-      text = "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}" if r.rating.present?
-      text += "\n#{r.category_list}"
-      text += "\n#{r.today_open_time}"
-      text += "\n#{r.distance}"
-      text = text[0, 80]
-    end
-    return text
+    text = case type
+           when 'web'
+             "#{r.today_open_time}\n#{r.phone}\n#{r.street}"
+           when 'line'
+             "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}#{r.today_open_time}"[0, 60]
+           when 'facebook'
+             "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.today_open_time}\n#{r.distance}"[0, 80]
+           end
   end
 
   def get_current_open_time hours=nil
