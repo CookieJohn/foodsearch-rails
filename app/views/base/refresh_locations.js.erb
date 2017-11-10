@@ -1,2 +1,2 @@
-$("#results_num").html("共 <%= @location_data.size %> 筆資訊")
-$("#locations").html("<%= j(render partial: 'base/location', collection: @location_data, as: :location) %>")
+$("#results_num").html("共 <%= @restaurants.size %> 筆資訊")
+$("#restaurants").html("<%= j(render partial: 'base/location', collection: @restaurants, as: :restaurant) %>")

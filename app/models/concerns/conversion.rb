@@ -1,29 +1,25 @@
 module Conversion
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
-  def facebook_response(result)
-
-    conversion_data = Struct.new(:id, :name, :lat, :lng, :street, :rating,
-      :rating_count, :phone, :link_url, :text, :category_list, :category_list_web, :today_open_time,
-      :image_url, :distance)
-    data = conversion_data.new(
-      result['id'],
-      result['name'][0, 40],
-      result['location']['latitude'],
-      result['location']['longitude'],
-      result['location']['street'] || "無提供地址",
-      result['overall_star_rating'],
-      result['rating_count'],
-      result['phone'] || "00000000",
-      result['link'] || result['website'],
-      "", 
-      pick_categories(result['category'], result['category_list']),
-      pick_categories(result['category'], result['category_list'], 'web'),
-      get_current_open_time(result['hours']),
-      get_photo(result['id']),
-      "#{result['distance'] || ''}公尺"
-    )
-    return data
+  def format(result, index = nil)
+    OpenStruct.new(
+      index: index,
+      id: result['id'],
+      name: result['name'][0, 40],
+      lat: result['location']['latitude'],
+      lng: result['location']['longitude'],
+      street: result['location']['street'] || '無提供地址',
+      rating: result['overall_star_rating'],
+      rating_count: result['rating_count'],
+      google_score: '',
+      phone: result['phone'] || '無提供電話',
+      link_url: result['link'] || result['website'],
+      text: '',
+      category_list: pick_categories(result['category'], result['category_list']),
+      category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
+      today_open_time: get_current_open_time(result['hours']),
+      image_url: get_photo(result['id']),
+      distance: "#{result['distance'] || ''}公尺")
   end
 
   def set_text r, type='web'
@@ -76,6 +72,6 @@ module Conversion
     categories = categories << category
     categories = (categories - REJECT_CATEGORY).uniq
     categories = categories.join(', ') if type == 'bot'
-    return categories
+    categories
   end
 end

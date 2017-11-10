@@ -19,7 +19,7 @@ class BaseController < ApplicationController
     #  end
     google_results = nil
 
-    @location_data = FormatService.new.web_format(fb_results, google_results)
+    @restaurants = FormatService.new.web_format(fb_results, google_results)
     respond_to do |format|
       format.js
     end

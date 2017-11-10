@@ -25,7 +25,7 @@ window.set_display = (value) ->
   if display_cookie != -1
     match = document.cookie.match(new RegExp('display=([^;]+)'));
     cookie = match[0].split('=')
-    location = document.getElementById("locations")
+    location = document.getElementById("restaurants")
     if cookie[1] == 'wrap'
       location.style.flexWrap = 'wrap'
       location.style.justifyContent = 'center'
