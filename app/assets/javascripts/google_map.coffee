@@ -85,7 +85,7 @@ $ ->
       strokeOpacity: 0.5,
       strokeWeight: 2,
       fillColor: '#FF0000',
-      fillOpacity: 0.1,
+      fillOpacity: 0.05,
       map: map,
       center: center,
       radius: 500,
