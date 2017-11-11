@@ -1,6 +1,7 @@
 zh-TW:
+  locale: 繁體
   label:
-    search_intro: 請移動座標以尋找附近餐廳。
+    search_intro: 請移動標記尋找附近餐廳。
     score: 評分
     distance: 距離
     search_mode: 排序：
@@ -58,3 +59,4 @@ zh-TW:
       search_texts: ['飯', '麵', '鍋', '咖啡', '茶']
   placeholder:
     search_field: 請輸入關鍵字
+    search_address: 請輸入地址

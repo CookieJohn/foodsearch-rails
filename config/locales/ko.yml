@@ -1,0 +1,19 @@
+ko:
+  locale: 한국어
+  label:
+    search_intro: "아이콘을 원하시는 곳으로 드래그하세요"
+    score: 평점
+    distance: 평점
+    search_mode: 순서：
+    display_mode: 표시：
+    type_mode: 종류：
+    restaurant: 레스토랑
+    coffee: 커피
+    wrap: 세로
+    nowrap: 가로
+  button:
+    official: 페이지
+    location: 위치
+    related_comment: 위치
+  placeholder:
+    search_address: 주소를 입력하세요

@@ -6,7 +6,7 @@ require "active_model/railtie"
 # require "active_job/railtie"
 require "active_record/railtie"
 require "action_controller/railtie"
-require "action_mailer/railtie"
+# require "action_mailer/railtie"
 require "action_view/railtie"
 require "sprockets/railtie"
 # require "rails/test_unit/railtie"
@@ -29,9 +29,10 @@ module Foodsearch
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
-    config.i18n.available_locales = ["zh-TW"]
-    config.i18n.default_locale = "zh-TW"
-    
+    config.i18n.available_locales = [:"zh-TW", :ja, :ko, :en]
+    config.i18n.default_locale = :"zh-TW"
+    config.i18n.fallbacks = [:"zh-TW"]
+
     config.generators.test_framework false
 
     config.generators do |g|
