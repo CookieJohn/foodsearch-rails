@@ -71,6 +71,7 @@ $ ->
         map.setCenter new (google.maps.LatLng)(lat, lng)
         window.move_circle(cityCircle, {lat: lat,lng: lng})
         marker.setPosition(location)
+        map.zoom = 15
       return
 
     window.set_display()
