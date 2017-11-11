@@ -11,6 +11,7 @@ class LineBotService < BaseService
     }
     @graph ||= GraphApiService.new
     @request ||= request
+    @user ||= nil
   end
 
   def reply_msg
