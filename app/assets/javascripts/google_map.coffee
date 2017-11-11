@@ -1,3 +1,4 @@
+# https://developers.google.com/maps/documentation/javascript/examples/places-searchbox?hl=zh-tw
 window.current_lat = 25.059651
 window.current_lng = 121.533380
 
@@ -29,6 +30,17 @@ $ ->
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
+
+    input = document.getElementById('pac-input')
+    searchBox = new (google.maps.places.SearchBox)(input)
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push input
+    # Bias the SearchBox results towards current map's viewport.
+
+    map.addListener 'bounds_changed', ->
+      searchBox.setBounds map.getBounds()
+      return
+    markers = []
+
     cityCircle = window.set_circle(map, {lat: lat, lng: lng})
     window.detect_position(map, marker, uluru, cityCircle)
     geocoder = new (google.maps.Geocoder)
@@ -47,10 +59,24 @@ $ ->
             document.getElementById('google_address').innerHTML = results[0].formatted_address
         return
       return
+    
+    searchBox.addListener 'places_changed', ->
+      places = searchBox.getPlaces()
+      if places.length == 0
+        return
+      places.forEach (place) ->
+        location = place.geometry.location
+        lat = location.lat()
+        lng = location.lng()
+        map.setCenter new (google.maps.LatLng)(lat, lng)
+        window.move_circle(cityCircle, {lat: lat,lng: lng})
+        marker.setPosition(location)
+      return
+
     window.set_display()
-    if rails_env == 'development'
-      window.send_post(window.default_lat, window.default_lng)
-    return
+    # if rails_env == 'development'
+    #   window.send_post(window.default_lat, window.default_lng)
+    # return
   # set circle around maker
   window.set_circle = (map, center) ->
     circle_options = {
