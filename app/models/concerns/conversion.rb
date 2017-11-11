@@ -1,6 +1,6 @@
 module Conversion
 
-  def format(result, index = nil)
+  def format result, index = nil
     OpenStruct.new(
       index: index,
       id: result['id'],
@@ -23,7 +23,7 @@ module Conversion
     )
   end
 
-  def set_text r, type='web'
+  def set_text r, type = 'web'
     case type
     when 'web'
       "#{r.today_open_time}\n#{r.phone}\n#{r.street}"
@@ -34,7 +34,7 @@ module Conversion
     end
   end
 
-  def get_current_open_time hours=nil
+  def get_current_open_time hours = nil
     open_time = ''
     if hours.present? && hours.size > 0
       open_time = ''
@@ -50,11 +50,11 @@ module Conversion
     open_time.present? ? open_time : I18n.t('empty.no_hours')
   end
 
-  def get_photo id, width=450, height=450
+  def get_photo id, width = 450, height = 450
     "https://graph.facebook.com/#{id}/picture?width=#{width}&height=#{height}"
   end
 
-  def pick_categories category="", category_list=[], type='bot'
+  def pick_categories category = "", category_list = [], type = 'bot'
     categories = category_list.map { |c| c['name'] }
     categories = categories << category
     categories = (categories - BaseService::REJECT_CATEGORY).uniq
