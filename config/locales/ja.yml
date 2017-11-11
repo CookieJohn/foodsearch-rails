@@ -1,0 +1,19 @@
+ja:
+  locale: 日本語
+  label: 
+    search_intro: 座標パトロール移動座標パトロールを移動してください
+    score: スコア
+    distance: 距離
+    search_mode: ソート：
+    display_mode: モード：
+    type_mode: タイプ：
+    restaurant: レストラン
+    coffee: コーヒー
+    wrap: 垂直
+    nowrap: 水平
+  button:
+    official: ファンページ
+    location: ロケーション
+    related_comment: コメント
+  placeholder:
+    search_address: 住所を入力してください

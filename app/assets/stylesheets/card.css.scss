@@ -91,6 +91,10 @@
       display: inline-block;
       border-top: solid 1px #bdc3c7;
       border-right: solid 1px #bdc3c7; }
-      .data li:last-child {
-        border-right: none;}
+      .data {
+        li:last-child {
+        border-right: none;
+        font-size: 16px;}}
+      a {
+        font-size: 16px;}
 }
