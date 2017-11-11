@@ -1,8 +1,7 @@
 nav.navbar.navbar-default.navbar-fixed-top style=('panding-bottom: 50p;')
   .container
     .navbar-header
-      a.navbar-brand.web-title href=root_url
-        = " FoodSearch"
+      = link_to " FoodSearch", search_url, class: "navbar-brand web-title", style: "margin: 3px 0 0 3px;"
       button#hamburger.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button"
         = t('locale')
     div.collapse.navbar-collapse
