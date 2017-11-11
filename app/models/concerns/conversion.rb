@@ -1,5 +1,4 @@
 module Conversion
-  REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
 
   def format(result, index = nil)
     OpenStruct.new(
@@ -25,34 +24,30 @@ module Conversion
   end
 
   def set_text r, type='web'
-    text = case type
-           when 'web'
-             "#{r.today_open_time}\n#{r.phone}\n#{r.street}"
-           when 'line'
-             "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}#{r.today_open_time}"[0, 60]
-           when 'facebook'
-             "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.today_open_time}\n#{r.distance}"[0, 80]
-           end
+    case type
+    when 'web'
+      "#{r.today_open_time}\n#{r.phone}\n#{r.street}"
+    when 'line'
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.today_open_time}"[0, 60]
+    when 'facebook'
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.today_open_time}\n#{r.distance}"[0, 80]
+    end
   end
 
   def get_current_open_time hours=nil
-    open_time = ''
+    open_time = if hours.present? && hours.size > 0
+                  date = Time.now.strftime('%a').downcase
+                  hours = hours.reject {|key, value| !key.include?(date)}
+                  hours.to_a.each_with_index do |(key,value), index|
+                    open_time += "-" if key.include?('open') && index > 0
+                    open_time += "~" if key.include?('close')
+                    open_time += value.to_s
+                  end
+                else
+                  ''
+                end
 
-    if hours.present? && hours.size > 0
-      date = Time.now.strftime('%a').downcase
-      hours = hours.reject {|key, value| !key.include?(date)}
-      hours.to_a.each_with_index do |(key,value), index|
-        open_time += "-" if key.include?('open') && index > 0
-        open_time += "~" if key.include?('close')
-        open_time += value.to_s
-      end
-    end
-
-    if open_time.present?
-      open_time
-    else
-      I18n.t('empty.no_hours')
-    end
+    open_time.present? ? open_time : I18n.t('empty.no_hours')
   end
 
   def get_photo id, width=450, height=450
@@ -62,7 +57,7 @@ module Conversion
   def pick_categories category="", category_list=[], type='bot'
     categories = category_list.map { |c| c['name'] }
     categories = categories << category
-    categories = (categories - REJECT_CATEGORY).uniq
+    categories = (categories - BaseService::REJECT_CATEGORY).uniq
     categories = categories.join(', ') if type == 'bot'
     categories
   end

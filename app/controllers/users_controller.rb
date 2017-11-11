@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   layout 'user'
 
   def show
-  	set_meta
+    set_meta
   end
 
   def update
@@ -17,11 +17,11 @@ class UsersController < ApplicationController
   end
 
   private
-  	def find_user
-  		@user = User.find(params[:id])
-  	end
+  def find_user
+    @user = User.find(params[:id])
+  end
 
-  	def user_params
-    	params.require(:user).permit(:max_distance, :min_score, :random_type, :open_now)
-	  end
+  def user_params
+    params.require(:user).permit(:max_distance, :min_score, :random_type, :open_now)
+  end
 end
