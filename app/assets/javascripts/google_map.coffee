@@ -54,10 +54,10 @@ $ ->
       window.move_circle(cityCircle, {lat: lat,lng: lng})
       window.send_post(lat, lng)
       geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
-        if status == google.maps.GeocoderStatus.OK
-          if results[0]
-            document.getElementById('google_address').innerHTML = results[0].formatted_address
-        return
+        # if status == google.maps.GeocoderStatus.OK
+        #   if results[0]
+        #     document.getElementById('google_address').innerHTML = results[0].formatted_address
+        # return
       return
     
     searchBox.addListener 'places_changed', ->
