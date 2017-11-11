@@ -14,6 +14,6 @@ ko:
   button:
     official: 페이지
     location: 위치
-    related_comment: 위치
+    related_comment: 자세히
   placeholder:
     search_address: 주소를 입력하세요
