@@ -42,9 +42,29 @@ html, body {
   margin-bottom: 2px;
 }
 
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  margin-top: 20px;
+  padding: 10px 10px 8px 10px;
+  text-overflow: ellipsis;
+  width: 300px;
+  border: 2px solid;
+}
+#pac-input::-webkit-input-placeholder {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
 #map {
-	height: 60vh;
-	width: 100%;
-	margin-left: auto;
+  height: 60vh;
+  width: 100%;
+  margin-left: auto;
   margin-right: auto;
 }

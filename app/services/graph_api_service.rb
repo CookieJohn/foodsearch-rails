@@ -9,10 +9,11 @@ class GraphApiService < BaseService
   DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,
                             phone,link,price_range,category,category_list,
                             hours,website,is_permanently_closed'
+  SEARCH_API ||= 'https://graph.facebook.com/v2.11/search?'
 
   def initialize
-    oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
-    @graph = Koala::Facebook::API.new(oauth_access_token)
+    @oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
+    @graph = Koala::Facebook::API.new(@oauth_access_token)
   end
 
   def search_places lat, lng, options={}
@@ -20,7 +21,7 @@ class GraphApiService < BaseService
     user = options[:user] || nil
     size = options[:size] || 5
     mode = options[:mode] || nil
-    keyword = options[:keyword] || 'restaurant'
+    keyword = options[:keyword] || DEFAULT_SEARCH
 
     position = "#{lat},#{lng}"
     max_distance = user.try(:max_distance) || DEFAULT_DISTANCE
@@ -28,9 +29,18 @@ class GraphApiService < BaseService
     random_type = user.try(:random_type) || DEFAULT_RANDOM
     open_now = user.try(:open_now) || DEFAULT_OPEN
 
-    facebook_results = @graph.search(keyword, type: :place, center: position,
-                                     distance: max_distance, locale: I18n.locale.to_s, limit: limit,
-                                     matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
+    facebook_results = @graph.search(keyword,
+                                     type: :place,
+                                     center: position,
+                                     distance: max_distance,
+                                     locale: I18n.locale.to_s,
+                                     limit: limit,
+                                     fields: DEFAULT_FIELDS)
+    # 測試API
+    # api_url = "#{SEARCH_API}search?q=#{keyword}&type=place&center=#{position}&distance=#{max_distance}&locale=zh-TW$limit=#{1000}&categories=#{['FOOD_BEVERAGE']}&fields=#{DEFAULT_FIELDS}&access_token=#{@oauth_access_token}"
+    # response = Net::HTTP.get(URI.parse(api_url))
+    # facebook_results = JSON.parse(response).dig('data')
+
     # 移除連結不存在 的搜尋結果
     # 移除類別不包含 餐 的搜尋結果
     # 移除評分低於設定數字的搜尋結果
@@ -50,9 +60,9 @@ class GraphApiService < BaseService
               when 'score'
                 results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
               when 'distance'
-                results = results.sort_by { |r| r['distance'] }
+                results.sort_by { |r| r['distance'] }
               else
-                results = random_type ? results.sample(size) : results.first(size)
+                random_type ? results.sample(size) : results.first(size)
               end
   end
 

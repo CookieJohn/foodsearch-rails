@@ -34,6 +34,12 @@
   align-items: center;
   justify-content: center;}
 
+#up-link { 
+  visibility: hidden;
+  position: fixed;
+  bottom: 65px;
+  right: 25px;}
+
 @media all and (max-width: 768px) {
   #results_num {
     position:fixed;
@@ -72,4 +78,9 @@
       border-radius: 10px;
       justify-content: center;}
   }
+  #up-link {
+    visibility: visible;
+    position: fixed;
+    bottom: 65px;
+    right: 25px;}
 }

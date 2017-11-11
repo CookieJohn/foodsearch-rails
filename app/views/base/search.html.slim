@@ -1,10 +1,15 @@
 .container-fluid
   h4 = i18n_label(:search_intro)
+  input#pac-input.controls placeholder="請輸入地址" type="text"
   #map
   = render partial: "common/search_field"
-  p#google_address = ''
+  / p#google_address = ''
 
   #results_num = ''
+  
+  a#up-link href=""
+    i.fa.fa-angle-double-up.fa-3x
+
 = render partial: "common/select"
 
 #restaurants

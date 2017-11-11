@@ -1,3 +1,4 @@
+# https://developers.google.com/maps/documentation/javascript/examples/places-searchbox?hl=zh-tw
 window.current_lat = 25.059651
 window.current_lng = 121.533380
 
@@ -18,11 +19,28 @@ $ ->
         stylers: [ { visibility: 'off' } ]
       }
     ]
-    map = new (google.maps.Map)(document.getElementById('map'), zoom: 15)
-    map.set('styles', myStyle)
+    map = new (google.maps.Map)(
+      document.getElementById('map'), 
+      zoom: 15,
+      styles: myStyle,
+      streetViewControl: false, #小黃人
+      fullscreenControl: false,
+      mapTypeControl: false, 
+    )
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
+
+    input = document.getElementById('pac-input')
+    searchBox = new (google.maps.places.SearchBox)(input)
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push input
+    # Bias the SearchBox results towards current map's viewport.
+
+    map.addListener 'bounds_changed', ->
+      searchBox.setBounds map.getBounds()
+      return
+    markers = []
+
     cityCircle = window.set_circle(map, {lat: lat, lng: lng})
     window.detect_position(map, marker, uluru, cityCircle)
     geocoder = new (google.maps.Geocoder)
@@ -36,15 +54,30 @@ $ ->
       window.move_circle(cityCircle, {lat: lat,lng: lng})
       window.send_post(lat, lng)
       geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
-        if status == google.maps.GeocoderStatus.OK
-          if results[0]
-            document.getElementById('google_address').innerHTML = results[0].formatted_address
+        # if status == google.maps.GeocoderStatus.OK
+        #   if results[0]
+        #     document.getElementById('google_address').innerHTML = results[0].formatted_address
+        # return
+      return
+    
+    searchBox.addListener 'places_changed', ->
+      places = searchBox.getPlaces()
+      if places.length == 0
         return
-      return       
+      places.forEach (place) ->
+        location = place.geometry.location
+        lat = location.lat()
+        lng = location.lng()
+        map.setCenter new (google.maps.LatLng)(lat, lng)
+        window.move_circle(cityCircle, {lat: lat,lng: lng})
+        marker.setPosition(location)
+        map.zoom = 15
+      return
+
     window.set_display()
-    if rails_env == 'development'
-      window.send_post(window.default_lat, window.default_lng)
-    return
+    # if rails_env == 'development'
+    #   window.send_post(window.default_lat, window.default_lng)
+    # return
   # set circle around maker
   window.set_circle = (map, center) ->
     circle_options = {
@@ -52,7 +85,7 @@ $ ->
       strokeOpacity: 0.5,
       strokeWeight: 2,
       fillColor: '#FF0000',
-      fillOpacity: 0.1,
+      fillOpacity: 0.05,
       map: map,
       center: center,
       radius: 500,
