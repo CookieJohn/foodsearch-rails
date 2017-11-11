@@ -9,7 +9,7 @@ class LineBotService < BaseService
       config.channel_secret = ENV['line_channel_secret']
       config.channel_token = ENV['line_channel_token']
     }
-    @graph  ||= GraphApiService.new
+    @graph ||= GraphApiService.new
     @request ||= request
   end
 
@@ -52,6 +52,6 @@ class LineBotService < BaseService
 
   def find_line_user id
     User.create!(line_user_id: id) if !User.exists?(line_user_id: id)
-    self.user = User.find_by(line_user_id: id)
+    @user = User.find_by(line_user_id: id)
   end
 end
