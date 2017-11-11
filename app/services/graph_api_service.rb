@@ -45,6 +45,7 @@ class GraphApiService < BaseService
     # 計算距離
     results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])).to_i }
     results = results.reject { |r| r['distance'] > max_distance }
+    results = results.reject { |r| r['rating'].to_i > max_distance }
 
     results = case mode
               when 'score'
