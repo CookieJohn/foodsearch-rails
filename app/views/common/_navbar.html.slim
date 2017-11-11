@@ -1,15 +1,25 @@
 nav.navbar.navbar-default.navbar-fixed-top style=('panding-bottom: 50p;')
-	.container
-		.navbar-header.pull-left
-			a.navbar-brand.web-title href=root_url
-				= " FoodSearch"
-		.navbar-header.pull-right
-			- if current_page?(root_path)
-				a.navbar-brand href=search_path
-					i.fa.fa-search
-			- if current_page?(search_path)
-				/ = link_to '使用說明', '', class: 'navbar-brand', id: 'website-intro'
-				a.navbar-brand.search-icon#search-link href=""
-					i.fa.fa-search.fa-2x.search_icon_size
-				a.navbar-brand.map-icon#map-link href=""
-					i.fa.fa-map-marker.fa-2x
+  .container
+    .navbar-header
+      a.navbar-brand.web-title href=root_url
+        = " FoodSearch"
+      button#hamburger.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button"
+        = t('locale')
+    div.collapse.navbar-collapse
+      ul.nav.navbar-nav.navbar-right
+        li class="#{'active' if I18n.locale == :"zh-TW"}"
+          = link_to '繁體', search_path(locale: :"zh-TW")
+        li class="#{'active' if I18n.locale == :ja}"
+          = link_to '日本語', search_path(locale: :ja)
+        li class="#{'active' if I18n.locale == :ko}"
+          = link_to '한국어', search_path(locale: :ko)
+        li class="#{'active' if I18n.locale == :en}"
+          = link_to 'English', search_path(locale: :en)
+      / - if current_page?(root_path)
+      /   a.navbar-brand href=search_path
+      /     i.fa.fa-search
+      / - if current_page?(search_path)
+      /   a.navbar-brand.search-icon#search-link href=""
+      /     i.fa.fa-search.fa-2x.search_icon_size
+      /   a.navbar-brand.map-icon#map-link href=""
+      /     i.fa.fa-map-marker.fa-2x

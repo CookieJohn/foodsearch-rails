@@ -16,7 +16,7 @@
     .text
       .tag-float-left
         - restaurant.category_list_web.to_a.each do |t|
-          .tag = truncate_utf8(t, 6)
+          .tag = truncate_utf8(t, 10)
       .tag-float-right
         .index_tag = "##{index}"
     .description
