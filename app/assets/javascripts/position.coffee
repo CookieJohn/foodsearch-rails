@@ -19,8 +19,10 @@ $ ->
         return
       ), ->
         handleLocationError true, infoWindow, map.getCenter(), map, marker, uluru
-        if rails_env != 'development'
-          setTimeout(location_open_notification, 800);
+        today = new Date()
+        dd = today.getDate()
+        if rails_env != 'development' && !document.cookie.match(new RegExp("notice_date=#{dd}"))
+          setTimeout(location_open_notification, 800)
         return
     else
       handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
@@ -33,5 +35,8 @@ $ ->
     return
 
   location_open_notification = () ->
+    today = new Date()
+    dd = today.getDate()
+    document.cookie = 'notice_date=' + dd
     alert('您未開啟裝置的位置功能\n您可以在開啟位置功能後\n重新整理頁面')
     return
