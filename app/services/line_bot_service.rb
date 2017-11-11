@@ -10,6 +10,7 @@ class LineBotService < BaseService
       config.channel_token = ENV['line_channel_token']
     }
     @graph ||= GraphApiService.new
+    @google ||= GoogleMapService.new
     @request ||= request
     @user ||= nil
   end
