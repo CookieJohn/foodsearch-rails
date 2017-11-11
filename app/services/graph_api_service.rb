@@ -3,7 +3,7 @@ require 'koala'
 class GraphApiService < BaseService
   DEFAULT_SEARCH ||= 'restaurant'
   DEFAULT_DISTANCE ||= 500
-  DEFAULT_MIN_SCORE ||= 3.8
+  DEFAULT_MIN_SCORE ||= 3.5
   DEFAULT_RANDOM ||= true
   DEFAULT_OPEN ||= false
   DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,
@@ -38,7 +38,7 @@ class GraphApiService < BaseService
     results = facebook_results.reject { |r|
       r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'] == n } } ||
         r['is_permanently_closed'] == true ||
-        r['overall_star_rating'].to_i <= min_score }
+        r['overall_star_rating'].to_i < min_score }
     # 判斷目前是否營業中
     results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
 
