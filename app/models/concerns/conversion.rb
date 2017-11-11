@@ -35,18 +35,17 @@ module Conversion
   end
 
   def get_current_open_time hours=nil
-    open_time = if hours.present? && hours.size > 0
-                  open_time = ''
-                  date = Time.zone.now.strftime('%a').downcase
-                  hours = hours.reject {|key, value| !key.include?(date)}
-                  hours.to_a.each_with_index do |(key,value), index|
-                    open_time += "-" if key.include?('open') && index > 0
-                    open_time += "~" if key.include?('close')
-                    open_time += value.to_s
-                  end
-                else
-                  ''
-                end
+    open_time = ''
+    if hours.present? && hours.size > 0
+      open_time = ''
+      date = Time.zone.now.strftime('%a').downcase
+      hours = hours.reject {|key, value| !key.include?(date)}
+      hours.to_a.each_with_index do |(key,value), index|
+        open_time += "-" if key.include?('open') && index > 0
+        open_time += "~" if key.include?('close')
+        open_time += value.to_s
+      end
+    end
 
     open_time.present? ? open_time : I18n.t('empty.no_hours')
   end
