@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get 'webhook' => 'facebook#webhook'
   post 'webhook' => 'facebook#post_webhook'
   # telegram bot
-  post 'update' => 'telegram#update'
+  # post 'update' => 'telegram#update'
 
   resources :users, only: [:show, :edit, :update]
 end

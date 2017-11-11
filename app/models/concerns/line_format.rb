@@ -23,13 +23,13 @@ module LineFormat
     columns = []
 
     results.each do |result|
-      r = facebook_response(result)
+      r = format(result)
       r.text = set_text(r, 'line')
 
       actions = []
       actions << button_format(I18n.t('button.official'), safe_url(r.link_url))
-      actions << button_format(I18n.t('button.location'), safe_url(google.get_map_link(r.lat, r.lng, r.name, r.street)))
-      actions << button_format(I18n.t('button.related_comment'), safe_url(google.get_google_search(r.name)))
+      actions << button_format(I18n.t('button.location'), safe_url(@google.get_map_link(r.lat, r.lng, r.name, r.street)))
+      actions << button_format(I18n.t('button.related_comment'), safe_url(@google.get_google_search(r.name)))
 
       columns << {
         thumbnailImageUrl: r.image_url,

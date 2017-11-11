@@ -15,19 +15,19 @@ module FacebookFormat
   def quick_replies_format id, text, title_text=nil, quick_reply_options=nil
     { recipient: { id: id },
       message: {
-        text: title_text,
-        quick_replies: quick_reply_options}}
+      text: title_text,
+      quick_replies: quick_reply_options}}
   end
 
   def button_format id, text, title_text=nil, button_options=nil
     { recipient: { id: id },
       message: {
-        attachment: {
-          type: "template",
-          payload: {
-            template_type: "button",
-            text: title_text,
-            buttons: button_options }}}}
+      attachment: {
+        type: "template",
+        payload: {
+          template_type: "button",
+          text: title_text,
+          buttons: button_options }}}}
   end
 
   def button_option type, title, payload
@@ -64,7 +64,7 @@ module FacebookFormat
     columns = []
 
     results.each do |result|
-      r = facebook_response(result)
+      r = format(result)
       r.text = set_text(r, 'facebook')
 
       actions = []

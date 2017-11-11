@@ -3,7 +3,7 @@ require 'koala'
 class GraphApiService < BaseService
   DEFAULT_SEARCH ||= 'restaurant'
   DEFAULT_DISTANCE ||= 500
-  DEFAULT_MIN_SCORE ||= 3.8
+  DEFAULT_MIN_SCORE ||= 3.5
   DEFAULT_RANDOM ||= true
   DEFAULT_OPEN ||= false
   DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,
@@ -29,8 +29,8 @@ class GraphApiService < BaseService
     open_now = user.try(:open_now) || DEFAULT_OPEN
 
     facebook_results = @graph.search(keyword, type: :place, center: position,
-                                    distance: max_distance, locale: I18n.locale.to_s, limit: limit,
-                                    matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
+                                     distance: max_distance, locale: I18n.locale.to_s, limit: limit,
+                                     matched_categories: "FOOD_BEVERAGE", fields: DEFAULT_FIELDS)
     # 移除連結不存在 的搜尋結果
     # 移除類別不包含 餐 的搜尋結果
     # 移除評分低於設定數字的搜尋結果
@@ -38,7 +38,7 @@ class GraphApiService < BaseService
     results = facebook_results.reject { |r|
       r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'] == n } } ||
         r['is_permanently_closed'] == true ||
-        (r['overall_star_rating'].to_f >= 1 && r['overall_star_rating'].to_f <= min_score) }
+        r['overall_star_rating'].to_i < min_score }
     # 判斷目前是否營業中
     results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
 
@@ -78,6 +78,6 @@ class GraphApiService < BaseService
     else
       open_now = true
     end
-    return open_now
+    open_now
   end
 end
