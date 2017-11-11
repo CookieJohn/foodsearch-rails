@@ -18,8 +18,14 @@ $ ->
         stylers: [ { visibility: 'off' } ]
       }
     ]
-    map = new (google.maps.Map)(document.getElementById('map'), zoom: 15)
-    map.set('styles', myStyle)
+    map = new (google.maps.Map)(
+      document.getElementById('map'), 
+      zoom: 15,
+      styles: myStyle,
+      streetViewControl: false, #小黃人
+      fullscreenControl: false,
+      mapTypeControl: false, 
+    )
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
@@ -40,7 +46,7 @@ $ ->
           if results[0]
             document.getElementById('google_address').innerHTML = results[0].formatted_address
         return
-      return       
+      return
     window.set_display()
     if rails_env == 'development'
       window.send_post(window.default_lat, window.default_lng)
