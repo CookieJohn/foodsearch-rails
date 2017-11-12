@@ -23,7 +23,7 @@ class TelegramBotService < BaseService
         # keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
         fb_results = graph.search_places(lat, lng, user: user, size: 10)
         generic_format = generic_elements(fb_results)
-        if fb_results.size > 0 
+        if fb_results.size > 0
           response = text_format(generic_format)
         else
           response = text_format('no_result')
@@ -36,19 +36,19 @@ class TelegramBotService < BaseService
   end
 
   def text_format text
-    { chat_id: chat_id, 
+    { chat_id: chat_id,
       text: text,
       parse_mode: 'Markdown' }
   end
 
   def html_format text
-    { chat_id: chat_id, 
+    { chat_id: chat_id,
       text: text,
       parse_mode: 'HTML' }
   end
 
   def reply_format text
-    { chat_id: chat_id, 
+    { chat_id: chat_id,
       text: text,
       parse_mode: 'Markdown',
       reply_markup: {
@@ -58,7 +58,7 @@ class TelegramBotService < BaseService
   end
 
   def inline_keyboard_button_format text
-    { chat_id: chat_id, 
+    { chat_id: chat_id,
       text: text,
       parse_mode: 'Markdown',
       reply_markup: {
@@ -76,7 +76,7 @@ class TelegramBotService < BaseService
   end
 
   # def photo_format text
-  #   { chat_id: chat_id, 
+  #   { chat_id: chat_id,
   #     text: text,
   #     parse_mode: 'Markdown',
   #     reply_markup: {
@@ -109,7 +109,7 @@ class TelegramBotService < BaseService
       image_url = graph.get_photo(id)
 
       # actions = []
-      # actions << button(safe_url(link_url), I18n.t('button.official'))
+      # actions << button(safe_url(link_url), I18n.t('button.fanpage'))
       # actions << button(safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
       # actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
       today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')

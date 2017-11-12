@@ -12,7 +12,7 @@ ja:
     wrap: 垂直
     nowrap: 水平
   button:
-    official: ファンページ
+    fanpage: ファンページ
     location: ロケーション
     related_comment: コメント
   placeholder:

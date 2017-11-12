@@ -3,7 +3,7 @@
 /   text: "FB：4.7分/24人\n餐廳, 茶店\n10:00~22:00",
 /   facebook_score: '5.0',
 /   google_score: '4.5',
-/   official: "https://www.facebook.com/",
+/   fanpage: "https://www.facebook.com/",
 /   location: "https://www.google.com/",
 /   related_comment: "https://www.google.com/search")
 - index = restaurant.index
@@ -34,6 +34,6 @@
         / i.fa.fa-google.google-color.custom_icon_size
         / p.inon-text = restaurant[:google_score]
   .data
-    = render partial: "common/button", locals: {title: i18n_button(:official), link: restaurant.link_url}
+    = render partial: "common/button", locals: {title: i18n_button(:fanpage), link: restaurant.link_url}
     = render partial: "common/button", locals: {title: i18n_button(:location), link: restaurant.location}
     = render partial: "common/button", locals: {title: i18n_button(:related_comment), link: restaurant.related_comment}

@@ -39,7 +39,7 @@ zh-TW:
     score: Google
     match_score: 0.5
   button:
-    official: 官方資訊
+    fanpage: 粉絲專頁
     location: 位置
     related_comment: 相關評論
   empty:

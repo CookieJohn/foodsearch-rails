@@ -12,7 +12,7 @@ ko:
     wrap: 세로
     nowrap: 가로
   button:
-    official: 페이지
+    fanpage: 페이지
     location: 위치
     related_comment: 자세히
   placeholder:

@@ -11,8 +11,8 @@ en:
     coffee: Coffee
     wrap: Vertical
     nowrap: Horizontal
-    button:
-    official: FanPage
+  button:
+    fanpage: FanPage
     location: Location
     related_comment: Related
   placeholder:

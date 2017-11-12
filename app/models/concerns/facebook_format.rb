@@ -68,7 +68,7 @@ module FacebookFormat
       r.text = set_text(r, 'facebook')
 
       actions = []
-      actions << button(safe_url(r.link_url), I18n.t('button.official'))
+      actions << button(safe_url(r.link_url), I18n.t('button.fanpage'))
       actions << button(safe_url(google.get_map_link(r.lat, r.lng, r.name, r.street)),I18n.t('button.location'))
       actions << button(safe_url(google.get_google_search(r.name)),I18n.t('button.related_comment'))
 
