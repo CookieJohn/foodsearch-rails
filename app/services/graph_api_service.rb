@@ -50,7 +50,8 @@ class GraphApiService < BaseService
         r['is_permanently_closed'] == true ||
         r['overall_star_rating'].to_i < min_score }
     # 判斷目前是否營業中
-    results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
+    # results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
+    results = results.each { |r| r['open_now'] = check_open_now(r['hours']) }
 
     # 計算距離
     results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])).to_i }
@@ -82,8 +83,15 @@ class GraphApiService < BaseService
         end
         current_time = Time.now.strftime('%R')
         open_time_array.each do |time|
-          open_now = true if current_time.between?(time.first, time.last)
+          if time.last > time.first
+            open_now = true if current_time.between?(time.first, time.last)
+          else
+            open_now = true if current_time.between?(time.first, "24:00")
+            open_now = true if current_time.between?("00:00", time.last)
+          end
         end
+      else
+        open_now = true
       end
     else
       open_now = true

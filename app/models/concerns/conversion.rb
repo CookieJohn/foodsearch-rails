@@ -17,6 +17,7 @@ module Conversion
       category_list: pick_categories(result['category'], result['category_list']),
       category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
       business_hours: get_current_open_time(result['hours']),
+      open_now: result['open_now'],
       image_url: get_photo(result['id']),
       distance: "#{result['distance'] || ''}公尺",
       actions: ''
