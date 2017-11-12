@@ -2,22 +2,24 @@ local_post_url = 'http://localhost:3000/users/'
 production_post_url = 'https://johnwudevelop.tk/users/'
 
 $(document).on 'ready page:load', ->
-	max_distance = document.getElementById("max_distance")
-	max_distance_value = document.getElementById("max_distance_value")
-
-	max_distance.addEventListener 'input', (->
-	  max_distance_value.value = max_distance.value + '公尺'
-	  return
-	), false
+  max_distance = document.getElementById("max_distance")
+  max_distance_value = document.getElementById("max_distance_value")
+  
+  if max_distance
+    max_distance.addEventListener 'input', (->
+      max_distance_value.value = max_distance.value + '公尺'
+      return
+    ), false
 
 $(document).on 'ready page:load', ->
-	min_score = document.getElementById("min_score")
-	min_score_value = document.getElementById("min_score_value")
-
-	min_score.addEventListener 'input', (->
-	  min_score_value.value = min_score.value + '分'
-	  return
-	), false
+  min_score = document.getElementById("min_score")
+  min_score_value = document.getElementById("min_score_value")
+  
+  if min_score
+    min_score.addEventListener 'input', (->
+      min_score_value.value = min_score.value + '分'
+      return
+    ), false
 
 $(document).on 'click', '#save_user_setting', (event) ->
   max_distance = document.getElementById("max_distance").value
@@ -34,10 +36,9 @@ $(document).on 'click', '#save_user_setting', (event) ->
     asnyc: true,
     data:
       user: {
-      	max_distance: max_distance,
-      	min_score: min_score,
-      	random_type: random_type,open_now: open_now
-    	}
+        max_distance: max_distance,
+        min_score: min_score,
+        random_type: random_type,open_now: open_now }
     complete: (e) ->
       if e.status == 200
         alert('儲存成功！')
