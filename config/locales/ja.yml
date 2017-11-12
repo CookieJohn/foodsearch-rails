@@ -11,6 +11,7 @@ ja:
     coffee: コーヒー
     wrap: 垂直
     nowrap: 水平
+    total: 総数
   button:
     fanpage: ファンページ
     location: ロケーション

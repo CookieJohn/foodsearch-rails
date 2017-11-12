@@ -11,6 +11,7 @@ ko:
     coffee: 커피
     wrap: 세로
     nowrap: 가로
+    total: 합계
   button:
     fanpage: 페이지
     location: 위치
