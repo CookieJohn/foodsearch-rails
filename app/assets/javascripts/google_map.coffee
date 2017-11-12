@@ -68,10 +68,13 @@ $ ->
         location = place.geometry.location
         lat = location.lat()
         lng = location.lng()
+        window.current_lat = lat
+        window.current_lng = lng
         map.setCenter new (google.maps.LatLng)(lat, lng)
         window.move_circle(cityCircle, {lat: lat,lng: lng})
         marker.setPosition(location)
         map.zoom = 15
+        window.send_post(lat, lng)
       return
 
     window.set_display()
