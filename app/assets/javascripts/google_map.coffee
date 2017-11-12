@@ -2,13 +2,10 @@
 window.current_lat = 25.059651
 window.current_lng = 121.533380
 
-window.default_lat = 25.059651
-window.default_lng = 121.533380
-
 $ ->
   window.initMap = ->
-    lat = window.default_lat
-    lng = window.default_lng
+    lat = window.current_lat
+    lng = window.current_lng
     uluru = 
       lat: lat
       lng: lng
@@ -53,7 +50,7 @@ $ ->
       map.setCenter new (google.maps.LatLng)(lat, lng)
       window.move_circle(cityCircle, {lat: lat,lng: lng})
       window.send_post(lat, lng)
-      geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
+      # geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
         # if status == google.maps.GeocoderStatus.OK
         #   if results[0]
         #     document.getElementById('google_address').innerHTML = results[0].formatted_address
@@ -70,7 +67,6 @@ $ ->
         lng = location.lng()
         window.current_lat = lat
         window.current_lng = lng
-        map.zoom = 15
         marker.setPosition(location)
         map.setCenter new (google.maps.LatLng)(lat, lng)
         window.move_circle(cityCircle, {lat: lat,lng: lng})
@@ -79,7 +75,7 @@ $ ->
 
     window.set_display()
     # if rails_env == 'development'
-    #   window.send_post(window.default_lat, window.default_lng)
+    #   window.send_post(window.current_lat, window.current_lng)
     # return
   # set circle around maker
   window.set_circle = (map, center) ->
