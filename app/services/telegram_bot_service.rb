@@ -112,12 +112,12 @@ class TelegramBotService < BaseService
       # actions << button(safe_url(link_url), I18n.t('button.fanpage'))
       # actions << button(safe_url(google.get_map_link(lat, lng, name, street)),I18n.t('button.location'))
       # actions << button(safe_url(google.get_google_search(name)),I18n.t('button.related_comment'))
-      today_open_time = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.no_hours')
+      business_hours = hours.present? ? graph.get_current_open_time(hours) : I18n.t('empty.business_hours')
 
       text = "*#{name}* \n"
       text += "#{I18n.t('facebook.score')}：#{rating}#{I18n.t('common.score')}/#{rating_count}#{I18n.t('common.people')}" if rating.present?
       text += "\n#{description}"
-      text += "\n#{today_open_time}"
+      text += "\n#{business_hours}"
       text += "\n#{distance}"
       text += "\n['圖片'](goo.gl/v9Hfiq)"
       # text += "\n#{phone}"

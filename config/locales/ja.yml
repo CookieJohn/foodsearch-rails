@@ -17,3 +17,8 @@ ja:
     related_comment: コメント
   placeholder:
     search_address: 住所を入力してください
+  empty:
+    address: 住所なし
+    phone: 電話なし
+    business_hours: 営業時間なし
+    restaurants: レストランはありません

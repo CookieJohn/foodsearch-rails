@@ -37,7 +37,7 @@ class LineBotService < BaseService
             options = carousel_options(facebook_results)
             return_response = carousel_format(options)
           else
-            return_response = text_format(I18n.t('empty.no_restaurants'))
+            return_response = text_format(I18n.t('empty.restaurants'))
           end
           @line_client.reply_message(event['replyToken'], return_response)
         end
