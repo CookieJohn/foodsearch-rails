@@ -11,9 +11,15 @@ en:
     coffee: Coffee
     wrap: Vertical
     nowrap: Horizontal
-    button:
-    official: FanPage
+    total: total
+  button:
+    fanpage: FanPage
     location: Location
     related_comment: Related
   placeholder:
     search_address: Please enter your address
+  empty:
+    address: no address
+    phone: no phone
+    business_hours: no business hours
+    restaurants: no restaurants

@@ -1,2 +1,2 @@
-$("#results_num").html("共 <%= @restaurants.size %> 筆資訊")
+$("#results_num").html("<%= I18n.t('label.total') %> <%= @restaurants.size %> ")
 $("#restaurants").html("<%= j(render partial: 'base/location', collection: @restaurants, as: :restaurant) %>")

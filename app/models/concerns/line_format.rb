@@ -27,7 +27,7 @@ module LineFormat
       r.text = set_text(r, 'line')
 
       actions = []
-      actions << button_format(I18n.t('button.official'), safe_url(r.link_url))
+      actions << button_format(I18n.t('button.fanpage'), safe_url(r.link_url))
       actions << button_format(I18n.t('button.location'), safe_url(@google.get_map_link(r.lat, r.lng, r.name, r.street)))
       actions << button_format(I18n.t('button.related_comment'), safe_url(@google.get_google_search(r.name)))
 

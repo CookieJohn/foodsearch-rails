@@ -1,4 +1,4 @@
-script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{ENV['google_js_api_key']}&libraries=places&callback=initMap"]
+script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{ENV['google_js_api_key']}&language=#{I18n.locale}&libraries=places&callback=initMap"]
 
 javascript:
   rails_env = "#{Rails.env}"

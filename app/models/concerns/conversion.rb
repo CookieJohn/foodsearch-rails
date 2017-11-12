@@ -7,16 +7,16 @@ module Conversion
       name: result['name'][0, 40],
       lat: result['location']['latitude'],
       lng: result['location']['longitude'],
-      street: result['location']['street'] || '無提供地址',
+      street: result['location']['street'] || I18n.t('empty.address'),
       rating: result['overall_star_rating'],
       rating_count: result['rating_count'],
       google_score: '',
-      phone: result['phone'] || '無提供電話',
+      phone: result['phone'] || I18n.t('empty.phone'),
       link_url: result['link'] || result['website'],
       text: '',
       category_list: pick_categories(result['category'], result['category_list']),
       category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
-      today_open_time: get_current_open_time(result['hours']),
+      business_hours: get_current_open_time(result['hours']),
       image_url: get_photo(result['id']),
       distance: "#{result['distance'] || ''}公尺",
       actions: ''
@@ -26,11 +26,11 @@ module Conversion
   def set_text r, type = 'web'
     case type
     when 'web'
-      "#{r.today_open_time}\n#{r.phone}\n#{r.street}"
+      "#{r.business_hours}\n#{r.phone}\n#{r.street}"
     when 'line'
-      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.today_open_time}"[0, 60]
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}"[0, 60]
     when 'facebook'
-      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.today_open_time}\n#{r.distance}"[0, 80]
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}\n#{r.distance}"[0, 80]
     end
   end
 
@@ -47,7 +47,7 @@ module Conversion
       end
     end
 
-    open_time.present? ? open_time : I18n.t('empty.no_hours')
+    open_time.present? ? open_time : I18n.t('empty.business_hours')
   end
 
   def get_photo id, width = 450, height = 450

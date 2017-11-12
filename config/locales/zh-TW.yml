@@ -11,6 +11,7 @@ zh-TW:
     coffee: 咖啡
     wrap: 直式
     nowrap: 橫式
+    total: 共
   common:
     score: 分
     people: 人
@@ -39,12 +40,9 @@ zh-TW:
     score: Google
     match_score: 0.5
   button:
-    official: 官方資訊
+    fanpage: 粉絲專頁
     location: 位置
     related_comment: 相關評論
-  empty:
-    no_hours: 無提供營業時間
-    no_restaurants: 此區域查無餐廳
   command:
     success: 設定成功
     error: 設定失敗，輸入指令有誤
@@ -60,3 +58,8 @@ zh-TW:
   placeholder:
     search_field: 請輸入關鍵字
     search_address: 請輸入地址
+  empty:
+    address: 無提供地址
+    phone: 無提供電話
+    business_hours: 無提供營業時間
+    restaurants: 此區域查無餐廳
