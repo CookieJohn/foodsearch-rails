@@ -23,7 +23,7 @@ class GraphApiService < BaseService
     user = options[:user] || nil
     size = options[:size] || 5
     mode = options[:mode] || nil
-    open_now = options[:open_now] || user.try(:open_now)
+    open_now = options.dig(:open_now).present? ? options[:open_now] : user.try(:open_now)
     keyword = options[:keyword] || DEFAULT_SEARCH
 
     position = "#{lat},#{lng}"
@@ -53,8 +53,8 @@ class GraphApiService < BaseService
         r['is_permanently_closed'] == true ||
         r['overall_star_rating'].to_i < min_score }
     # 判斷目前是否營業中
-    results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
     results = results.each { |r| r['open_now'] = check_open_now(r['hours']) }
+    results = results.reject { |r| r['open_now'] == false } if open_now == 'true'
 
     # 計算距離
     results = results.each { |r| r['distance'] = (count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']])).to_i }
