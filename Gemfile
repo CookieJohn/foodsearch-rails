@@ -13,6 +13,7 @@ gem 'bootstrap-sass'
 gem 'slim-rails'
 gem "font-awesome-rails"
 gem 'meta-tags'
+gem 'simple_form'
 
 # back
 gem 'fuzzy-string-match'
