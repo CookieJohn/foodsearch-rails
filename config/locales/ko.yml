@@ -13,6 +13,7 @@ ko:
     nowrap: 가로
     total: 합계
   button:
+    next_step: 다음 단계
     fanpage: 페이지
     location: 위치
     related_comment: 자세히

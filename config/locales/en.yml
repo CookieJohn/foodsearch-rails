@@ -13,6 +13,7 @@ en:
     nowrap: Horizontal
     total: total
   button:
+    next_step: Next Step
     fanpage: FanPage
     location: Location
     related_comment: Related

@@ -13,6 +13,7 @@ ja:
     nowrap: 水平
     total: 総数
   button:
+    next_step: 次のステップ
     fanpage: ファンページ
     location: ロケーション
     related_comment: コメント
