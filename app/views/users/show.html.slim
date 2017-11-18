@@ -1,34 +1,34 @@
 .container-fluid.text-center
-	.panel.panel-info
-		/ h1 = @user.id
-		.panel-heading = '使用者設定'
-		.list-group
-			.list-group-item
-				.title style="font-size: 17px;" = "搜尋半徑 "
-				output#max_distance_value = "#{@user.max_distance}公尺"
-				.material-switch
-					input#max_distance[type="range" name="range" min="500" max="2000" value=@user.max_distance step="50"]
-		.list-group
-			.list-group-item
-				h4.title style="font-size: 17px;" = "最低評分 "
-				output#min_score_value = "#{@user.min_score}分"
-				.material-switch style="display: inline; margin-left; 5px;"
-					input#min_score[type="range" name="range" min="2.0" max="5.0" value=@user.min_score step="0.1"]
-		.list-group
-			.list-group-item
-				h4.title style="font-size: 17px;" = "隨機結果 "
-				.material-switch
-					= check_box_tag 'random', 'random', @user.random_type
-					label.label-primary[for="random"]
-		.list-group
-			.list-group-item
-				h4.title style="font-size: 17px;" = "只顯示營業中的商家 "
-				.material-switch
-					= check_box_tag 'open', 'open', @user.open_now
-					label.label-primary[for="open"]
-	= link_to '儲存', '', class: 'btn btn-success', data: { confirm: "確定儲存？" }, id: 'save_user_setting', remote: true
+  .panel.panel-info
+    / h1 = @user.id
+    .panel-heading = '使用者設定'
+    .list-group
+      .list-group-item
+        .title style="font-size: 17px;" = "搜尋半徑 "
+        output#max_distance_value = "#{@user.max_distance}公尺"
+        .material-switch
+                input#max_distance[type="range" name="range" min="500" max="2000" value=@user.max_distance step="50"]
+    .list-group
+      .list-group-item
+        h4.title style="font-size: 17px;" = "最低評分 "
+        output#min_score_value = "#{@user.min_score}分"
+        .material-switch style="display: inline; margin-left; 5px;"
+                input#min_score[type="range" name="range" min="2.0" max="5.0" value=@user.min_score step="0.1"]
+    .list-group
+      .list-group-item
+        h4.title style="font-size: 17px;" = "隨機結果 "
+        .material-switch
+                = check_box_tag 'random', 'random', @user.random_type
+                label.label-primary[for="random"]
+    .list-group
+      .list-group-item
+        h4.title style="font-size: 17px;" = "只顯示營業中的商家 "
+        .material-switch
+                = check_box_tag 'open', 'open', @user.open_now
+                label.label-primary[for="open"]
+  = link_to '儲存', '', class: 'btn btn-success', data: { confirm: "確定儲存？" }, id: 'save_user_setting', remote: true
 
 p.hidden#user_id = @user.id
 
 javascript:
-	rails_env = "#{Rails.env}"
+  rails_env = "#{Rails.env}"

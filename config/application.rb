@@ -34,6 +34,7 @@ module Foodsearch
     config.i18n.fallbacks = [:"zh-TW"]
 
     config.generators.test_framework false
+    config.action_controller.permit_all_parameters = true
 
     config.generators do |g|
       g.stylesheets = false

@@ -4,6 +4,10 @@ Rails.application.routes.draw do
   post 'refresh_locations' => 'base#refresh_locations'
   get 'privacy' => 'base#privacy'
 
+  get 'location' => 'base#location'
+  get 'selection' => 'base#selection'
+  get 'results' => 'base#results'
+
   # line bot
   post 'callback' => 'line#callback'
   # facebook bot

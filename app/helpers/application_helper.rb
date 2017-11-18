@@ -1,5 +1,5 @@
 module ApplicationHelper
-  
+
   def on_production?
     Rails.env.production?
   end
@@ -15,5 +15,17 @@ module ApplicationHelper
     else
       text
     end
+  end
+
+  def search_types
+    [[i18n_label('coffee'), 'coffee'], [i18n_label('restaurant'), 'restaurant']]
+  end
+
+  def display_types
+    [[i18n_label('wrap'), 'wrap'], [i18n_label('nowrap'), 'nowrap']]
+  end
+
+  def sort_types
+    [[i18n_label('score'), 'score'], [i18n_label('distance'), 'distance']]
   end
 end

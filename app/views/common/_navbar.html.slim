@@ -1,19 +1,19 @@
 nav.navbar.navbar-inverse.navbar-fixed-top style=('panding-bottom: 50p;')
   .container
     .navbar-header
-      = link_to " FoodSearch", search_url, class: "navbar-brand web-title", style: "margin: 3px 0 0 3px;"
+      = link_to " FoodSearch", location_url, class: "navbar-brand web-title", style: "margin: 3px 0 0 3px;"
       button#hamburger.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button" style="color: white;"
         = t('locale')
     div.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
         li class="#{'active' if I18n.locale == :"zh-TW"}"
-          = link_to '繁體', search_path(locale: :"zh-TW")
+          = link_to '繁體', params.merge(locale: :"zh-TW")
         li class="#{'active' if I18n.locale == :ja}"
-          = link_to '日本語', search_path(locale: :ja)
+          = link_to '日本語', params.merge(locale: :ja)
         li class="#{'active' if I18n.locale == :ko}"
-          = link_to '한국어', search_path(locale: :ko)
+          = link_to '한국어', params.merge(locale: :ko)
         li class="#{'active' if I18n.locale == :en}"
-          = link_to 'English', search_path(locale: :en)
+          = link_to 'English', params.merge(locale: :en)
       / - if current_page?(root_path)
       /   a.navbar-brand href=search_path
       /     i.fa.fa-search

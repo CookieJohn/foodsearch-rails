@@ -1,6 +1,8 @@
 require 'koala'
 
 class GraphApiService < BaseService
+  include Process
+
   DEFAULT_SEARCH ||= 'restaurant'
   DEFAULT_DISTANCE ||= 500
   DEFAULT_MIN_SCORE ||= 3.5
@@ -21,13 +23,14 @@ class GraphApiService < BaseService
     user = options[:user] || nil
     size = options[:size] || 5
     mode = options[:mode] || nil
+    open_now = options[:open_now] || user.try(:open_now)
     keyword = options[:keyword] || DEFAULT_SEARCH
 
     position = "#{lat},#{lng}"
     max_distance = user.try(:max_distance) || DEFAULT_DISTANCE
     min_score = user.try(:min_score) || DEFAULT_MIN_SCORE
     random_type = user.try(:random_type) || DEFAULT_RANDOM
-    open_now = user.try(:open_now) || DEFAULT_OPEN
+    open_now = open_now || DEFAULT_OPEN
 
     facebook_results = @graph.search(keyword,
                                      type: :place,
@@ -37,7 +40,7 @@ class GraphApiService < BaseService
                                      limit: limit,
                                      fields: DEFAULT_FIELDS)
     # 測試API
-    # api_url = "#{SEARCH_API}search?q=#{keyword}&type=place&center=#{position}&distance=#{max_distance}&locale=zh-TW$limit=#{1000}&categories=#{['FOOD_BEVERAGE']}&fields=#{DEFAULT_FIELDS}&access_token=#{@oauth_access_token}"
+    # api_url = "#{SEARCH_API}q=#{keyword}&suppress_http_code=1&type=place&center=#{position}&distance=#{max_distance}&locale=#{I18n.locale}$limit=#{limit}&fields=#{DEFAULT_FIELDS}&access_token=#{@oauth_access_token}"
     # response = Net::HTTP.get(URI.parse(api_url))
     # facebook_results = JSON.parse(response).dig('data')
 
@@ -50,7 +53,7 @@ class GraphApiService < BaseService
         r['is_permanently_closed'] == true ||
         r['overall_star_rating'].to_i < min_score }
     # 判斷目前是否營業中
-    # results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
+    results = results.reject { |r| check_open_now(r['hours']) == false } if open_now
     results = results.each { |r| r['open_now'] = check_open_now(r['hours']) }
 
     # 計算距離
