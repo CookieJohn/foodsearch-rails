@@ -24,10 +24,16 @@
   border: 1px solid;
   justify-content: center;}
 
-#up-link {
+#display-link {
   visibility: visible;
   position: fixed;
   bottom: 65px;
+  right: 15px;}
+
+#up-link {
+  visibility: visible;
+  position: fixed;
+  bottom: 95px;
   right: 15px;}
 
 .select_button {
