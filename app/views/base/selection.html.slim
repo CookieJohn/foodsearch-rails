@@ -1,7 +1,6 @@
 = simple_form_for :form, url: results_path, method: :get, html: { class: '' } do |f|
   .container style='padding-top: 20px;'
     = f.input :search, collection: search_types, label: '搜尋類型', include_blank: false, include_hidden: false
-    / = f.input :display, collection: display_types, label: '顯示類型', input_html: { value: params.dig(:display) }
     = f.input :sort, collection: sort_types, label: '排序類型', include_blank: false, include_hidden: false
     = f.input :open_now, as: :boolean, checked_value: true, unchecked_value: false, label: '只顯示目前營業中店家'
     = f.input :lat, as: :hidden, input_html: { value: @form.lat }
