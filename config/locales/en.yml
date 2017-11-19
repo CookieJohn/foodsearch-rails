@@ -18,7 +18,7 @@ en:
     location: Location
     related_comment: Related
   placeholder:
-    search_address: Please enter your address
+    search_address: Enter address, or move marker
   empty:
     address: no address
     phone: no phone

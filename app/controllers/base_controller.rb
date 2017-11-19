@@ -1,7 +1,6 @@
 class BaseController < ApplicationController
   before_action :set_meta#, only: [:index, :search]
-  before_action :get_lat_lng, only: [:refresh_locations]
-  skip_before_action :verify_authenticity_token, only: [:refresh_locations, :results]
+  before_action :get_lat_lng, only: [:selection]
 
   def index
   end
@@ -36,25 +35,6 @@ class BaseController < ApplicationController
       keyword: @type,
       open_now: @open_now)
     @restaurants = FormatService.new.web_format(fb_results)
-  end
-
-  def search
-  end
-
-  def refresh_locations
-    fb_results = GraphApiService.new.search_places(@lat, @lng, size: 999, mode: @mode, keyword: @type)
-    # if Rails.env.production?
-    #    keywords = fb_results.map {|f| f['name']}
-    #    google_results = GoogleMapService.new.search_places(@lat, @lng, nil, keywords)
-    #  else
-    #    google_results = nil
-    #  end
-    google_results = nil
-
-    @restaurants = FormatService.new.web_format(fb_results, google_results)
-    respond_to do |format|
-      format.js
-    end
   end
 
   def privacy

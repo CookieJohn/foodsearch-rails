@@ -8,10 +8,21 @@
   right: 5px;}
 
 #results_num {
-  visibility: hidden;}
+  visibility: visible;
+  position:fixed;
+  height: 30px;
+  top: 55px;
+  right: 0;
+  padding: 5px;
+  background-color: #ddd;
+  font-size: 16px;
+  justify-content: center;}
 
-#up-link { 
-  visibility: hidden;}
+#up-link {
+  visibility: visible;
+  position: fixed;
+  bottom: 65px;
+  right: 15px;}
 
 .select_button {
   display: flex;
@@ -46,10 +57,4 @@
     overflow-x: '';
     align-items: center;
     justify-content: center;}
-
-  #up-link {
-    visibility: visible;
-    position: fixed;
-    bottom: 65px;
-    right: 15px;}
 }
