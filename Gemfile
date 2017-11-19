@@ -21,6 +21,7 @@ gem 'typhoeus'
 gem 'geocoder'
 gem 'friendly_id'
 gem 'redis'
+gem 'browser', require: true
 
 # third-party
 gem 'line-bot-api'

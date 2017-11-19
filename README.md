@@ -1,10 +1,9 @@
-Food search with graph API in LineBot, MessengerBot and web search.
+Use graph API to search restaurant with LineBot, MessengerBot and Web.
 ===================================================================
 
 網站搜尋
 -------
-- [網站連結](https://johnwudevelop.tk/search)
-- 移動Google Map座標後即可得到搜尋結果
+- [網站連結](https://johnwudevelop.tk/location)
 
 Line Bot
 -------------

@@ -18,9 +18,10 @@ $ ->
         stylers: [ { visibility: 'off' } ]
       }
     ]
+    zoom = parseInt(fit_zoom,10)
     map = new (google.maps.Map)(
       document.getElementById('map'), 
-      zoom: 15,
+      zoom: zoom,
       styles: myStyle,
       streetViewControl: false, #小黃人
       fullscreenControl: false,
