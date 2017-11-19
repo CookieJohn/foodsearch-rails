@@ -12,7 +12,7 @@ RSpec.describe BaseController, type: :request do
 
     context "search" do
       it "success" do
-        get search_url
+        get location_url
         expect(response).to have_http_status(200)
       end
     end
@@ -24,7 +24,7 @@ RSpec.describe BaseController, type: :request do
 
       it "success" do
         VCR.use_cassette('facebook/search', record: :new_episodes) do
-          post refresh_locations_url, params: { lat: lat, lng: lng, search_type: search_type}, xhr: true
+          get results_url, params: { form: { lat: lat, lng: lng, search_type: search_type } }, xhr: true
           expect(response).to have_http_status(200)
         end
       end
