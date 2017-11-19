@@ -1,17 +1,12 @@
 class BaseController < ApplicationController
   before_action :set_meta#, only: [:index, :search]
+  before_action :set_zoom, only: [:location]
   before_action :get_lat_lng, only: [:selection]
 
   def index
   end
 
   def location
-    @zoom = if browser.mobile?
-              15
-            else
-              16
-            end
-
     @form = OpenStruct.new(
       lat: '',
       lng: '')
