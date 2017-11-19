@@ -6,6 +6,12 @@ class BaseController < ApplicationController
   end
 
   def location
+    @zoom = if browser.mobile?
+              15
+            else
+              16
+            end
+
     @form = OpenStruct.new(
       lat: '',
       lng: '')
