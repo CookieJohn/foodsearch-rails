@@ -19,10 +19,10 @@ $ ->
         return
       ), ->
         handleLocationError true, infoWindow, map.getCenter(), map, marker, uluru
-        today = new Date()
-        dd = today.getDate()
-        if rails_env != 'development' && !document.cookie.match(new RegExp("notice_date=#{dd}"))
-          setTimeout(location_open_notification, 800)
+        # today = new Date()
+        # dd = today.getDate()
+        # if rails_env != 'development' && !document.cookie.match(new RegExp("notice_date=#{dd}"))
+        #   setTimeout(location_open_notification, 800)
         return
     else
       handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
