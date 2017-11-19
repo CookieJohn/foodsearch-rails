@@ -7,5 +7,5 @@
     = f.input :lat, as: :hidden, input_html: { value: @form.lat }
     = f.input :lng, as: :hidden, input_html: { value: @form.lng }
   .select_button
-    = link_to "選擇位置", location_path, class: 'btn btn-default'
-    = f.button :submit, i18n_button('next_step')
+    = link_to "選擇位置", location_path, class: 'btn btn-custom'
+    = f.button :submit, i18n_button('next_step'), class: 'btn btn-custom'

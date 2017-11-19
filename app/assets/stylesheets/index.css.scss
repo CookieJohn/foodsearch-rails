@@ -43,6 +43,14 @@
   // border-top: 1px solid transparent;
   border-color: #e7e7e7;}
 
+.btn-custom {
+  background-color: black !important;
+  font-weight: bold !important;
+  color: white !important;
+  border-color: #2F2F2F !important;
+  margin: 0 3px !important;
+}
+
 @media all and (max-width: 768px) {
   #results_num {
     visibility: visible;
