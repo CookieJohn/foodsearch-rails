@@ -53,7 +53,8 @@ html, body {
   border: 1px solid;}
 
 #pac-input::-webkit-input-placeholder {
-  font-size: 18px;}
+  color: #F8574B;
+  font-size: 16px;}
 
 #pac-input:focus {
   border-color: #4d90fe;}
