@@ -40,6 +40,8 @@ zh-TW:
     score: Google
     match_score: 0.5
   button:
+    previous_step: 上一步
+    next_step: 下一步
     fanpage: 粉絲專頁
     location: 位置
     related_comment: 相關評論
@@ -57,7 +59,7 @@ zh-TW:
       search_texts: ['飯', '麵', '鍋', '咖啡', '茶']
   placeholder:
     search_field: 請輸入關鍵字
-    search_address: 請輸入地址
+    search_address: 請輸入地址，或移動標記
   empty:
     address: 無提供地址
     phone: 無提供電話

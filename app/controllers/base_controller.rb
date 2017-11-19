@@ -1,28 +1,40 @@
 class BaseController < ApplicationController
-  before_action :set_meta, only: [:index, :search]
-  before_action :get_lat_lng, only: [:refresh_locations]
-  skip_before_action :verify_authenticity_token, only: [:refresh_locations]
+  before_action :set_meta#, only: [:index, :search]
+  before_action :get_lat_lng, only: [:selection]
 
   def index
   end
 
-  def search
+  def location
+    @form = OpenStruct.new(
+      lat: '',
+      lng: '')
   end
 
-  def refresh_locations
-    fb_results = GraphApiService.new.search_places(@lat, @lng, size: 999, mode: @mode, keyword: @type)
-    # if Rails.env.production?
-    #    keywords = fb_results.map {|f| f['name']}
-    #    google_results = GoogleMapService.new.search_places(@lat, @lng, nil, keywords)
-    #  else
-    #    google_results = nil
-    #  end
-    google_results = nil
+  def selection
+    @form = OpenStruct.new(
+      search: 'restaurant',
+      display: '',
+      sort: 'score',
+      open_now: true,
+      lat: params.dig(:form, :lat),
+      lng: params.dig(:form, :lng))
+  end
 
-    @restaurants = FormatService.new.web_format(fb_results, google_results)
-    respond_to do |format|
-      format.js
-    end
+  def results
+    @mode = params.dig(:form, :sort)
+    @type = params.dig(:form, :search)
+    @lat = params.dig(:form, :lat)
+    @lng = params.dig(:form, :lng)
+    @open_now = params.dig(:form, :open_now)
+    fb_results = GraphApiService.new.search_places(
+      @lat,
+      @lng,
+      size: 999,
+      mode: @mode,
+      keyword: @type,
+      open_now: @open_now)
+    @restaurants = FormatService.new.web_format(fb_results)
   end
 
   def privacy

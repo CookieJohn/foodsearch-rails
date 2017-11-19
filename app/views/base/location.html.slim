@@ -1,0 +1,11 @@
+= render partial: "common/map_script"
+
+#map
+input#pac-input.form-control placeholder=i18n_placeholder(:search_address) type="text"
+
+= simple_form_for :form, url: selection_path, method: :get do |f|
+  = f.input :lat, as: :hidden, input_html: { id: 'current_lat' }
+  = f.input :lng, as: :hidden, input_html: { id: 'current_lng' }
+  .select_button
+    = f.button :submit, i18n_button('next_step')
+/ = link_to i18n_button('next_step'), selection_path, class: 'btn btn-default', id: 'next-step'

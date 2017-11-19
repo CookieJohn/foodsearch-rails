@@ -8,26 +8,38 @@
   right: 5px;}
 
 #results_num {
-  height: 20px;
-  text-align: center;
-  font-weight: bold;}
+  visibility: visible;
+  position:fixed;
+  height: 30px;
+  top: 55px;
+  right: 0;
+  padding: 5px;
+  background-color: #ddd;
+  font-size: 16px;
+  justify-content: center;}
 
-// 下拉式
-.select {
-  display: flex;
-  justify-content: center;
-  select {
-    margin: 0 2px;}
-}
-
-#up-link { 
-  visibility: hidden;
+#up-link {
+  visibility: visible;
   position: fixed;
   bottom: 65px;
-  right: 25px;}
+  right: 15px;}
+
+.select_button {
+  display: flex;
+  font-size: 18px;
+  justify-content: center;
+  align-items: center;
+  position:fixed;
+  bottom: 0px;
+  height: 50px; 
+  width: 100%;
+  background-color: #f8f8f8;
+  border-top: 1px solid transparent;
+  border-color: #e7e7e7;}
 
 @media all and (max-width: 768px) {
   #results_num {
+    visibility: visible;
     position:fixed;
     height: 30px;
     top: 55px;
@@ -35,8 +47,8 @@
     padding: 5px;
     background-color: #ddd;
     font-size: 16px;
-    justify-content: center;
-  }
+    justify-content: center;}
+
   #locations {
     display: -webkit-flex;
     display: flex;
@@ -45,22 +57,4 @@
     overflow-x: '';
     align-items: center;
     justify-content: center;}
-  .select {
-    display: flex;
-    font-size: 18px;
-    justify-content: center;
-    align-items: center;
-    position:fixed;
-    bottom: 0px;
-    height: 50px; 
-    width: 100%;
-    background-color: #f8f8f8;
-    border-top: 1px solid transparent;
-    border-color: #e7e7e7;
-  }
-  #up-link {
-    visibility: visible;
-    position: fixed;
-    bottom: 65px;
-    right: 25px;}
 }

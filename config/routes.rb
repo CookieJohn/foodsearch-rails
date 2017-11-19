@@ -1,8 +1,12 @@
 Rails.application.routes.draw do
   root 'base#index'
-  get 'search' => 'base#search'
-  post 'refresh_locations' => 'base#refresh_locations'
+  # get 'search' => 'base#search'
+  # post 'refresh_locations' => 'base#refresh_locations'
   get 'privacy' => 'base#privacy'
+
+  get 'location' => 'base#location'
+  get 'selection' => 'base#selection'
+  get 'results' => 'base#results'
 
   # line bot
   post 'callback' => 'line#callback'

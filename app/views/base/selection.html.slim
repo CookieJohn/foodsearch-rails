@@ -1,0 +1,11 @@
+= simple_form_for :form, url: results_path, method: :get, html: { class: '' } do |f|
+  .container style='padding-top: 20px;'
+    = f.input :search, collection: search_types, label: '搜尋類型', input_html: { value: '' }
+    / = f.input :display, collection: display_types, label: '顯示類型', input_html: { value: params.dig(:display) }
+    = f.input :sort, collection: sort_types, label: '排序類型', input_html: { value: '' }
+    = f.input :open_now, as: :boolean, checked_value: true, unchecked_value: false, label: '只顯示目前營業中店家'
+    = f.input :lat, as: :hidden, input_html: { value: @form.lat }
+    = f.input :lng, as: :hidden, input_html: { value: @form.lng }
+  .select_button
+    = link_to "選擇位置", location_path, class: 'btn btn-default'
+    = f.button :submit, i18n_button('next_step')
