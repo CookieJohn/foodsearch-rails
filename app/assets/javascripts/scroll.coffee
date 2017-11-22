@@ -7,10 +7,3 @@ $(document).on 'click', '#clearbutton', (event) ->
   event.preventDefault()
   document.getElementById('searchbox').value = ''
   return
-
-window.scroll_to_card = (style) ->
-  if style == 'wrap'
-    $('#restaurants').animate { scrollTop: $('#restaurant_1').position().top }, 'slow'
-  else
-    $('#restaurants').animate { scrollLeft: $('#restaurant_1').position().left }, 'slow'
-  return

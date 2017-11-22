@@ -14,4 +14,11 @@ change_display_style = (location, wrap, justify ,overflow, visibility) ->
   location.style.justifyContent = justify
   location.style.overflowX = overflow
   up.style.visibility = visibility
-  window.scroll_to_card(wrap)
+  scroll_to_card(wrap)
+
+scroll_to_card = (style) ->
+  if style == 'wrap'
+    $('#restaurants').animate { scrollTop: $('#restaurant_1').position().top }, 'slow'
+  else
+    $('#restaurants').animate { scrollLeft: $('#restaurant_1').position().left }, 'slow'
+  return
