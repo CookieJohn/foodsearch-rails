@@ -1,8 +1,9 @@
 # https://developers.google.com/maps/documentation/javascript/examples/places-searchbox?hl=zh-tw
-window.current_lat = 25.059651
-window.current_lng = 121.533380
-window.google = ''
-window.map = ''
+window.current_lat   = 25.059651
+window.current_lng   = 121.533380
+window.remove_height = 105
+window.google        = ''
+window.map           = ''
 
 $ ->
   window.initMap = ->
@@ -106,7 +107,7 @@ $ ->
     return
 
   resize_map = (google, map) ->
-    new_height = (window.innerHeight - 105)
+    new_height = (window.innerHeight - window.remove_height)
     $('#map').css({'width':'100%','height':"#{new_height}"})
     google.maps.event.trigger(map, 'resize')
     window.google = google
