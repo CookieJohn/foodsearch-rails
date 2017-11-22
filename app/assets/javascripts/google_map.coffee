@@ -78,9 +78,12 @@ $ ->
         window.current_lng = lng
         document.getElementById("current_lat").value = lat
         document.getElementById("current_lng").value = lng
-        map.setCenter new (google.maps.LatLng)(lat, lng)
-        window.move_circle(cityCircle, {lat: lat,lng: lng})
-        marker.setPosition(location)
+        
+        setTimeout ->
+          map.setCenter new (google.maps.LatLng)(lat, lng)
+          window.move_circle(cityCircle, {lat: lat,lng: lng})
+          marker.setPosition(location)
+        , 200
         # window.send_post(lat, lng)
       return
 

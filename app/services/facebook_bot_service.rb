@@ -20,9 +20,9 @@ class FacebookBotService < BaseService
         entry['messaging'].each do |receive_message|
           message = receive_message.dig('message','text')
           button_payload = receive_message.dig('postback','payload')
-          button_payload_title = receive_message.dig('postback','title')
+          # button_payload_title = receive_message.dig('postback','title')
           quick_reply_payload = receive_message.dig('message','quick_reply','payload')
-          quick_reply_payload_title = receive_message.dig('message','quick_reply','title')
+          # quick_reply_payload_title = receive_message.dig('message','quick_reply','title')
           senderID = receive_message.dig('sender','id')
 
           if senderID != BOT_ID
@@ -103,7 +103,7 @@ class FacebookBotService < BaseService
             template_type: 'generic',
             elements: columns
           }}}}
-    return generic_format
+    generic_format
   end
 
   def get_response id, type, text=nil
