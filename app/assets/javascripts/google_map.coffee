@@ -1,6 +1,8 @@
 # https://developers.google.com/maps/documentation/javascript/examples/places-searchbox?hl=zh-tw
 window.current_lat = 25.059651
 window.current_lng = 121.533380
+window.google = ''
+window.map = ''
 
 $ ->
   window.initMap = ->
@@ -33,6 +35,8 @@ $ ->
     marker = new (google.maps.Marker)(
       map: map
       draggable: true)
+
+    resize_map(google, map)
 
     cityCircle = window.set_circle(map, {lat: lat, lng: lng})
     window.detect_position(map, marker, uluru, cityCircle)
@@ -100,3 +104,14 @@ $ ->
     document.getElementById("current_lat").value = lat
     document.getElementById("current_lng").value = lng
     return
+
+  resize_map = (google, map) ->
+    new_height = (window.innerHeight - 105)
+    $('#map').css({'width':'100%','height':"#{new_height}"})
+    google.maps.event.trigger(map, 'resize')
+    window.google = google
+    window.map = map
+    return
+
+  window.onresize = (event) ->
+    resize_map(window.google, window.map)
