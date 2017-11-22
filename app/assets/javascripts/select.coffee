@@ -1,18 +1,17 @@
 $(document).on 'click', '#display-link', (event) ->
   event.preventDefault()
-  location = document.getElementById("restaurants")
-  up = document.getElementById("up-link")
+  location = document.getElementById('restaurants')
   style = location.style.flexWrap
   if style == 'nowrap'
-    location.style.flexWrap = 'wrap'
-    location.style.justifyContent = 'center'
-    location.style.overflowX = ''
-    up.style.visibility = "visible"
-    window.scroll_to_card(location.style.flexWrap)
+    change_display_style(location, 'wrap', 'center', '', 'visible')
   else
-    location.style.flexWrap = 'nowrap'
-    location.style.justifyContent = 'flex-start'
-    location.style.overflowX = 'auto'
-    up.style.visibility = "hidden"
-    window.scroll_to_card(location.style.flexWrap)
+    change_display_style(location, 'nowrap', 'flex-start', 'auto', 'hidden')
   return
+
+change_display_style = (location, wrap, justify ,overflow, visibility) ->
+  up = document.getElementById('up-link')
+  location.style.flexWrap = wrap
+  location.style.justifyContent = justify
+  location.style.overflowX = overflow
+  up.style.visibility = visibility
+  window.scroll_to_card(wrap)
