@@ -59,6 +59,11 @@ html, body {
 #pac-input:focus {
   border-color: #4d90fe;}
 
+#clear-search {
+  margin-top: 20px;
+  cursor: pointer;
+}
+
 #map {
   height: 90vh;
   width: 100%;

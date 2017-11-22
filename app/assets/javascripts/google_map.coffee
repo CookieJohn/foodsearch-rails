@@ -54,7 +54,9 @@ $ ->
       return
 
     input = document.getElementById('pac-input')
+    clear = document.getElementById('clear-search')
     map.controls[google.maps.ControlPosition.TOP_CENTER].push input
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push clear
     searchBox = new (google.maps.places.SearchBox)(input)
 
     searchBox.addListener 'places_changed', ->

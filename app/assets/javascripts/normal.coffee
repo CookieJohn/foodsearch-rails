@@ -3,7 +3,7 @@ $(document).on 'click', '#up-link', (event) ->
   $('html, body').animate { scrollTop: 0 }, 'slow'
   false
 
-$(document).on 'click', '#clearbutton', (event) ->
+$(document).on 'click', '#clear-search', (event) ->
   event.preventDefault()
-  document.getElementById('searchbox').value = ''
+  document.getElementById('pac-input').value = ''
   return
