@@ -8,9 +8,11 @@ $ ->
     lng = window.current_lng
     document.getElementById("current_lat").value = lat
     document.getElementById("current_lng").value = lng
-    uluru = 
+
+    uluru =
       lat: lat
       lng: lng
+
     myStyle = [
       {
         featureType: 'poi'
@@ -18,6 +20,7 @@ $ ->
         stylers: [ { visibility: 'off' } ]
       }
     ]
+
     zoom = parseInt(fit_zoom,10)
     map = new (google.maps.Map)(
       document.getElementById('map'),
@@ -94,9 +97,4 @@ $ ->
     window.current_lng = lng
     document.getElementById("current_lat").value = lat
     document.getElementById("current_lng").value = lng
-    return
-
-  move_marker_and_circle = (lat, lng) ->
-    map.setCenter new (google.maps.LatLng)(lat, lng)
-    window.move_circle(cityCircle, {lat: lat,lng: lng})
     return
