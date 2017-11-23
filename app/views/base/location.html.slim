@@ -3,7 +3,7 @@
 #map
 .btn-group
   input#pac-input.form-control placeholder=i18n_placeholder(:search_address) type="text"
-  i.fa.fa-times.fa-3x#clear-search
+  i.fa.fa-times.fa-2x#clear-search
 
 = simple_form_for :form, url: selection_path, method: :get do |f|
   = f.input :lat, as: :hidden, input_html: { id: 'current_lat' }

@@ -60,8 +60,9 @@ html, body {
   border-color: #4d90fe;}
 
 #clear-search {
-  margin-top: 20px;
+  margin-top: 25px;
   cursor: pointer;
+  margin-left: -25px;
 }
 
 #map {
