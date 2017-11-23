@@ -2,7 +2,7 @@
 window.current_lat   = 25.059651
 window.current_lng   = 121.533380
 window.remove_height = 105
-window.google        = ''
+# window.google        = ''
 window.map           = ''
 
 $ ->
@@ -12,7 +12,7 @@ $ ->
     document.getElementById("current_lat").value = lat
     document.getElementById("current_lng").value = lng
 
-    uluru =
+    center =
       lat: lat
       lng: lng
 
@@ -32,16 +32,17 @@ $ ->
       streetViewControl: false, #小黃人
       fullscreenControl: false,
       mapTypeControl: false,
+      center: center
     )
     marker = new (google.maps.Marker)(
-      map: map
+      map: map,
+      position: center,
       draggable: true)
 
     resize_map(google, map)
 
     cityCircle = window.set_circle(map, {lat: lat, lng: lng})
-    window.detect_position(map, marker, uluru, cityCircle)
-    geocoder = new (google.maps.Geocoder)
+    # geocoder = new (google.maps.Geocoder)
     loading = document.getElementById('loading')
     google.maps.event.addListener marker, 'dragend', (event) ->
       lat = event.latLng.lat()
@@ -106,11 +107,11 @@ $ ->
     document.getElementById("current_lng").value = lng
     return
 
-  resize_map = (google, map) ->
+  resize_map = (google = window.google, map) ->
     new_height = (window.innerHeight - window.remove_height)
     $('#map').css({'width':'100%','height':"#{new_height}"})
     google.maps.event.trigger(map, 'resize')
-    window.google = google
+    # window.google = google
     window.map = map
     return
 
