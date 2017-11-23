@@ -9,6 +9,5 @@ $(document).on 'click', '#clear-search', (event) ->
   return
 
 $(document).on 'click', '#select-complete', (event) ->
-  # event.preventDefault()
   $('#loading').show()
   return
