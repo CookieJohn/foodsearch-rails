@@ -7,3 +7,8 @@ $(document).on 'click', '#clear-search', (event) ->
   event.preventDefault()
   document.getElementById('pac-input').value = ''
   return
+
+$(document).on 'click', '#select-complete', (event) ->
+  # event.preventDefault()
+  $('#loading').show()
+  return
