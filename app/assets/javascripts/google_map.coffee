@@ -3,7 +3,7 @@ window.current_lat   = 25.059651
 window.current_lng   = 121.533380
 window.remove_height = 105
 # window.google        = ''
-window.map           = ''
+# window.map           = ''
 
 $ ->
   window.initMap = ->
@@ -112,7 +112,7 @@ $ ->
     $('#map').css({'width':'100%','height':"#{new_height}"})
     google.maps.event.trigger(map, 'resize')
     # window.google = google
-    window.map = map
+    # window.map = map
     return
 
   window.onresize = (event) ->
