@@ -1,13 +1,4 @@
-/ - location = OpenStruct.new(image_url: "https://graph.facebook.com/274434666256007/picture??width=450&height=450", link_url: "",
-/   title: "兔子兔子茶飲專賣店- 蘆洲長安店",
-/   text: "FB：4.7分/24人\n餐廳, 茶店\n10:00~22:00",
-/   facebook_score: '5.0',
-/   google_score: '4.5',
-/   fanpage: "https://www.facebook.com/",
-/   location: "https://www.google.com/",
-/   related_comment: "https://www.google.com/search")
-- index = restaurant.index
-.card id="restaurant_#{index}"
+.card id="restaurant_#{restaurant.index}"
   = link_to restaurant.link_url, target: '_blank'
     .card-img-top style="background-image: url(#{restaurant.image_url});"
   .title 
@@ -18,7 +9,7 @@
         - restaurant.category_list_web.to_a.each do |t|
           .tag = truncate_utf8(t, 10)
       .tag-float-right
-        .index_tag = "##{index}"
+        .index_tag = "##{restaurant.index}"
     .description
       p = "#{restaurant.business_hours} #{"(關)" if restaurant.open_now == false}"
       p = restaurant.phone
