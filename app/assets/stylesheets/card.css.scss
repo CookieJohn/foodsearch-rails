@@ -3,13 +3,18 @@
   justify-content: center;
 }
 
-.tag {
+@mixin flex-center {
+  display: flex;
+  justify-content: space-around;
+}
+
+@mixin tag {
   display: inline-block;
   background: #555;
   color: white;
   padding: 0.2em 0.5em;
   border-radius: 5px;
-  margin: 0.3em 0.3em 0.3em 0px;
+  margin: 0.2em 0.3em 0.2em 0;
 }
 
 #restaurants {
@@ -17,7 +22,7 @@
   display: flex;
   flex-wrap: wrap;
   overflow-x: '';
-  @include set-center
+  @include set-center;
 }
 
 @media all and (max-width: 768px) {
@@ -31,76 +36,59 @@
   margin: 8px;
   width: 320px;
   .card-img-top {
-    background-repeat: no-repeat; 
-    background-size: cover;  
-    background-position: 50% 50%;  
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
     width: 320px;
     height: 180px;
-    border: solid 1px #bdc3c7;}
-  .title h4 { font-weight: bold;}
-  .content {
+    border: solid 1px #bdc3c7;
+  }
+  .card-title {
+    font-weight: bold;
+  }
+  .card-body {
     margin: 5px 15px;
     .text {
       display: flex;
-      flex-wrap: wrap; 
       .tag-float-left {
-        width: 85%; 
+        width: 85%;
         text-align: left;
+        .category-tag {
+          @include tag;
+        }
       }
-      .tag-float-right { 
+      .tag-float-right {
         text-align: right;
         width: 15%;
-        .index_tag {
-          display: inline-block;
+        .index-tag {
+          @include tag;
+          background-color: #1346D5;
           border-radius: 50%;
-          background-color: #133EC7;
-          color: white;
-          padding: 0.2em 0.5em;
-          font-weight: bold;}
         }
+      }
     }
-    .description p {
-      text-align: left;
-      margin: 5px 0px;}
-    .location {
-      margin: 5px 0px;
-      display: flex;
-      flex-wrap: wrap; 
-      .distance {
-        width: 30%; 
+    .card-description {
+      p {
         text-align: left;
-        .inon-text p {
-          display: inline-block; 
-          margin-left: 4px;
-          height: 100%; 
-          font-size: 14px;}}
-      .score {
-        width: 70%;
-        text-align: right;
-        .inon-text p {
-          display: inline-block;
-          margin-left: 4px; 
-          font-size: 14px;}}}
+        margin: 5px 0px;
+      }
     }
-  .data {
-    color: #81878b; }
-    .data li {
-      width: 33%;
-      text-align: center;
-      display: inline-block;
-      border-top: solid 1px #bdc3c7;
-      border-right: solid 1px #bdc3c7; }
-      .data {
-        li:last-child {
-        border-right: none;
-        font-size: 16px;}}
-      a {
-        font-size: 16px;}
+  }
+  .card-location {
+    margin: 8px 0px;
+    @include flex-center;
+  }
+  .card-button {
+    color: #81878b;
+    border-top: solid 1px #bdc3c7;
+    border-right: solid 1px #bdc3c7;
+    @include flex-center;
+  }
 }
 
 // icons
-.custom_icon_size { 
-  font-size: 15px; 
+.custom_icon_size {
+  font-size: 15px;
 }
 .icon-text {
   display: inline-block;

@@ -1,33 +1,30 @@
-.card id="restaurant_#{restaurant.index}"
-  = link_to restaurant.link_url, target: '_blank'
-    .card-img-top style="background-image: url(#{restaurant.image_url});"
-  .title 
-    h4 = truncate_utf8(restaurant.name, 15)
-  .content
+.card id="restaurant_#{r.index}"
+  = link_to r.link_url, target: '_blank'
+    .card-img-top style="background-image: url(#{r.image_url});"
+  h4.card-title
+    = truncate_utf8(r.name, 15)
+  .card-body
     .text
       .tag-float-left
-        - restaurant.category_list_web.to_a.each do |t|
-          .tag = truncate_utf8(t, 10)
+        - r.category_list_web.to_a.each do |t|
+          .category-tag = truncate_utf8(t, 10)
       .tag-float-right
-        .index_tag = "##{restaurant.index}"
-    .description
-      p = "#{restaurant.business_hours} #{"(關)" if restaurant.open_now == false}"
-      p = restaurant.phone
-      p = truncate_utf8(restaurant.street, 16)
-    .location
+        .index-tag = "##{r.index}"
+    .card-description
+      p = "#{r.business_hours} #{"(關)" if r.open_now == false}"
+      p = r.phone
+      p = truncate_utf8(r.street, 16)
+    .card-location
       .distance
         i.fa.fa-car.custom_icon_size
-        p.icon-text = " #{restaurant.distance}"
+        icon-text = " #{r.distance}"
       .score
         i.fa.fa-facebook-square.facebook-color.custom_icon_size
-        p.icon-text = "  #{restaurant.rating}分/#{restaurant.rating_count}人"
+        icon-text = "  #{r.rating}分/#{r.rating_count}人"
         / = " "
         / i.fa.fa-google.google-color.custom_icon_size
-        / p.icon-text = restaurant[:google_score]
-  .data
-    li
-      h4 = link_to i18n_button(:fanpage), restaurant.link_url, target: '_blank'
-    li
-      h4 = link_to i18n_button(:location), restaurant.location, target: '_blank'
-    li
-      h4 = link_to i18n_button(:related_comment), restaurant.related_comment, target: '_blank'
+        / p.icon-text = r.google_score
+  .card-button
+    h4 = link_to i18n_button(:fanpage), r.link_url, target: '_blank'
+    h4 = link_to i18n_button(:location), r.location, target: '_blank'
+    h4 = link_to i18n_button(:related_comment), r.related_comment, target: '_blank'

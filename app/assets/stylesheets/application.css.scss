@@ -14,7 +14,7 @@
  *= require_tree .
  *= require_self
  */
- 
+
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
@@ -28,15 +28,9 @@ html, html * {
 body {
   padding-top: 55px;
 }
-h1 {
-  font-size: 30px;
-}
-h4 {
-  font-size: 20px;
-}
 p {
   font-size: 16px;
 }
 select {
-  text-align-last:center;
+  text-align-last: center;
 }

@@ -2,7 +2,7 @@
 
 #restaurants
   - @restaurants.each do |r|
-    = render partial: "location", locals: {restaurant: r}
+    = render partial: "location", locals: {r: r}
 
 a#display-link href=""
   i.fa.fa-exchange.fa-2x
