@@ -1,4 +1,4 @@
- source 'https://rubygems.org'
+source 'https://rubygems.org'
 
 # fornt
 gem 'rails', '~> 5.1'
@@ -47,10 +47,10 @@ group :development, :test do
 end
 
 group :development do
-	gem 'capistrano'
-	gem 'capistrano-rvm'
-	gem 'capistrano-rails'
-	gem 'capistrano-passenger'
+  gem 'capistrano'
+  gem 'capistrano-rvm'
+  gem 'capistrano-rails'
+  gem 'capistrano-passenger'
 
   gem 'web-console', '~> 2.0'
   gem 'spring'
@@ -59,5 +59,6 @@ group :development do
   gem 'better_errors'
   gem 'pry'
   gem 'puma'
-end
 
+  gem 'rubocop', require: false
+end
