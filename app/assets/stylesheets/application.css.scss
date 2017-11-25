@@ -19,15 +19,24 @@
 @import "bootstrap";
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400);
+
 html, html * {
   font-family: Roboto;
   font-weight: 400;
   text-align: center;
 }
-
-body {padding-top: 55px;}
-h1 {font-size: 30px;}
-h4 {font-size: 20px;}
-p {font-size: 16px;}
-
-select { text-align-last:center; }
+body {
+  padding-top: 55px;
+}
+h1 {
+  font-size: 30px;
+}
+h4 {
+  font-size: 20px;
+}
+p {
+  font-size: 16px;
+}
+select {
+  text-align-last:center;
+}

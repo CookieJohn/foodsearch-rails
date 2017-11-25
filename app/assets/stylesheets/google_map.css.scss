@@ -1,0 +1,30 @@
+#map {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;}
+
+#pac-input {
+  background-color: #fff;
+  font-size: 15px;
+  font-weight: 400;
+  margin-top: 20px;
+  padding: 10px 10px 8px 10px;
+  text-overflow: ellipsis;
+  width: 300px;
+  margin-left: -35px;
+  border: 1px solid;
+}
+
+#pac-input::-webkit-input-placeholder {
+  color: #F8574B;
+  font-size: 16px;
+}
+
+#pac-input:focus {
+  border-color: #4d90fe;
+}
+
+#clear-search {
+  margin-top: 25px;
+  cursor: pointer;
+  margin-left: -25px;}

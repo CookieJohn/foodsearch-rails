@@ -3,9 +3,8 @@ html
   head
     = favicon_link_tag 'restaurant.ico'
     = display_meta_tags
-    = stylesheet_link_tag    'application'
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_include_tag 'application'
-    / = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
     / = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = csrf_meta_tags
   body
