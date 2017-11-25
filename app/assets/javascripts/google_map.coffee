@@ -1,11 +1,25 @@
 # https://developers.google.com/maps/documentation/javascript/examples/places-searchbox?hl=zh-tw
-window.current_lat   = 25.059651
-window.current_lng   = 121.533380
-window.remove_height = 105
-# window.google        = ''
-# window.map           = ''
+myStyle = [
+  {
+    featureType: 'poi'
+    elementType: 'labels'
+    stylers: [ { visibility: 'off' } ]
+  }
+]
+mapStyle = {
+  zoom: '',
+  styles: myStyle,
+  streetViewControl: false, #小黃人
+  fullscreenControl: false,
+  mapTypeControl: false,
+  center: ''
+}
 
 $ ->
+  window.current_lat   = 25.059651
+  window.current_lng   = 121.533380
+  window.remove_height = 105
+
   window.initMap = ->
     lat = window.current_lat
     lng = window.current_lng
@@ -16,24 +30,9 @@ $ ->
       lat: lat
       lng: lng
 
-    myStyle = [
-      {
-        featureType: 'poi'
-        elementType: 'labels'
-        stylers: [ { visibility: 'off' } ]
-      }
-    ]
-
-    zoom = parseInt(fit_zoom,10)
-    map = new (google.maps.Map)(
-      document.getElementById('map'),
-      zoom: zoom,
-      styles: myStyle,
-      streetViewControl: false, #小黃人
-      fullscreenControl: false,
-      mapTypeControl: false,
-      center: center
-    )
+    mapStyle.zoom = parseInt(fit_zoom,10)
+    mapStyle.center = center
+    map = new (google.maps.Map)(document.getElementById('map'), mapStyle)
     marker = new (google.maps.Marker)(
       map: map,
       position: center,
@@ -42,8 +41,6 @@ $ ->
     resize_map(google, map)
 
     cityCircle = window.set_circle(map, {lat: lat, lng: lng})
-    # geocoder = new (google.maps.Geocoder)
-    loading = document.getElementById('loading')
     google.maps.event.addListener marker, 'dragend', (event) ->
       lat = event.latLng.lat()
       lng = event.latLng.lng()
@@ -51,6 +48,7 @@ $ ->
       update_position(lat, lng)
       map.setCenter new (google.maps.LatLng)(lat, lng)
       window.move_circle(cityCircle, {lat: lat,lng: lng})
+      # geocoder = new (google.maps.Geocoder)
       # window.send_post(lat, lng)
       # geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
         # if status == google.maps.GeocoderStatus.OK
