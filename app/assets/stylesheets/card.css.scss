@@ -1,4 +1,7 @@
-.custom_icon_size { font-size: 15px; }
+@mixin set-center {
+  align-items: center;
+  justify-content: center;
+}
 
 .tag {
   display: inline-block;
@@ -14,8 +17,8 @@
   display: flex;
   flex-wrap: wrap;
   overflow-x: '';
-  align-items: center;
-  justify-content: center;}
+  @include set-center
+}
 
 @media all and (max-width: 768px) {
   #restaurants {
@@ -96,6 +99,9 @@
 }
 
 // icons
+.custom_icon_size { 
+  font-size: 15px; 
+}
 .icon-text {
   display: inline-block;
   margin-left: 4px;
