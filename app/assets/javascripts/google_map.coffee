@@ -30,7 +30,7 @@ $ ->
       lat: lat
       lng: lng
 
-    mapStyle.zoom = parseInt(fit_zoom,10)
+    mapStyle.zoom = parseInt(document.getElementById("zoom").value, 10)
     mapStyle.center = center
     map = new (google.maps.Map)(document.getElementById('map'), mapStyle)
     marker = new (google.maps.Marker)(

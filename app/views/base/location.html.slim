@@ -6,7 +6,8 @@
   i.fa.fa-times.fa-2x#clear-search
 
 = simple_form_for :form, url: selection_path, method: :get do |f|
-  = f.input :lat, as: :hidden, input_html: { id: 'current_lat' }
-  = f.input :lng, as: :hidden, input_html: { id: 'current_lng' }
+  = f.input :lat,  as: :hidden, input_html: { id: 'current_lat' }
+  = f.input :lng,  as: :hidden, input_html: { id: 'current_lng' }
+  = f.input :zoom, as: :hidden, input_html: { value: @zoom, id: 'zoom' }
   .select_button
     = f.button :submit, i18n_button('next_step'), class: 'btn btn-custom'
