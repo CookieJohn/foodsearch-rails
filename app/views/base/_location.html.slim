@@ -26,13 +26,13 @@
     .location
       .distance
         i.fa.fa-car.custom_icon_size
-        p.inon-text = " #{restaurant.distance}"
+        p.icon-text = " #{restaurant.distance}"
       .score
         i.fa.fa-facebook-square.facebook-color.custom_icon_size
-        p.inon-text = "  #{restaurant.rating}分/#{restaurant.rating_count}人"
+        p.icon-text = "  #{restaurant.rating}分/#{restaurant.rating_count}人"
         / = " "
         / i.fa.fa-google.google-color.custom_icon_size
-        / p.inon-text = restaurant[:google_score]
+        / p.icon-text = restaurant[:google_score]
   .data
     li
       h4 = link_to i18n_button(:fanpage), restaurant.link_url, target: '_blank'
