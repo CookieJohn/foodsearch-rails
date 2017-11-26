@@ -22,6 +22,7 @@ en:
     pot: Pot
   button:
     choose_position: Choose Position
+    previous_step: Previous Step
     next_step: Next Step
     fanpage: FanPage
     location: Location

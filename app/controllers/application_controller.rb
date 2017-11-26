@@ -5,15 +5,11 @@ class ApplicationController < ActionController::Base
 
   include MetaHelper
 
-  before_action :set_locale
+  before_action :default_set_locale
 
   private
 
-  def set_locale
-    if params[:locale] && I18n.available_locales.include?( params[:locale].to_sym )
-      session[:locale] = params[:locale]
-    end
-
+  def default_set_locale
     I18n.locale = session[:locale] || I18n.default_locale
   end
 

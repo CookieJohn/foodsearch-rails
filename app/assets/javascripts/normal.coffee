@@ -11,3 +11,24 @@ $(document).on 'click', '#clear-search', (event) ->
 $(document).on 'click', '#select-complete', (event) ->
   $('#loading').show()
   return
+
+$(document).on 'click', '#zh-tw-locale', (event) ->
+  event.preventDefault()
+  set_locale('zh-TW')
+  return
+
+$(document).on 'click', '#ja-locale', (event) ->
+  event.preventDefault()
+  set_locale('ja')
+  return
+
+$(document).on 'click', '#ko-locale', (event) ->
+  event.preventDefault()
+  set_locale('ko')
+  return
+
+$(document).on 'click', '#en-locale', (event) ->
+  event.preventDefault()
+  set_locale('en')
+  return
+

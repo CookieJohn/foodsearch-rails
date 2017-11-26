@@ -8,6 +8,8 @@ Rails.application.routes.draw do
   get 'selection' => 'base#selection'
   get 'results' => 'base#results'
 
+  post 'set_locale' => 'base#set_locale'
+
   # line bot
   post 'callback' => 'line#callback'
   # facebook bot

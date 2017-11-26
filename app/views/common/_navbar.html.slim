@@ -7,13 +7,13 @@ nav.navbar.navbar-inverse.navbar-fixed-top.nav-custom
     div.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
         li class="#{'active' if I18n.locale == :"zh-TW"}"
-          = link_to '繁體', params.merge(locale: :"zh-TW")
+          = link_to '繁體', '', id: 'zh-tw-locale'
         li class="#{'active' if I18n.locale == :ja}"
-          = link_to '日本語', params.merge(locale: :ja)
+          = link_to '日本語', '', id: 'ja-locale'
         li class="#{'active' if I18n.locale == :ko}"
-          = link_to '한국어', params.merge(locale: :ko)
+          = link_to '한국어', '', id: 'ko-locale'
         li class="#{'active' if I18n.locale == :en}"
-          = link_to 'English', params.merge(locale: :en)
+          = link_to 'English', '', id: 'en-locale'
       / - if current_page?(root_path)
       /   a.navbar-brand href=search_path
       /     i.fa.fa-search
@@ -22,3 +22,6 @@ nav.navbar.navbar-inverse.navbar-fixed-top.nav-custom
       /     i.fa.fa-search.fa-2x.search_icon_size
       /   a.navbar-brand.map-icon#map-link href=""
       /     i.fa.fa-map-marker.fa-2x
+
+javascript:
+  rails_env = "#{Rails.env}"

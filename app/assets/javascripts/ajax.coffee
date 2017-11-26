@@ -1,5 +1,7 @@
 local_post_url = 'http://localhost:3000/refresh_locations'
 production_post_url = 'https://johnwudevelop.tk/refresh_locations'
+local_set_locale_url = 'http://localhost:3000/set_locale'
+production_set_locale_url = 'https://johnwudevelop.tk/set_locale'
 
 $ ->
   window.send_post = (lat, lng) ->
@@ -24,3 +26,16 @@ $ ->
         return
     return
 
+  window.set_locale = (locale) ->
+    url = if rails_env == 'development' then local_set_locale_url else production_set_locale_url
+    $.ajax
+      url: url
+      type: 'POST'
+      data:
+        locale: locale
+      complete: (e) ->
+        if e.status == 200
+          window.location.reload(true)
+        else
+        return
+    return
