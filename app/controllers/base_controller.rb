@@ -1,7 +1,6 @@
 class BaseController < ApplicationController
-  before_action :set_meta#, only: [:index, :search]
+  before_action :set_meta
   before_action :set_zoom, only: [:location]
-  before_action :get_lat_lng, only: [:selection]
 
   def index
   end
@@ -23,31 +22,17 @@ class BaseController < ApplicationController
   end
 
   def results
-    @mode = params.dig(:form, :sort)
-    @type = params.dig(:form, :search)
-    @lat = params.dig(:form, :lat)
-    @lng = params.dig(:form, :lng)
-    @open_now = params.dig(:form, :open_now)
     fb_results = GraphApiService.new.search_places(
-      @lat,
-      @lng,
-      size: 999,
-      mode: @mode,
-      keyword: @type,
-      open_now: @open_now)
+      params.dig(:form, :lat),
+      params.dig(:form, :lng),
+      size: 1000,
+      mode: params.dig(:form, :sort),
+      keyword: params.dig(:form, :search),
+      open_now: params.dig(:form, :open_now))
+
     @restaurants = FormatService.new.web_format(fb_results)
   end
 
   def privacy
-  end
-
-  private
-
-  def get_lat_lng
-    @lat = params['lat']
-    @lng = params['lng']
-    @mode = cookies['mode'].present? ? cookies['mode'] : 'score'
-    @type = cookies['type'].present? ? cookies['type'] : 'restaurant'
-    @type = params.dig('search_type').present? ? params.dig('search_type') : @type
   end
 end
