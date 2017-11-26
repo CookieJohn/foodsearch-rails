@@ -1,7 +1,7 @@
 #map
 
 .btn-group
-  input#pac-input.form-control placeholder=i18n_placeholder(:search_address) type="text"
+  = text_field_tag 'pac-input', nil, placeholder: i18n_placeholder(:search_address), class: 'form-control'
   i.fa.fa-times.fa-2x#clear-search
 
 = simple_form_for :form, url: selection_path, method: :get do |f|

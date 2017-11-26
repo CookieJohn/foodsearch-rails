@@ -1,7 +1,8 @@
 #map {
   width: 100%;
   margin-left: auto;
-  margin-right: auto;}
+  margin-right: auto;
+}
 
 #pac-input {
   background-color: #fff;
@@ -12,6 +13,7 @@
   text-overflow: ellipsis;
   width: 300px;
   border: 1px solid;
+  display: none;
 }
 
 #pac-input::-webkit-input-placeholder {
@@ -26,4 +28,6 @@
 #clear-search {
   margin-top: 25px;
   cursor: pointer;
-  margin-left: -25px;}
+  margin-left: -25px;
+  display: none;
+}

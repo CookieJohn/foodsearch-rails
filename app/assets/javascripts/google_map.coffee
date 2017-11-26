@@ -61,6 +61,8 @@ $ ->
     clear = document.getElementById('clear-search')
     map.controls[google.maps.ControlPosition.TOP_CENTER].push input
     map.controls[google.maps.ControlPosition.TOP_CENTER].push clear
+    input.style.display = "inline"
+    clear.style.display = "inline"
     searchBox = new (google.maps.places.SearchBox)(input)
 
     searchBox.addListener 'places_changed', ->
