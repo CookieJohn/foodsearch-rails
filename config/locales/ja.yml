@@ -14,6 +14,12 @@ ja:
     total: 総数
     open: ビジネスで開く
     meter: m
+  search_type:
+    restaurant: 餐廳
+    coffee: 咖啡
+    rice: ライス
+    noodle: 麵
+    pot: ポット
   button:
     choose_position: 場所を選択
     next_step: 次のステップ

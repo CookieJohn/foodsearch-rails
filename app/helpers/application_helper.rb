@@ -16,11 +16,13 @@ module ApplicationHelper
   end
 
   def search_types
-    [[i18n_label('coffee'), 'coffee'], [i18n_label('restaurant'), 'restaurant']]
-  end
-
-  def display_types
-    [[i18n_label('wrap'), 'wrap'], [i18n_label('nowrap'), 'nowrap']]
+    [
+      [i18n_search('restaurant'), 'restaurant'],
+      [i18n_search('coffee'), 'coffee'],
+      [i18n_search('rice'), i18n_search('rice')],
+      [i18n_search('noodle'), i18n_search('noodle')],
+      # [i18n_search('pot'), i18n_search('pot')],
+    ]
   end
 
   def sort_types

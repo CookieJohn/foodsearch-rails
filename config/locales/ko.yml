@@ -12,8 +12,14 @@ ko:
     wrap: 세로
     nowrap: 가로
     total: 합계
-    open: 영업으로 열기
+    open: 영업 중
     meter: m
+  search_type:
+    restaurant: 레스토랑
+    coffee: 커피
+    rice: 쌀
+    noodle: 얼굴
+    pot: 냄비
   button:
     choose_position: 위치 선택
     next_step: 다음 단계

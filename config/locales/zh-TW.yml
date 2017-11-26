@@ -14,6 +14,12 @@ zh-TW:
     total: 共
     open: 營業中
     meter: 公尺
+  search_type:
+    restaurant: 餐廳
+    coffee: 咖啡
+    rice: 飯
+    noodle: 麵
+    pot: 鍋
   common:
     score: 分
     people: 人

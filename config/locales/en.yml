@@ -14,6 +14,12 @@ en:
     total: total
     open: only in operation
     meter: m
+  search_type:
+    restaurant: Restaurant
+    coffee: Coffee
+    rice: Rice
+    noodle: Noodles
+    pot: Pot
   button:
     choose_position: Choose Position
     next_step: Next Step
