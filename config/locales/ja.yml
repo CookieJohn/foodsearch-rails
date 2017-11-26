@@ -12,7 +12,10 @@ ja:
     wrap: 垂直
     nowrap: 水平
     total: 総数
+    open: ビジネスで開く
+    meter: m
   button:
+    choose_position: 場所を選択
     next_step: 次のステップ
     fanpage: ファンページ
     location: ロケーション

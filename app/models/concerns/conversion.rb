@@ -19,7 +19,7 @@ module Conversion
       business_hours: get_current_open_time(result['hours']),
       open_now: result['open_now'],
       image_url: get_photo(result['id']),
-      distance: "#{result['distance'] || ''}公尺",
+      distance: "#{result['distance'] || ''}",
       actions: ''
     )
   end
@@ -29,9 +29,9 @@ module Conversion
     when 'web'
       "#{r.business_hours}\n#{r.phone}\n#{r.street}"
     when 'line'
-      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}"[0, 60]
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}\n#{r.distance}#{i18n_label('meter')}"[0, 60]
     when 'facebook'
-      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}\n#{r.distance}"[0, 80]
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}\n#{r.distance}#{i18n_label('meter')}"[0, 80]
     end
   end
 

@@ -12,7 +12,10 @@ en:
     wrap: Vertical
     nowrap: Horizontal
     total: total
+    open: only in operation
+    meter: m
   button:
+    choose_position: Choose Position
     next_step: Next Step
     fanpage: FanPage
     location: Location

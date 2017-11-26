@@ -12,7 +12,10 @@ ko:
     wrap: 세로
     nowrap: 가로
     total: 합계
+    open: 영업으로 열기
+    meter: m
   button:
+    choose_position: 위치 선택
     next_step: 다음 단계
     fanpage: 페이지
     location: 위치

@@ -12,6 +12,8 @@ zh-TW:
     wrap: 直式
     nowrap: 橫式
     total: 共
+    open: 營業中
+    meter: 公尺
   common:
     score: 分
     people: 人
@@ -40,6 +42,7 @@ zh-TW:
     score: Google
     match_score: 0.5
   button:
+    choose_position: 選擇位置
     previous_step: 上一步
     next_step: 下一步
     fanpage: 粉絲專頁
