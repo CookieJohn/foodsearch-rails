@@ -2,8 +2,7 @@ nav.navbar.navbar-inverse.navbar-fixed-top.nav-custom
   .container
     .navbar-header
       = link_to " FoodSearch", location_url, data: { turbolinks: false }, class: "navbar-brand web-title", style: "margin: 3px 0 0 3px;"
-      button#hamburger.navbar-toggle data-target=".navbar-collapse" data-toggle="collapse" type="button" style="color: white;"
-        = t('locale')
+      = button_tag t('locale'), id: 'locale-button', class: "navbar-toggle btn-custom", data: { target: ".navbar-collapse", toggle: "collapse"}
     div.collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
         li class="#{'active' if I18n.locale == :"zh-TW"}"

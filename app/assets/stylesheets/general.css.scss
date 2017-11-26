@@ -1,16 +1,19 @@
+#locale-button {
+  margin: 8px 5px 5px 5px !important;
+}
 .nav-custom {
   background-color: #383838 !important;
-  padding-bottom: 50p;}
-
+}
 .web-title {
   color: white !important;
-  font-weight: bold;}
+  font-weight: bold;
+}
 .map-icon {
   color: #DD3639 !important; 
   position:relative;
   top: -8px;
-  right: 5px;}
-
+  right: 5px;
+}
 #results_num {
   visibility: visible;
   position:fixed;
@@ -24,19 +27,18 @@
   border: 1px solid;
   justify-content: center;
 }
-
 #display-link {
   visibility: visible;
   position: fixed;
   bottom: 65px;
-  right: 15px;}
-
+  right: 15px;
+}
 #up-link {
   visibility: visible;
   position: fixed;
   bottom: 95px;
-  right: 15px;}
-
+  right: 15px;
+}
 .select_button {
   display: flex;
   font-size: 18px;
@@ -47,8 +49,8 @@
   height: 50px; 
   width: 100%;
   background-color: #383838;
-  border-color: #e7e7e7;}
-
+  border-color: #e7e7e7;
+}
 .btn-custom {
   background-color: black !important;
   font-weight: bold !important;
@@ -56,5 +58,4 @@
   border-color: #2F2F2F !important;
   margin: 0 3px !important;
 }
-
 @media all and (max-width: 768px) {}
