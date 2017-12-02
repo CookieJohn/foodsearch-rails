@@ -13,7 +13,7 @@ class FormatService < BaseService
       result.text = set_text(result)
 
       result.location = @google.get_map_link(result.lat, result.lng, result.name, result.street)
-      result.related_commen = @google.get_google_search(result.name)
+      result.related_comment = @google.get_google_search(result.name)
 
       columns << result
       # g_match = {'score' => 0.0, 'match_score' => 0.0}
