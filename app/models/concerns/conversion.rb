@@ -36,17 +36,15 @@ module Conversion
     when 'web'
       "#{r.business_hours}\n#{r.phone}\n#{r.street}"
     when 'line'
-      %Q(
-       #{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/
-       #{r.rating_count}#{I18n.t('common.people') || ''}\n
-       #{r.category_list}\n#{r.business_hours}\n
+      %Q(#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}-
+       #{r.rating_count}#{I18n.t('common.people')}
+       #{r.category_list}\n#{r.business_hours}
        #{r.distance}#{I18n.t('label.meter')}
       )[0, 60]
     when 'facebook'
-      %Q(
-       #{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/
-       #{r.rating_count}#{I18n.t('common.people') || ''}\n
-       #{r.category_list}\n#{r.business_hours}\n
+      %Q(#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}-
+       #{r.rating_count}#{I18n.t('common.people')}
+       #{r.category_list}\n#{r.business_hours}
        #{r.distance}#{I18n.t('label.meter')}
       )[0, 80]
     end
