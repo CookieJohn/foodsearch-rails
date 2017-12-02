@@ -34,18 +34,19 @@ module Conversion
   def set_text(r, type = 'web')
     case type
     when 'web'
-      "#{r.business_hours}\n#{r.phone}\n#{r.street}"
+      %Q(#{r.business_hours}
+       #{r.phone}
+       #{r.street}
+      )
     when 'line'
-      %Q(#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}-
-       #{r.rating_count}#{I18n.t('common.people')}
-       #{r.category_list}\n#{r.business_hours}
-       #{r.distance}#{I18n.t('label.meter')}
+      %Q(#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}
+      #{r.category_list}\n#{r.business_hours}
+      #{r.distance}#{I18n.t('label.meter')}
       )[0, 60]
     when 'facebook'
-      %Q(#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}-
-       #{r.rating_count}#{I18n.t('common.people')}
-       #{r.category_list}\n#{r.business_hours}
-       #{r.distance}#{I18n.t('label.meter')}
+      %Q(#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people')}
+      #{r.category_list}\n#{r.business_hours}
+      #{r.distance}#{I18n.t('label.meter')}
       )[0, 80]
     end
   end
