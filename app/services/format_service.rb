@@ -5,7 +5,7 @@ class FormatService < BaseService
     @google ||= GoogleMapService.new
   end
 
-  def web_format results=nil, google_results=nil
+  def web_format(results=nil, google_results=nil)
     columns = []
 
     results.each_with_index do |r, index|

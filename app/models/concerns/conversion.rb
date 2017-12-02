@@ -1,6 +1,5 @@
 module Conversion
-
-  def format result, index = nil
+  def format(result, index = nil)
     OpenStruct.new(
       index: index,
       id: result['id'],
@@ -12,10 +11,18 @@ module Conversion
       rating_count: result['rating_count'],
       google_score: '',
       phone: result['phone'] || I18n.t('empty.phone'),
-      link_url: result['link'] || result['website'],
+      link_url:
+      result['link'] || result['website'],
       text: '',
-      category_list: pick_categories(result['category'], result['category_list']),
-      category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
+      category_list: pick_categories(
+        result['category'],
+        result['category_list']
+      ),
+      category_list_web: pick_categories(
+        result['category'],
+        result['category_list'],
+        'web'
+      ),
       business_hours: get_current_open_time(result['hours']),
       open_now: result['open_now'],
       image_url: get_photo(result['id']),
@@ -24,26 +31,32 @@ module Conversion
     )
   end
 
-  def set_text r, type = 'web'
+  def set_text(r, type = 'web')
     case type
     when 'web'
       "#{r.business_hours}\n#{r.phone}\n#{r.street}"
     when 'line'
-      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}\n#{r.distance}#{I18n.t('label.meter')}"[0, 60]
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/
+       #{r.rating_count}#{I18n.t('common.people') || ''}\n
+       #{r.category_list}\n#{r.business_hours}\n
+       #{r.distance}#{I18n.t('label.meter')}"[0, 60]
     when 'facebook'
-      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/#{r.rating_count}#{I18n.t('common.people') || ''}\n#{r.category_list}\n#{r.business_hours}\n#{r.distance}#{I18n.t('label.meter')}"[0, 80]
+      "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/
+       #{r.rating_count}#{I18n.t('common.people') || ''}\n
+       #{r.category_list}\n#{r.business_hours}\n
+       #{r.distance}#{I18n.t('label.meter')}"[0, 80]
     end
   end
 
-  def get_current_open_time hours = nil
+  def get_current_open_time(hours = nil)
     open_time = ''
-    if hours.present? && hours.size > 0
+    if hours.present? && hours.size.positive?
       open_time = ''
       date = Time.zone.now.strftime('%a').downcase
-      hours = hours.reject {|key, value| !key.include?(date)}
-      hours.to_a.each_with_index do |(key,value), index|
-        open_time += "-" if key.include?('open') && index > 0
-        open_time += "~" if key.include?('close')
+      hours = hours.select { |key, value| key.include?(date) }
+      hours.to_a.each_with_index do |(key, value), index|
+        open_time += '-' if key.include?('open') && index.positive?
+        open_time += '~' if key.include?('close')
         open_time += value.to_s
       end
     end
@@ -51,11 +64,11 @@ module Conversion
     open_time.present? ? open_time : I18n.t('empty.business_hours')
   end
 
-  def get_photo id, width = 450, height = 450
+  def get_photo(id, width = 450, height = 450)
     "https://graph.facebook.com/#{id}/picture?width=#{width}&height=#{height}"
   end
 
-  def pick_categories category = "", category_list = [], type = 'bot'
+  def pick_categories(category = '', category_list = [], type = 'bot')
     categories = category_list.map { |c| c['name'] }
     categories = categories << category
     categories = (categories - BaseService::REJECT_CATEGORY).uniq
