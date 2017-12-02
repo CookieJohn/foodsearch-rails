@@ -39,14 +39,14 @@ module Conversion
        #{r.street}
       )
     when 'line'
-      ("#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" +
-      "#{r.rating_count}#{I18n.t('common.people') || ''}\n" +
-      "#{r.category_list}\n#{r.business_hours}\n" +
+      ("#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" \
+      "#{r.rating_count}#{I18n.t('common.people')}\n" \
+      "#{r.category_list}\n#{r.business_hours}\n" \
       "#{r.distance}#{I18n.t('label.meter')}")[0, 60]
     when 'facebook'
-      ("#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" +
-      "#{r.rating_count}#{I18n.t('common.people') || ''}\n" +
-      "#{r.category_list}\n#{r.business_hours}\n" +
+      ("#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" \
+      "#{r.rating_count}#{I18n.t('common.people')}\n" \
+      "#{r.category_list}\n#{r.business_hours}\n" \
       "#{r.distance}#{I18n.t('label.meter')}")[0, 80]
     end
   end
