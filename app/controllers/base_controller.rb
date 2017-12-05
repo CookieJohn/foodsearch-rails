@@ -37,7 +37,7 @@ class BaseController < ApplicationController
   end
 
   def set_locale
-    if params[:locale] && I18n.available_locales.include?( params[:locale].to_sym )
+    if params[:locale].to_sym.presence_in(I18n.available_locales)
       session[:locale] = params[:locale]
       I18n.locale = session[:locale]
     end

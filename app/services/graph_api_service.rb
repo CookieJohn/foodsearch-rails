@@ -49,7 +49,7 @@ class GraphApiService < BaseService
     # 移除評分低於設定數字的搜尋結果
 
     results = facebook_results.reject { |r|
-      r['category_list'].any? {|c| REJECT_CATEGORY.any?{|n| c['name'] == n } } ||
+      r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
         r['is_permanently_closed'] == true ||
         r['overall_star_rating'].to_i < min_score }
     # 判斷目前是否營業中
