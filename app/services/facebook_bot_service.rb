@@ -18,7 +18,7 @@ class FacebookBotService < BaseService
     body = JSON.parse(request.body.read)
     entries = body['entry']
 
-    next if body.dig('object') == 'page'
+    fb_message?(body)
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
@@ -29,7 +29,7 @@ class FacebookBotService < BaseService
         # quick_reply_payload_title = receive_message.dig('message','quick_reply','title')
         @sender_id = receive_message.dig('sender','id')
 
-        next if not_bot
+        next unless not_bot
         set_user
         set_location(receive_message)
 
@@ -195,6 +195,10 @@ class FacebookBotService < BaseService
       options << button_link_option("https://johnwudevelop.tk/users/#{@user.id}", '搜尋設定')
       button_format(id, title_text, options)
     end
+  end
+
+  def fb_message?(body)
+    body.dig('object') == 'page'
   end
 
   def not_bot
