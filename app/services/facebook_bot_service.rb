@@ -2,8 +2,8 @@ class FacebookBotService < BaseService
   include FacebookFormat
   include Conversion
 
-  API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{ENV['facebook_page_access_token']}"
-  BOT_ID ||= '844639869021578'
+  API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{ENV['facebook_page_access_token']}".freeze
+  BOT_ID ||= '844639869021578'.freeze
 
   def initialize
     @graph  ||= GraphApiService.new
@@ -22,34 +22,34 @@ class FacebookBotService < BaseService
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
-        message = receive_message.dig('message','text')
-        button_payload = receive_message.dig('postback','payload')
-        # button_payload_title = receive_message.dig('postback','title')
-        quick_reply_payload = receive_message.dig('message','quick_reply','payload')
-        # quick_reply_payload_title = receive_message.dig('message','quick_reply','title')
-        @sender_id = receive_message.dig('sender','id')
+        message = receive_message.dig('message', 'text')
+        button_payload = receive_message.dig('postback', 'payload')
+        # button_payload_title = receive_message.dig('postback', 'title')
+        quick_reply_payload = receive_message.dig('message', 'quick_reply', 'payload')
+        # quick_reply_payload_title = receive_message.dig('message', 'quick_reply', 'title')
+        @sender_id = receive_message.dig('sender', 'id')
 
         next unless not_bot
-        set_user
-        set_location(receive_message)
+        user_setting
+        location_setting(receive_message)
 
         if @lat.present?
           keyword = get_redis_data(@user.id, 'keyword')
           fb_results = @graph.search_places(@lat, @lng, user: @user, size: 10, keyword: keyword)
-          if fb_results.size > 0
-            # 傳送餐廳資訊
-            messageData = generic_elements(fb_results)
-            results = http_post(API_URL, messageData)
-            # 傳送詢問訊息
-            messageData = get_response(@sender_id, 'done', nil)
-            results = http_post(API_URL, messageData)
+          if fb_results.size.positive?
+            # send restaurants
+            message_data = generic_elements(fb_results)
+            http_post(API_URL, message_data)
+            # send ask
+            message_data = get_response(@sender_id, 'done', nil)
+            http_post(API_URL, message_data)
 
             redis_set_user_data(@user.id, 'keyword', '')
             redis_set_user_data(@user.id, 'lat', @lat)
             redis_set_user_data(@user.id, 'lng', @lng)
           else
-            messageData = get_response('no_result', nil)
-            results = http_post(API_URL, messageData)
+            message_data = get_response('no_result', nil)
+            http_post(API_URL, message_data)
           end
         else
           message_type = if quick_reply_payload.present?
@@ -59,8 +59,8 @@ class FacebookBotService < BaseService
                          elsif message.present?
                            'message'
                          end
-          messageData = get_response(message_type, message) if message_type.present?
-          results = http_post(API_URL, messageData) if messageData.present?
+          message_data = get_response(message_type, message) if message_type.present?
+          http_post(API_URL, message_data) if message_data.present?
         end
       end
     end
@@ -75,7 +75,7 @@ class FacebookBotService < BaseService
         redis_set_user_data(@user.id, 'keyword', '')
       end
     else
-      if type != 'last_location'
+      unless type == 'last_location'
         if get_redis_data(@user.id, 'keyword').present?
           redis_set_user_data(@user.id, 'keyword', '')
         end
@@ -121,31 +121,29 @@ class FacebookBotService < BaseService
         lng = get_redis_data(@user.id, 'lng')
         keyword = get_redis_data(@user.id, 'keyword')
         fb_results = @graph.search_places(lat, lng, user: @user, size: 10, keyword: keyword)
-        if fb_results.size > 0
+        if fb_results.size.positive?
           redis_set_user_data(@user.id, 'keyword', '') if get_redis_data(@user.id, 'keyword').present?
-          # 傳送餐廳資訊
-          messageData = generic_elements(fb_results)
-          results = http_post(API_URL, messageData)
-          # 傳送詢問訊息
-          messageData = get_response('done', nil)
-          results = http_post(API_URL, messageData)
+          message_data = generic_elements(fb_results)
+          http_post(API_URL, message_data)
+          message_data = get_response('done', nil)
+          http_post(API_URL, message_data)
         else
-          messageData = get_response('no_result', nil)
-          results = http_post(API_URL, messageData)
+          message_data = get_response('no_result', nil)
+          http_post(API_URL, message_data)
         end
       else
-        messageData = get_response('no_last_location', nil)
-        results = http_post(API_URL, messageData)
+        message_data = get_response('no_last_location', nil)
+        http_post(API_URL, message_data)
       end
     when 'done'
-      title_text = "有找到喜歡的嗎？"
+      title_text = '有找到喜歡的嗎？'
       options = []
       options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
     when 'no_last_location'
-      title_text = "您沒有搜尋過唷！"
+      title_text = '您沒有搜尋過唷！'
       options = []
       options << send_location
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
@@ -158,7 +156,7 @@ class FacebookBotService < BaseService
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
     else
-      title_text = "請選擇搜尋方式，設定頁面可以調整搜尋條件。"
+      title_text = '請選擇搜尋方式，設定頁面可以調整搜尋條件。'
       options = []
       options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
       options << button_option('postback', '關鍵字搜尋', 'customized_keyword')
@@ -175,18 +173,18 @@ class FacebookBotService < BaseService
     @sender_id != BOT_ID
   end
 
-  def set_user
-    User.create!(facebook_user_id: @sender_id) if !User.exists?(facebook_user_id: @sender_id)
+  def user_setting
+    User.create!(facebook_user_id: @sender_id) unless User.exists?(facebook_user_id: @sender_id)
     @user = User.find_by(facebook_user_id: @sender_id)
-    redis_initialize_user(@user.id) if !redis_key_exist?(@user.id)
+    redis_initialize_user(@user.id) unless redis_key_exist?(@user.id)
   end
 
-  def set_location(receive_message)
-    if receive_message.dig('message','attachments').present?
-      receive_message['message']['attachments'].try(:each) do |location|
-        @lat = location.dig('payload','coordinates','lat')
-        @lng = location.dig('payload','coordinates','long')
-      end
+  def location_setting(receive_message)
+    return unless receive_message.dig('message', 'attachments').present?
+
+    receive_message['message']['attachments'].try(:each) do |location|
+      @lat = location.dig('payload', 'coordinates', 'lat')
+      @lng = location.dig('payload', 'coordinates', 'long')
     end
   end
 end

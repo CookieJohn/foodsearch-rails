@@ -80,7 +80,7 @@ module FacebookFormat
     { content_type: 'location' }
   end
 
-  def generic_elements results=nil
+  def generic_elements(results = nil)
     columns = []
 
     results.each do |result|
@@ -89,17 +89,18 @@ module FacebookFormat
 
       actions = []
       actions << button(safe_url(r.link_url), I18n.t('button.fanpage'))
-      actions << button(safe_url(@google.get_map_link(r.lat, r.lng, r.name, r.street)),I18n.t('button.location'))
-      actions << button(safe_url(@google.get_google_search(r.name)),I18n.t('button.related_comment'))
+      actions << button(safe_url(@google.get_map_link(r.lat, r.lng, r.name, r.street)), I18n.t('button.location'))
+      actions << button(safe_url(@google.get_google_search(r.name)), I18n.t('button.related_comment'))
 
       columns << {
         title: r.name,
         subtitle: r.text,
         image_url: r.image_url,
-        buttons: actions }
+        buttons: actions
+      }
     end
 
-    generic_format = {
+    {
       recipient: { id: @sender_id },
       message: {
         attachment: {
@@ -107,6 +108,9 @@ module FacebookFormat
           payload: {
             template_type: 'generic',
             elements: columns
-          }}}}
+          }
+        }
+      }
+    }
   end
 end
