@@ -59,7 +59,7 @@ class FacebookBotService < BaseService
                          elsif message.present?
                            'message'
                          end
-          messageData = get_response(@sender_id, message_type, message)
+          messageData = get_response(@sender_id, message_type, message) if message_type.present?
           results = http_post(API_URL, messageData) if messageData.present?
         end
       end
