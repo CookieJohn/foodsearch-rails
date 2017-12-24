@@ -52,13 +52,14 @@ class FacebookBotService < BaseService
             results = http_post(API_URL, messageData)
           end
         else
-          if quick_reply_payload.present?
-            messageData = get_response(@sender_id, quick_reply_payload, message)
-          elsif button_payload.present?
-            messageData = get_response(@sender_id, button_payload, message)
-          elsif message.present?
-            messageData = get_response(@sender_id, 'message', message)
-          end
+          message_type = if quick_reply_payload.present?
+                           quick_reply_payload
+                         elsif button_payload.present?
+                           button_payload
+                         elsif message.present?
+                           'message'
+                         end
+          messageData = get_response(@sender_id, message_type, message)
           results = http_post(API_URL, messageData) if messageData.present?
         end
       end
