@@ -122,11 +122,14 @@ class FacebookBotService < BaseService
         keyword = get_redis_data(@user.id, 'keyword')
         fb_results = @graph.search_places(lat, lng, user: @user, size: 10, keyword: keyword)
         if fb_results.size.positive?
-          redis_set_user_data(@user.id, 'keyword', '') if get_redis_data(@user.id, 'keyword').present?
           message_data = generic_elements(fb_results)
           http_post(API_URL, message_data)
           message_data = get_response('done', nil)
           http_post(API_URL, message_data)
+
+          redis_set_user_data(@user.id, 'keyword', '')
+          redis_set_user_data(@user.id, 'lat', @lat)
+          redis_set_user_data(@user.id, 'lng', @lng)
         else
           message_data = get_response('no_result', nil)
           http_post(API_URL, message_data)
