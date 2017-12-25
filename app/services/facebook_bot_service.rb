@@ -41,7 +41,7 @@ class FacebookBotService < BaseService
             message_data = generic_elements(fb_results)
             http_post(API_URL, message_data)
             # send ask
-            message_data = get_response(@sender_id, 'done', nil)
+            message_data = get_response('done', nil)
             http_post(API_URL, message_data)
 
             redis_set_user_data(@user.id, 'keyword', '')
@@ -66,6 +66,8 @@ class FacebookBotService < BaseService
     end
   end
 
+  private
+
   def get_response type, text=nil
     if get_redis_data(@user.id, 'customize') == true
       if type == 'message'
@@ -75,10 +77,8 @@ class FacebookBotService < BaseService
         redis_set_user_data(@user.id, 'keyword', '')
       end
     else
-      unless type == 'last_location'
-        if get_redis_data(@user.id, 'keyword').present?
-          redis_set_user_data(@user.id, 'keyword', '')
-        end
+      if type != 'last_location' && get_redis_data(@user.id, 'keyword').present?
+        redis_set_user_data(@user.id, 'keyword', '')
       end
     end
     case type
@@ -128,8 +128,6 @@ class FacebookBotService < BaseService
           http_post(API_URL, message_data)
 
           redis_set_user_data(@user.id, 'keyword', '')
-          redis_set_user_data(@user.id, 'lat', @lat)
-          redis_set_user_data(@user.id, 'lng', @lng)
         else
           message_data = get_response('no_result', nil)
           http_post(API_URL, message_data)
