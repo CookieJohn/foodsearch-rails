@@ -1,8 +1,8 @@
 module FacebookFormat
 
-  def text_format(id, text)
+  def text_format(text)
     {
-      recipient: { id: id },
+      recipient: { id: @sender_id },
       message: { text: text }
     }
   end
@@ -16,9 +16,9 @@ module FacebookFormat
     }
   end
 
-  def quick_replies_format(id, title_text = nil, quick_reply_options = nil)
+  def quick_replies_format(title_text = nil, quick_reply_options = nil)
     {
-      recipient: { id: id },
+      recipient: { id: @sender_id },
       message: {
         text: title_text,
         quick_replies: quick_reply_options
@@ -26,9 +26,9 @@ module FacebookFormat
     }
   end
 
-  def button_format(id, title_text = nil, button_options = nil)
+  def button_format(title_text = nil, button_options = nil)
     {
-      recipient: { id: id },
+      recipient: { id: @sender_id },
       message: {
         attachment: {
           type: 'template',
@@ -80,7 +80,7 @@ module FacebookFormat
     { content_type: 'location' }
   end
 
-  def generic_elements(sender_id, results = nil)
+  def generic_elements(results = nil)
     columns = []
 
     results.each do |result|
@@ -89,14 +89,8 @@ module FacebookFormat
 
       actions = []
       actions << button(safe_url(r.link_url), I18n.t('button.fanpage'))
-      actions << button(
-        safe_url(google.get_map_link(r.lat, r.lng, r.name, r.street)),
-        I18n.t('button.location')
-      )
-      actions << button(
-        safe_url(google.get_google_search(r.name)),
-        I18n.t('button.related_comment')
-      )
+      actions << button(safe_url(@google.get_map_link(r.lat, r.lng, r.name, r.street)), I18n.t('button.location'))
+      actions << button(safe_url(@google.get_google_search(r.name)), I18n.t('button.related_comment'))
 
       columns << {
         title: r.name,
@@ -106,8 +100,8 @@ module FacebookFormat
       }
     end
 
-    generic_format = {
-      recipient: { id: sender_id },
+    {
+      recipient: { id: @sender_id },
       message: {
         attachment: {
           type: 'template',
@@ -118,6 +112,5 @@ module FacebookFormat
         }
       }
     }
-    generic_format
   end
 end
