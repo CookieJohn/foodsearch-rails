@@ -3,15 +3,15 @@ class FacebookBotService < BaseService
   include Conversion
 
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{ENV['facebook_page_access_token']}".freeze
-  BOT_ID ||= '844639869021578'.freeze
+  BOT_ID  ||= '844639869021578'.freeze
 
   def initialize
-    @graph  ||= GraphApiService.new
-    @google ||= GoogleMapService.new
-    @user ||= nil
+    @graph     ||= GraphApiService.new
+    @google    ||= GoogleMapService.new
+    @user      ||= nil
     @sender_id ||= nil
-    @lat ||= nil
-    @lng ||= nil
+    @lat       ||= nil
+    @lng       ||= nil
   end
 
   def reply_msg request
@@ -33,24 +33,8 @@ class FacebookBotService < BaseService
         user_setting
         location_setting(receive_message)
 
-        if @lat.present?
-          keyword = get_redis_data(@user.id, 'keyword')
-          fb_results = @graph.search_places(@lat, @lng, user: @user, size: 10, keyword: keyword)
-          if fb_results.size.positive?
-            # send restaurants
-            message_data = generic_elements(fb_results)
-            http_post(API_URL, message_data)
-            # send ask
-            message_data = get_response('done', nil)
-            http_post(API_URL, message_data)
-
-            redis_set_user_data(@user.id, 'keyword', '')
-            redis_set_user_data(@user.id, 'lat', @lat)
-            redis_set_user_data(@user.id, 'lng', @lng)
-          else
-            message_data = get_response('no_result', nil)
-            http_post(API_URL, message_data)
-          end
+        if @lat.present? && @lng.present?
+          search_by_location
         else
           message_type = if quick_reply_payload.present?
                            quick_reply_payload
@@ -117,21 +101,9 @@ class FacebookBotService < BaseService
       quick_replies_format(title_text, options)
     when 'last_location'
       if get_redis_data(@user.id, 'lat').present?
-        lat = get_redis_data(@user.id, 'lat')
-        lng = get_redis_data(@user.id, 'lng')
-        keyword = get_redis_data(@user.id, 'keyword')
-        fb_results = @graph.search_places(lat, lng, user: @user, size: 10, keyword: keyword)
-        if fb_results.size.positive?
-          message_data = generic_elements(fb_results)
-          http_post(API_URL, message_data)
-          message_data = get_response('done', nil)
-          http_post(API_URL, message_data)
-
-          redis_set_user_data(@user.id, 'keyword', '')
-        else
-          message_data = get_response('no_result', nil)
-          http_post(API_URL, message_data)
-        end
+        @lat = get_redis_data(@user.id, 'lat')
+        @lng = get_redis_data(@user.id, 'lng')
+        search_by_location
       else
         message_data = get_response('no_last_location', nil)
         http_post(API_URL, message_data)
@@ -186,6 +158,24 @@ class FacebookBotService < BaseService
     receive_message['message']['attachments'].try(:each) do |location|
       @lat = location.dig('payload', 'coordinates', 'lat')
       @lng = location.dig('payload', 'coordinates', 'long')
+    end
+  end
+
+  def search_by_location
+    keyword = get_redis_data(@user.id, 'keyword')
+    fb_results = @graph.search_places(@lat, @lng, user: @user, size: 10, keyword: keyword)
+    if fb_results.size.positive?
+      message_data = generic_elements(fb_results)
+      http_post(API_URL, message_data)
+      message_data = get_response('done', nil)
+      http_post(API_URL, message_data)
+
+      redis_set_user_data(@user.id, 'keyword', '')
+      redis_set_user_data(@user.id, 'lat', @lat)
+      redis_set_user_data(@user.id, 'lng', @lng)
+    else
+      message_data = get_response('no_result', nil)
+      http_post(API_URL, message_data)
     end
   end
 end
