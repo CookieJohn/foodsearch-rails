@@ -3,15 +3,15 @@ class FacebookBotService < BaseService
   include Conversion
 
   API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{ENV['facebook_page_access_token']}".freeze
-  BOT_ID ||= '844639869021578'.freeze
+  BOT_ID  ||= '844639869021578'.freeze
 
   def initialize
-    @graph  ||= GraphApiService.new
-    @google ||= GoogleMapService.new
-    @user ||= nil
+    @graph     ||= GraphApiService.new
+    @google    ||= GoogleMapService.new
+    @user      ||= nil
     @sender_id ||= nil
-    @lat ||= nil
-    @lng ||= nil
+    @lat       ||= nil
+    @lng       ||= nil
   end
 
   def reply_msg request
