@@ -30,7 +30,7 @@ gem 'koala'
 gem 'httparty'
 
 # db
-gem 'pg'
+gem 'pg', '~> 0.20'
 
 # others
 gem 'rails-i18n', '~> 5.0.0'
