@@ -1,8 +1,8 @@
 machine:
-  timezone: 
+  timezone:
     Asia/Taipei
   ruby:
-    version: 2.4.2
+    version: 2.4.3
   dependencies:
     pre:
       - gem install bundler
