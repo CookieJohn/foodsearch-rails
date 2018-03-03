@@ -41,6 +41,8 @@ $ ->
     resize_map(google, map)
 
     cityCircle = window.set_circle(map, {lat: lat, lng: lng})
+    window.detect_position(map, marker, center, cityCircle)
+
     google.maps.event.addListener marker, 'dragend', (event) ->
       lat = event.latLng.lat()
       lng = event.latLng.lng()

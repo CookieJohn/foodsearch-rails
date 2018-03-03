@@ -1,4 +1,4 @@
-$(document).on 'click', '#searchsubmit', (event) ->  
+$(document).on 'click', '#searchsubmit', (event) ->
   event.preventDefault()
   lat = window.current_lat
   lng = window.current_lng

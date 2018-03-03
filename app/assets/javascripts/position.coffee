@@ -1,31 +1,33 @@
 $ ->
   window.detect_position = (map, marker, uluru, cityCircle) ->
-    infoWindow = ''
-    $('#loading').show()
+    # infoWindow = ''
+    # $('#loading').show()
     if navigator.geolocation
       navigator.geolocation.getCurrentPosition ((position) ->
         lat = position.coords.latitude
         lng = position.coords.longitude
         window.current_lat = lat
         window.current_lng = lng
-        pos = 
+        document.getElementById("current_lat").value = lat
+        document.getElementById("current_lng").value = lng
+        pos =
           lat: lat
           lng: lng
         marker.setPosition pos
         map.setCenter pos
         window.move_circle(cityCircle, {lat: lat,lng: lng})
-        $('#loading').hide()
-        window.send_post(lat, lng)
+        # $('#loading').hide()
+        # window.send_post(lat, lng)
         return
       ), ->
-        handleLocationError true, infoWindow, map.getCenter(), map, marker, uluru
+        # handleLocationError true, infoWindow, map.getCenter(), map, marker, uluru
         # today = new Date()
         # dd = today.getDate()
         # if rails_env != 'development' && !document.cookie.match(new RegExp("notice_date=#{dd}"))
         #   setTimeout(location_open_notification, 800)
         return
     else
-      handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
+      # handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
     return
 
   window.handleLocationError = (browserHasGeolocation, infoWindow, pos, map, marker, uluru) ->
