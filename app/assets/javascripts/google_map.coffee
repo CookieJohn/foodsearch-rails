@@ -25,8 +25,6 @@ $ ->
   window.initMap = ->
     lat = window.current_lat
     lng = window.current_lng
-    document.getElementById("current_lat").value = lat
-    document.getElementById("current_lng").value = lng
 
     center =
       lat: lat
@@ -63,13 +61,8 @@ $ ->
         # return
       return
 
-    input = document.getElementById('pac-input')
-    clear = document.getElementById('clear-search')
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push input
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push clear
-    input.style.display = "inline"
-    clear.style.display = "inline"
-    searchBox = new (google.maps.places.SearchBox)(input)
+    search_input = google_map.set_items_in_map(map)
+    searchBox = new (google.maps.places.SearchBox)(search_input)
 
     searchBox.addListener 'places_changed', ->
       places = searchBox.getPlaces()
@@ -79,7 +72,7 @@ $ ->
         location = place.geometry.location
         lat = location.lat()
         lng = location.lng()
-        update_position(lat, lng)
+        google_map.update_position(lat, lng)
         google_map.set_current_lat_lng
 
         setTimeout ->
@@ -90,7 +83,15 @@ $ ->
       return
 
 class window.GoogleMap
-  # set circle around maker
+  set_items_in_map: (map, google = window.google) ->
+    search_input = document.getElementById('pac-input')
+    clear_button = document.getElementById('clear-search')
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push search_input
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push clear_button
+    search_input.style.display = "inline"
+    clear_button.style.display = "inline"
+    return search_input
+
   set_circle: (map, center) ->
     circle_options = {
       strokeColor: '#FF0000',
@@ -105,6 +106,7 @@ class window.GoogleMap
     }
     cityCircle = new google.maps.Circle(circle_options)
     return cityCircle
+
   move_circle: (cityCircle, center) ->
     cityCircle.setOptions({center: center})
     return
