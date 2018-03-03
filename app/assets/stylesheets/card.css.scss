@@ -25,10 +25,10 @@
   @include set-center;
 }
 
-@media all and (max-width: 768px) {
-  #restaurants {
-    margin-bottom: 50px;}
-}
+// @media all and (max-width: 768px) {
+//   #restaurants {
+//     padding-bottom: 50px;}
+// }
 
 .card {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
