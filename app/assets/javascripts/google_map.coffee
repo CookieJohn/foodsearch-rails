@@ -3,24 +3,24 @@ myStyle = [
   {
     featureType: 'poi'
     elementType: 'labels'
-    stylers: [ { visibility: 'off' } ]
+    stylers:     [ { visibility: 'off' } ]
   }
 ]
 mapStyle = {
-  zoom: '',
-  styles: myStyle,
+  zoom:              '',
+  styles:            myStyle,
   streetViewControl: false, #小黃人
   fullscreenControl: false,
-  mapTypeControl: false,
-  center: ''
+  mapTypeControl:    false,
+  center:            ''
 }
 
 $ ->
   window.current_lat   = 25.059651
   window.current_lng   = 121.533380
   window.remove_height = 103
-  position = new Position
-  google_map = new GoogleMap
+  position             = new Position
+  google_map           = new GoogleMap
 
   window.initMap = ->
     lat = window.current_lat
@@ -93,16 +93,16 @@ class window.GoogleMap
     return search_input
 
   set_circle: (map, center) ->
-    circle_options = {
-      strokeColor: '#FF0000',
+    circle_options   = {
+      strokeColor:   '#FF0000',
       strokeOpacity: 0.5,
-      strokeWeight: 2,
-      fillColor: '#FF0000',
-      fillOpacity: 0.05,
-      map: map,
-      center: center,
-      radius: 500,
-      # draggable:true
+      strokeWeight:  2,
+      fillColor:     '#FF0000',
+      fillOpacity:   0.05,
+      map:           map,
+      center:        center,
+      radius:        500,
+      # draggable:     true
     }
     cityCircle = new google.maps.Circle(circle_options)
     return cityCircle
