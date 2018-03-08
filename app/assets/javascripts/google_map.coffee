@@ -19,8 +19,8 @@ $ ->
   window.current_lat   = 25.059651
   window.current_lng   = 121.533380
   window.remove_height = 103
-  position             = new Position
-  google_map           = new GoogleMap
+  position             = new Position()
+  google_map           = new GoogleMap()
 
   window.initMap = ->
     lat = window.current_lat
@@ -39,14 +39,14 @@ $ ->
       draggable: true
     )
 
-    google_map.resize_map(google, map)
-
     cityCircle = google_map.set_circle(map, {lat: lat, lng: lng})
     position.detect_position(map, marker, center, cityCircle)
     google_map.set_current_lat_lng(lat, lng)
 
+    google_map.resize_map(google, map)
+
     search_input = google_map.set_items_in_map(map)
-    searchBox = new (google.maps.places.SearchBox)(search_input)
+    searchBox    = new (google.maps.places.SearchBox)(search_input)
 
     # drag event
     google.maps.event.addListener marker, 'dragend', (event) ->
