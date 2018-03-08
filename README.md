@@ -7,7 +7,7 @@ Use graph API to search restaurant with LineBot, MessengerBot and Web.
 
 Android App
 ------------
-- [Google drive 下載連結](https://drive.google.com/file/d/1arPL3wLz2RsvWssghRw1liAIZeYUn9ZX/view?usp=sharing)
+- [Google drive 下載連結](https://drive.google.com/file/d/1ZsXTS9fdV_fL13heeeD0GGUq3YyMDCx1/view?usp=sharing)
 
 Line Bot
 -------------
