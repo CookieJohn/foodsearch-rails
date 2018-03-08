@@ -30,26 +30,31 @@ $ ->
       lat: lat
       lng: lng
 
-    mapStyle.zoom = parseInt(document.getElementById("zoom").value, 10)
+    mapStyle.zoom   = parseInt(document.getElementById("zoom").value, 10)
     mapStyle.center = center
-    map = new (google.maps.Map)(document.getElementById('map'), mapStyle)
+    map             = new (google.maps.Map)(document.getElementById('map'), mapStyle)
     marker = new (google.maps.Marker)(
-      map: map,
-      position: center,
-      draggable: true)
+      map:       map,
+      position:  center,
+      draggable: true
+    )
 
     google_map.resize_map(google, map)
 
     cityCircle = google_map.set_circle(map, {lat: lat, lng: lng})
     position.detect_position(map, marker, center, cityCircle)
-    google_map.set_current_lat_lng
+    google_map.set_current_lat_lng(lat, lng)
 
+    search_input = google_map.set_items_in_map(map)
+    searchBox = new (google.maps.places.SearchBox)(search_input)
+
+    # drag event
     google.maps.event.addListener marker, 'dragend', (event) ->
       lat = event.latLng.lat()
       lng = event.latLng.lng()
 
       google_map.update_position(lat, lng)
-      google_map.set_current_lat_lng
+      google_map.set_current_lat_lng(lat, lng)
       map.setCenter new (google.maps.LatLng)(lat, lng)
       google_map.move_circle(cityCircle, {lat: lat,lng: lng})
       # geocoder = new (google.maps.Geocoder)
@@ -61,9 +66,7 @@ $ ->
         # return
       return
 
-    search_input = google_map.set_items_in_map(map)
-    searchBox = new (google.maps.places.SearchBox)(search_input)
-
+    # search address event
     searchBox.addListener 'places_changed', ->
       places = searchBox.getPlaces()
       if places.length == 0
@@ -73,7 +76,7 @@ $ ->
         lat = location.lat()
         lng = location.lng()
         google_map.update_position(lat, lng)
-        google_map.set_current_lat_lng
+        google_map.set_current_lat_lng(lat, lng)
 
         setTimeout ->
           map.setCenter new (google.maps.LatLng)(lat, lng)
@@ -122,7 +125,9 @@ class window.GoogleMap
     google.maps.event.trigger(map, 'resize')
     return
 
-  set_current_lat_lng: ->
-    document.getElementById("current_lat").value = lat
-    document.getElementById("current_lng").value = lng
+  set_current_lat_lng: (lat, lng) ->
+    window.current_lat = lat
+    window.current_lng = lng
+    document.getElementById("current_lat").value = window.current_lat
+    document.getElementById("current_lng").value = window.current_lng
     return
