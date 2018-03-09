@@ -19,6 +19,9 @@ $ ->
   window.current_lat   = 25.059651
   window.current_lng   = 121.533380
   window.remove_height = 103
+  window.map           = ''
+  window.marker        = ''
+  window.cityCircle    = ''
   position             = new Position()
   google_map           = new GoogleMap()
 
@@ -32,15 +35,15 @@ $ ->
 
     mapStyle.zoom   = parseInt(document.getElementById("zoom").value, 10)
     mapStyle.center = center
-    map             = new (google.maps.Map)(document.getElementById('map'), mapStyle)
-    marker = new (google.maps.Marker)(
+    window.map      = new (google.maps.Map)(document.getElementById('map'), mapStyle)
+    window.marker   = new (google.maps.Marker)(
       map:       map,
       position:  center,
       draggable: true
     )
 
-    cityCircle = google_map.set_circle(map, {lat: lat, lng: lng})
-    position.detect_position(map, marker, center, cityCircle)
+    window.cityCircle = google_map.set_circle(map, {lat: lat, lng: lng})
+    position.detect_position()
     google_map.set_current_lat_lng(lat, lng)
 
     google_map.resize_map(google, map)
@@ -89,8 +92,10 @@ class window.GoogleMap
   set_items_in_map: (map, google = window.google) ->
     search_input = document.getElementById('address-input')
     clear_button = document.getElementById('clear-search')
+    locate_button = document.getElementById('locate-button')
     map.controls[google.maps.ControlPosition.TOP_CENTER].push search_input
     map.controls[google.maps.ControlPosition.TOP_CENTER].push clear_button
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push locate_button
     search_input.style.display = "inline"
     clear_button.style.display = "inline"
     return search_input

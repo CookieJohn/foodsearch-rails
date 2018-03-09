@@ -1,5 +1,5 @@
 class window.Position
-  detect_position: (map, marker, uluru, cityCircle) ->
+  detect_position: () ->
     google_map = new GoogleMap
     # infoWindow = ''
     # $('#loading').show()
@@ -10,9 +10,9 @@ class window.Position
         pos =
           lat: lat
           lng: lng
-        marker.setPosition pos
-        map.setCenter pos
-        google_map.move_circle(cityCircle, {lat: lat,lng: lng})
+        window.marker.setPosition pos
+        window.map.setCenter pos
+        google_map.move_circle(window.cityCircle, {lat: lat,lng: lng})
         google_map.set_current_lat_lng(lat, lng)
         # $('#loading').hide()
         # window.send_post(lat, lng)
