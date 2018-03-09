@@ -4,7 +4,7 @@
   margin-right: auto;
 }
 
-#pac-input {
+#address-input {
   background-color: #fff;
   font-size: 15px;
   font-weight: 400;
@@ -16,12 +16,12 @@
   display: none;
 }
 
-#pac-input::-webkit-input-placeholder {
+#address-input::-webkit-input-placeholder {
   color: #F8574B;
   font-size: 16px;
 }
 
-#pac-input:focus {
+#address-input:focus {
   border-color: #4d90fe;
 }
 

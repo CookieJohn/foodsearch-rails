@@ -1,6 +1,6 @@
 .container-fluid
   h4 = i18n_label(:search_intro)
-  input#pac-input.form-control placeholder=i18n_placeholder(:search_address) type="text"
+  input#address-input.form-control placeholder=i18n_placeholder(:search_address) type="text"
   #map
   = render partial: "common/search_field"
   / p#google_address = ''

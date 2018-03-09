@@ -87,7 +87,7 @@ $ ->
 
 class window.GoogleMap
   set_items_in_map: (map, google = window.google) ->
-    search_input = document.getElementById('pac-input')
+    search_input = document.getElementById('address-input')
     clear_button = document.getElementById('clear-search')
     map.controls[google.maps.ControlPosition.TOP_CENTER].push search_input
     map.controls[google.maps.ControlPosition.TOP_CENTER].push clear_button

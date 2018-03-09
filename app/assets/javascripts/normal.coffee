@@ -5,7 +5,7 @@ $(document).on 'click', '#up-link', (event) ->
 
 $(document).on 'click', '#clear-search', (event) ->
   event.preventDefault()
-  document.getElementById('pac-input').value = ''
+  document.getElementById('address-input').value = ''
   return
 
 $(document).on 'click', '#select-complete', (event) ->
