@@ -21,7 +21,7 @@ $ ->
   window.remove_height = 103
   window.map           = ''
   window.marker        = ''
-  window.cityCircle    = ''
+  window.circle        = ''
   position             = new Position()
   google_map           = new GoogleMap()
 
@@ -42,13 +42,13 @@ $ ->
       draggable: true
     )
 
-    window.cityCircle = google_map.set_circle(map, {lat: lat, lng: lng})
+    window.circle = google_map.set_circle({lat: lat, lng: lng})
     position.detect_position(false)
     google_map.set_current_lat_lng(lat, lng)
 
-    google_map.resize_map(google, map)
+    google_map.resize_map()
 
-    search_input = google_map.set_items_in_map(map)
+    search_input = google_map.set_items_in_map()
     searchBox    = new (google.maps.places.SearchBox)(search_input)
 
     # drag event
@@ -56,17 +56,20 @@ $ ->
       lat = event.latLng.lat()
       lng = event.latLng.lng()
 
-      google_map.update_position(lat, lng)
       google_map.set_current_lat_lng(lat, lng)
       map.setCenter new (google.maps.LatLng)(lat, lng)
-      google_map.move_circle(cityCircle, {lat: lat,lng: lng})
-      # geocoder = new (google.maps.Geocoder)
-      # window.send_post(lat, lng)
-      # geocoder.geocode { 'latLng': event.latLng }, (results, status) ->
-        # if status == google.maps.GeocoderStatus.OK
-        #   if results[0]
-        #     document.getElementById('google_address').innerHTML = results[0].formatted_address
-        # return
+      google_map.move_circle({lat: lat,lng: lng})
+      return
+
+    # drag event
+    google.maps.event.addListener circle, 'dragend', (event) ->
+      lat = event.latLng.lat()
+      lng = event.latLng.lng()
+
+      google_map.set_current_lat_lng(lat, lng)
+      map.setCenter new (google.maps.LatLng)(lat, lng)
+      marker.setPosition event.latLng
+      google_map.move_circle(event.latLng)
       return
 
     # search address event
@@ -78,54 +81,48 @@ $ ->
         location = place.geometry.location
         lat = location.lat()
         lng = location.lng()
-        google_map.update_position(lat, lng)
         google_map.set_current_lat_lng(lat, lng)
 
         setTimeout ->
           map.setCenter new (google.maps.LatLng)(lat, lng)
-          google_map.move_circle(cityCircle, {lat: lat,lng: lng})
+          google_map.move_circle({lat: lat,lng: lng})
           marker.setPosition(location)
         , 100
       return
 
 class window.GoogleMap
-  set_items_in_map: (map, google = window.google) ->
+  set_items_in_map: () ->
     search_input = document.getElementById('address-input')
     clear_button = document.getElementById('clear-search')
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push search_input
-    map.controls[google.maps.ControlPosition.TOP_CENTER].push clear_button
+    window.map.controls[window.google.maps.ControlPosition.TOP_CENTER].push search_input
+    window.map.controls[window.google.maps.ControlPosition.TOP_CENTER].push clear_button
     search_input.style.display = "inline"
     clear_button.style.display = "inline"
     return search_input
 
-  set_circle: (map, center) ->
+  set_circle: (center) ->
     circle_options   = {
       strokeColor:   '#FF0000',
       strokeOpacity: 0.5,
       strokeWeight:  2,
       fillColor:     '#FF0000',
       fillOpacity:   0.05,
-      map:           map,
+      map:           window.map,
       center:        center,
       radius:        500,
-      # draggable:     true
+      draggable:     true
     }
-    cityCircle = new google.maps.Circle(circle_options)
-    return cityCircle
+    window.circle = new google.maps.Circle(circle_options)
+    return window.circle
 
-  move_circle: (cityCircle, center) ->
-    cityCircle.setOptions({center: center})
+  move_circle: (center) ->
+    window.circle.setOptions({center: center})
     return
 
-  update_position: (lat, lng) ->
-    window.current_lat = lat
-    window.current_lng = lng
-    return
-
-  resize_map: (google = window.google, map) ->
+  resize_map: () ->
     new_height = (window.innerHeight - window.remove_height)
     $('#map').css({'width':'100%','height':"#{new_height}"})
-    google.maps.event.trigger(map, 'resize')
+    window.google.maps.event.trigger(window.map, 'resize')
     return
 
   set_current_lat_lng: (lat, lng) ->

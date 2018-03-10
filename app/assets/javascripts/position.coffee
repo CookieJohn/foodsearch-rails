@@ -8,12 +8,12 @@ class window.Position
       navigator.geolocation.getCurrentPosition ((position) ->
         lat = position.coords.latitude
         lng = position.coords.longitude
-        pos =
+        center =
           lat: lat
           lng: lng
-        window.marker.setPosition pos
-        window.map.setCenter pos
-        google_map.move_circle(window.cityCircle, {lat: lat,lng: lng})
+        window.marker.setPosition center
+        window.map.setCenter center
+        google_map.move_circle(center)
         google_map.set_current_lat_lng(lat, lng)
         $('#loading').hide()
         # window.send_post(lat, lng)
