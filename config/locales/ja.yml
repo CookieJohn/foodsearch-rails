@@ -21,6 +21,7 @@ ja:
     noodle: 麵
     pot: ポット
   button:
+    locate: ポジショニング
     choose_position: 場所を選択
     previous_step: 前のステップ
     next_step: 次のステップ

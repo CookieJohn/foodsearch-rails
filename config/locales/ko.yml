@@ -21,6 +21,7 @@ ko:
     noodle: 얼굴
     pot: 냄비
   button:
+    locate: 포지셔닝
     choose_position: 위치 선택
     previous_step: 이전 단계
     next_step: 다음 단계

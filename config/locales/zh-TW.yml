@@ -48,6 +48,7 @@ zh-TW:
     score: Google
     match_score: 0.5
   button:
+    locate: 定位
     choose_position: 選擇位置
     previous_step: 上一步
     next_step: 下一步

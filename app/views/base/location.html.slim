@@ -9,8 +9,9 @@
   = f.input :lng,  as: :hidden, input_html: { id: 'current_lng' }
   = f.input :zoom, as: :hidden, input_html: { value: @zoom, id: 'zoom' }
   .select_button
-    = link_to nil, id: 'locate-button' do
-      i.fa.fa-map-marker.fa-2x
+    = link_to nil, id: 'locate-button', class: 'btn btn-custom' do
+      = i18n_button('locate') + ' '
+      i.fa.fa-map-marker
     = f.button :submit, i18n_button('next_step'), class: 'btn btn-custom'
 
 = render partial: "common/loading"

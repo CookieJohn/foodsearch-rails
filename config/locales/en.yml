@@ -21,6 +21,7 @@ en:
     noodle: Noodles
     pot: Pot
   button:
+    locate: Locate
     choose_position: Choose Position
     previous_step: Previous Step
     next_step: Next Step
