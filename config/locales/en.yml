@@ -2,36 +2,36 @@ en:
   locale: English
   label:
     search_intro: Please move Marker to search restaurants.
-    score: Score
-    distance: Distance
-    search_mode: Sort：
+    score:        Score
+    distance:     Distance
+    search_mode:  Sort：
     display_mode: Mode：
-    type_mode: Type：
-    restaurant: Restaurant
-    coffee: Coffee
-    wrap: Vertical
-    nowrap: Horizontal
-    total: total
-    open: only in operation
-    meter: m
+    type_mode:    Type：
+    restaurant:   Restaurant
+    coffee:       Coffee
+    wrap:         Vertical
+    nowrap:       Horizontal
+    total:        total
+    open:         only in operation
+    meter:        m
   search_type:
     restaurant: Restaurant
-    coffee: Coffee
-    rice: Rice
-    noodle: Noodles
-    pot: Pot
+    coffee:     Coffee
+    rice:       Rice
+    noodle:     Noodles
+    pot:        Pot
   button:
-    locate: Locate
+    locate:          Locate
     choose_position: Choose Position
-    previous_step: Previous Step
-    next_step: Next Step
-    fanpage: FanPage
-    location: Location
+    previous_step:   Previous Step
+    next_step:       Next Step
+    fanpage:         FanPage
+    location:        Location
     related_comment: Related
   placeholder:
     search_address: Enter address, or move marker
   empty:
-    address: no address
-    phone: no phone
+    address:        no address
+    phone:          no phone
     business_hours: no business hours
-    restaurants: no restaurants
+    restaurants:    no restaurants

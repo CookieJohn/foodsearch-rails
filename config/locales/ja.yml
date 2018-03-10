@@ -1,37 +1,37 @@
 ja:
   locale: 日本語
-  label: 
+  label:
     search_intro: 座標パトロール移動座標パトロールを移動してください
-    score: スコア
-    distance: 距離
-    search_mode: ソート：
+    score:        スコア
+    distance:     距離
+    search_mode:  ソート：
     display_mode: モード：
-    type_mode: タイプ：
-    restaurant: レストラン
-    coffee: コーヒー
-    wrap: 垂直
-    nowrap: 水平
-    total: 総数
-    open: ビジネスで開く
-    meter: m
+    type_mode:    タイプ：
+    restaurant:   レストラン
+    coffee:       コーヒー
+    wrap:         垂直
+    nowrap:       水平
+    total:        総数
+    open:         ビジネスで開く
+    meter:        m
   search_type:
     restaurant: レストラン
-    coffee: コーヒー
-    rice: ライス
-    noodle: 麵
-    pot: ポット
+    coffee:     コーヒー
+    rice:       ライス
+    noodle:     麵
+    pot:        ポット
   button:
-    locate: ポジショニング
+    locate:          ポジショニング
     choose_position: 場所を選択
-    previous_step: 前のステップ
-    next_step: 次のステップ
-    fanpage: ファンページ
-    location: ロケーション
+    previous_step:   前のステップ
+    next_step:       次のステップ
+    fanpage:         ファンページ
+    location:        ロケーション
     related_comment: コメント
   placeholder:
     search_address: 住所を入力してください
   empty:
-    address: 住所なし
-    phone: 電話なし
+    address:        住所なし
+    phone:          電話なし
     business_hours: 営業時間なし
-    restaurants: レストランはありません
+    restaurants:    レストランはありません

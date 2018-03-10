@@ -2,62 +2,62 @@ zh-TW:
   locale: 中文
   label:
     search_intro: 請移動標記尋找附近餐廳。
-    score: 評分
-    distance: 距離
-    search_mode: 排序：
+    score:        評分
+    distance:     距離
+    search_mode:  排序：
     display_mode: 顯示：
-    type_mode: 類型：
-    restaurant: 餐廳
-    coffee: 咖啡
-    wrap: 直式
-    nowrap: 橫式
-    total: 共
-    open: 營業中
-    meter: 公尺
+    type_mode:    類型：
+    restaurant:   餐廳
+    coffee:       咖啡
+    wrap:         直式
+    nowrap:       橫式
+    total:        共
+    open:         營業中
+    meter:        公尺
   search_type:
     restaurant: 餐廳
-    coffee: 咖啡
-    rice: 飯
-    noodle: 麵
-    pot: 鍋
+    coffee:     咖啡
+    rice:       飯
+    noodle:     麵
+    pot:        鍋
   common:
-    score: 分
-    people: 人
-    user: 使用者
-    random: 隨機
-    radius: 半徑
-    point: 評分
+    score:   分
+    people:  人
+    user:    使用者
+    random:  隨機
+    radius:  半徑
+    point:   評分
     setting: 設定
     command: 指令
-    open: 開
-    close: 關
-    meal: 餐
+    open:    開
+    close:   關
+    meal:    餐
   carousel:
     text: 搜尋結果如下
   facebook:
     score: FB
   messenger:
-    re-select: 重新選擇類型
-    menu: 主選單
-    all: 所有類型
-    enter-keyword: 輸入關鍵字
+    re-select:            重新選擇類型
+    menu:                 主選單
+    all:                  所有類型
+    enter-keyword:        輸入關鍵字
     please-enter-keyword: 請選擇搜尋的類型，或輸入關鍵字
-    last-location: 使用上次查詢的位置
-    your-location: 請告訴我你的位置。
+    last-location:        使用上次查詢的位置
+    your-location:        請告訴我你的位置。
   google:
-    score: Google
+    score:       Google
     match_score: 0.5
   button:
-    locate: 定位
+    locate:          定位
     choose_position: 選擇位置
-    previous_step: 上一步
-    next_step: 下一步
-    fanpage: 粉絲專頁
-    location: 位置
+    previous_step:   上一步
+    next_step:       下一步
+    fanpage:         粉絲專頁
+    location:        位置
     related_comment: 相關評論
   command:
     success: 設定成功
-    error: 設定失敗，輸入指令有誤
+    error:   設定失敗，輸入指令有誤
   settings:
     facebook:
       reject_name: ['飯店','酒店']
@@ -68,10 +68,10 @@ zh-TW:
         '公眾服務','公共服務','兒童保護服務','手機店','國家／地區','髮廊','教育','寵物店','醫院']
       search_texts: ['飯','麵','鍋','咖啡','茶']
   placeholder:
-    search_field: 請輸入關鍵字
+    search_field:   請輸入關鍵字
     search_address: 請輸入地址，或移動標記
   empty:
-    address: 無提供地址
-    phone: 無提供電話
+    address:        無提供地址
+    phone:          無提供電話
     business_hours: 無提供營業時間
-    restaurants: 此區域查無餐廳
+    restaurants:    此區域查無餐廳
