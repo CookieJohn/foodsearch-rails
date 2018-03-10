@@ -1,9 +1,10 @@
 class window.Position
-  detect_position: () ->
+  detect_position: (show_loading = true) ->
     google_map = new GoogleMap
     # infoWindow = ''
     # $('#loading').show()
     if navigator.geolocation
+      $('#loading').show() if show_loading
       navigator.geolocation.getCurrentPosition ((position) ->
         lat = position.coords.latitude
         lng = position.coords.longitude
@@ -14,7 +15,7 @@ class window.Position
         window.map.setCenter pos
         google_map.move_circle(window.cityCircle, {lat: lat,lng: lng})
         google_map.set_current_lat_lng(lat, lng)
-        # $('#loading').hide()
+        $('#loading').hide()
         # window.send_post(lat, lng)
         return
       ), ->
@@ -23,8 +24,10 @@ class window.Position
         # dd = today.getDate()
         # if rails_env != 'development' && !document.cookie.match(new RegExp("notice_date=#{dd}"))
         #   setTimeout(location_open_notification, 800)
+        $('#loading').hide()
         return
     else
+      $('#loading').hide()
       # handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
     return
 

@@ -43,7 +43,7 @@ $ ->
     )
 
     window.cityCircle = google_map.set_circle(map, {lat: lat, lng: lng})
-    position.detect_position()
+    position.detect_position(false)
     google_map.set_current_lat_lng(lat, lng)
 
     google_map.resize_map(google, map)
@@ -92,10 +92,8 @@ class window.GoogleMap
   set_items_in_map: (map, google = window.google) ->
     search_input = document.getElementById('address-input')
     clear_button = document.getElementById('clear-search')
-    locate_button = document.getElementById('locate-button')
     map.controls[google.maps.ControlPosition.TOP_CENTER].push search_input
     map.controls[google.maps.ControlPosition.TOP_CENTER].push clear_button
-    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push locate_button
     search_input.style.display = "inline"
     clear_button.style.display = "inline"
     return search_input
