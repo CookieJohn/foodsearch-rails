@@ -1,5 +1,7 @@
+- fanpage_link = browser.mobile? ? r.link_url.gsub('www', 'm') : r.link_url
+
 .card id="restaurant_#{r.index}"
-  = link_to r.link_url, target: '_blank'
+  = link_to fanpage_link, target: '_blank'
     .card-img-top style="background-image: url(#{r.image_url});"
   h4.card-title
     = truncate_utf8(r.name, 15)
