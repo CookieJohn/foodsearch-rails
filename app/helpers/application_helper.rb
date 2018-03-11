@@ -32,4 +32,8 @@ module ApplicationHelper
   def sort_types
     [[i18n_label('score'), 'score'], [i18n_label('distance'), 'distance']]
   end
+
+  def fanpage_link(url)
+    browser.mobile? ? url.gsub('www', 'm') : url
+  end
 end

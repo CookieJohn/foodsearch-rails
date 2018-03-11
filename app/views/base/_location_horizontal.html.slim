@@ -1,7 +1,5 @@
-- fanpage_link = browser.mobile? ? r.link_url.gsub('www', 'm') : r.link_url
-
 .card-horizontal
-  = link_to fanpage_link, target: '_blank'
+  = link_to fanpage_link(r.link_url), target: '_blank'
     .card-img-left style="background-image: url(#{r.image_url});"
   .card-body
     h4.card-title
