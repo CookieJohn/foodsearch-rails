@@ -7,6 +7,7 @@ ja:
     search_mode:  ソート：
     display_mode: モード：
     type_mode:    タイプ：
+    card_mode:    表示：
     restaurant:   レストラン
     coffee:       コーヒー
     wrap:         垂直
@@ -14,6 +15,8 @@ ja:
     total:        総数
     open:         ビジネスで開く
     meter:        m
+    card:         カード
+    list:         リスト
   search_type:
     restaurant: レストラン
     coffee:     コーヒー

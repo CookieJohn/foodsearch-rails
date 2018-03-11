@@ -7,6 +7,7 @@ en:
     search_mode:  Sort：
     display_mode: Mode：
     type_mode:    Type：
+    card_mode:    Display：
     restaurant:   Restaurant
     coffee:       Coffee
     wrap:         Vertical
@@ -14,6 +15,8 @@ en:
     total:        total
     open:         only in operation
     meter:        m
+    card:         Card
+    list:         List
   search_type:
     restaurant: Restaurant
     coffee:     Coffee

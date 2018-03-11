@@ -7,6 +7,7 @@ zh-TW:
     search_mode:  排序：
     display_mode: 顯示：
     type_mode:    類型：
+    card_mode:    顯示：
     restaurant:   餐廳
     coffee:       咖啡
     wrap:         直式
@@ -14,6 +15,8 @@ zh-TW:
     total:        共
     open:         營業中
     meter:        公尺
+    card:         卡片
+    list:         清單
   search_type:
     restaurant: 餐廳
     coffee:     咖啡
