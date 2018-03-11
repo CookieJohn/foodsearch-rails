@@ -25,9 +25,11 @@ class window.Position
         # if rails_env != 'development' && !document.cookie.match(new RegExp("notice_date=#{dd}"))
         #   setTimeout(location_open_notification, 800)
         $('#loading').hide()
+        alert('定位失敗\n請開啟位置功能後\n重新整理頁面') if show_loading
         return
     else
       $('#loading').hide()
+      alert('定位失敗\n請開啟位置功能後\n重新整理頁面') if show_loading
       # handleLocationError false, infoWindow, map.getCenter(), map, marker, uluru
     return
 
