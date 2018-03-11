@@ -28,11 +28,15 @@ class GoogleMapService < BaseService
 
   def search_place_by_keyword lat, lng, user=nil, keyword=nil
     max_distance = user.present? ? user.max_distance : RADIUS
-    results = http_get("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}")
+    http_get("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}")
   end
 
-  def get_map_link lat, lng, name, street
-    "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},14z/data=!3m1!4b1"
+  def get_map_link lat, lng, name, street = nil
+    if street.present?
+      "https://www.google.com/maps/place/#{street}/@#{lat},#{lng},14z/data=!3m1!4b1"
+    elsif lat.present? && lng.present?
+      "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},14z/data=!3m1!4b1"
+    end
   end
 
   def get_nevigation saddr, daddr
