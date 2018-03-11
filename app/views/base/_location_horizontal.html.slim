@@ -3,20 +3,18 @@
     .card-img-left style="background-image: url(#{r.image_url});"
   .card-body
     h4.card-title
-      = truncate_utf8(r.name, 15)
+      = truncate_utf8(r.name, 14)
     .card-description
       p = "#{r.business_hours} #{"(關)" if r.open_now == false}"
+    .card-description
+      p = r.phone
+    .card-description
       .div
         i.fa.fa-facebook-square.facebook-color.custom_icon_size
         icon-text = " #{r.rating}分/#{r.rating_count}人"
-    .card-description
-      p = r.phone
       .div
         i.fa.fa-car.custom_icon_size
         icon-text = " #{r.distance}#{i18n_label('meter')}"
-    .card-description
-      p = truncate_utf8(r.street, 14)
       .div
         = link_to r.location, class: 'btn btn-default', target: '_blank' do
-          = i18n_button(:location) + ' '
           i.fa.fa-map-marker.custom_icon_size
