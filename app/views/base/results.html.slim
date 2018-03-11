@@ -1,11 +1,18 @@
+- card_type = @card_type == 'card'
+
 #results_num = "#{t('label.total')} #{@restaurants.size}"
 
 #restaurants
-  - @restaurants.each do |r|
-    = render partial: "location", locals: {r: r}
+  - if card_type
+    - @restaurants.each do |r|
+      = render partial: "location", locals: {r: r}
+  - else
+    - @restaurants.each do |r|
+      = render partial: "location_horizontal", locals: {r: r}
 
-a#display-link href=""
-  i.fa.fa-exchange.fa-2x
+- if card_type
+  a#display-link href=""
+    i.fa.fa-exchange.fa-2x
 
 a#up-link href=""
   i.fa.fa-angle-double-up.fa-3x

@@ -25,6 +25,10 @@ module ApplicationHelper
     ]
   end
 
+  def card_types
+    [[i18n_label('list'), 'list'], [i18n_label('card'), 'card']]
+  end
+
   def sort_types
     [[i18n_label('score'), 'score'], [i18n_label('distance'), 'distance']]
   end

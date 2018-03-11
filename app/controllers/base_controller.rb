@@ -13,12 +13,14 @@ class BaseController < ApplicationController
 
   def selection
     @form = OpenStruct.new(
-      search: 'restaurant',
-      display: '',
-      sort: 'score',
+      search:   'restaurant',
+      display:  '',
+      card:     '',
+      sort:     'score',
       open_now: true,
-      lat: params.dig(:form, :lat),
-      lng: params.dig(:form, :lng))
+      lat:      params.dig(:form, :lat),
+      lng:      params.dig(:form, :lng)
+    )
   end
 
   def results
@@ -30,6 +32,7 @@ class BaseController < ApplicationController
       keyword: params.dig(:form, :search),
       open_now: params.dig(:form, :open_now))
 
+    @card_type = params.dig(:form, :card)
     @restaurants = FormatService.new.web_format(fb_results)
   end
 
