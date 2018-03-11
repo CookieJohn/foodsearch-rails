@@ -17,6 +17,6 @@
     .card-description
       p = truncate_utf8(r.street, 14)
       .div
-        = link_to r.locationn, class: 'btn btn-default', target: '_blank' do
+        = link_to r.location, class: 'btn btn-default', target: '_blank' do
           = i18n_button(:location) + ' '
           i.fa.fa-map-marker.custom_icon_size
