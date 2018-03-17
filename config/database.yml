@@ -3,7 +3,7 @@ defaults: &defaults
   encoding: utf8
   database: 'foodcraw_development'
   pool:     5
-  host:     '127.0.0.1'
+  host:     localhost
   username: 'john'
   password: ''
 
@@ -17,4 +17,3 @@ test:
 production:
   <<: *defaults
   database: 'foodcraw_production'
-  url:      <%= ENV["DATABASE_URL"] %>
