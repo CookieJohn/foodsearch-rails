@@ -1,9 +1,6 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    RubyInline (3.12.4)
-      ZenTest (~> 4.3)
-    ZenTest (4.11.1)
     actioncable (5.1.5)
       actionpack (= 5.1.5)
       nio4r (~> 2.0)
@@ -109,8 +106,6 @@ GEM
     formatador (0.2.5)
     friendly_id (5.2.3)
       activerecord (>= 4.0.0)
-    fuzzy-string-match (1.0.1)
-      RubyInline (>= 3.8.6)
     geocoder (1.4.7)
     globalid (0.4.1)
       activesupport (>= 4.2.0)
@@ -339,7 +334,6 @@ DEPENDENCIES
   figaro
   font-awesome-rails
   friendly_id
-  fuzzy-string-match
   geocoder
   guard-livereload (~> 2.5)
   heroku-deflater

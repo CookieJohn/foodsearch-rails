@@ -18,7 +18,6 @@ gem 'meta-tags'
 gem 'simple_form'
 
 # back
-gem 'fuzzy-string-match'
 gem 'typhoeus'
 gem 'geocoder'
 gem 'friendly_id'
