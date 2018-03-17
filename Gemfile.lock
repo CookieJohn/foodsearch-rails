@@ -130,6 +130,8 @@ GEM
       guard-compat (~> 1.0)
       multi_json (~> 1.8)
     hashdiff (0.3.7)
+    heroku-deflater (0.6.3)
+      rack (>= 1.4.5)
     http_parser.rb (0.6.0)
     httparty (0.16.1)
       multi_xml (>= 0.5.2)
@@ -211,6 +213,11 @@ GEM
     rails-i18n (5.0.4)
       i18n (~> 0.7)
       railties (~> 5.0)
+    rails_12factor (0.0.3)
+      rails_serve_static_assets
+      rails_stdout_logging
+    rails_serve_static_assets (0.0.5)
+    rails_stdout_logging (0.0.5)
     railties (5.1.5)
       actionpack (= 5.1.5)
       activesupport (= 5.1.5)
@@ -335,6 +342,7 @@ DEPENDENCIES
   fuzzy-string-match
   geocoder
   guard-livereload (~> 2.5)
+  heroku-deflater
   httparty
   jbuilder
   jquery-rails
@@ -347,6 +355,7 @@ DEPENDENCIES
   puma
   rails (~> 5.1)
   rails-i18n (~> 5.0.0)
+  rails_12factor
   redis
   rspec-rails (~> 3.6)
   rubocop
@@ -361,6 +370,9 @@ DEPENDENCIES
   vcr
   web-console (~> 2.0)
   webmock
+
+RUBY VERSION
+   ruby 2.5.0p0
 
 BUNDLED WITH
    1.16.1

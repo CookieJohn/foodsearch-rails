@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.5.0'
+
 # fornt
 gem 'rails', '~> 5.1'
 gem 'sass-rails'
@@ -22,6 +24,7 @@ gem 'geocoder'
 gem 'friendly_id'
 gem 'redis'
 gem 'browser', require: true
+gem 'puma'
 
 # third-party
 gem 'line-bot-api'
@@ -37,6 +40,8 @@ gem 'rails-i18n', '~> 5.0.0'
 
 group :production do
   gem 'newrelic_rpm'
+  gem 'rails_12factor'
+  gem 'heroku-deflater'
 end
 
 group :development, :test do
@@ -58,7 +63,6 @@ group :development do
 
   gem 'better_errors'
   gem 'pry'
-  gem 'puma'
 
   gem 'rubocop', require: false
 end
