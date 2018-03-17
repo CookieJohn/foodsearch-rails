@@ -10,18 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170805015833) do
+ActiveRecord::Schema.define(version: 20180317020436) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "categories", force: :cascade do |t|
-    t.bigint "facebook_id"
-    t.string "facebook_name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["facebook_id"], name: "index_categories_on_facebook_id"
-  end
 
   create_table "users", force: :cascade do |t|
     t.string "line_user_id"

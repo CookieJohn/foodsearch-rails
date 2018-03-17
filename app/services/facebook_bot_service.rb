@@ -9,6 +9,7 @@ class FacebookBotService < BaseService
     @graph     ||= GraphApiService.new
     @google    ||= GoogleMapService.new
     @user      ||= nil
+    @user_id   ||= @user.dig(:id)
     @sender_id ||= nil
     @lat       ||= nil
     @lng       ||= nil
@@ -30,7 +31,7 @@ class FacebookBotService < BaseService
         @sender_id = receive_message.dig('sender', 'id')
 
         next unless not_bot
-        user_setting
+        # user_setting
         location_setting(receive_message)
 
         if @lat.present? && @lng.present?
@@ -53,16 +54,16 @@ class FacebookBotService < BaseService
   private
 
   def get_response type, text=nil
-    if get_redis_data(@user.id, 'customize') == true
+    if get_redis_data(@user_id, 'customize') == true
       if type == 'message'
         type = 'search_specific_item'
       else
-        redis_set_user_data(@user.id, 'customize', false)
-        redis_set_user_data(@user.id, 'keyword', '')
+        redis_set_user_data(@user_id, 'customize', false)
+        redis_set_user_data(@user_id, 'keyword', '')
       end
     else
-      if type != 'last_location' && get_redis_data(@user.id, 'keyword').present?
-        redis_set_user_data(@user.id, 'keyword', '')
+      if type != 'last_location' && get_redis_data(@user_id, 'keyword').present?
+        redis_set_user_data(@user_id, 'keyword', '')
       end
     end
     case type
@@ -77,18 +78,18 @@ class FacebookBotService < BaseService
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
     when 'customized_keyword'
-      redis_set_user_data(@user.id, 'customize', true)
+      redis_set_user_data(@user_id, 'customize', true)
       title_text = '請輸入你想查詢的關鍵字：'
       options = []
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
     when 'search_specific_item'
-      redis_set_user_data(@user.id, 'keyword', text)
-      redis_set_user_data(@user.id, 'customize', false)
+      redis_set_user_data(@user_id, 'keyword', text)
+      redis_set_user_data(@user_id, 'customize', false)
       title_text = "你想找的是： #{text}\n請告訴我你的位置。"
       options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user.id, 'lat')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
       options << send_location
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
@@ -96,13 +97,13 @@ class FacebookBotService < BaseService
     when 'direct_search'
       title_text = I18n.t('messenger.your-location')
       options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user.id, 'lat')
+      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
       options << send_location
       quick_replies_format(title_text, options)
     when 'last_location'
-      if get_redis_data(@user.id, 'lat').present?
-        @lat = get_redis_data(@user.id, 'lat')
-        @lng = get_redis_data(@user.id, 'lng')
+      if get_redis_data(@user_id, 'lat').present?
+        @lat = get_redis_data(@user_id, 'lat')
+        @lng = get_redis_data(@user_id, 'lng')
         search_by_location
       else
         message_data = get_response('no_last_location', nil)
@@ -123,7 +124,7 @@ class FacebookBotService < BaseService
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
     when 'no_result'
-      title_text = "這個位置，沒有與#{get_redis_data(@user.id, 'keyword')}相關的搜尋結果！"
+      title_text = "這個位置，沒有與#{get_redis_data(@user_id, 'keyword')}相關的搜尋結果！"
       options = []
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
@@ -133,7 +134,7 @@ class FacebookBotService < BaseService
       options = []
       options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
       options << button_option('postback', '關鍵字搜尋', 'customized_keyword')
-      options << button_link_option("https://johnwudevelop.tk/users/#{@user.id}", '搜尋設定')
+      options << button_link_option("https://johnwudevelop.tk/users/#{@user_id}", '搜尋設定')
       button_format(title_text, options)
     end
   end
@@ -149,7 +150,7 @@ class FacebookBotService < BaseService
   def user_setting
     User.create!(facebook_user_id: @sender_id) unless User.exists?(facebook_user_id: @sender_id)
     @user = User.find_by(facebook_user_id: @sender_id)
-    redis_initialize_user(@user.id) unless redis_key_exist?(@user.id)
+    redis_initialize_user(@user_id) unless redis_key_exist?(@user_id)
   end
 
   def location_setting(receive_message)
@@ -162,7 +163,7 @@ class FacebookBotService < BaseService
   end
 
   def search_by_location
-    keyword = get_redis_data(@user.id, 'keyword')
+    keyword = get_redis_data(@user_id, 'keyword')
     fb_results = @graph.search_places(@lat, @lng, user: @user, size: 10, keyword: keyword)
     if fb_results.size.positive?
       message_data = generic_elements(fb_results)
@@ -170,9 +171,9 @@ class FacebookBotService < BaseService
       message_data = get_response('done', nil)
       http_post(API_URL, message_data)
 
-      redis_set_user_data(@user.id, 'keyword', '')
-      redis_set_user_data(@user.id, 'lat', @lat)
-      redis_set_user_data(@user.id, 'lng', @lng)
+      redis_set_user_data(@user_id, 'keyword', '')
+      redis_set_user_data(@user_id, 'lat', @lat)
+      redis_set_user_data(@user_id, 'lng', @lng)
     else
       message_data = get_response('no_result', nil)
       http_post(API_URL, message_data)

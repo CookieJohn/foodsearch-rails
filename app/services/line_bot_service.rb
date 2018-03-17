@@ -21,7 +21,7 @@ class LineBotService < BaseService
     body = @request.body.read
     events = @line_client.parse_events_from(body)
     events.each { |event|
-      find_line_user(event['source']['userId'])
+      # find_line_user(event['source']['userId'])
 
       case event
       when Line::Bot::Event::Message

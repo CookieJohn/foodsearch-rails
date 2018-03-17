@@ -43,7 +43,7 @@ class BaseService
   end
 
   def redis_set_user_data(user_id, type, data)
-    user_data = redis_get_user_data(user_id)
+    user_data = redis_get_user_data(user_id.to_s)
     user_data = user_data.merge(type => data)
     $redis.set(user_id.to_s, user_data.to_json)
   end
