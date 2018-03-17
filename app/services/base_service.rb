@@ -1,10 +1,7 @@
-require 'fuzzystringmatch'
 require 'httparty'
 
 class BaseService
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
-  @jarow ||= FuzzyStringMatch::JaroWinkler.create(:native)
 
   def safe_url link
     uri = URI.encode(link)
