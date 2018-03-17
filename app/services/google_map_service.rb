@@ -32,8 +32,8 @@ class GoogleMapService < BaseService
   end
 
   def get_map_link lat, lng, name, street = nil
-    if street.present?
-      "https://www.google.com/maps/place/#{street}/@#{lat},#{lng},14z/data=!3m1!4b1"
+    if street.present? && !(street.presence_in(%w(無提供 無特定)).blank?)
+      "https://www.google.com/maps/place/#{street}/,14z/data=!3m1!4b1"
     elsif lat.present? && lng.present?
       "https://www.google.com/maps/place/#{lat},#{lng}/@#{lat},#{lng},14z/data=!3m1!4b1"
     end
