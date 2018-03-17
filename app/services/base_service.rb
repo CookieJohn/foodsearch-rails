@@ -1,10 +1,7 @@
-require 'fuzzystringmatch'
 require 'httparty'
 
 class BaseService
   REJECT_CATEGORY ||= I18n.t('settings.facebook.reject_category')
-
-  @jarow ||= FuzzyStringMatch::JaroWinkler.create(:native)
 
   def safe_url link
     uri = URI.encode(link)
@@ -31,25 +28,30 @@ class BaseService
 
   # redis
   def redis_key_exist?(key)
-    $redis.exists(key.to_s)
+    # $redis.exists(key.to_s)
+    false
   end
 
   def redis_initialize_user(user_id)
-    $redis.set(user_id.to_s, {}.to_json)
+    # $redis.set(user_id.to_s, {}.to_json)
+    ""
   end
 
   def redis_get_user_data(user_id)
-    JSON.parse($redis.get(user_id.to_s))
+    # JSON.parse($redis.get(user_id.to_s))
+    ""
   end
 
   def redis_set_user_data(user_id, type, data)
-    user_data = redis_get_user_data(user_id)
-    user_data = user_data.merge(type => data)
-    $redis.set(user_id.to_s, user_data.to_json)
+    # user_data = redis_get_user_data(user_id.to_s)
+    # user_data = user_data.merge(type => data)
+    # $redis.set(user_id.to_s, user_data.to_json)
+    ""
   end
 
   def get_redis_data(user_id, keyword)
-    record = redis_get_user_data(user_id)
-    data = record.dig(keyword) || ""
+    # record = redis_get_user_data(user_id)
+    # data = record.dig(keyword) || ""
+    ""
   end
 end

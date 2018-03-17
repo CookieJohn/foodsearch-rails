@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
 
+ruby '2.5.0'
+
 # fornt
 gem 'rails', '~> 5.1'
 gem 'sass-rails'
@@ -16,16 +18,14 @@ gem 'meta-tags'
 gem 'simple_form'
 
 # back
-gem 'fuzzy-string-match'
-gem 'typhoeus'
 gem 'geocoder'
 gem 'friendly_id'
 gem 'redis'
 gem 'browser', require: true
+gem 'puma'
 
 # third-party
 gem 'line-bot-api'
-gem 'figaro'
 gem 'koala'
 gem 'httparty'
 
@@ -37,6 +37,8 @@ gem 'rails-i18n', '~> 5.0.0'
 
 group :production do
   gem 'newrelic_rpm'
+  gem 'rails_12factor'
+  gem 'heroku-deflater'
 end
 
 group :development, :test do
@@ -58,7 +60,7 @@ group :development do
 
   gem 'better_errors'
   gem 'pry'
-  gem 'puma'
+  gem 'figaro'
 
   gem 'rubocop', require: false
 end
