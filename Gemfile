@@ -18,7 +18,6 @@ gem 'meta-tags'
 gem 'simple_form'
 
 # back
-gem 'typhoeus'
 gem 'geocoder'
 gem 'friendly_id'
 gem 'redis'
@@ -27,7 +26,6 @@ gem 'puma'
 
 # third-party
 gem 'line-bot-api'
-gem 'figaro'
 gem 'koala'
 gem 'httparty'
 
@@ -62,6 +60,7 @@ group :development do
 
   gem 'better_errors'
   gem 'pry'
+  gem 'figaro'
 
   gem 'rubocop', require: false
 end

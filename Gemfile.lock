@@ -92,8 +92,6 @@ GEM
       eventmachine (>= 0.12.9)
       http_parser.rb (~> 0.6.0)
     erubi (1.7.1)
-    ethon (0.11.0)
-      ffi (>= 1.3.0)
     eventmachine (1.2.5)
     execjs (2.7.0)
     faraday (0.14.0)
@@ -297,8 +295,6 @@ GEM
     turbolinks (5.1.0)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
-    typhoeus (1.3.0)
-      ethon (>= 0.9.0)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
     uglifier (4.1.8)
@@ -359,7 +355,6 @@ DEPENDENCIES
   slim-rails
   spring
   turbolinks
-  typhoeus
   uglifier
   vcr
   web-console (~> 2.0)
