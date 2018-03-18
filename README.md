@@ -3,7 +3,7 @@ Use graph API to search restaurant with LineBot, MessengerBot and Web.
 
 網站搜尋
 -------
-- [網站連結](https://foodclaw.herokuapp.com/location)
+- [網站連結](https://searchfood.herokuapp.com/location)
 
 Android App
 ------------
