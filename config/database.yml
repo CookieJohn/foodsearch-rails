@@ -1,7 +1,7 @@
 defaults: &defaults
   adapter:  postgresql
   encoding: utf8
-  database: 'foodcraw_development'
+  database: 'foodsearch_development'
   pool:     5
   host:     localhost
   username: 'john'
@@ -12,8 +12,8 @@ development:
 
 test:
   <<: *defaults
-  database: 'foodcraw_test'
+  database: 'foodsearch_test'
 
 production:
   <<: *defaults
-  database: 'foodcraw_production'
+  database: 'foodsearch_production'
