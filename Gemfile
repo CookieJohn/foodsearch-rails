@@ -23,6 +23,9 @@ gem 'friendly_id'
 gem 'redis'
 gem 'browser', require: true
 gem 'puma'
+gem 'devise'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
 
 # third-party
 gem 'line-bot-api'
