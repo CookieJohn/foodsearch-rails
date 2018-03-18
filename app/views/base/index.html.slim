@@ -9,3 +9,6 @@
 
   h2 = 'Messenger Bot'
   = link_to '前往粉絲團', 'https://www.facebook.com/%E7%BE%8E%E9%A3%9F%E5%BF%AB%E6%90%9C-844639869021578/?fref=ts', class: 'btn btn-default', style: 'width: 212px;'
+
+  h2 = '註冊'
+  = link_to "Google 登入", user_google_oauth2_omniauth_authorize_path, data: { turbolinks: false }, class: 'btn btn-default', style: 'width: 212px;'
