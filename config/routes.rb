@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: { omniauth_callbacks: 'users/omniauth_callbacks', sessions: 'users/sessions' }
+
   root 'base#index'
   # get 'search' => 'base#search'
   # post 'refresh_locations' => 'base#refresh_locations'
@@ -17,6 +19,4 @@ Rails.application.routes.draw do
   post 'webhook' => 'facebook#post_webhook'
   # telegram bot
   # post 'update' => 'telegram#update'
-
-  resources :users, only: [:show, :edit, :update]
 end
