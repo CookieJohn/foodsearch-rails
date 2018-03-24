@@ -7,10 +7,10 @@ nav.navbar.navbar-inverse.navbar-fixed-top.nav-custom
       ul.nav.navbar-nav.navbar-right
         li class="#{'active' if I18n.locale == :"zh-TW"}"
           = link_to '中文', '', id: 'zh-tw-locale'
-        li class="#{'active' if I18n.locale == :ja}"
-          = link_to '日本語', '', id: 'ja-locale'
-        li class="#{'active' if I18n.locale == :ko}"
-          = link_to '한국어', '', id: 'ko-locale'
+        / li class="#{'active' if I18n.locale == :ja}"
+        /   = link_to '日本語', '', id: 'ja-locale'
+        / li class="#{'active' if I18n.locale == :ko}"
+        /   = link_to '한국어', '', id: 'ko-locale'
         li class="#{'active' if I18n.locale == :en}"
           = link_to 'English', '', id: 'en-locale'
       / - if current_page?(root_path)
