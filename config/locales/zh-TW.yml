@@ -52,12 +52,13 @@ zh-TW:
     match_score: 0.5
   button:
     locate:          定位
-    choose_position: 選擇位置
+    back_to_map:     回到地圖
     previous_step:   上一步
     next_step:       下一步
     fanpage:         粉絲專頁
     location:        位置
     related_comment: 相關評論
+    search:          搜尋
   command:
     success: 設定成功
     error:   設定失敗，輸入指令有誤

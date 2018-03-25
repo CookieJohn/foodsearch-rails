@@ -10,9 +10,9 @@
   = f.input :zoom, as: :hidden, input_html: { value: @zoom, id: 'zoom' }
   .select_button
     = link_to nil, id: 'locate-button', class: 'btn btn-custom' do
-      = i18n_button('locate') + ' '
+      = "#{i18n_button('locate')} "
       i.fa.fa-map-marker
-    = f.button :submit, i18n_button('next_step'), class: 'btn btn-custom'
+    = f.button :submit, i18n_button('search'), class: 'btn btn-custom'
 
 = render partial: "common/loading"
 script[async defer src="https://maps.googleapis.com/maps/api/js?key=#{ENV['google_js_api_key']}&language=#{I18n.locale}&libraries=places&callback=initMap"]

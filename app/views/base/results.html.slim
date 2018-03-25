@@ -18,5 +18,7 @@ a#up-link href=''
   i.fa.fa-angle-double-up.fa-3x
 
 .select_button
-  = link_to i18n_button('choose_position'), location_path, class: 'btn btn-custom'
+  = link_to location_path, class: 'btn btn-custom' do
+    = "#{i18n_button('back_to_map')} "
+    i.fa.fa-map
   = link_to i18n_button('previous_step'), :back, class: 'btn btn-custom'

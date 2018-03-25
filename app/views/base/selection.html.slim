@@ -7,7 +7,9 @@
     = f.input :lat, as: :hidden, input_html: { value: @form.lat }
     = f.input :lng, as: :hidden, input_html: { value: @form.lng }
   .select_button
-    = link_to i18n_button('choose_position'), location_path, class: 'btn btn-custom'
-    = f.button :submit, i18n_button('next_step'), class: 'btn btn-custom', id: 'select-complete'
+    = link_to location_path, class: 'btn btn-custom' do
+      = "#{i18n_button('back_to_map')} "
+      i.fa.fa-map
+    = f.button :submit, i18n_button('search'), class: 'btn btn-custom'
 
 = render partial: "common/loading"

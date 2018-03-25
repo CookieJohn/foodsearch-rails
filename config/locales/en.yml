@@ -25,12 +25,13 @@ en:
     pot:        Pot
   button:
     locate:          Locate
-    choose_position: Choose Position
+    back_to_map:     Back To Map
     previous_step:   Previous Step
     next_step:       Next Step
     fanpage:         FanPage
     location:        Location
     related_comment: Related
+    search:          Search
   placeholder:
     search_address: Enter address, or move marker
   empty:
