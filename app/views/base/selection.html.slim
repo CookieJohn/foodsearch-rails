@@ -10,6 +10,6 @@
     = link_to location_path, class: 'btn btn-custom' do
       = "#{i18n_button('back_to_map')} "
       i.fa.fa-map
-    = f.button :submit, i18n_button('search'), class: 'btn btn-custom'
+    = f.button :submit, i18n_button('search'), class: 'btn btn-custom', id: 'select-complete'
 
 = render partial: "common/loading"
