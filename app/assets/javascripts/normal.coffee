@@ -20,6 +20,11 @@ $ ->
     $('#loading').show()
     return
 
+  $(document).on 'click', '#ban-icon', (e) ->
+    e.preventDefault()
+    $(this).parent().parent().remove()
+    return
+
   $(document).on 'click', '#zh-tw-locale', (event) ->
     event.preventDefault()
     set_locale('zh-TW')
