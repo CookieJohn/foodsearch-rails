@@ -23,6 +23,9 @@ $ ->
   $(document).on 'click', '#ban-icon', (e) ->
     e.preventDefault()
     $(this).parent().parent().remove()
+    old_num = parseInt($('#results_num').html().replace( /[^\d.]/g, '' ), 10)
+    new_num = old_num - 1
+    $('#results_num').html($('#results_num').html().replace(old_num, new_num))
     return
 
   $(document).on 'click', '#zh-tw-locale', (event) ->
