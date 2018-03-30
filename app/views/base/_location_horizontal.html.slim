@@ -4,7 +4,7 @@
   .card-body
     #ban-icon.i.fa.fa-ban.fa-2x.icon-right
     h4.card-title
-      = truncate_utf8(r.name, 14)
+      = truncate_utf8(r.name, 13)
     .card-description
       p = "#{r.business_hours} #{"(關)" if r.open_now == false}"
     .card-description
