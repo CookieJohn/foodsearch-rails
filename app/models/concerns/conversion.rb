@@ -51,16 +51,20 @@ module Conversion
     end
   end
 
-  def get_current_open_time(hours = nil)
+  def get_current_open_time(fb_open_hours = nil)
     open_time = ''
-    if hours.present? && hours.size.positive?
-      open_time = ''
-      date = Time.zone.now.strftime('%a').downcase
-      hours = hours.select { |key, value| key.include?(date) }
-      hours.to_a.each_with_index do |(key, value), index|
-        open_time += '-' if key.include?('open') && index.positive?
-        open_time += '~' if key.include?('close')
-        open_time += value.to_s
+    if fb_open_hours.to_a.any?
+      date = Time.zone.now.strftime('%a').downcase # ex: fri
+      fb_open_hours.to_a.each do |(key, value)|
+        next unless key.include?(date)
+        open_time += case
+                     when key.include?('open') && open_time.present?
+                       ", #{value}"
+                     when key.include?('close')
+                       "~#{value}"
+                     else
+                       value
+                     end
       end
     end
 
