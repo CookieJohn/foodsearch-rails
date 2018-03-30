@@ -4,14 +4,14 @@ ruby '2.5.0'
 
 # fornt
 gem 'rails', '~> 5.1'
-gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0', group: :doc
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '3.3.7'
+gem 'sass-rails'
 gem 'slim-rails'
 gem "font-awesome-rails"
 gem 'meta-tags'
