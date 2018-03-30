@@ -15,10 +15,12 @@
  *= require_self
  */
 
-@import "bootstrap-sprockets";
-@import "bootstrap";
+@import 'bootstrap-sprockets';
+@import 'bootstrap';
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400);
+
+$nav-height: 53px;
 
 html, html * {
   font-family: Roboto;
@@ -26,8 +28,8 @@ html, html * {
   text-align: center;
 }
 body {
-  padding-top: 53px;
-  padding-bottom: 53px;
+  padding-top: $nav-height;
+  padding-bottom: $nav-height;
 }
 p {
   font-size: 16px;
