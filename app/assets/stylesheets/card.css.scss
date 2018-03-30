@@ -22,13 +22,9 @@
   display: flex;
   flex-wrap: wrap;
   overflow-x: '';
+  margin: 3px auto 2px auto;
   @include set-center;
 }
-
-// @media all and (max-width: 768px) {
-//   #restaurants {
-//     padding-bottom: 50px;}
-// }
 
 .card {
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
