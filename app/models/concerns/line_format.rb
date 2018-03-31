@@ -1,5 +1,4 @@
 module LineFormat
-
   def text_format(return_msg)
     {
       type: 'text',
@@ -9,10 +8,10 @@ module LineFormat
 
   def carousel_format(columns)
     {
-      type: 'template',
+      type:    'template',
       altText: I18n.t('carousel.text'),
       template: {
-        type: 'carousel',
+        type:    'carousel',
         columns: columns
       }
     }
@@ -20,9 +19,9 @@ module LineFormat
 
   def button_format(text, link)
     {
-      type: 'uri',
+      type:  'uri',
       label: text,
-      uri: link
+      uri:   link
     }
   end
 
@@ -46,9 +45,9 @@ module LineFormat
 
       columns << {
         thumbnailImageUrl: r.image_url,
-        title: r.name,
-        text: r.text,
-        actions: actions
+        title:             r.name,
+        text:              r.text,
+        actions:           actions
       }
     end
 

@@ -1,17 +1,16 @@
 module FacebookFormat
-
   def text_format(text)
     {
       recipient: { id: @sender_id },
-      message: { text: text }
+      message:   { text: text }
     }
   end
 
   def button(url, title)
     {
-      type: 'web_url',
-      url: url,
-      title: title,
+      type:                 'web_url',
+      url:                  url,
+      title:                title,
       webview_height_ratio: 'tall'
     }
   end
@@ -20,7 +19,7 @@ module FacebookFormat
     {
       recipient: { id: @sender_id },
       message: {
-        text: title_text,
+        text:          title_text,
         quick_replies: quick_reply_options
       }
     }
@@ -34,8 +33,8 @@ module FacebookFormat
           type: 'template',
           payload: {
             template_type: 'button',
-            text: title_text,
-            buttons: button_options
+            text:          title_text,
+            buttons:       button_options
           }
         }
       }
@@ -44,25 +43,25 @@ module FacebookFormat
 
   def button_option(type, title, payload)
     {
-      type: type,
-      title: title,
+      type:    type,
+      title:   title,
       payload: payload
     }
   end
 
   def phone_option(title, phone)
     {
-      type: 'phone_number',
-      title: title,
+      type:    'phone_number',
+      title:   title,
       payload: phone
     }
   end
 
   def button_link_option(url, title, webview_height = 'tall', share_button = 'hide')
     {
-      type: 'web_url',
-      url: url,
-      title: title,
+      type:                 'web_url',
+      url:                  url,
+      title:                title,
       webview_height_ratio: webview_height,
       webview_share_button: share_button
     }
@@ -71,8 +70,8 @@ module FacebookFormat
   def quick_replies_option(title, payload)
     {
       content_type: 'text',
-      title: title,
-      payload: payload
+      title:        title,
+      payload:      payload
     }
   end
 
@@ -93,10 +92,10 @@ module FacebookFormat
       actions << button(safe_url(@google.get_google_search(r.name)), I18n.t('button.related_comment'))
 
       columns << {
-        title: r.name,
-        subtitle: r.text,
+        title:     r.name,
+        subtitle:  r.text,
         image_url: r.image_url,
-        buttons: actions
+        buttons:   actions
       }
     end
 
@@ -107,7 +106,7 @@ module FacebookFormat
           type: 'template',
           payload: {
             template_type: 'generic',
-            elements: columns
+            elements:      columns
           }
         }
       }
