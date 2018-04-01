@@ -28,8 +28,8 @@ class BaseController < ApplicationController
       params.dig(:form, :lat),
       params.dig(:form, :lng),
       size: 1000,
-      mode: params.dig(:form, :sort),
-      keyword: params.dig(:form, :search),
+      mode:     params.dig(:form, :sort),
+      keyword:  params.dig(:form, :search),
       open_now: params.dig(:form, :open_now))
 
     @card_type = params.dig(:form, :card)

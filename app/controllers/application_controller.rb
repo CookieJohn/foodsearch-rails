@@ -14,10 +14,8 @@ class ApplicationController < ActionController::Base
   end
 
   def set_zoom
-    @zoom = if browser.mobile?
-              15
-            else
-              16
+    @zoom = if browser.mobile? then 15
+            else 16
             end
   end
 end

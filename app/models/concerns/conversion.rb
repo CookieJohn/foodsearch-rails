@@ -58,12 +58,9 @@ module Conversion
       fb_open_hours.to_a.each do |(key, value)|
         next unless key.include?(date)
         open_time += case
-                     when key.include?('open') && open_time.present?
-                       ", #{value}"
-                     when key.include?('close')
-                       "~#{value}"
-                     else
-                       value
+                     when key.include?('open') && open_time.present? then ", #{value}"
+                     when key.include?('close') then "~#{value}"
+                     else value
                      end
       end
     end
