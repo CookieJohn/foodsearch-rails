@@ -57,7 +57,7 @@ GEM
       sass (>= 3.3.4)
     browser (2.5.3)
     builder (3.2.3)
-    byebug (10.0.1)
+    byebug (10.0.2)
     capistrano (3.10.1)
       airbrussh (>= 1.0.0)
       i18n
@@ -126,7 +126,7 @@ GEM
     heroku-deflater (0.6.3)
       rack (>= 1.4.5)
     http_parser.rb (0.6.0)
-    httparty (0.16.1)
+    httparty (0.16.2)
       multi_xml (>= 0.5.2)
     i18n (0.9.5)
       concurrent-ruby (~> 1.0)
