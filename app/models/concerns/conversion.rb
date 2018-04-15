@@ -1,33 +1,25 @@
 module Conversion
   def format(result, index = nil)
     OpenStruct.new(
-      index: index,
-      id: result['id'],
-      name: result['name'][0, 40],
-      lat: result['location']['latitude'],
-      lng: result['location']['longitude'],
-      street: result['location']['street'] || I18n.t('empty.address'),
-      rating: result['overall_star_rating'],
-      rating_count: result['rating_count'],
-      google_score: '',
-      phone: result['phone'] || I18n.t('empty.phone'),
-      link_url:
-      result['link'] || result['website'],
-      text: '',
-      category_list: pick_categories(
-        result['category'],
-        result['category_list']
-      ),
-      category_list_web: pick_categories(
-        result['category'],
-        result['category_list'],
-        'web'
-      ),
-      business_hours: get_current_open_time(result['hours']),
-      open_now: result['open_now'],
-      image_url: get_photo(result['id']),
-      distance: "#{result['distance'] || ''}",
-      actions: ''
+      index:             index,
+      id:                result['id'],
+      name:              result['name'][0, 40],
+      lat:               result['location']['latitude'],
+      lng:               result['location']['longitude'],
+      street:            result['location']['street'] || I18n.t('empty.address'),
+      rating:            result['overall_star_rating'],
+      rating_count:      result['rating_count'],
+      google_score:      nil,
+      phone:             result['phone'] || I18n.t('empty.phone'),
+      link_url:          result['link'] || result['website'],
+      text:              nil,
+      category_list:     pick_categories(result['category'], result['category_list']),
+      category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
+      business_hours:    get_current_open_time(result['hours']),
+      open_now:          result['open_now'],
+      image_url:         get_photo(result['id']),
+      distance:          "#{result['distance'] || ''}",
+      actions:           nil
     )
   end
 
