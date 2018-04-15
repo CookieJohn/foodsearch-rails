@@ -29,8 +29,7 @@ module LineFormat
     columns = []
 
     results.each do |result|
-      r = format(result)
-      r.text = set_text(r, 'line')
+      r = reorganization(result, 'line')
 
       actions = []
       actions << button_format(I18n.t('button.fanpage'), safe_url(r.link_url))
@@ -46,7 +45,7 @@ module LineFormat
       columns << {
         thumbnailImageUrl: r.image_url,
         title:             r.name,
-        text:              r.text,
+        text:              r.description,
         actions:           actions
       }
     end

@@ -4,15 +4,15 @@ class LineBotService < BaseService
   include LineFormat
   include Conversion
 
-  def initialize request
+  def initialize(request)
     @line_client ||= Line::Bot::Client.new { |config|
       config.channel_secret = ENV['line_channel_secret']
-      config.channel_token = ENV['line_channel_token']
+      config.channel_token  = ENV['line_channel_token']
     }
-    @graph ||= GraphApiService.new
-    @google ||= GoogleMapService.new
+    @graph   ||= GraphApiService.new
+    @google  ||= GoogleMapService.new
     @request ||= request
-    @user ||= nil
+    @user    ||= nil
   end
 
   def reply_msg
@@ -27,8 +27,8 @@ class LineBotService < BaseService
       when Line::Bot::Event::Message
         case event.type
         when Line::Bot::Event::MessageType::Text
-          msg = event.message['text'].downcase
-          @line_client.reply_message(event['replyToken'], text_format(msg))
+          # msg = event.message['text'].downcase
+          # @line_client.reply_message(event['replyToken'], text_format(msg))
         when Line::Bot::Event::MessageType::Location
           lat = event.message['latitude']
           lng = event.message['longitude']

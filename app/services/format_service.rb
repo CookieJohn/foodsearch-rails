@@ -9,8 +9,7 @@ class FormatService < BaseService
     columns = []
 
     results.each_with_index do |r, index|
-      result = format(r, index+1)
-      result.text = set_text(result)
+      result = reorganization(r, nil, index+1)
 
       result.location = @google.get_map_link(result.lat, result.lng, result.name, result.street)
       result.related_comment = @google.get_google_search(result.name)

@@ -83,8 +83,7 @@ module FacebookFormat
     columns = []
 
     results.each do |result|
-      r = format(result)
-      r.text = set_text(r, 'facebook')
+      r = reorganization(result, 'facebook')
 
       actions = []
       actions << button(safe_url(r.link_url), I18n.t('button.fanpage'))
@@ -93,7 +92,7 @@ module FacebookFormat
 
       columns << {
         title:     r.name,
-        subtitle:  r.text,
+        subtitle:  r.description,
         image_url: r.image_url,
         buttons:   actions
       }

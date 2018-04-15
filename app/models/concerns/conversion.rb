@@ -1,46 +1,42 @@
 module Conversion
-  def format(result, index = nil)
-    OpenStruct.new(
-      index:             index,
-      id:                result['id'],
-      name:              result['name'][0, 40],
-      lat:               result['location']['latitude'],
-      lng:               result['location']['longitude'],
-      street:            result['location']['street'] || I18n.t('empty.address'),
-      rating:            result['overall_star_rating'],
-      rating_count:      result['rating_count'],
-      google_score:      nil,
-      phone:             result['phone'] || I18n.t('empty.phone'),
-      link_url:          result['link'] || result['website'],
-      text:              nil,
-      category_list:     pick_categories(result['category'], result['category_list']),
-      category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
-      business_hours:    get_current_open_time(result['hours']),
-      open_now:          result['open_now'],
-      image_url:         get_photo(result['id']),
-      distance:          "#{result['distance'] || ''}",
-      actions:           nil
-    )
+  def reorganization(result, type, index = nil)
+    result = OpenStruct.new(
+              index:             index,
+              id:                result['id'],
+              name:              result['name'][0, 40],
+              lat:               result['location']['latitude'],
+              lng:               result['location']['longitude'],
+              street:            result['location']['street'] || I18n.t('empty.address'),
+              rating:            result['overall_star_rating'],
+              rating_count:      result['rating_count'],
+              google_score:      nil,
+              phone:             result['phone'] || I18n.t('empty.phone'),
+              link_url:          result['link'] || result['website'],
+              description:       nil,
+              category_list:     pick_categories(result['category'], result['category_list']),
+              category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
+              business_hours:    get_current_open_time(result['hours']),
+              open_now:          result['open_now'],
+              image_url:         get_photo(result['id']),
+              distance:          "#{result['distance'] || ''}",
+              actions:           nil
+            )
+    result.description = set_description(result, type)
+    result
   end
 
-  def set_text(r, type = 'web')
-    case type
-    when 'web'
-      %Q(#{r.business_hours}
-       #{r.phone}
-       #{r.street}
-      )
-    when 'line'
-      ("#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" \
-      "#{r.rating_count}#{I18n.t('common.people')}\n" \
-      "#{r.category_list}\n#{r.business_hours}\n" \
-      "#{r.distance}#{I18n.t('label.meter')}")[0, 60]
-    when 'facebook'
-      ("#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" \
-      "#{r.rating_count}#{I18n.t('common.people')}\n" \
-      "#{r.category_list}\n#{r.business_hours}\n" \
-      "#{r.distance}#{I18n.t('label.meter')}")[0, 80]
-    end
+  def set_description(r, type = 'web')
+    max_word = case type
+               when 'line'     then 60
+               when 'facebook' then 80
+               end
+
+    return unless max_word
+
+    ("#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" \
+     "#{r.rating_count}#{I18n.t('common.people')}\n" \
+     "#{r.category_list}\n#{r.business_hours}\n" \
+     "#{r.distance}#{I18n.t('label.meter')}")[0, max_word]
   end
 
   def get_current_open_time(fb_open_hours = nil)
