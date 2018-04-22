@@ -46,6 +46,8 @@ group :development, :test do
   gem 'rspec-rails', '~> 3.6'
   gem 'vcr'
   gem "webmock", require: false
+  gem 'pry'
+  gem 'pry-byebug'
 end
 
 group :development do
@@ -59,7 +61,6 @@ group :development do
   gem 'guard-livereload', '~> 2.5', require: false
 
   gem 'better_errors'
-  gem 'pry'
   gem 'figaro'
 
   gem 'rubocop', require: false
