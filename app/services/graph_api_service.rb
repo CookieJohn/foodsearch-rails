@@ -41,7 +41,7 @@ class GraphApiService < BaseService
     #                         limit: limit,
     #                         fields: DEFAULT_FIELDS)
     # 測試API
-    api_url = "#{SEARCH_API}q=#{keyword}&suppress_http_code=1&
+    api_url = "#{SEARCH_API}q=#{URI.escape(keyword)}&suppress_http_code=1&
               type=place&
               center=#{position}&
               distance=#{max_distance}&
@@ -49,8 +49,8 @@ class GraphApiService < BaseService
               limit=#{limit}&
               fields=#{DEFAULT_FIELDS}&
               access_token=#{@oauth_access_token}"
-    uri             = URI.parse(URI.escape(api_url))
-    response        = Net::HTTP.get(uri)
+
+    response        = Net::HTTP.get(URI.parse(api_url))
     next_result_url = JSON.parse(response).dig('paging', 'next')
     results         = JSON.parse(response).dig('data')
 

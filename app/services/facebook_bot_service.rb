@@ -164,7 +164,7 @@ class FacebookBotService < BaseService
   end
 
   def search_by_location
-    keyword = get_redis_data(@user_id, 'keyword') || 'restaurant'
+    keyword = get_redis_data(@user_id, 'keyword')
     fb_results = @graph.search_places(@lat, @lng, user: @user, size: 10, keyword: keyword)
     if fb_results.size.positive?
       message_data = generic_elements(fb_results)
