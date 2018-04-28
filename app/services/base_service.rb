@@ -37,7 +37,7 @@ class BaseService
 
   def redis_get_user_data(user_id)
     user_data = $redis.get(user_id.to_s)
-    user_data.present? ? JSON.parse(user_data) : ''
+    user_data.present? ? JSON.parse(user_data) : {}
   end
 
   def redis_set_user_data(user_id, type, data)
