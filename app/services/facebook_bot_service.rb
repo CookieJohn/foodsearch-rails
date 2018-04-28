@@ -36,19 +36,17 @@ class FacebookBotService < BaseService
         # user_setting
         location_setting(receive_message)
 
-        if @lat.present? && @lng.present?
-          search_by_location
-        else
-          message_type = if quick_reply_payload.present?
-                           quick_reply_payload
-                         elsif button_payload.present?
-                           button_payload
-                         elsif message.present?
-                           'message'
-                         end
-          message_data = get_response(message_type, message) if message_type.present?
-          http_post(API_URL, message_data) if message_data.present?
-        end
+        return search_by_location if @lat.present? && @lng.present?
+
+        message_type = if quick_reply_payload.present?
+                         quick_reply_payload
+                       elsif button_payload.present?
+                         button_payload
+                       elsif message.present?
+                         'message'
+                       end
+        message_data = get_response(message_type, message) if message_type.present?
+        http_post(API_URL, message_data) if message_data.present?
       end
     end
   end
