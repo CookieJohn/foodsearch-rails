@@ -19,18 +19,18 @@ class GraphApiService < BaseService
   end
 
   def search_places lat, lng, options={}
-    limit = 100
-    user = options[:user] || nil
-    size = options[:size] || 5
-    mode = options[:mode] || nil
+    limit    = 100
+    user     = options[:user] || nil
+    size     = options[:size] || 5
+    mode     = options[:mode] || nil
     open_now = options.dig(:open_now).present? ? options[:open_now] : user.try(:open_now)
-    keyword = options[:keyword] || DEFAULT_SEARCH
+    keyword  = options[:keyword] || DEFAULT_SEARCH
 
-    position = "#{lat},#{lng}"
+    position     = "#{lat},#{lng}"
     max_distance = user.try(:max_distance) || DEFAULT_DISTANCE
-    min_score = user.try(:min_score) || DEFAULT_MIN_SCORE
-    random_type = user.try(:random_type) || DEFAULT_RANDOM
-    open_now = open_now || DEFAULT_OPEN
+    min_score    = user.try(:min_score) || DEFAULT_MIN_SCORE
+    random_type  = user.try(:random_type) || DEFAULT_RANDOM
+    open_now     = open_now || DEFAULT_OPEN
 
     # old API
     # results = @graph.search(keyword,
@@ -49,14 +49,15 @@ class GraphApiService < BaseService
               limit=#{limit}&
               fields=#{DEFAULT_FIELDS}&
               access_token=#{@oauth_access_token}"
-    response = Net::HTTP.get(URI.parse(api_url))
+    uri             = URI.parse(URI.escape(api_url))
+    response        = Net::HTTP.get(uri)
     next_result_url = JSON.parse(response).dig('paging', 'next')
-    results = JSON.parse(response).dig('data')
+    results         = JSON.parse(response).dig('data')
 
     until !next_result_url.present? do
-      response = Net::HTTP.get(URI.parse(next_result_url))
+      response        = Net::HTTP.get(URI.parse(next_result_url))
       next_result_url = JSON.parse(response).dig('paging', 'next')
-      results += JSON.parse(response).dig('data')
+      results         += JSON.parse(response).dig('data')
     end
 
     # 移除連結不存在 的搜尋結果

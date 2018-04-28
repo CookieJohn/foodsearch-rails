@@ -48,6 +48,6 @@ class BaseService
 
   def get_redis_data(user_id, keyword)
     record = redis_get_user_data(user_id)
-    record.dig(keyword) || {}
+    record.dig(keyword) || ''
   end
 end
