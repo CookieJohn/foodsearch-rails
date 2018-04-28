@@ -64,11 +64,11 @@ class GraphApiService < BaseService
     # 移除類別不包含 餐 的搜尋結果
     # 移除評分低於設定數字的搜尋結果
 
-    # results = facebook_results.reject { |r|
-    #   r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
-    #     r['is_permanently_closed'] == true ||
-    #     r['overall_star_rating'].to_i < min_score }
     return '' if results.blank?
+
+    results = facebook_results.reject { |r|
+      r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
+        r['is_permanently_closed'] == true}
 
     results = results.reject { |r| r['overall_star_rating'].to_f < min_score }
     # 判斷目前是否營業中
