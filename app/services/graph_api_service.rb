@@ -68,7 +68,7 @@ class GraphApiService < BaseService
     #   r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
     #     r['is_permanently_closed'] == true ||
     #     r['overall_star_rating'].to_i < min_score }
-    return nil if results.blank?
+    return '' if results.blank?
 
     results = results.reject { |r| r['overall_star_rating'].to_f < min_score }
     # 判斷目前是否營業中
