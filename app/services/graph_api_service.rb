@@ -66,7 +66,7 @@ class GraphApiService < BaseService
 
     return '' if results.blank?
 
-    results = facebook_results.reject { |r|
+    results = results.reject { |r|
       r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
         r['is_permanently_closed'] == true}
 
