@@ -23,14 +23,16 @@ class FacebookBotService < BaseService
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
+        @sender_id = receive_message.dig('sender', 'id')
+
+        return if is_bot?
+
         message = receive_message.dig('message', 'text')
         button_payload = receive_message.dig('postback', 'payload')
         # button_payload_title = receive_message.dig('postback', 'title')
         quick_reply_payload = receive_message.dig('message', 'quick_reply', 'payload')
         # quick_reply_payload_title = receive_message.dig('message', 'quick_reply', 'title')
-        @sender_id = receive_message.dig('sender', 'id')
 
-        next unless not_bot
         # user_setting
         location_setting(receive_message)
 
@@ -143,8 +145,8 @@ class FacebookBotService < BaseService
     body.dig('object') == 'page'
   end
 
-  def not_bot
-    @sender_id != BOT_ID
+  def is_bot?
+    @sender_id == BOT_ID
   end
 
   def user_setting
