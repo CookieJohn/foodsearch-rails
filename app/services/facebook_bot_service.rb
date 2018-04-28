@@ -19,7 +19,7 @@ class FacebookBotService < BaseService
     body = JSON.parse(request.body.read)
     entries = body['entry']
 
-    fb_message?(body)
+    return if not_fb_message?(body)
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
@@ -139,8 +139,8 @@ class FacebookBotService < BaseService
     end
   end
 
-  def fb_message?(body)
-    body.dig('object') == 'page'
+  def not_fb_message?(body)
+    body.dig('object') != 'page'
   end
 
   def is_bot?
@@ -154,7 +154,7 @@ class FacebookBotService < BaseService
   end
 
   def location_setting(receive_message)
-    return unless receive_message.dig('message', 'attachments').present?
+    return if receive_message.dig('message', 'attachments').blank?
 
     receive_message['message']['attachments'].try(:each) do |location|
       @lat = location.dig('payload', 'coordinates', 'lat')
