@@ -9,7 +9,7 @@ class FacebookBotService < BaseService
     @graph     ||= GraphApiService.new
     @google    ||= GoogleMapService.new
     @user      ||= nil
-    @user_id   ||= nil
+    @user_id   ||= 1
     @sender_id ||= nil
     @lat       ||= nil
     @lng       ||= nil
@@ -29,11 +29,9 @@ class FacebookBotService < BaseService
 
         message = receive_message.dig('message', 'text')
         button_payload = receive_message.dig('postback', 'payload')
-        # button_payload_title = receive_message.dig('postback', 'title')
         quick_reply_payload = receive_message.dig('message', 'quick_reply', 'payload')
-        # quick_reply_payload_title = receive_message.dig('message', 'quick_reply', 'title')
 
-        # user_setting
+        user_setting
         location_setting(receive_message)
 
         return search_by_location if @lat.present? && @lng.present?
@@ -148,8 +146,8 @@ class FacebookBotService < BaseService
   end
 
   def user_setting
-    User.create!(facebook_user_id: @sender_id) unless User.exists?(facebook_user_id: @sender_id)
-    @user = User.find_by(facebook_user_id: @sender_id)
+    # User.create!(facebook_user_id: @sender_id) unless User.exists?(facebook_user_id: @sender_id)
+    # @user = User.find_by(facebook_user_id: @sender_id)
     redis_initialize_user(@user_id) unless redis_key_exist?(@user_id)
   end
 
