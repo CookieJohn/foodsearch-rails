@@ -157,11 +157,14 @@ class FacebookBotService < BaseService
     receive_message['message']['attachments'].try(:each) do |location|
       @lat = location.dig('payload', 'coordinates', 'lat')
       @lng = location.dig('payload', 'coordinates', 'long')
+
+      redis_set_user_data(@user_id, 'lat', @lat)
+      redis_set_user_data(@user_id, 'lng', @lng)
     end
   end
 
   def search_by_location
-    keyword = get_redis_data(@user_id, 'keyword')
+    keyword = get_redis_data(@user_id, 'keyword') || 'restaurant'
     fb_results = @graph.search_places(@lat, @lng, user: @user, size: 10, keyword: keyword)
     if fb_results.size.positive?
       message_data = generic_elements(fb_results)
