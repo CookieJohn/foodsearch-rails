@@ -9,7 +9,7 @@ class FacebookBotService < BaseService
     @graph     ||= GraphApiService.new
     @google    ||= GoogleMapService.new
     @user      ||= nil
-    @user_id   ||= 1
+    @user_id   ||= '1'
     @sender_id ||= nil
     @lat       ||= nil
     @lng       ||= nil
