@@ -25,7 +25,7 @@ class FacebookBotService < BaseService
       entry['messaging'].each do |receive_message|
         return if is_bot?(receive_message)
 
-        message = receive_message.dig('message', 'text')
+        message      = receive_message.dig('message', 'text')
         message_type = case
                        when receive_message.dig('message', 'quick_reply')
                          receive_message.dig('message', 'quick_reply', 'payload')
