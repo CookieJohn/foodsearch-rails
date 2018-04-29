@@ -183,6 +183,8 @@ class FacebookBotService < BaseService
   end
 
   class DefaultResponse
+    include FacebookFormat
+
     attr_accessor :options, :title
 
     def initialize
