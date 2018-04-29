@@ -1,5 +1,5 @@
 module MessengerBotResponse
-  def self.for(type = nil)
+  def self.for(sender_id, type = nil)
     subject = case type
               when 'done'
                 SearchDone
@@ -9,7 +9,7 @@ module MessengerBotResponse
                 DefaultResponse
               end
 
-    subject.new.reply
+    subject.new(sender_id).reply
   end
 end
 
@@ -18,9 +18,10 @@ class DefaultResponse
 
   attr_accessor :options, :title
 
-  def initialize
-    @options = []
-    @title   = ''
+  def initialize(sender_id)
+    @sender_id = sender_id
+    @options   = []
+    @title     = ''
   end
 
   def reply

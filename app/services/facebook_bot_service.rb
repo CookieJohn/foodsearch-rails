@@ -111,7 +111,7 @@ class FacebookBotService < BaseService
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
     else
-      MessengerBotResponse.for
+      MessengerBotResponse.for(@sender_id)
     end
   end
 
@@ -150,12 +150,12 @@ class FacebookBotService < BaseService
     if fb_results.size.positive?
       message_data = generic_elements(fb_results)
       http_post(API_URL, message_data)
-      message_data = MessengerBotResponse.for('done')
+      message_data = MessengerBotResponse.for(@sender_id, 'done')
       http_post(API_URL, message_data)
 
       clear_keyword
     else
-      message_data = MessengerBotResponse.for('no_result')
+      message_data = MessengerBotResponse.for(@sender_id, 'no_result')
       http_post(API_URL, message_data)
     end
   end
