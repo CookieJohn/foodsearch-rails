@@ -33,7 +33,7 @@ class FacebookBotService < BaseService
                          receive_message.dig('postback', 'payload')
                        when receive_message.dig('message', 'attachments')
                          location_setting(receive_message)
-                         return search_by_location if @lat.present? && @lng.present?
+                         return search_by_location
                        when receive_message.dig('message', 'text')
                          'message'
                        end
@@ -52,11 +52,11 @@ class FacebookBotService < BaseService
         type = 'search_specific_item'
       else
         redis_set_user_data(@user_id, 'customize', false)
-        redis_set_user_data(@user_id, 'keyword', '')
+        clear_keyword
       end
     else
       if type != 'last_location' && get_redis_data(@user_id, 'keyword').present?
-        redis_set_user_data(@user_id, 'keyword', '')
+        clear_keyword
       end
     end
     case type
@@ -155,12 +155,13 @@ class FacebookBotService < BaseService
       @lat = location.dig('payload', 'coordinates', 'lat')
       @lng = location.dig('payload', 'coordinates', 'long')
 
-      redis_set_user_data(@user_id, 'lat', @lat)
-      redis_set_user_data(@user_id, 'lng', @lng)
+      record_lat_lng(@lat, @lng)
     end
   end
 
   def search_by_location
+    return unless @lat.present? && @lng.present?
+
     keyword = get_redis_data(@user_id, 'keyword')
     fb_results = @graph.search_places(@lat, @lng, user: @user, size: 10, keyword: keyword)
     if fb_results.size.positive?
@@ -169,12 +170,19 @@ class FacebookBotService < BaseService
       message_data = get_response('done', nil)
       http_post(API_URL, message_data)
 
-      redis_set_user_data(@user_id, 'keyword', '')
-      redis_set_user_data(@user_id, 'lat', @lat)
-      redis_set_user_data(@user_id, 'lng', @lng)
+      clear_keyword
     else
       message_data = get_response('no_result', nil)
       http_post(API_URL, message_data)
     end
+  end
+
+  def clear_keyword
+    redis_set_user_data(@user_id, 'keyword', '')
+  end
+
+  def record_lat_lng(lat = nil, lng = nil)
+    redis_set_user_data(@user_id, 'lat', lat)
+    redis_set_user_data(@user_id, 'lng', lng)
   end
 end
