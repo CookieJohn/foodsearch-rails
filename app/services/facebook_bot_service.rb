@@ -23,26 +23,20 @@ class FacebookBotService < BaseService
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
-        @sender_id = receive_message.dig('sender', 'id')
+        return if is_bot?(receive_message)
 
-        return if is_bot?
-
-        message = receive_message.dig('message', 'text')
-        button_payload = receive_message.dig('postback', 'payload')
-        quick_reply_payload = receive_message.dig('message', 'quick_reply', 'payload')
-
-        user_setting
-        location_setting(receive_message)
-
-        return search_by_location if @lat.present? && @lng.present?
-
-        message_type = if quick_reply_payload.present?
-                         quick_reply_payload
-                       elsif button_payload.present?
-                         button_payload
-                       elsif message.present?
+        message_type = case
+                       when receive_message.dig('message', 'quick_reply')
+                         receive_message.dig('message', 'quick_reply', 'payload')
+                       when receive_message.dig('postback')
+                         receive_message.dig('postback', 'payload')
+                       when receive_message.dig('message', 'attachments')
+                         location_setting(receive_message)
+                         return search_by_location if @lat.present? && @lng.present?
+                       when receive_message.dig('message', 'text')
                          'message'
                        end
+
         message_data = get_response(message_type, message) if message_type.present?
         http_post(API_URL, message_data) if message_data.present?
       end
@@ -141,8 +135,10 @@ class FacebookBotService < BaseService
     body.dig('object') != 'page'
   end
 
-  def is_bot?
-    @sender_id == BOT_ID
+  def is_bot?(receive_message)
+    @sender_id = receive_message.dig('sender', 'id')
+    return if @sender_id == BOT_ID
+    user_setting
   end
 
   def user_setting
