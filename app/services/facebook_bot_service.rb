@@ -61,32 +61,14 @@ class FacebookBotService < BaseService
     end
     case type
     when 'choose_search_type'
-      title_text = I18n.t('messenger.please-enter-keyword')
-      options = []
-      options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
-      I18n.t('settings.facebook.search_texts').each do |search_text|
-        options << quick_replies_option(search_text, 'search_specific_item')
-      end
-      options << quick_replies_option(I18n.t('messenger.all'), 'direct_search')
-      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
-      quick_replies_format(title_text, options)
+      MessengerBotResponse.for(@sender_id, 'choose_search_type')
     when 'customized_keyword'
       redis_set_user_data(@user_id, 'customize', true)
-      title_text = '請輸入你想查詢的關鍵字：'
-      options = []
-      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
-      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
-      quick_replies_format(title_text, options)
+      MessengerBotResponse.for(@sender_id, 'customized_keyword')
     when 'search_specific_item'
       redis_set_user_data(@user_id, 'keyword', text)
       redis_set_user_data(@user_id, 'customize', false)
-      title_text = "你想找的是： #{text}\n請告訴我你的位置。"
-      options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
-      options << send_location
-      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
-      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
-      quick_replies_format(title_text, options)
+      MessengerBotResponse.for(@sender_id, 'search_specific_item', text)
     when 'direct_search'
       MessengerBotResponse.for(@sender_id, 'direct_search')
     when 'last_location'

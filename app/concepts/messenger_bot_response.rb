@@ -1,6 +1,12 @@
 module MessengerBotResponse
-  def self.for(sender_id, type = nil)
+  def self.for(sender_id, type = nil, msg = nil)
     subject = case type
+              when 'choose_search_type'
+                ChooseSearchType
+              when 'search_specific_item'
+                SearchSpecificItem
+              when 'customized_keyword'
+                CustomizedKeyword
               when 'direct_search'
                 DirectSearch
               when 'done'
@@ -13,19 +19,20 @@ module MessengerBotResponse
                 DefaultResponse
               end
 
-    subject.new(sender_id).reply
+    subject.new(sender_id, msg).reply
   end
 end
 
 class DefaultResponse
   include FacebookFormat
 
-  attr_accessor :options, :title
+  attr_accessor :options, :title, :msg
 
-  def initialize(sender_id)
+  def initialize(sender_id, msg = nil)
     @sender_id = sender_id
     @options   = []
     @title     = ''
+    @msg       = msg
   end
 
   def reply
@@ -42,8 +49,41 @@ class DefaultResponse
     quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
   end
 
+  def last_location_reply
+    quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
+  end
+
   def back_reply
     quick_replies_option(I18n.t('messenger.menu'), 'back')
+  end
+end
+
+class ChooseSearchType < DefaultResponse
+  def reply
+    title   = I18n.t('messenger.please-enter-keyword')
+    options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
+    I18n.t('settings.facebook.search_texts').each do |search_text|
+      options << quick_replies_option(search_text, 'search_specific_item')
+    end
+    options << quick_replies_option(I18n.t('messenger.all'), 'direct_search')
+    options << back_reply
+    quick_replies_format(title, options)
+  end
+end
+
+class SearchSpecificItem < DefaultResponse
+  def reply
+    title   = "你想找的是： #{msg}\n請告訴我你的位置。"
+    options << [last_location_reply, send_location, choose_search_reply, back_reply]
+    quick_replies_format(title, options)
+  end
+end
+
+class CustomizedKeyword < DefaultResponse
+  def reply
+    title   = '請輸入你想查詢的關鍵字：'
+    options = [choose_search_reply, back_reply]
+    quick_replies_format(title, options)
   end
 end
 
@@ -58,8 +98,7 @@ end
 class DirectSearch < DefaultResponse
   def reply
     title   = I18n.t('messenger.your-location')
-    options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
-    options << send_location
+    options << [last_location_reply, send_location]
     quick_replies_format(title, options)
   end
 end
