@@ -1,10 +1,14 @@
 module MessengerBotResponse
   def self.for(sender_id, type = nil)
     subject = case type
+              when 'direct_search'
+                DirectSearch
               when 'done'
                 SearchDone
               when 'no_result'
                 NoResult
+              when 'no_last_location'
+                NoLastLocation
               else
                 DefaultResponse
               end
@@ -47,6 +51,23 @@ class NoResult < DefaultResponse
   def reply
     title   = "這個位置，沒有與#{get_redis_data(@user_id, 'keyword')}相關的搜尋結果！"
     options = [choose_search_reply, back_reply]
+    quick_replies_format(title, options)
+  end
+end
+
+class DirectSearch < DefaultResponse
+  def reply
+    title   = I18n.t('messenger.your-location')
+    options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
+    options << send_location
+    quick_replies_format(title, options)
+  end
+end
+
+class NoLastLocation < DefaultResponse
+  def reply
+    title   = '您沒有搜尋過唷！'
+    options = [send_location, choose_search_reply, back_reply]
     quick_replies_format(title, options)
   end
 end

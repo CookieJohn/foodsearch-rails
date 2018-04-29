@@ -88,28 +88,13 @@ class FacebookBotService < BaseService
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
     when 'direct_search'
-      title_text = I18n.t('messenger.your-location')
-      options = []
-      options << quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
-      options << send_location
-      quick_replies_format(title_text, options)
+      MessengerBotResponse.for(@sender_id, 'direct_search')
     when 'last_location'
-      if get_redis_data(@user_id, 'lat').present?
-        @lat = get_redis_data(@user_id, 'lat')
-        @lng = get_redis_data(@user_id, 'lng')
-        search_by_location
-      else
-        message_data = get_response('no_last_location', nil)
-        http_post(API_URL, message_data)
-        nil
-      end
-    when 'no_last_location'
-      title_text = '您沒有搜尋過唷！'
-      options = []
-      options << send_location
-      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
-      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
-      quick_replies_format(title_text, options)
+      return MessengerBotResponse.for(@sender_id, 'no_last_location') unless get_redis_data(@user_id, 'lat').present?
+
+      @lat = get_redis_data(@user_id, 'lat')
+      @lng = get_redis_data(@user_id, 'lng')
+      search_by_location
     else
       MessengerBotResponse.for(@sender_id)
     end
