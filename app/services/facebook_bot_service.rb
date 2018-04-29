@@ -101,14 +101,8 @@ class FacebookBotService < BaseService
       else
         message_data = get_response('no_last_location', nil)
         http_post(API_URL, message_data)
+        nil
       end
-    when 'done'
-      title_text = '有找到喜歡的嗎？'
-      options = []
-      options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
-      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
-      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
-      quick_replies_format(title_text, options)
     when 'no_last_location'
       title_text = '您沒有搜尋過唷！'
       options = []
@@ -116,19 +110,8 @@ class FacebookBotService < BaseService
       options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
       options << quick_replies_option(I18n.t('messenger.menu'), 'back')
       quick_replies_format(title_text, options)
-    when 'no_result'
-      title_text = "這個位置，沒有與#{get_redis_data(@user_id, 'keyword')}相關的搜尋結果！"
-      options = []
-      options << quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
-      options << quick_replies_option(I18n.t('messenger.menu'), 'back')
-      quick_replies_format(title_text, options)
     else
-      title_text = '請選擇搜尋方式，設定頁面可以調整搜尋條件。'
-      options = []
-      options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
-      options << button_option('postback', '關鍵字搜尋', 'customized_keyword')
-      options << button_link_option("https://johnwudevelop.tk/users/#{@user_id}", '搜尋設定')
-      button_format(title_text, options)
+      MessengerBotresponse.for
     end
   end
 
@@ -167,12 +150,12 @@ class FacebookBotService < BaseService
     if fb_results.size.positive?
       message_data = generic_elements(fb_results)
       http_post(API_URL, message_data)
-      message_data = get_response('done', nil)
+      message_data = MessengerBotresponse.for('done')
       http_post(API_URL, message_data)
 
       clear_keyword
     else
-      message_data = get_response('no_result', nil)
+      message_data = MessengerBotresponse.for('no_result')
       http_post(API_URL, message_data)
     end
   end
@@ -184,5 +167,67 @@ class FacebookBotService < BaseService
   def record_lat_lng(lat = nil, lng = nil)
     redis_set_user_data(@user_id, 'lat', lat)
     redis_set_user_data(@user_id, 'lng', lng)
+  end
+
+  module MessengerBotresponse
+    def self.for(type = nil)
+      case type
+      when 'done'
+        SearchDone.new.reply
+      when 'no_result'
+        NoResult.new.reply
+      else
+        DefaultResponse.new.reply
+      end
+    end
+  end
+
+  class DefaultResponse
+    attr_accessor :options, :title
+
+    def initialize
+      @options = []
+      @title   = ''
+    end
+
+    private
+
+    def reply
+      title   = '請選擇搜尋方式，設定頁面可以調整搜尋條件。'
+      options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
+      options << button_option('postback', '關鍵字搜尋', 'customized_keyword')
+      options << button_link_option("https://johnwudevelop.tk/users/#{@user_id}", '搜尋設定')
+      button_format(title, options)
+    end
+
+    def choose_search_reply
+      quick_replies_option(I18n.t('messenger.re-select'), 'choose_search_type')
+    end
+
+    def back_reply
+      quick_replies_option(I18n.t('messenger.menu'), 'back')
+    end
+  end
+
+  class NoResult < DefaultResponse
+    private
+
+    def reply
+      title   = "這個位置，沒有與#{get_redis_data(@user_id, 'keyword')}相關的搜尋結果！"
+      options = [choose_search_reply, back_reply]
+      quick_replies_format(title, options)
+    end
+  end
+
+  class SearchDone < DefaultResponse
+    private
+
+    def reply
+      title = '有找到喜歡的嗎？'
+      options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
+      options << choose_search_reply
+      options << back_reply
+      quick_replies_format(title, options)
+    end
   end
 end
