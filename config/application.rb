@@ -42,5 +42,7 @@ module Foodsearch
       g.helper = false
       g.skip_routes true
     end
+
+    config.autoload_paths += %W(#{Rails.root}/app/concepts)
   end
 end
