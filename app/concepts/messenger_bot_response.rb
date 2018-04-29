@@ -74,7 +74,7 @@ end
 class SearchSpecificItem < DefaultResponse
   def reply
     title   = "你想找的是： #{msg}\n請告訴我你的位置。"
-    options << [last_location_reply, send_location, choose_search_reply, back_reply]
+    options = [last_location_reply, send_location, choose_search_reply, back_reply]
     quick_replies_format(title, options)
   end
 end
