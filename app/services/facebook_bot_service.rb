@@ -35,7 +35,11 @@ class FacebookBotService < BaseService
                          location_setting(receive_message)
                          return search_by_location
                        when receive_message.dig('message', 'text')
-                         'message'
+                         if get_redis_data(@user_id, 'customize') == true
+                           'search_specific_item'
+                         else
+                           'message'
+                         end
                        end
 
         message_data = get_response(message_type, message) if message_type.present?
@@ -47,37 +51,31 @@ class FacebookBotService < BaseService
   private
 
   def get_response type, text=nil
-    if get_redis_data(@user_id, 'customize') == true
-      if type == 'message'
-        type = 'search_specific_item'
-      else
-        redis_set_user_data(@user_id, 'customize', false)
-        clear_keyword
-      end
-    else
-      if type != 'last_location' && get_redis_data(@user_id, 'keyword').present?
-        clear_keyword
-      end
-    end
     case type
     when 'choose_search_type'
+      clear_keyword
       MessengerBotResponse.for(@sender_id, 'choose_search_type')
     when 'customized_keyword'
       redis_set_user_data(@user_id, 'customize', true)
+      clear_keyword
       MessengerBotResponse.for(@sender_id, 'customized_keyword')
     when 'search_specific_item'
       redis_set_user_data(@user_id, 'keyword', text)
-      redis_set_user_data(@user_id, 'customize', false)
+      disable_customize
       MessengerBotResponse.for(@sender_id, 'search_specific_item', text)
     when 'direct_search'
+      disable_customize
       MessengerBotResponse.for(@sender_id, 'direct_search')
     when 'last_location'
       return MessengerBotResponse.for(@sender_id, 'no_last_location') unless get_redis_data(@user_id, 'lat').present?
 
+      disable_customize
       @lat = get_redis_data(@user_id, 'lat')
       @lng = get_redis_data(@user_id, 'lng')
       search_by_location
     else
+      disable_customize
+      clear_keyword
       MessengerBotResponse.for(@sender_id)
     end
   end
@@ -129,6 +127,10 @@ class FacebookBotService < BaseService
 
   def clear_keyword
     redis_set_user_data(@user_id, 'keyword', '')
+  end
+
+  def disable_customize
+    redis_set_user_data(@user_id, 'customize', false)
   end
 
   def record_lat_lng(lat = nil, lng = nil)
