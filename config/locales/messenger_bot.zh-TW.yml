@@ -1,0 +1,9 @@
+zh-TW:
+  messenger:
+    re-select:            重新選擇類型
+    menu:                 主選單
+    all:                  所有類型
+    enter-keyword:        輸入關鍵字
+    please-enter-keyword: 請選擇想搜尋的美食類型，或輸入關鍵字尋找
+    last-location:        上次的位置
+    your-location:        請告訴我您的位置。

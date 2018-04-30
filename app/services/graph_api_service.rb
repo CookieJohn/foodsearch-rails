@@ -19,18 +19,18 @@ class GraphApiService < BaseService
   end
 
   def search_places lat, lng, options={}
-    limit = 100
-    user = options[:user] || nil
-    size = options[:size] || 5
-    mode = options[:mode] || nil
+    limit    = 100
+    user     = options[:user] || nil
+    size     = options[:size] || 5
+    mode     = options[:mode] || nil
     open_now = options.dig(:open_now).present? ? options[:open_now] : user.try(:open_now)
-    keyword = options[:keyword] || DEFAULT_SEARCH
+    keyword  = options[:keyword] || DEFAULT_SEARCH
 
-    position = "#{lat},#{lng}"
+    position     = "#{lat},#{lng}"
     max_distance = user.try(:max_distance) || DEFAULT_DISTANCE
-    min_score = user.try(:min_score) || DEFAULT_MIN_SCORE
-    random_type = user.try(:random_type) || DEFAULT_RANDOM
-    open_now = open_now || DEFAULT_OPEN
+    min_score    = user.try(:min_score) || DEFAULT_MIN_SCORE
+    random_type  = user.try(:random_type) || DEFAULT_RANDOM
+    open_now     = open_now || DEFAULT_OPEN
 
     # old API
     # results = @graph.search(keyword,
@@ -41,7 +41,7 @@ class GraphApiService < BaseService
     #                         limit: limit,
     #                         fields: DEFAULT_FIELDS)
     # 測試API
-    api_url = "#{SEARCH_API}q=#{keyword}&suppress_http_code=1&
+    api_url = "#{SEARCH_API}q=#{URI.escape(keyword)}&suppress_http_code=1&
               type=place&
               center=#{position}&
               distance=#{max_distance}&
@@ -49,24 +49,27 @@ class GraphApiService < BaseService
               limit=#{limit}&
               fields=#{DEFAULT_FIELDS}&
               access_token=#{@oauth_access_token}"
-    response = Net::HTTP.get(URI.parse(api_url))
+
+    response        = Net::HTTP.get(URI.parse(api_url))
     next_result_url = JSON.parse(response).dig('paging', 'next')
-    results = JSON.parse(response).dig('data')
+    results         = JSON.parse(response).dig('data')
 
     until !next_result_url.present? do
-      response = Net::HTTP.get(URI.parse(next_result_url))
+      response        = Net::HTTP.get(URI.parse(next_result_url))
       next_result_url = JSON.parse(response).dig('paging', 'next')
-      results += JSON.parse(response).dig('data')
+      results         += JSON.parse(response).dig('data')
     end
 
     # 移除連結不存在 的搜尋結果
     # 移除類別不包含 餐 的搜尋結果
     # 移除評分低於設定數字的搜尋結果
 
-    # results = facebook_results.reject { |r|
-    #   r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
-    #     r['is_permanently_closed'] == true ||
-    #     r['overall_star_rating'].to_i < min_score }
+    return '' if results.blank?
+
+    results = results.reject { |r|
+      r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
+        r['is_permanently_closed'] == true}
+
     results = results.reject { |r| r['overall_star_rating'].to_f < min_score }
     # 判斷目前是否營業中
     results = results.each { |r| r['open_now'] = check_open_now(r['hours']) }
