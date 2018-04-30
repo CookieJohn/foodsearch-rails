@@ -25,6 +25,32 @@ module LineFormat
     }
   end
 
+  def postback_button_format(text, data)
+    {
+      type:  'postback',
+      label: text,
+      data:  data
+    }
+  end
+
+  def button_format(name, link)
+    {
+      type:  'uri',
+      label: name,
+      uri:   link
+    }
+  end
+
+  def location_format(text, address, lat, lng)
+    {
+      type:      'location',
+      title:     text,
+      address:   address,
+      latitude:  lat,
+      longitude: lng
+    }
+  end
+
   def carousel_options(results)
     columns = []
 
@@ -33,9 +59,13 @@ module LineFormat
 
       actions = []
       actions << button_format(I18n.t('button.fanpage'), safe_url(r.link_url))
-      actions << button_format(
+      # actions << button_format(
+      #   I18n.t('button.location'),
+      #   safe_url(@google.get_map_link(r.lat, r.lng, r.name, r.street))
+      # )
+      actions << postback_button_format(
         I18n.t('button.location'),
-        safe_url(@google.get_map_link(r.lat, r.lng, r.name, r.street))
+        "name=#{r.name}&address=#{r.street}&lat=#{r.lat}&lng=#{r.lng}"
       )
       actions << button_format(
         I18n.t('button.related_comment'),

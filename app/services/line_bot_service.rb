@@ -25,9 +25,9 @@ class LineBotService < BaseService
     events.each do |event|
       # find_line_user(event['source']['userId'])
 
-      case event
-      when Line::Bot::Event::Message
-        reply = case event.type
+      reply = case event
+              when Line::Bot::Event::Message
+                case event.type
                 when Line::Bot::Event::MessageType::Text
                   # msg = event.message['text'].downcase
                   # text_format(msg)
@@ -41,9 +41,16 @@ class LineBotService < BaseService
                   options = carousel_options(facebook_results)
                   carousel_format(options)
                 end
-
-        @line_client.reply_message(event['replyToken'], reply)
-      end
+              when Line::Bot::Event::Postback
+                postback_data = event['postback']['data']
+                data          = Rack::Utils.parse_nested_query(postback_data)
+                name          = data['name']
+                address       = data['address']
+                lat           = data['lat']
+                lng           = data['lng']
+                location_format(name, address, lat, lng)
+              end
+      @line_client.reply_message(event['replyToken'], reply)
     end
   end
 
