@@ -3,28 +3,28 @@ require 'koala'
 class GraphApiService < BaseService
   include Process
 
-  DEFAULT_SEARCH ||= 'restaurant'
-  DEFAULT_DISTANCE ||= 500
+  DEFAULT_SEARCH    ||= 'restaurant'
+  DEFAULT_DISTANCE  ||= 500
   DEFAULT_MIN_SCORE ||= 3.5
-  DEFAULT_RANDOM ||= true
-  DEFAULT_OPEN ||= false
-  DEFAULT_FIELDS ||= 'location,name,overall_star_rating,rating_count,
+  DEFAULT_RANDOM    ||= true
+  DEFAULT_OPEN      ||= false
+  DEFAULT_FIELDS    ||= 'location,name,overall_star_rating,rating_count,
                             phone,link,price_range,category,category_list,
                             hours,website,is_permanently_closed'
-  SEARCH_API ||= 'https://graph.facebook.com/v2.12/search?'
+  SEARCH_API        ||= 'https://graph.facebook.com/v2.12/search?'
 
   def initialize
     @oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
     @graph = Koala::Facebook::API.new(@oauth_access_token)
   end
 
-  def search_places lat, lng, options={}
+  def search_places(lat, lng, options={})
     limit    = 100
     user     = options[:user] || nil
     size     = options[:size] || 5
     mode     = options[:mode] || nil
     open_now = options.dig(:open_now).present? ? options[:open_now] : user.try(:open_now)
-    keyword  = options[:keyword] || DEFAULT_SEARCH
+    keyword  = options.dig(:keyword).present? ? options[:keyword] : DEFAULT_SEARCH
 
     position     = "#{lat},#{lng}"
     max_distance = user.try(:max_distance) || DEFAULT_DISTANCE
@@ -66,9 +66,10 @@ class GraphApiService < BaseService
 
     return '' if results.blank?
 
-    results = results.reject { |r|
-      r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
-        r['is_permanently_closed'] == true}
+    # results = results.reject { |r|
+    #   r['category_list'].any? {|c| c['name'].presence_in(REJECT_CATEGORY) } ||
+    #     r['is_permanently_closed'] == true}
+    results = results.reject { |r| r['is_permanently_closed'] == true}
 
     results = results.reject { |r| r['overall_star_rating'].to_f < min_score }
     # 判斷目前是否營業中
