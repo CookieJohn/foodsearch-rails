@@ -1,25 +1,16 @@
 module MessengerBotResponse
-  def self.for(sender_id, type = nil, msg = nil)
-    subject = case type
-              when 'choose_search_type'
-                ChooseSearchType
-              when 'search_specific_item'
-                SearchSpecificItem
-              when 'customized_keyword'
-                CustomizedKeyword
-              when 'direct_search'
-                DirectSearch
-              when 'done'
-                SearchDone
-              when 'no_result'
-                NoResult
-              when 'no_last_location'
-                NoLastLocation
-              else
-                DefaultResponse
-              end
+  TYPE_CLASSES = {
+    'choose_search_type'   => ChooseSearchType,
+    'search_specific_item' => SearchSpecificItem,
+    'customized_keyword'   => CustomizedKeyword,
+    'direct_search'        => DirectSearch,
+    'done'                 => SearchDone,
+    'no_result'            => NoResult,
+    'no_last_location'     => NoLastLocation
+  }
 
-    subject.new(sender_id, msg).reply
+  def self.for(sender_id, type = nil, msg = nil)
+    (TYPE_CLASSES[type] || DefaultResponse).new(sender_id, msg).perform
   end
 end
 
@@ -35,7 +26,7 @@ class DefaultResponse
     @msg       = msg
   end
 
-  def reply
+  def perform
     title   = '請選擇搜尋方式，設定頁面可以調整搜尋條件。'
     options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
     options << button_option('postback', '關鍵字搜尋', 'customized_keyword')
@@ -63,7 +54,7 @@ class DefaultResponse
 end
 
 class ChooseSearchType < DefaultResponse
-  def reply
+  def perform
     title   = I18n.t('messenger.please-enter-keyword')
     options << customized_reply
     I18n.t('settings.facebook.search_texts').each do |search_text|
@@ -76,7 +67,7 @@ class ChooseSearchType < DefaultResponse
 end
 
 class SearchSpecificItem < DefaultResponse
-  def reply
+  def perform
     title   = "你想找的是： #{msg}\n請告訴我你的位置。"
     options = [last_location_reply, send_location, choose_search_reply, back_reply]
     quick_replies_format(title, options)
@@ -84,7 +75,7 @@ class SearchSpecificItem < DefaultResponse
 end
 
 class CustomizedKeyword < DefaultResponse
-  def reply
+  def perform
     title   = '請輸入你想查詢的關鍵字：'
     options = [choose_search_reply, back_reply]
     quick_replies_format(title, options)
@@ -92,7 +83,7 @@ class CustomizedKeyword < DefaultResponse
 end
 
 class NoResult < DefaultResponse
-  def reply
+  def perform
     title   = "這個位置，沒有與#{get_redis_data(@user_id, 'keyword')}相關的搜尋結果！"
     options = [customized_reply, choose_search_reply, back_reply]
     quick_replies_format(title, options)
@@ -100,7 +91,7 @@ class NoResult < DefaultResponse
 end
 
 class DirectSearch < DefaultResponse
-  def reply
+  def perform
     title   = I18n.t('messenger.your-location')
     options = [last_location_reply, send_location]
     quick_replies_format(title, options)
@@ -108,7 +99,7 @@ class DirectSearch < DefaultResponse
 end
 
 class NoLastLocation < DefaultResponse
-  def reply
+  def perform
     title   = '您沒有搜尋過唷！'
     options = [send_location, choose_search_reply, back_reply]
     quick_replies_format(title, options)
@@ -116,7 +107,7 @@ class NoLastLocation < DefaultResponse
 end
 
 class SearchDone < DefaultResponse
-  def reply
+  def perform
     title   = '有找到喜歡的嗎？'
     options = [customized_reply, choose_search_reply, back_reply]
     quick_replies_format(title, options)
