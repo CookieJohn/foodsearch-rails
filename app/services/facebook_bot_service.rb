@@ -36,7 +36,11 @@ class FacebookBotService < BaseService
                          return search_by_location
                        when receive_message.dig('message', 'text')
                          if get_redis_data(@user_id, 'customize') == true
-                           'search_specific_item'
+                           if message == 'direct_search'
+                             'direct_search'
+                           else
+                             'search_specific_item'
+                           end
                          else
                            'message'
                          end
@@ -50,7 +54,7 @@ class FacebookBotService < BaseService
 
   private
 
-  def get_response type, text=nil
+  def get_response(type, text = nil)
     case type
     when 'choose_search_type'
       clear_keyword
@@ -65,6 +69,7 @@ class FacebookBotService < BaseService
       MessengerBotResponse.for(@sender_id, 'search_specific_item', text)
     when 'direct_search'
       disable_customize
+      clear_keyword
       MessengerBotResponse.for(@sender_id, 'direct_search')
     when 'last_location'
       return MessengerBotResponse.for(@sender_id, 'no_last_location') unless get_redis_data(@user_id, 'lat').present?
