@@ -38,7 +38,7 @@ class FacebookBotService < BaseService
                          (get_redis_data(@user_id, 'customize') == true) ? 'search_specific_item' : 'message'
                        end
 
-        message_data = get_response(message_type, message)
+        message_data = get_response(message_type, message) if message_type.present?
         http_post(API_URL, message_data) if message_data.present?
       end
     end
