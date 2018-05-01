@@ -102,7 +102,7 @@ end
 class DirectSearch < DefaultResponse
   def reply
     title   = I18n.t('messenger.your-location')
-    options << [last_location_reply, send_location]
+    options = [last_location_reply, send_location]
     quick_replies_format(title, options)
   end
 end
