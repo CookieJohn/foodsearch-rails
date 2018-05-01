@@ -54,7 +54,7 @@ class DefaultResponse
   end
 
   def customized_reply
-    options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
+    quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
   end
 
   def back_reply
