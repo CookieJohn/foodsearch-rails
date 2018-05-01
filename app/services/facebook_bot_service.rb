@@ -23,6 +23,7 @@ class FacebookBotService < BaseService
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
+        return
         return if is_bot?(receive_message)
 
         message      = receive_message.dig('message', 'text')
@@ -35,8 +36,10 @@ class FacebookBotService < BaseService
                          location_setting(receive_message)
                          return search_by_location
                        when receive_message.dig('message', 'text')
-                         (get_redis_data(@user_id, 'customize') == true) ? 'search_specific_item' : 'message'
+                         (get_redis_data(@user_id, 'customize') == true) ? 'search_specific_item': 'message'
                        end
+
+        return if message_type.blank?
 
         message_data = get_response(message_type, message)
         http_post(API_URL, message_data) if message_data.present?
