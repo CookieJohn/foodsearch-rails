@@ -36,11 +36,7 @@ class FacebookBotService < BaseService
                          return search_by_location
                        when receive_message.dig('message', 'text')
                          if get_redis_data(@user_id, 'customize') == true
-                           if message == 'direct_search'
-                             'direct_search'
-                           else
-                             'search_specific_item'
-                           end
+                           'search_specific_item'
                          else
                            'message'
                          end
