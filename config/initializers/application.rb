@@ -45,3 +45,16 @@ def get_redis_data(user_id, keyword)
   record = redis_get_user_data(user_id)
   record.dig(keyword) || ''
 end
+
+def clear_keyword
+  redis_set_user_data(@user_id, 'keyword', '')
+end
+
+def disable_customize
+  redis_set_user_data(@user_id, 'customize', false)
+end
+
+def record_lat_lng(lat = nil, lng = nil)
+  redis_set_user_data(@user_id, 'lat', lat)
+  redis_set_user_data(@user_id, 'lng', lng)
+end

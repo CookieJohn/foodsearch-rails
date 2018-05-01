@@ -125,17 +125,4 @@ class FacebookBotService < BaseService
       http_post(API_URL, message_data)
     end
   end
-
-  def clear_keyword
-    redis_set_user_data(@user_id, 'keyword', '')
-  end
-
-  def disable_customize
-    redis_set_user_data(@user_id, 'customize', false)
-  end
-
-  def record_lat_lng(lat = nil, lng = nil)
-    redis_set_user_data(@user_id, 'lat', lat)
-    redis_set_user_data(@user_id, 'lng', lng)
-  end
 end
