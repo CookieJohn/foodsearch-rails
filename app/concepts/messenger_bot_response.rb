@@ -53,6 +53,10 @@ class DefaultResponse
     quick_replies_option(I18n.t('messenger.last-location'), 'last_location') if get_redis_data(@user_id, 'lat')
   end
 
+  def customized_reply
+    options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
+  end
+
   def back_reply
     quick_replies_option(I18n.t('messenger.menu'), 'back')
   end
@@ -61,7 +65,7 @@ end
 class ChooseSearchType < DefaultResponse
   def reply
     title   = I18n.t('messenger.please-enter-keyword')
-    options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
+    options << customized_reply
     I18n.t('settings.facebook.search_texts').each do |search_text|
       options << quick_replies_option(search_text, 'search_specific_item')
     end
@@ -90,7 +94,7 @@ end
 class NoResult < DefaultResponse
   def reply
     title   = "這個位置，沒有與#{get_redis_data(@user_id, 'keyword')}相關的搜尋結果！"
-    options = [choose_search_reply, back_reply]
+    options = [customized_reply, choose_search_reply, back_reply]
     quick_replies_format(title, options)
   end
 end
@@ -114,9 +118,7 @@ end
 class SearchDone < DefaultResponse
   def reply
     title   = '有找到喜歡的嗎？'
-    options << quick_replies_option(I18n.t('messenger.enter-keyword'), 'customized_keyword')
-    options << choose_search_reply
-    options << back_reply
+    options = [customized_reply, choose_search_reply, back_reply]
     quick_replies_format(title, options)
   end
 end
