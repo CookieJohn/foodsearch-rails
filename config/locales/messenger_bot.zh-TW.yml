@@ -1,5 +1,6 @@
 zh-TW:
   messenger:
+    menu-title:           請選擇搜尋方式，設定頁面可以調整搜尋條件。
     re-select:            重新選擇類型
     menu:                 主選單
     all:                  所有類型
@@ -7,6 +8,14 @@ zh-TW:
     please-enter-keyword: 請選擇想搜尋的美食類型，或輸入關鍵字尋找
     last-location:        上次的位置
     your-location:        請告訴我您的位置。
+    your-keyword:         請輸入你想查詢的關鍵字：
+    never-search:         您沒有搜尋過唷！
+    like-results:         有找到喜歡的嗎？
+    no-results:           "這個位置，沒有與 %{keyword} 相關的搜尋結果！"
+    search_specity:       "你想找的是： %#{msg}\n請告訴我你的位置。"
+    buttons:
+      choose_search_type:  選擇搜尋類型
+      keyword_search_type: 關鍵字搜尋
   settings:
     facebook:
       reject_name: ['飯店','酒店']

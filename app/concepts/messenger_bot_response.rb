@@ -12,9 +12,9 @@ module MessengerBotResponse
     end
 
     def perform
-      title   = '請選擇搜尋方式，設定頁面可以調整搜尋條件。'
-      options << button_option('postback', '選擇搜尋類型', 'choose_search_type')
-      options << button_option('postback', '關鍵字搜尋', 'customized_keyword')
+      title   = I18n.t('messenger.menu-title')
+      options << button_option('postback', I18n.t('messenger.buttons.choose_search_type'), 'choose_search_type')
+      options << button_option('postback', I18n.t('messenger.buttons.keyword_search_type'), 'customized_keyword')
       # options << button_link_option("https://johnwudevelop.tk/users/#{@user_id}", '搜尋設定')
       button_format(title, options)
     end
@@ -53,7 +53,7 @@ module MessengerBotResponse
 
   class SearchSpecificItem < DefaultResponse
     def perform
-      title   = "你想找的是： #{msg}\n請告訴我你的位置。"
+      title   = I18n.translate('messenger.search_specity', msg: msg)
       options = [last_location_reply, send_location, choose_search_reply, back_reply]
       quick_replies_format(title, options)
     end
@@ -61,7 +61,7 @@ module MessengerBotResponse
 
   class CustomizedKeyword < DefaultResponse
     def perform
-      title   = '請輸入你想查詢的關鍵字：'
+      title   = I18n.t('messenger.your-keyword')
       options = [choose_search_reply, back_reply]
       quick_replies_format(title, options)
     end
@@ -69,7 +69,7 @@ module MessengerBotResponse
 
   class NoResult < DefaultResponse
     def perform
-      title   = "這個位置，沒有與#{get_redis_data(@user_id, 'keyword')}相關的搜尋結果！"
+      title   = I18n.translate('messenger.no-results', keyword: get_redis_data(@user_id, 'keyword'))
       options = [customized_reply, choose_search_reply, back_reply]
       quick_replies_format(title, options)
     end
@@ -85,7 +85,7 @@ module MessengerBotResponse
 
   class NoLastLocation < DefaultResponse
     def perform
-      title   = '您沒有搜尋過唷！'
+      title   = I18n.t('messenger.never-search')
       options = [send_location, choose_search_reply, back_reply]
       quick_replies_format(title, options)
     end
@@ -93,7 +93,7 @@ module MessengerBotResponse
 
   class SearchDone < DefaultResponse
     def perform
-      title   = '有找到喜歡的嗎？'
+      title   = I18n.t('messenger.like-results')
       options = [customized_reply, choose_search_reply, back_reply]
       quick_replies_format(title, options)
     end
