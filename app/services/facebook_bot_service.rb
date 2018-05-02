@@ -23,7 +23,6 @@ class FacebookBotService < BaseService
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
-        return
         return if is_bot?(receive_message)
 
         message      = receive_message.dig('message', 'text')
