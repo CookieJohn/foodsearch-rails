@@ -16,8 +16,8 @@ mapStyle = {
 }
 
 $ ->
-  window.current_lat   = 25.059651
-  window.current_lng   = 121.533380
+  window.current_lat   = 25.041285
+  window.current_lng   = 121.554587
   window.remove_height = 103
   window.map           = ''
   window.marker        = ''
