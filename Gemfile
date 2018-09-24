@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 ruby '2.5.1'
 
 # fornt
-gem 'rails', '~> 5.1'
+gem 'rails', '~> 5.2'
 gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
