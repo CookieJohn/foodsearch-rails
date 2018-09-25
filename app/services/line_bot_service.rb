@@ -52,6 +52,7 @@ class LineBotService < BaseService
                 location_format(name, address, lat, lng)
               end
       @line_client.reply_message(event['replyToken'], reply)
+      @line_client.reply_message(event['replyToken'], quick_reply) if event == Line::Bot::Event::Postback
     end
   end
 
