@@ -82,4 +82,22 @@ module LineFormat
 
     columns
   end
+
+  def quick_reply(msg = I18n.t('quick_reply.text'))
+    {
+      type: 'text',
+      text: msg,
+      quickReply: {
+        items: [
+          {
+            type: "action",
+            action: {
+              type:  "location",
+              label: I18n.t('quick_reply.send_location')
+            }
+          }
+        ]
+      }
+    }
+  end
 end
