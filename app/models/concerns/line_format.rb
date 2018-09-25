@@ -83,10 +83,10 @@ module LineFormat
     columns
   end
 
-  def quick_reply
+  def quick_reply(msg = I18n.t('quick_reply.text'))
     {
       type: 'text',
-      text: I18n.t('quick_reply.text'),
+      text: msg,
       quickReply: {
         items: [
           {
