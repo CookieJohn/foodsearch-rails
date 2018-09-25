@@ -40,7 +40,7 @@ class LineBotService < BaseService
                   return text_format(I18n.t('empty.restaurants')) if facebook_results.empty?
 
                   options = carousel_options(facebook_results)
-                  carousel_format(options)
+                  [carousel_format(options), quick_reply]
                 end
               when Line::Bot::Event::Postback
                 postback_data = event['postback']['data']
@@ -52,7 +52,6 @@ class LineBotService < BaseService
                 location_format(name, address, lat, lng)
               end
       @line_client.reply_message(event['replyToken'], reply)
-      @line_client.reply_message(event['replyToken'], quick_reply) if event == Line::Bot::Event::Location
     end
   end
 
