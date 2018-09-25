@@ -31,6 +31,7 @@ class LineBotService < BaseService
                 when Line::Bot::Event::MessageType::Text
                   # msg = event.message['text'].downcase
                   # text_format(msg)
+                  quick_reply
                 when Line::Bot::Event::MessageType::Location
                   lat = event.message['latitude']
                   lng = event.message['longitude']

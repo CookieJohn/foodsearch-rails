@@ -82,4 +82,24 @@ module LineFormat
 
     columns
   end
+
+  def quick_reply
+    {
+      quickReply: {
+        items: [
+          {
+            type:  "location",
+            label: "Location"
+          }#,
+          # {
+          #   type: "action",
+          #   action: {
+          #     type:  "camera",
+          #     label: "Open camera"
+          #   }
+          # }
+        ]
+      }
+    }
+  end
 end
