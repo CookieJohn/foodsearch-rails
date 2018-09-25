@@ -38,7 +38,7 @@ zh-TW:
   carousel:
     text: 搜尋結果如下
   quick_reply:
-    text:          搜尋結果如下
+    text:          請告訴我你的位置
     send_location: 傳送位置
   facebook:
     score: FB
