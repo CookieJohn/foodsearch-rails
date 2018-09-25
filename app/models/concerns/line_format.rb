@@ -86,11 +86,15 @@ module LineFormat
   def quick_reply
     {
       type: 'text',
-      "quickReply": {
+      text: 'qq',
+      quickReply: {
         items: [
           {
-            type:  "location",
-            label: "Location"
+            type: "action",
+            action: {
+              type:  "location",
+              label: "Send Location"
+            }
           }#,
           # {
           #   type: "action",
