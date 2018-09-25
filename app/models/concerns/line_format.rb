@@ -86,23 +86,16 @@ module LineFormat
   def quick_reply
     {
       type: 'text',
-      text: 'qq',
+      text: I18n.t('quick_reply.text'),
       quickReply: {
         items: [
           {
             type: "action",
             action: {
               type:  "location",
-              label: "Send Location"
+              label: I18n.t('quick_reply.send_location')
             }
-          }#,
-          # {
-          #   type: "action",
-          #   action: {
-          #     type:  "camera",
-          #     label: "Open camera"
-          #   }
-          # }
+          }
         ]
       }
     }

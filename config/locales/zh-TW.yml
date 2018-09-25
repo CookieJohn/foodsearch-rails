@@ -37,6 +37,9 @@ zh-TW:
     meal:    餐
   carousel:
     text: 搜尋結果如下
+  quick_reply:
+    text:          搜尋結果如下
+    send_location: 傳送位置
   facebook:
     score: FB
   google:
