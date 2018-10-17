@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class FormatService < BaseService
   include Conversion
 
@@ -5,11 +7,11 @@ class FormatService < BaseService
     @google ||= GoogleMapService.new
   end
 
-  def web_format(results=nil, google_results=nil)
+  def web_format(results = nil, _google_results = nil)
     columns = []
 
     results.each_with_index do |r, index|
-      result = reorganization(r, nil, index+1)
+      result = reorganization(r, nil, index + 1)
 
       result.location = @google.get_map_link(result.lat, result.lng, result.name, result.street)
       result.related_comment = @google.get_google_search(result.name)

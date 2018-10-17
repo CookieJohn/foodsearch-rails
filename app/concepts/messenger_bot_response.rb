@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MessengerBotResponse
   class DefaultResponse
     include FacebookFormat
@@ -12,7 +14,7 @@ module MessengerBotResponse
     end
 
     def perform
-      title   = I18n.t('messenger.menu-title')
+      title = I18n.t('messenger.menu-title')
       options << button_option('postback', I18n.t('messenger.buttons.choose_search_type'), 'choose_search_type')
       options << button_option('postback', I18n.t('messenger.buttons.keyword_search_type'), 'customized_keyword')
       # options << button_link_option("https://johnwudevelop.tk/users/#{@user_id}", '搜尋設定')
@@ -40,7 +42,7 @@ module MessengerBotResponse
 
   class ChooseSearchType < DefaultResponse
     def perform
-      title   = I18n.t('messenger.please-enter-keyword')
+      title = I18n.t('messenger.please-enter-keyword')
       options << customized_reply
       I18n.t('settings.facebook.search_texts').each do |search_text|
         options << quick_replies_option(search_text, 'search_specific_item')
@@ -107,7 +109,7 @@ module MessengerBotResponse
     'done'                 => SearchDone,
     'no_result'            => NoResult,
     'no_last_location'     => NoLastLocation
-  }
+  }.freeze
 
   def self.for(sender_id, type = nil, msg = nil)
     (TYPE_CLASSES[type] || DefaultResponse).new(sender_id, msg).perform

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class FacebookBotService < BaseService
   include FacebookFormat
   include Conversion
 
-  API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{ENV['facebook_page_access_token']}".freeze
-  BOT_ID  ||= '844639869021578'.freeze
+  API_URL ||= "https://graph.facebook.com/v2.6/me/messages?access_token=#{ENV['facebook_page_access_token']}"
+  BOT_ID  ||= '844639869021578'
 
   def initialize
     @graph     ||= GraphApiService.new
@@ -15,7 +17,7 @@ class FacebookBotService < BaseService
     @lng       ||= nil
   end
 
-  def reply_msg request
+  def reply_msg(request)
     body = JSON.parse(request.body.read)
     entries = body['entry']
 
@@ -35,7 +37,7 @@ class FacebookBotService < BaseService
                          location_setting(receive_message)
                          return search_by_location
                        when receive_message.dig('message', 'text')
-                         (get_redis_data(@user_id, 'customize') == true) ? 'search_specific_item': 'message'
+                         get_redis_data(@user_id, 'customize') == true ? 'search_specific_item' : 'message'
                        end
 
         return if message_type.blank?
@@ -86,6 +88,7 @@ class FacebookBotService < BaseService
   def is_bot?(receive_message)
     @sender_id = receive_message.dig('sender', 'id')
     return if @sender_id == BOT_ID
+
     user_setting
   end
 

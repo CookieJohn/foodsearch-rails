@@ -1,23 +1,25 @@
-def safe_url link
+# frozen_string_literal: true
+
+def safe_url(link)
   uri = URI.encode(link)
   uri = URI.parse(uri)
 end
 
-def fuzzy_match compare_a, compare_b
-  @jarow.getDistance(compare_a,compare_b).to_f
+def fuzzy_match(compare_a, compare_b)
+  @jarow.getDistance(compare_a, compare_b).to_f
 end
 
-def http_get get_uri, params=nil
+def http_get(get_uri, _params = nil)
   uri = safe_url(get_uri)
   res = Net::HTTP.get_response(uri)
   JSON.parse(res.body)['results']
 end
 
-def http_post post_uri, params
+def http_post(post_uri, params)
   HTTParty.post(post_uri, body: params.to_json, headers: { 'Content-Type' => 'application/json' })
 end
 
-def count_distance current_lat_lng, position_lat_lng
+def count_distance(current_lat_lng, position_lat_lng)
   (Geocoder::Calculations.distance_between(current_lat_lng, position_lat_lng) * 1000).round(3)
 end
 

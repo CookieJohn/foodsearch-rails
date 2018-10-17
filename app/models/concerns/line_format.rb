@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module LineFormat
   def text_format(return_msg)
     {
@@ -90,9 +92,9 @@ module LineFormat
       quickReply: {
         items: [
           {
-            type: "action",
+            type: 'action',
             action: {
-              type:  "location",
+              type:  'location',
               label: I18n.t('quick_reply.send_location')
             }
           }

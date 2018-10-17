@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class TelegramBotService < BaseService
   TOKEN ||= ENV['telegram_token']
   API_URL ||= "https://api.telegram.org/bot#{TOKEN}/sendMessage"
 
   attr_accessor :request, :chat_id, :graph, :google, :user
-  def initialize request
+  def initialize(request)
     self.graph  ||= GraphApiService.new
     self.google ||= GoogleMapService.new
     self.user ||= nil
@@ -13,21 +15,21 @@ class TelegramBotService < BaseService
 
   def reply_msg
     body = JSON.parse(request.raw_post)
-    msg = body.dig('message','text')
-    self.chat_id = body.dig('message','chat','id')
-    lat = body.dig('message','location','latitude')
-    lng = body.dig('message','location','longitude')
+    msg = body.dig('message', 'text')
+    self.chat_id = body.dig('message', 'chat', 'id')
+    lat = body.dig('message', 'location', 'latitude')
+    lng = body.dig('message', 'location', 'longitude')
 
     if chat_id.present?
       if lat.present?
         # keyword = user.last_search['keyword'].present? ? user.last_search['keyword'] : nil
         fb_results = graph.search_places(lat, lng, user: user, size: 10)
         generic_format = generic_elements(fb_results)
-        if fb_results.size > 0
-          response = text_format(generic_format)
-        else
-          response = text_format('no_result')
-        end
+        response = if !fb_results.empty?
+                     text_format(generic_format)
+                   else
+                     text_format('no_result')
+                   end
       elsif msg.present?
         response = reply_format(msg)
       end
@@ -35,44 +37,46 @@ class TelegramBotService < BaseService
     end
   end
 
-  def text_format text
+  def text_format(text)
     { chat_id: chat_id,
       text: text,
       parse_mode: 'Markdown' }
   end
 
-  def html_format text
+  def html_format(text)
     { chat_id: chat_id,
       text: text,
       parse_mode: 'HTML' }
   end
 
-  def reply_format text
+  def reply_format(text)
     { chat_id: chat_id,
       text: text,
       parse_mode: 'Markdown',
       reply_markup: {
-        keyboard: [ location_button_format ],
+        keyboard: [location_button_format],
         resize_keyboard: true,
-        one_time_keyboard: true }}
+        one_time_keyboard: true
+      } }
   end
 
-  def inline_keyboard_button_format text
+  def inline_keyboard_button_format(text)
     { chat_id: chat_id,
       text: text,
       parse_mode: 'Markdown',
       reply_markup: {
-        inline_keyboard: [ link_button_format ],
+        inline_keyboard: [link_button_format],
         resize_keyboard: true,
-        one_time_keyboard: true }}
+        one_time_keyboard: true
+      } }
   end
 
-  def link_button_format url
-    [ text: '請告訴我您的位置', url: url ]
+  def link_button_format(url)
+    [text: '請告訴我您的位置', url: url]
   end
 
   def location_button_format
-    [ text: '請告訴我您的位置', request_location: true ]
+    [text: '請告訴我您的位置', request_location: true]
   end
 
   # def photo_format text
@@ -85,7 +89,7 @@ class TelegramBotService < BaseService
   #       one_time_keyboard: true }}
   # end
 
-  def generic_elements results=nil
+  def generic_elements(results = nil)
     columns = []
 
     return_text = ''
@@ -95,7 +99,7 @@ class TelegramBotService < BaseService
       name = result['name'][0, 80]
       lat = result['location']['latitude']
       lng = result['location']['longitude']
-      street = result['location']['street'] || ""
+      street = result['location']['street'] || ''
       rating = result['overall_star_rating']
       rating_count = result['rating_count']
       # phone = result.dig('phone').present? ? result['phone'].gsub('+886','0') : "00000000"
@@ -134,6 +138,6 @@ class TelegramBotService < BaseService
       # }
     end
 
-    return return_text
+    return_text
   end
 end

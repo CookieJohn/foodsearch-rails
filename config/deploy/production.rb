@@ -1,12 +1,12 @@
+# frozen_string_literal: true
+
 set :deploy_to, '/home/apps/foodsearch'
 set :rails_env, 'production'
 set :branch, 'master'
 
-role :app, %w{apps@johnwudevelop.tk}
-role :web, %w{apps@johnwudevelop.tk}
-role :db,  %w{apps@johnwudevelop.tk}
-
-
+role :app, %w[apps@johnwudevelop.tk]
+role :web, %w[apps@johnwudevelop.tk]
+role :db,  %w[apps@johnwudevelop.tk]
 
 # Configuration
 # =============
@@ -15,8 +15,6 @@ role :db,  %w{apps@johnwudevelop.tk}
 # For available Capistrano configuration variables see the documentation page.
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
-
-
 
 # Custom SSH Options
 # ==================

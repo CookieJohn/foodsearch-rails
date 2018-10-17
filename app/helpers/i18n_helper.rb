@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module I18nHelper
   def i18n_button(model_name)
     I18n.t("button.#{model_name}")

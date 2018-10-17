@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root 'base#index'
   # get 'search' => 'base#search'
@@ -18,5 +20,5 @@ Rails.application.routes.draw do
   # telegram bot
   # post 'update' => 'telegram#update'
 
-  resources :users, only: [:show, :edit, :update]
+  resources :users, only: %i[show edit update]
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class GoogleMapService < BaseService
   API_KEY           = ENV['google_api_key']
   API_URL           = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=#{API_KEY}&"
@@ -33,8 +35,8 @@ class GoogleMapService < BaseService
   #   http_get("#{API_URL}location=#{lat},#{lng}&radius=#{max_distance}&type=#{RESTAURANT_TYPE}&keyword=#{keyword}")
   # end
 
-  def get_map_link lat, lng, name, street = nil
-    if street.present? && !(street.presence_in(%w(無提供 無特定)).blank?)
+  def get_map_link(lat, lng, _name, street = nil)
+    if street.present? && !street.presence_in(%w[無提供 無特定]).blank?
       "#{GOOGLE_MAP_API}/#{street}/,14z/data=!3m1!4b1"
     elsif lat.present? && lng.present?
       "#{GOOGLE_MAP_API}/#{lat},#{lng}/@#{lat},#{lng},14z/data=!3m1!4b1"
@@ -45,7 +47,7 @@ class GoogleMapService < BaseService
   #   "http://maps.google.com/maps?saddr=#{saddr}&daddr=#{daddr}"
   # end
 
-  def get_google_search query
+  def get_google_search(query)
     "#{GOOGLE_SEARCH_API}?q=#{query}"
   end
 end

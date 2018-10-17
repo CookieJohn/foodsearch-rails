@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class UsersController < ApplicationController
-  before_action :find_user, only: [:show, :update]
+  before_action :find_user, only: %i[show update]
 
   layout 'user'
 

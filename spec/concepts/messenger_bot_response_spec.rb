@@ -1,20 +1,22 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe MessengerBotResponse do
   let (:subject) { MessengerBotResponse }
   let (:sender_id) { '1' }
-  let (:default_reply_response) {
+  let (:default_reply_response) do
     {
       recipient: { id: sender_id },
       message:   { text: '', quick_replies: [] }
     }
-  }
+  end
   let (:choose_search_reply) { { content_type: 'text', title: I18n.t('messenger.re-select'), payload: 'choose_search_type' } }
   let (:last_location_reply) { { content_type: 'text', title: I18n.t('messenger.last-location'), payload: 'last_location' } }
-  let (:back_reply)          { { content_type: 'text', title: I18n.t('messenger.menu'), payload: 'back'} }
+  let (:back_reply)          { { content_type: 'text', title: I18n.t('messenger.menu'), payload: 'back' } }
   let (:customized_reply)    { { content_type: 'text', title: I18n.t('messenger.enter-keyword'), payload: 'customized_keyword' } }
   let (:messenger_all)       { { content_type: 'text', title: I18n.t('messenger.all'), payload: 'direct_search' } }
-  let (:send_location)       { { content_type: 'location'} }
+  let (:send_location)       { { content_type: 'location' } }
 
   before do
     Object.any_instance.stub(:get_redis_data).and_return(true)
@@ -45,9 +47,9 @@ RSpec.describe MessengerBotResponse do
   it 'direct search response' do
     response = subject.for(sender_id, 'choose_search_type')
     text     = I18n.t('messenger.please-enter-keyword')
-    quick_replies  = []
+    quick_replies = []
     quick_replies << customized_reply
-    I18n.t('settings.facebook.search_texts').each_with_index do |search_text, index|
+    I18n.t('settings.facebook.search_texts').each_with_index do |search_text, _index|
       quick_replies << { content_type: 'text', title: search_text, payload: 'search_specific_item' }
     end
     quick_replies << messenger_all

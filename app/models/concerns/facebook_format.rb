@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FacebookFormat
   def text_format(text)
     {
