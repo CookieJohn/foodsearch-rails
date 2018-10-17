@@ -10,12 +10,9 @@ class UsersController < ApplicationController
   end
 
   def update
-    if @user.update_attributes user_params
-      redirect_to user_path(@user)
-    else
-      flash[:error] = @user.errors.full_messages
-      redirect_to user_path(@user)
-    end
+    flash[:error] = @user.errors.full_messages if @user.update_attributes user_params
+
+    redirect_to user_path(@user)
   end
 
   private

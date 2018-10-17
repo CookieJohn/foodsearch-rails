@@ -27,7 +27,7 @@ module Conversion
     result
   end
 
-  def set_description(r, type = 'web')
+  def set_description(res, type = 'web')
     max_word = case type
                when 'line'     then 60
                when 'facebook' then 80
@@ -35,10 +35,10 @@ module Conversion
 
     return unless max_word
 
-    "#{I18n.t('facebook.score')}：#{r.rating}#{I18n.t('common.score')}/" \
-     "#{r.rating_count}#{I18n.t('common.people')}\n" \
-     "#{r.category_list}\n#{r.business_hours}\n" \
-     "#{r.distance}#{I18n.t('label.meter')}"[0, max_word]
+    "#{I18n.t('facebook.score')}：#{res.rating}#{I18n.t('common.score')}/" \
+     "#{res.rating_count}#{I18n.t('common.people')}\n" \
+     "#{res.category_list}\n#{res.business_hours}\n" \
+     "#{res.distance}#{I18n.t('label.meter')}"[0, max_word]
   end
 
   def get_current_open_time(fb_open_hours = nil)
