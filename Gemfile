@@ -1,33 +1,35 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '2.5.1'
 
 # fornt
-gem 'rails', '~> 5.2'
-gem 'uglifier'
-gem 'coffee-rails'
-gem 'jquery-rails'
-gem 'turbolinks'
-gem 'jbuilder'
-gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'bootstrap-sass', '3.3.7'
-gem 'sass-rails'
-gem 'slim-rails'
-gem "font-awesome-rails"
+gem 'coffee-rails'
+gem 'font-awesome-rails'
+gem 'jbuilder'
+gem 'jquery-rails'
 gem 'meta-tags'
+gem 'rails', '~> 5.2'
+gem 'sass-rails'
+gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simple_form'
+gem 'slim-rails'
+gem 'turbolinks'
+gem 'uglifier'
 
 # back
-gem 'geocoder'
-gem 'friendly_id'
-gem 'redis'
 gem 'browser', require: true
+gem 'friendly_id'
+gem 'geocoder'
 gem 'puma'
+gem 'redis'
 
 # third-party
-gem 'line-bot-api'
-gem 'koala'
 gem 'httparty'
+gem 'koala'
+gem 'line-bot-api'
 
 # db
 gem 'pg', '~> 0.20'
@@ -36,29 +38,29 @@ gem 'pg', '~> 0.20'
 gem 'rails-i18n', '~> 5.0.0'
 
 group :production do
+  gem 'heroku-deflater'
   gem 'newrelic_rpm'
   gem 'rails_12factor'
-  gem 'heroku-deflater'
 end
 
 group :development, :test do
   gem 'byebug'
-  gem 'rspec-rails', '~> 3.6'
-  gem 'vcr'
-  gem "webmock", require: false
   gem 'pry'
   gem 'pry-byebug'
+  gem 'rspec-rails', '~> 3.6'
+  gem 'vcr'
+  gem 'webmock', require: false
 end
 
 group :development do
   gem 'capistrano'
-  gem 'capistrano-rvm'
-  gem 'capistrano-rails'
   gem 'capistrano-passenger'
+  gem 'capistrano-rails'
+  gem 'capistrano-rvm'
 
-  gem 'web-console', '~> 2.0'
-  gem 'spring'
   gem 'guard-livereload', '~> 2.5', require: false
+  gem 'spring'
+  gem 'web-console', '~> 2.0'
 
   gem 'better_errors'
   gem 'figaro'
