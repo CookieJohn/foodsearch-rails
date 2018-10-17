@@ -11,8 +11,7 @@ Android App
 
 Line Bot
 -------------
-- [好友連結](https://line.me/R/ti/p/%40cqh3529k)
-- 點選左下角的＋ -> 傳送位置訊息 -> 公開所在位置
+- [Line Bot 連結](https://line.me/R/ti/p/%40cqh3529k)
 
 Facebook Messenger Bot
 -------------
