@@ -53,11 +53,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'capistrano'
-  gem 'capistrano-passenger'
-  gem 'capistrano-rails'
-  gem 'capistrano-rvm'
-
   gem 'guard-livereload', '~> 2.5', require: false
   gem 'spring'
   gem 'web-console', '~> 2.0'
