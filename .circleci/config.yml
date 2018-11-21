@@ -24,8 +24,6 @@ jobs:
         key: your-app-name-{{ checksum 'Gemfile.lock' }}
         paths:
           - vendor/bundle
-      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
-      <%# - run: cp .sample.env .env %>
       - run: cp application.yml.example application.yml
       - run: bundle exec rake db:setup
       - run: bundle exec rake
