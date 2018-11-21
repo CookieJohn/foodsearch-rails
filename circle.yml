@@ -1,8 +1,0 @@
-machine:
-  timezone:
-    Asia/Taipei
-  ruby:
-    version: 2.5.1
-  dependencies:
-    pre:
-      - gem install bundler
