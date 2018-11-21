@@ -1,10 +1,31 @@
-version: 2.1
+version: 2
 jobs:
   build:
-    parallelism: 1
+    working_directory: ~/foodsearch
+    docker:
+      - image: circleci/ruby:2.5.3
+        environment:
+          PGHOST: localhost
+          PGUSER: foodsearch
+          RAILS_ENV: test
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: foodsearch
+          POSTGRES_DB: foodsearch_test
+          POSTGRES_PASSWORD: ''
     steps:
-      - run:
-        name: Bundle Install
-        command: bundle check || bundle install
-      - run:
-        name: Run rspec in parallel
+      - checkout
+      - type: cache-restore
+        name: Restore bundle cache
+        key: your-app-name-{{ checksum 'Gemfile.lock' }}
+      - run: bundle install --path vendor/bundle
+      - type: cache-save
+        name: Store bundle cache
+        key: your-app-name-{{ checksum 'Gemfile.lock' }}
+        paths:
+          - vendor/bundle
+      - run: dockerize -wait tcp://localhost:5432 -timeout 1m
+      <%# - run: cp .sample.env .env %>
+      - run: cp application.yml.example application.yml
+      - run: bundle exec rake db:setup
+      - run: bundle exec rake
