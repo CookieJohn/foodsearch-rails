@@ -24,6 +24,6 @@ jobs:
         key: foodsearch-{{ checksum 'Gemfile.lock' }}
         paths:
           - vendor/bundle
-      - run: cp application.yml.example application.yml
+      - run: cp config/application.yml.example config/application.yml
       - run: bundle exec rake db:setup
       - run: bundle exec rake
