@@ -17,11 +17,11 @@ jobs:
       - checkout
       - type: cache-restore
         name: Restore bundle cache
-        key: your-app-name-{{ checksum 'Gemfile.lock' }}
+        key: foodsearch-{{ checksum 'Gemfile.lock' }}
       - run: bundle install --path vendor/bundle
       - type: cache-save
         name: Store bundle cache
-        key: your-app-name-{{ checksum 'Gemfile.lock' }}
+        key: foodsearch-{{ checksum 'Gemfile.lock' }}
         paths:
           - vendor/bundle
       - run: cp application.yml.example application.yml
