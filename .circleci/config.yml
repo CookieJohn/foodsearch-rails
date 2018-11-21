@@ -1,0 +1,10 @@
+version: 2.1
+jobs:
+  build:
+    parallelism: 1
+    steps:
+      - run:
+        name: Bundle Install
+        command: bundle check || bundle install
+      - run:
+        name: Run rspec in parallel
