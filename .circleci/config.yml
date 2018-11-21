@@ -2,8 +2,31 @@ version: 2
 jobs:
   build:
     working_directory: ~/foodsearch
+    docker:
+      - image: circleci/ruby:2.5.3
+        environment:
+          PGHOST: localhost
+          PGUSER: foodsearch
+          RAILS_ENV: test
+      - image: postgres:9.5
+        environment:
+          POSTGRES_USER: foodsearch
+          POSTGRES_DB: foodsearch_test
+          POSTGRES_PASSWORD: ''
     steps:
       - checkout
+      - run:
+        name: Update npm
+        command: 'sudo npm install -g npm@latest'
+      - restore_cache:
+        key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+        name: Install npm wee
+        command: npm install
+      - save_cache:
+        key: dependency-cache-{{ checksum "package.json" }}
+      paths:
+        - node_modules
       - type: cache-restore
         name: Restore bundle cache
         key: foodsearch-{{ checksum 'Gemfile.lock' }}
