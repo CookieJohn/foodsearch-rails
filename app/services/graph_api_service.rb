@@ -12,7 +12,7 @@ class GraphApiService < BaseService
   DEFAULT_OPEN      ||= false
   DEFAULT_FIELDS    ||= 'location,name,overall_star_rating,rating_count,
                             phone,link,price_range,category,category_list,
-                            hours,website,is_permanently_closed'
+                            hours,website,is_permanently_closed,picture'
   SEARCH_API        ||= 'https://graph.facebook.com/v2.12/search?'
 
   def initialize

@@ -19,7 +19,7 @@ module Conversion
       category_list_web: pick_categories(result['category'], result['category_list'], 'web'),
       business_hours:    get_current_open_time(result['hours']),
       open_now:          result['open_now'],
-      image_url:         get_photo(result['id']),
+      image_url:         result['picture']['data']['url'],
       distance:          (result['distance'] || '').to_s,
       actions:           nil
     )
@@ -56,10 +56,6 @@ module Conversion
     end
 
     open_time.present? ? open_time : I18n.t('empty.business_hours')
-  end
-
-  def get_photo(id, width = 450, height = 450)
-    "https://graph.facebook.com/#{id}/picture?width=#{width}&height=#{height}"
   end
 
   def pick_categories(category = '', category_list = [], type = 'bot')
