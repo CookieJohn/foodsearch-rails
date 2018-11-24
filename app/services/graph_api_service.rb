@@ -16,8 +16,8 @@ class GraphApiService < BaseService
   SEARCH_API        ||= 'https://graph.facebook.com/v2.12/search?'
 
   def initialize
-    @oauth_access_token = Koala::Facebook::OAuth.new.get_app_access_token
-    @graph = Koala::Facebook::API.new(@oauth_access_token)
+    @token = Koala::Facebook::OAuth.new.get_app_access_token
+    @graph = Koala::Facebook::API.new(@token)
   end
 
   def search_places(lat, lng, options = {})
@@ -50,7 +50,7 @@ class GraphApiService < BaseService
               locale=#{I18n.locale}$
               limit=#{limit}&
               fields=#{DEFAULT_FIELDS}&
-              access_token=#{@oauth_access_token}"
+              access_token=#{@token}"
 
     response        = Net::HTTP.get(URI.parse(api_url))
     next_result_url = JSON.parse(response).dig('paging', 'next')
@@ -82,14 +82,14 @@ class GraphApiService < BaseService
     results = results.each { |r| r['distance'] = count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]).to_i }
     results = results.reject { |r| r['distance'] > max_distance }
 
-    results = case mode
-              when 'score'
-                results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
-              when 'distance'
-                results.sort_by { |r| r['distance'] }
-              else
-                random_type ? results.sample(size) : results.first(size)
-              end
+    case mode
+    when 'score'
+      results.sort_by { |r| [r['overall_star_rating'].to_f, r['rating_count'].to_i] }.reverse
+    when 'distance'
+      results.sort_by { |r| r['distance'] }
+    else
+      random_type ? results.sample(size) : results.first(size)
+    end
   end
 
   def check_open_now(hours = nil)
