@@ -262,7 +262,7 @@ GEM
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
     shellany (0.0.1)
-    simple_form (4.0.1)
+    simple_form (4.1.0)
       actionpack (>= 5.0)
       activemodel (>= 5.0)
     slim (4.0.1)
