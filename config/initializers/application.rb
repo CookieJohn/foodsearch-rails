@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 def safe_url(link)
-  uri = URI.encode(link)
-  uri = URI.parse(uri)
+  URI.parse(URI.encode(link))
 end
 
 def fuzzy_match(compare_a, compare_b)

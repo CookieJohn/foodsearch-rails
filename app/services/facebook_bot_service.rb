@@ -25,7 +25,7 @@ class FacebookBotService < BaseService
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
-        return if is_bot?(receive_message)
+        return if bot?(receive_message)
 
         message      = receive_message.dig('message', 'text')
         message_type = case
@@ -85,7 +85,7 @@ class FacebookBotService < BaseService
     body.dig('object') != 'page'
   end
 
-  def is_bot?(receive_message)
+  def bot?(receive_message)
     @sender_id = receive_message.dig('sender', 'id')
     return if @sender_id == BOT_ID
 
