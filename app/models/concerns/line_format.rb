@@ -35,14 +35,6 @@ module LineFormat
     }
   end
 
-  def button_format(name, link)
-    {
-      type: 'uri',
-      label: name,
-      uri: link
-    }
-  end
-
   def location_format(text, address, lat, lng)
     {
       type: 'location',

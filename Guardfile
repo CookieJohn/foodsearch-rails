@@ -19,16 +19,9 @@
 
 guard 'livereload' do
   extensions = {
-    css: :css,
-    scss: :css,
-    sass: :css,
-    js: :js,
-    coffee: :js,
-    html: :html,
-    png: :png,
-    gif: :gif,
-    jpg: :jpg,
-    jpeg: :jpeg
+    css: :css, scss: :css, sass: :css,
+    js: :js, coffee: :js, html: :html,
+    png: :png, gif: :gif, jpg: :jpg, jpeg: :jpeg
     # less: :less, # uncomment if you want LESS stylesheets done in browser
   }
 

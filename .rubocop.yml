@@ -2,3 +2,5 @@ Style/Documentation:
   Enabled: false
 Metrics/LineLength:
   Enabled: false
+Metrics/MethodLength:
+  Enabled: false
