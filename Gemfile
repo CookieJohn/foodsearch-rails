@@ -11,7 +11,7 @@ gem 'font-awesome-rails'
 gem 'jbuilder'
 gem 'jquery-rails'
 gem 'meta-tags'
-gem 'rails', '~> 5.2'
+gem 'rails'
 gem 'sass-rails'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'simple_form'
@@ -35,7 +35,7 @@ gem 'line-bot-api'
 gem 'pg', '~> 0.20'
 
 # others
-gem 'rails-i18n', '~> 5.0.0'
+gem 'rails-i18n'
 
 group :production do
   gem 'heroku-deflater'
