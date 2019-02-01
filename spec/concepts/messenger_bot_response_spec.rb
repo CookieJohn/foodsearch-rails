@@ -8,7 +8,7 @@ RSpec.describe MessengerBotResponse do
   let(:default_reply_response) do
     {
       recipient: { id: sender_id },
-      message:   { text: '', quick_replies: [] }
+      message: { text: '', quick_replies: [] }
     }
   end
   let(:choose_search_reply) { { content_type: 'text', title: I18n.t('messenger.re-select'), payload: 'choose_search_type' } }
@@ -25,7 +25,7 @@ RSpec.describe MessengerBotResponse do
   it 'default response' do
     default_response = {
       recipient: { id: sender_id },
-      message:   {
+      message: {
         attachment: {
           type: 'template',
           payload: {

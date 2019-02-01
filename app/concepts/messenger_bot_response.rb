@@ -102,13 +102,13 @@ module MessengerBotResponse
   end
 
   TYPE_CLASSES = {
-    'choose_search_type'   => ChooseSearchType,
+    'choose_search_type' => ChooseSearchType,
     'search_specific_item' => SearchSpecificItem,
-    'customized_keyword'   => CustomizedKeyword,
-    'direct_search'        => DirectSearch,
-    'done'                 => SearchDone,
-    'no_result'            => NoResult,
-    'no_last_location'     => NoLastLocation
+    'customized_keyword' => CustomizedKeyword,
+    'direct_search' => DirectSearch,
+    'done' => SearchDone,
+    'no_result' => NoResult,
+    'no_last_location' => NoLastLocation
   }.freeze
 
   def self.for(sender_id, type = nil, msg = nil)

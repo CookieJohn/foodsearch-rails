@@ -20,7 +20,7 @@ module ApplicationHelper
   def search_types
     [
       [i18n_search('restaurant'), 'restaurant'],
-      [i18n_search('coffee'), 'coffee'],
+      [i18n_search('coffee'), 'coffee']
       # [i18n_search('rice'), i18n_search('rice')],
       # [i18n_search('noodle'), i18n_search('noodle')],
       # [i18n_search('pot'), i18n_search('pot')],

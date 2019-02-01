@@ -10,10 +10,10 @@ module LineFormat
 
   def carousel_format(columns)
     {
-      type:    'template',
+      type: 'template',
       altText: I18n.t('carousel.text'),
       template: {
-        type:    'carousel',
+        type: 'carousel',
         columns: columns
       }
     }
@@ -21,34 +21,34 @@ module LineFormat
 
   def button_format(text, link)
     {
-      type:  'uri',
+      type: 'uri',
       label: text,
-      uri:   link
+      uri: link
     }
   end
 
   def postback_button_format(text, data)
     {
-      type:  'postback',
+      type: 'postback',
       label: text,
-      data:  data
+      data: data
     }
   end
 
   def button_format(name, link)
     {
-      type:  'uri',
+      type: 'uri',
       label: name,
-      uri:   link
+      uri: link
     }
   end
 
   def location_format(text, address, lat, lng)
     {
-      type:      'location',
-      title:     text,
-      address:   address,
-      latitude:  lat,
+      type: 'location',
+      title: text,
+      address: address,
+      latitude: lat,
       longitude: lng
     }
   end
@@ -76,9 +76,9 @@ module LineFormat
 
       columns << {
         thumbnailImageUrl: r.image_url,
-        title:             r.name,
-        text:              r.description,
-        actions:           actions
+        title: r.name,
+        text: r.description,
+        actions: actions
       }
     end
 
@@ -94,7 +94,7 @@ module LineFormat
           {
             type: 'action',
             action: {
-              type:  'location',
+              type: 'location',
               label: I18n.t('quick_reply.send_location')
             }
           }
