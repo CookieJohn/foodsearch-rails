@@ -4,7 +4,7 @@ class FormatService < BaseService
   include Conversion
 
   def initialize
-    @google ||= GoogleMapService.new
+    @google = GoogleMapService.new
   end
 
   def web_format(results = nil, _google_results = nil)
@@ -28,7 +28,7 @@ class FormatService < BaseService
       #   end
       # end
 
-      # google_score = (g_match['score'].to_f > 0.1) ? " #{g_match['score'].to_f.round(2)}分" : ' 無'
+      # google_score = (g_match['score'].to_f > 0.1) ? " #{g_match['score'].to_f.round(2)}score" : ' no'
     end
     columns
   end

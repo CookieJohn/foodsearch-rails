@@ -17,7 +17,6 @@ module MessengerBotResponse
       title = I18n.t('messenger.menu-title')
       options << button_option('postback', I18n.t('messenger.buttons.choose_search_type'), 'choose_search_type')
       options << button_option('postback', I18n.t('messenger.buttons.keyword_search_type'), 'customized_keyword')
-      # options << button_link_option("https://johnwudevelop.tk/users/#{@user_id}", '搜尋設定')
       button_format(title, options)
     end
 
