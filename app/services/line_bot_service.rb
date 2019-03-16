@@ -7,20 +7,20 @@ class LineBotService < BaseService
   include Conversion
 
   def initialize(request)
-    @line_client ||= Line::Bot::Client.new.tap do |config|
+    @line_client = Line::Bot::Client.new.tap do |config|
       config.channel_secret = ENV['line_channel_secret']
       config.channel_token  = ENV['line_channel_token']
     end
-    @graph   ||= GraphApiService.new
-    @google  ||= GoogleMapService.new
-    @request ||= request
-    @user    ||= nil
+    @graph   = GraphApiService.new
+    @google  = GoogleMapService.new
+    @request = request
+    @user    = nil
   end
 
   def reply_msg
     varify_signature
 
-    body = @request.body.read
+    body   = @request.body.read
     events = @line_client.parse_events_from(body)
     events.each do |event|
       # find_line_user(event['source']['userId'])

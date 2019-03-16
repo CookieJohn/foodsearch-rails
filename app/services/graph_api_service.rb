@@ -42,8 +42,8 @@ class GraphApiService < BaseService
     #                         locale: I18n.locale.to_s,
     #                         limit: limit,
     #                         fields: DEFAULT_FIELDS)
-    # 測試API
-    api_url = "#{SEARCH_API}q=#{URI.escape(keyword)}&suppress_http_code=1&
+    # test API
+    api_url = "#{SEARCH_API}q=#{CGI.escape(keyword)}&suppress_http_code=1&
               type=place&
               center=#{position}&
               distance=#{max_distance}&
@@ -52,20 +52,19 @@ class GraphApiService < BaseService
               fields=#{DEFAULT_FIELDS}&
               access_token=#{@token}"
 
-    response        = Net::HTTP.get(URI.parse(api_url))
+    response        = Net::HTTP.get(CGI.parse(api_url))
     next_result_url = JSON.parse(response).dig('paging', 'next')
     results         = JSON.parse(response).dig('data')
 
     while next_result_url.present?
-      response        = Net::HTTP.get(URI.parse(next_result_url))
+      response        = Net::HTTP.get(CGI.parse(next_result_url))
       next_result_url = JSON.parse(response).dig('paging', 'next')
       results += JSON.parse(response).dig('data')
     end
 
-    # 移除連結不存在 的搜尋結果
-    # 移除類別不包含 餐 的搜尋結果
-    # 移除評分低於設定數字的搜尋結果
-
+    # remove results without link
+    # remove results without restaurant keyword
+    # remove low score results
     return '' if results.blank?
 
     # results = results.reject { |r|
@@ -74,11 +73,11 @@ class GraphApiService < BaseService
     results = results.reject { |r| r['is_permanently_closed'] == true }
 
     results = results.reject { |r| r['overall_star_rating'].to_f < min_score }
-    # 判斷目前是否營業中
+    # check open or not
     results = results.each { |r| r['open_now'] = check_open_now(r['hours']) }
     results = results.reject { |r| r['open_now'] == false } if open_now == 'true'
 
-    # 計算距離
+    # count distance
     results = results.each { |r| r['distance'] = count_distance([lat, lng], [r['location']['latitude'], r['location']['longitude']]).to_i }
     results = results.reject { |r| r['distance'] > max_distance }
 
@@ -93,11 +92,11 @@ class GraphApiService < BaseService
   end
 
   def check_open_now(hours = nil)
-    open_now = false
+    open_now = true
     if hours.present?
       date = Time.now.strftime('%a').downcase
       hours = hours.select { |key, _value| key.include?(date) }
-      if !hours.empty?
+      if hours.present?
         open_time_array = []
         (1..3).each do |i|
           temp_array = []
@@ -109,17 +108,13 @@ class GraphApiService < BaseService
         current_time = Time.now.strftime('%R')
         open_time_array.each do |time|
           if time.last > time.first
-            open_now = true if current_time.between?(time.first, time.last)
+            open_now = false unless current_time.between?(time.first, time.last)
           else
-            open_now = true if current_time.between?(time.first, '24:00')
-            open_now = true if current_time.between?('00:00', time.last)
+            open_now = false unless current_time.between?(time.first, '24:00')
+            open_now = false unless current_time.between?('00:00', time.last)
           end
         end
-      else
-        open_now = true
       end
-    else
-      open_now = true
     end
     open_now
   end

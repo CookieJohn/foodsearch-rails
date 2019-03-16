@@ -8,13 +8,13 @@ class FacebookBotService < BaseService
   BOT_ID  ||= '844639869021578'
 
   def initialize
-    @graph     ||= GraphApiService.new
-    @google    ||= GoogleMapService.new
-    @user      ||= nil
-    @user_id   ||= '1'
-    @sender_id ||= nil
-    @lat       ||= nil
-    @lng       ||= nil
+    @graph     = GraphApiService.new
+    @google    = GoogleMapService.new
+    @user      = nil
+    @user_id   = '1'
+    @sender_id = nil
+    @lat       = nil
+    @lng       = nil
   end
 
   def reply_msg(request)
@@ -25,7 +25,7 @@ class FacebookBotService < BaseService
 
     entries.each do |entry|
       entry['messaging'].each do |receive_message|
-        return if bot?(receive_message)
+        next if bot?(receive_message)
 
         message      = receive_message.dig('message', 'text')
         message_type = case
@@ -40,7 +40,7 @@ class FacebookBotService < BaseService
                          get_redis_data(@user_id, 'customize') == true ? 'search_specific_item' : 'message'
                        end
 
-        return if message_type.blank?
+        next if message_type.blank?
 
         message_data = get_response(message_type, message)
         http_post(API_URL, message_data) if message_data.present?
