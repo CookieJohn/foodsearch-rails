@@ -43,7 +43,7 @@ class GraphApiService < BaseService
     #                         limit: limit,
     #                         fields: DEFAULT_FIELDS)
     # test API
-    api_url = "#{SEARCH_API}q=#{CGI.escape(keyword)}&suppress_http_code=1&
+    api_url = "#{SEARCH_API}q=#{URI.escape(keyword)}&suppress_http_code=1&
               type=place&
               center=#{position}&
               distance=#{max_distance}&
@@ -52,12 +52,12 @@ class GraphApiService < BaseService
               fields=#{DEFAULT_FIELDS}&
               access_token=#{@token}"
 
-    response        = Net::HTTP.get(CGI.parse(api_url))
+    response        = Net::HTTP.get(URI.parse(api_url))
     next_result_url = JSON.parse(response).dig('paging', 'next')
     results         = JSON.parse(response).dig('data')
 
     while next_result_url.present?
-      response        = Net::HTTP.get(CGI.parse(next_result_url))
+      response        = Net::HTTP.get(URI.parse(next_result_url))
       next_result_url = JSON.parse(response).dig('paging', 'next')
       results += JSON.parse(response).dig('data')
     end
