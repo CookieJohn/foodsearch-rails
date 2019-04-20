@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.2'
+ruby '2.6.3'
 
 # fornt
 gem 'bootstrap-sass', '~> 3.4'
